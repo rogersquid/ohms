@@ -6,7 +6,7 @@
 //  Copyright (c) 2009 Home. All rights reserved.
 //
 //  A simple signed Java applet
-// THIS IS A TEST!
+// THIS IS A TEST! MERGE ME
 
 import java.awt.*;
 import java.applet.*;
