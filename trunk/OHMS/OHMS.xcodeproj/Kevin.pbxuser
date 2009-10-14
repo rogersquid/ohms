@@ -1,0 +1,69 @@
+// !$*UTF8*$!
+{
+	0A18416A0B964CD400C796C4 /* appletviewer */ = {
+		isa = PBXFileReference;
+		explicitFileType = "compiled.mach-o.executable";
+		name = appletviewer;
+		path = /usr/bin/appletviewer;
+		sourceTree = "<absolute>";
+	};
+	0AF8C5541086591700B9AC9E /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryName = OHMS;
+		};
+	};
+	0AF8C5551086591700B9AC9E /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	88230FFE05D9926E00FE8D22 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 88934D45061E10E600F42905 /* OHMS */;
+		activeTarget = 8823100505D9929B00FE8D22 /* OHMS */;
+		codeSenseManager = 0AF8C5551086591700B9AC9E /* Code sense */;
+		executables = (
+			88934D45061E10E600F42905 /* OHMS */,
+		);
+		perUserDictionary = {
+			PBXPerProjectTemplateStateSaveDate = 277240034;
+			PBXWorkspaceStateSaveDate = 277240034;
+		};
+		sourceControlManager = 0AF8C5541086591700B9AC9E /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	8823100505D9929B00FE8D22 /* OHMS */ = {
+		activeExec = 0;
+	};
+	88934D45061E10E600F42905 /* OHMS */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+			YES,
+		);
+		argumentStrings = (
+			OHMS.html,
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = JavaDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		launchableReference = 0A18416A0B964CD400C796C4 /* appletviewer */;
+		libgmallocEnabled = 0;
+		name = OHMS;
+		sourceDirectories = (
+		);
+		startupPath = dist;
+	};
+}
