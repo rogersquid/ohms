@@ -19,6 +19,7 @@
 	};
 	0A61C8C410865ECB00506BBF /* OHMS.class */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = compiled.javaclass;
 		name = OHMS.class;
 		path = "/Users/Kevin/Documents/School/EECE 419/kevinridsdale/OHMS/bin/OHMS.class";
 		sourceTree = "<absolute>";
@@ -52,6 +53,7 @@
 	};
 	0A61C8C810865ECB00506BBF /* OHMS.class */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = compiled.javaclass;
 		name = OHMS.class;
 		path = "/Users/Kevin/Documents/School/EECE 419/kevinridsdale/OHMS/bin/OHMS.class";
 		sourceTree = "<absolute>";
@@ -68,8 +70,67 @@
 	};
 	0A61C8CA10865ECB00506BBF /* OHMS.java */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.java;
 		name = OHMS.java;
 		path = "/Users/Kevin/Documents/School/EECE 419/kevinridsdale/OHMS/src/OHMS.java";
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {519, 678}}";
+			sepNavSelRange = "{193, 0}";
+			sepNavVisRange = "{0, 288}";
+		};
+	};
+	0A61C8FF10865FA200506BBF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0A61C8CA10865ECB00506BBF /* OHMS.java */;
+		name = "OHMS.java: 11";
+		rLen = 0;
+		rLoc = 193;
+		rType = 0;
+		vrLen = 288;
+		vrLoc = 0;
+	};
+	0A61C90010865FA200506BBF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0A61C90110865FA200506BBF /* OHMS.java */;
+		name = "OHMS.java: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 288;
+		vrLoc = 0;
+	};
+	0A61C90110865FA200506BBF /* OHMS.java */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.java;
+		name = OHMS.java;
+		path = "/Users/Kevin/Documents/School/EECE 419/OHMS/src/OHMS.java";
+		sourceTree = "<absolute>";
+	};
+	0A61C90210865FA200506BBF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0A61C8CA10865ECB00506BBF /* OHMS.java */;
+		name = "OHMS.java: 11";
+		rLen = 0;
+		rLoc = 193;
+		rType = 0;
+		vrLen = 288;
+		vrLoc = 0;
+	};
+	0A61C90310865FA200506BBF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0A61C90410865FA200506BBF /* OHMS.java */;
+		name = "OHMS.java: 9";
+		rLen = 0;
+		rLoc = 190;
+		rType = 0;
+		vrLen = 294;
+		vrLoc = 0;
+	};
+	0A61C90410865FA200506BBF /* OHMS.java */ = {
+		isa = PBXFileReference;
+		name = OHMS.java;
+		path = "/Users/Kevin/Documents/School/EECE 419/OHMS/src/OHMS.java";
 		sourceTree = "<absolute>";
 	};
 	0AF8C5541086591700B9AC9E /* Source Control */ = {
@@ -153,14 +214,18 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 277241533;
-			PBXWorkspaceStateSaveDate = 277241533;
+			PBXPerProjectTemplateStateSaveDate = 277241752;
+			PBXWorkspaceStateSaveDate = 277241752;
 		};
 		perUserProjectItems = {
-			0A61C8C310865ECB00506BBF /* PBXTextBookmark */ = 0A61C8C310865ECB00506BBF /* PBXTextBookmark */;
-			0A61C8C510865ECB00506BBF /* PBXTextBookmark */ = 0A61C8C510865ECB00506BBF /* PBXTextBookmark */;
-			0A61C8C710865ECB00506BBF /* PBXTextBookmark */ = 0A61C8C710865ECB00506BBF /* PBXTextBookmark */;
-			0A61C8C910865ECB00506BBF /* PBXTextBookmark */ = 0A61C8C910865ECB00506BBF /* PBXTextBookmark */;
+			0A61C8C310865ECB00506BBF = 0A61C8C310865ECB00506BBF /* PBXTextBookmark */;
+			0A61C8C510865ECB00506BBF = 0A61C8C510865ECB00506BBF /* PBXTextBookmark */;
+			0A61C8C710865ECB00506BBF = 0A61C8C710865ECB00506BBF /* PBXTextBookmark */;
+			0A61C8C910865ECB00506BBF = 0A61C8C910865ECB00506BBF /* PBXTextBookmark */;
+			0A61C8FF10865FA200506BBF /* PBXTextBookmark */ = 0A61C8FF10865FA200506BBF /* PBXTextBookmark */;
+			0A61C90010865FA200506BBF /* PBXTextBookmark */ = 0A61C90010865FA200506BBF /* PBXTextBookmark */;
+			0A61C90210865FA200506BBF /* PBXTextBookmark */ = 0A61C90210865FA200506BBF /* PBXTextBookmark */;
+			0A61C90310865FA200506BBF /* PBXTextBookmark */ = 0A61C90310865FA200506BBF /* PBXTextBookmark */;
 		};
 		sourceControlManager = 0AF8C5541086591700B9AC9E /* Source Control */;
 		userBuildSettings = {
