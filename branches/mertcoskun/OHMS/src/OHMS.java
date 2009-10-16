@@ -11,8 +11,6 @@
 // M
 
 //
-
-
 import java.awt.*;
 import java.applet.*;
 import javax.swing.*;
@@ -24,6 +22,7 @@ public class OHMS extends JApplet {
 	
     public void init() {
         // set the sdfault look and feel
+    	// Mert has added a comment
         String laf = UIManager.getSystemLookAndFeelClassName();
         try {
             UIManager.setLookAndFeel(laf);
