@@ -7,6 +7,11 @@
 //
 //  A simple signed Java applet
 // THIS IS A TEST!
+//
+// M
+
+//
+
 
 import java.awt.*;
 import java.applet.*;
@@ -18,7 +23,7 @@ public class OHMS extends JApplet {
     private Font font = new Font("serif", Font.ITALIC + Font.BOLD, 36);
 	
     public void init() {
-        // set the default look and feel
+        // set the sdfault look and feel
         String laf = UIManager.getSystemLookAndFeelClassName();
         try {
             UIManager.setLookAndFeel(laf);
