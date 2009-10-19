@@ -32,7 +32,7 @@ public class OHMS extends JApplet {
 	
     public void paint (Graphics g) {
         super.paint(g);
-        g.setColor(Color.blue);
+        g.setColor(Color.green);
         g.setFont(font);
         g.drawString(message, 40, 80);
     }
