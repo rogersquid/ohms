@@ -2,19 +2,28 @@ package messages;
 
 public class Account_Message extends Message{
 	
-	Action action;
-	int account_id;
-	String account_type;
-	String first_name;
-	String Surname;
-	String pw;
-	boolean gender;
-	int phone_number;
-	String Address;
-	String email;
+	public Action action;
+	public int account_id;
+	public String account_type;
+	public String first_name;
+	public String Surname;
+	public String pw;
+	public boolean gender;
+	public int phone_number;
+	public String address;
+	public String email;
 	
-	@Override public String toString(){
-		return "This is a Account_Message";
+	public void print_All(){
+		System.out.println(action);
+		System.out.println(account_id);
+		System.out.println(account_type);
+		System.out.println(first_name);
+		System.out.println(Surname);
+		System.out.println(pw);
+		System.out.println(gender);
+		System.out.println(phone_number);
+		System.out.println(address);
+		System.out.println(email);
 	}
 	
 	
