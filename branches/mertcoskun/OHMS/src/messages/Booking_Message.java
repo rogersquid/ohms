@@ -3,6 +3,7 @@ package messages;
 import java.util.*;
 
 import message_Helper.Header;
+import message_Helper.Room_Specs;
 
 public class Booking_Message extends Message{
 	// attributes

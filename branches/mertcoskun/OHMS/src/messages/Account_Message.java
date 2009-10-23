@@ -3,7 +3,6 @@ package messages;
 import message_Helper.*;
 
 public class Account_Message extends Message{
-	
 	public int account_id;
 	public String account_type;
 	public String firstname;
@@ -14,6 +13,9 @@ public class Account_Message extends Message{
 	public String email;
 	public boolean gender;
 	
+	public Account_Message(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
+		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.ACCOUNT, i_action);
+	}
 	public boolean fill_All(int i_account_id, String i_account_type, String i_first_name, String i_surname, String i_pw, boolean i_gender, String i_phone, String i_add, String i_mail){
 		account_id=i_account_id;
 		account_type=i_account_type;
@@ -26,11 +28,6 @@ public class Account_Message extends Message{
 		email=i_mail;
 		return true;
 	}
-	
-	public Account_Message(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
-		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.ACCOUNT, i_action);
-	}
-	
 	public void print_Middle(){
 		System.out.println(account_id);
 		System.out.println(account_type);

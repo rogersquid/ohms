@@ -1,5 +1,7 @@
 package messages;
 
+import message_Helper.Room_Specs;
+
 public class Room_Message extends Message {
 	
 	int room_id;
