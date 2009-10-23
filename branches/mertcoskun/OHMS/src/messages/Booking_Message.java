@@ -2,10 +2,12 @@ package messages;
 
 import java.util.*;
 
+import message_Helper.Header;
+
 public class Booking_Message extends Message{
 	// attributes
 
-	public Action action;
+	public Header.Action action;
 	public int booking_id;
 	public Date date;
 	public int owner_id;
@@ -16,13 +18,16 @@ public class Booking_Message extends Message{
 	public boolean check_in;
 	public boolean check_out;
 	
-	public Booking_Message(){
+	public Booking_Message(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
+		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
 		room_specs= new Room_Specs();
+	}
+	public void fill_Specs (int[] i_in ){
+		room_specs.fill_Specs(i_in);
 	}
 	
 	public void print_All(){
 		System.out.println("Booking_message is printing out");
-		print_Header();
 		System.out.println("Rest:");
 		System.out.println(action);
 		System.out.println(booking_id);
