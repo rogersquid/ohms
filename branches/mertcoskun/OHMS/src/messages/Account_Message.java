@@ -2,16 +2,16 @@ package messages;
 
 public class Account_Message extends Message{
 	
-	public Action action;
-	public int account_id;
-	public String account_type;
-	public String first_name;
-	public String Surname;
-	public String pw;
-	public boolean gender;
-	public int phone_number;
-	public String address;
-	public String email;
+	int account_id;
+	String account_type;
+	String first_name;
+	String Surname;
+	String pw;
+	boolean gender;
+	int phone_number;
+	String address;
+	String email;
+	
 	
 	public void print_All(){
 		System.out.println(action);
