@@ -1,9 +1,14 @@
 package messages;
 
-public class Edit_Account_Message extends Account_Message{
-	public Edit_Account_Message(int i_id, int i_auth, String i_name_Hotel){
+public class View_Delete_Account_Message extends Account_Message{
+	public View_Delete_Account_Message(int i_id, int i_auth, String i_name_Hotel, boolean delete){
 		c_to=To.ACCOUNT;
-		action=Action.EDIT;
+		if (delete){
+			action=Action.Delete;
+		}
+		else{
+			action=Action.View;
+		}
 		this.fill_Header(i_id, i_auth, i_name_Hotel);
 	}
 	public boolean fill_input(int i_account_id){

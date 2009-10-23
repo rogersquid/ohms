@@ -7,4 +7,8 @@ public class Add_Account_Message extends Account_Message {
 		action=Action.ADD;
 		this.fill_Header(i_id, i_auth, i_name_Hotel);
 	}
+	public void print_All(){
+		this.print_Header();
+		this.print_Middle();
+	}
 }
