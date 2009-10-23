@@ -1,60 +1,19 @@
 package messages;
 
-
+import message_Helper.*;
 
 public class Message {
-	public enum To { ACCOUNT, BOOKING, ROOM}
-	public enum Action { ADD, EDIT, View, Delete}
-	public enum Response { SUCCESS, FAIL}
-	
-	int messenger_id;
-	int auth_level;
-	String name_hotel;
-	
-	To c_to;
-	Action action;
-	
-	Response response_code;
-	String response_string;
-	
-	// Input Functions
-	public void fill_Header(int i_id, int i_auth, String i_name_Hotel){
-		messenger_id=i_id;
-		auth_level=i_auth;
-		name_hotel=i_name_Hotel;
+	Header header;
+
+	public void fill_Header_Input(int i_id, int i_auth, String i_name_Hotel, Header.To i_to, Header.Action i_action){
+		header.input(i_id, i_auth, i_name_Hotel, i_to, i_action);
 	}
-	public void fill_Response(Response i_r, String i_s){
-		response_code=i_r;
-		response_string=i_s;
+	public void fill_Header_Response(Header.Response i_res, String i_res_str){
+		header.fill_response(i_res, i_res_str);
 	}
-	
-	// Output Functions
-	public int return_Messenger_ID(){
-		return messenger_id;
-	}
-	public int return_Auth(){
-		return auth_level;
-	}
-	public String return_NameHotel(){
-		return name_hotel;
-	}
-	public To return_To(){
-		return c_to;
-	}
-	public Action return_Action(){
-		return action;
-	}
-	public Response return_Response_Code(){
-		return response_code;
-	}
-	public String return_Response_String(){
-		return response_string;
-	}
-	
-	// Print Out
-	public void print_Header(){
-		System.out.println("Header:");
-		System.out.println("Messenger ID: " + messenger_id);
-		System.out.println("Authentication Level: "  + auth_level);
+	public Header return_Header(){
+		Header h=new Header(header.c_msg_id, header.c_auth_level, header.c_name_hotel, header.c_to, header.c_action, header.c_response_code, header.c_response_string);
+		return h;
 	}
 }
+
