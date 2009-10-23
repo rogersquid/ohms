@@ -7,7 +7,12 @@ import java.security.*;
 import models.misc.*;
 
 public class Account {
-	public boolean accountIsValid(String username, String password) {
+	
+	public static boolean login(String username, String password) {
+		return accountIsValid(username, password);
+	}
+	
+	public static boolean accountIsValid(String username, String password) {
 		String md5_password = MD5.hashString(password);
 		boolean result = false;
 		try {

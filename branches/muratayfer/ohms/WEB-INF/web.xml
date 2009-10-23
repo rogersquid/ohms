@@ -10,30 +10,43 @@
     </description>
     <display-name>Online Hotel Management Service</display-name>
 
+	<!-- servlet names and classes -->
     <servlet>
       <servlet-name>exampleServlet</servlet-name>
       <servlet-class>controllers.exampleServlet</servlet-class>
     </servlet>
 	<servlet>
+      <servlet-name>testServlet</servlet-name>
+      <servlet-class>controllers.testServlet</servlet-class>
+    </servlet>
+	
+	<servlet>
       <servlet-name>loginServlet</servlet-name>
       <servlet-class>controllers.loginServlet</servlet-class>
     </servlet>
 	<servlet>
-      <servlet-name>testServlet</servlet-name>
-      <servlet-class>controllers.testServlet</servlet-class>
+      <servlet-name>registerServlet</servlet-name>
+      <servlet-class>controllers.registerServlet</servlet-class>
     </servlet>
-
+	
+	
+	<!-- servlet URL mapping -->
     <servlet-mapping>
         <servlet-name>exampleServlet</servlet-name>
         <url-pattern>/example.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>testServlet</servlet-name>
+        <url-pattern>/test.html</url-pattern>
+    </servlet-mapping>
+	
+    <servlet-mapping>
         <servlet-name>loginServlet</servlet-name>
         <url-pattern>/login.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>testServlet</servlet-name>
-        <url-pattern>/test.html</url-pattern>
+        <servlet-name>registerServlet</servlet-name>
+        <url-pattern>/register.html</url-pattern>
     </servlet-mapping>
 
 </web-app>
