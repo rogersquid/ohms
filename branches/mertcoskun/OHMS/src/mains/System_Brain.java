@@ -1,7 +1,9 @@
 package mains;
 
 import database.*;
+import message_Helper.Header;
 import messages.*;
+import java.util.Random;
 
 public class System_Brain {
 	
@@ -26,13 +28,14 @@ public class System_Brain {
 		System.err.println(num_hotels);
 		for(int i=0; i<num_hotels; i++){
 			System.err.print("brain process  message - comparison");
-			if((hotels[i].return_Name()).compareTo(i_msg.return_NameHotel())==0){
+			Header head=i_msg.return_Header();
+			if((hotels[i].return_Name()).compareTo(head.name_hotel)==0){
 				hotels[i].process_Message(i_msg);
 				System.err.print("brain process  message - passed comparison");
 				break;
 			}
 			System.err.print(hotels[i].return_Name());
-			System.err.print(i_msg.return_NameHotel());
+			System.err.print(head.name_hotel);
 		}
 	}
 }

@@ -1,7 +1,5 @@
 package message_Helper;
 
-
-
 public class Header {
 	public enum To { ACCOUNT, BOOKING, ROOM }
 	public enum Action { ADD, EDIT, VIEW, DELETE }
@@ -36,15 +34,15 @@ public class Header {
 	}
 	
 	public void input(int i_m, int i_a, String i_n, To i_t, Action i_action){
-		c_msg_id=i_m;
-		c_auth_level=i_a;
-		c_name_hotel=i_n;
-		c_to=i_t; // which class inside the hotel
-		c_action=i_action; // specific action in that class
+		msg_id=i_m;
+		auth_level=i_a;
+		name_hotel=i_n;
+		to=i_t; // which class inside the hotel
+		action=i_action; // specific action in that class
 	}
 	
 	public void fill_response(Response i_r_c, String i_r_str){
-		c_response_code=i_r_c;
-		c_response_string=i_r_str;
+		response_code=i_r_c;
+		response_string=i_r_str;
 	}
 }
