@@ -113,43 +113,43 @@ public class Account {
 		
 	}
 	
-	public Connection Connect_Database()
-	{
-		try{
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());  			//Load the JDBC Driver
-		}
-		catch(SQLException e)
-		{
-			System.out.println("Error loading JDBC driver; ClassNotFoundException was thrown");
-			System.out.println("Terminating...");
-			System.exit(1);
-		}
-		try{	// Try\Catch for SQLException
-			this.dbConnection = DriverManager.getConnection(dbUrl,"ora_b3q6", "a45585072"); 	// Establish connection to DB (url, user, pwd)
-//			this.dbConnection = DriverManager.getConnection(dbUrl, "ora_q1g6", "a81813065");	
-			this.stmt = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		}
-		catch(SQLException e){
-			System.out.println(e.getMessage());
-			System.out.println("Error code: " + e.getErrorCode());
-			System.out.println("SQLException was thrown while establishing connection.  Better Luck next time...");
-			System.exit(1);
-		}
-	}
-	
-	public Statement getStatement()
-	{
-		return this.stmt;
-	}
-	
-	public void closeConnection()
-	{
-		try{this.dbConnection.close();}
-		catch(SQLException e){
-			System.out.println("SQLException thrown when closing the database");
-			System.out.println(e.getMessage());
-			System.exit(1);
-		}
-		System.exit(1);
-	}
+//	public Connection Connect_Database()
+//	{
+//		try{
+//			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());  			//Load the JDBC Driver
+//		}
+//		catch(SQLException e)
+//		{
+//			System.out.println("Error loading JDBC driver; ClassNotFoundException was thrown");
+//			System.out.println("Terminating...");
+//			System.exit(1);
+//		}
+//		try{	// Try\Catch for SQLException
+//			this.dbConnection = DriverManager.getConnection(dbUrl,"ora_b3q6", "a45585072"); 	// Establish connection to DB (url, user, pwd)
+////			this.dbConnection = DriverManager.getConnection(dbUrl, "ora_q1g6", "a81813065");	
+//			this.stmt = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+//		}
+//		catch(SQLException e){
+//			System.out.println(e.getMessage());
+//			System.out.println("Error code: " + e.getErrorCode());
+//			System.out.println("SQLException was thrown while establishing connection.  Better Luck next time...");
+//			System.exit(1);
+//		}
+//	}
+//	
+//	public Statement getStatement()
+//	{
+//		return this.stmt;
+//	}
+//	
+//	public void closeConnection()
+//	{
+//		try{this.dbConnection.close();}
+//		catch(SQLException e){
+//			System.out.println("SQLException thrown when closing the database");
+//			System.out.println(e.getMessage());
+//			System.exit(1);
+//		}
+//		System.exit(1);
+//	}
 }

@@ -1,4 +1,4 @@
-package models.database;
+package database;
 
 import java.io.*;
 import java.util.*;
