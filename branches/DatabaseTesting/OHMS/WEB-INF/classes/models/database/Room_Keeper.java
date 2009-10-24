@@ -1,7 +1,7 @@
 package database;
 
 import messages.*;
-import message_Helper.*;
+import messages.message_Helper.*;
 import java.io.*;
 import java.sql.*;
 
@@ -28,6 +28,7 @@ public class Room_Keeper{
 				rMsg = DeleteRoom(rMsg);
 				break;
 		}		
+		
 		return rMsg;
 	}
 	
@@ -39,39 +40,46 @@ public class Room_Keeper{
 		PreparedStatement statement = null;
 		
 		// check if room is in database already
-		statement = connect.prepareStatement("SELECT * FROM MasterListRoom WHERE num = " + rMsg.room_number);
-		ResultSet rs = statement.executeQuery();
-		
-		if (!(rs.next())) {
-			rMsg.fill_Header_Response(Header.Response.FAIL, "Room number already in database.");
+		try {
+			statement = connect.prepareStatement("SELECT * FROM rooms WHERE num = " + rMsg.room_number);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				rMsg.fill_Header_Response(Header.Response.FAIL, "Room number already in database.");
+				return rMsg;
+			}
+		} catch (Exception e) {
+			rMsg.fill_Header_Response(Header.Response.FAIL, "Unable to query database.");
 			return rMsg;
 		}
 		
-		statement = createStatememt("INSERT INTO");
+		statement = createStatement("INSERT INTO", connect);
 		
 		// add in variable into statement
-		
-		statement.setInt(1, rMsg.room_id);
-		statement.setInt(2, rMsg.room_number);
-		statement.setInt(3, rMsg.room_floor);
-		statement.setString(4, rMsg.room_type);
-		statement.setFloat(5, rMsg.price);
-		statement.setBoolean(6, rMsg.onsuite);
-		statement.setBoolean(7, rMsg.tv);
-		statement.setBoolean(8, rMsg.disability);
-		statement.setBoolean(9, rMsg.elevator);
-		statement.setBoolean(10, rMsg.ebirdcall);
-		statement.setBoolean(11, rMsg.emornpaper);
-		statement.setBoolean(12, rMsg.availability);
-		statement.setBoolean(13, false);
-		
-		
-		// submits to database 
-		statement.executeUpdate();
+		try {
+			statement.setInt(1, rMsg.room_id);
+			statement.setInt(2, rMsg.room_number);
+			statement.setInt(3, rMsg.room_floor);
+			statement.setString(4, rMsg.room_type);
+			statement.setFloat(5, rMsg.price);
+			statement.setBoolean(6, (Boolean)rMsg.room_specs.search_Specs("onsuite"));
+			statement.setBoolean(7, (Boolean)rMsg.room_specs.search_Specs("tv"));
+			statement.setBoolean(8, (Boolean)rMsg.room_specs.search_Specs("disability"));
+			statement.setBoolean(9, (Boolean)rMsg.room_specs.search_Specs("elevator"));
+			statement.setBoolean(10, (Boolean)rMsg.room_specs.search_Specs("ebirdcall"));
+			statement.setBoolean(11, (Boolean)rMsg.room_specs.search_Specs("emornpaper"));
+			statement.setBoolean(12, (Boolean)rMsg.room_specs.search_Specs("availablity"));
+			statement.setBoolean(13, (Boolean)rMsg.room_specs.search_Specs("numBed"));
+			statement.setBoolean(14, false);
+			// submits to database 
+			statement.executeUpdate();
+		} catch (Exception e) {
+			rMsg.fill_Header_Response(Header.Response.FAIL, "Unable to add new room to database.");
+			return rMsg;
+		}
 		close(connect);
 		
 		//set status to success
-		//accMsg.status = "success"
+		rMsg.fill_Header_Response(Header.Response.SUCCESS, "Room created in database.");
 		return rMsg;
 	}
 	
@@ -79,122 +87,130 @@ public class Room_Keeper{
 	
 	private Room_Message ChangeRoom(Room_Message msg)
 	{
-		Room_Message accMsg = msg;
+		Room_Message rMsg = msg;
 		Connection connect = connect();
-		PreparedStatement statement = createStatement("UPDATE");
+		PreparedStatement statement = createStatement("UPDATE", connect);
 		
 		// add in variable into statement
-		/*
-		statement.setInt(1, msg.rid);
-		statement.setInt(2, msg.num);
-		statement.setInt(3, msg.floor);
-		statement.setString(4, msg.type);
-		statement.setFloat(5, msg.price);
-		statement.setBoolean(6, msg.onsuite);
-		statement.setBoolean(7, msg.tv);
-		statement.setBoolean(8, msg.disability);
-		statement.setBoolean(9, msg.elevator);
-		statement.setBoolean(10, msg.ebirdcall);
-		statement.setBoolean(11, msg.emornpaper);
-		statement.setBoolean(12, msg.availability);
-		statement.setBoolean(13, false);
-		*/
-		
-		// submits to database 
-		statement.executeUpdate();
+		try {
+			statement.setInt(1, rMsg.room_id);
+			statement.setInt(2, rMsg.room_number);
+			statement.setInt(3, rMsg.room_floor);
+			statement.setString(4, rMsg.room_type);
+			statement.setFloat(5, rMsg.price);
+			statement.setBoolean(6, (Boolean)rMsg.room_specs.search_Specs("onsuite"));
+			statement.setBoolean(7, (Boolean)rMsg.room_specs.search_Specs("tv"));
+			statement.setBoolean(8, (Boolean)rMsg.room_specs.search_Specs("disability"));
+			statement.setBoolean(9, (Boolean)rMsg.room_specs.search_Specs("elevator"));
+			statement.setBoolean(10, (Boolean)rMsg.room_specs.search_Specs("ebirdcall"));
+			statement.setBoolean(11, (Boolean)rMsg.room_specs.search_Specs("emornpaper"));
+			statement.setBoolean(12, (Boolean)rMsg.room_specs.search_Specs("availablity"));
+			statement.setBoolean(13, (Boolean)rMsg.room_specs.search_Specs("numBed"));
+			statement.setBoolean(14, false);
+			
+			// submits to database 
+			statement.executeUpdate();
+		} catch (Exception e) {
+			rMsg.fill_Header_Response(Header.Response.FAIL, "Unable to modify room in database.");
+			return rMsg;
+		}
 		close(connect);
 		
 		//set status to success
-		//accMsg.status = "success"
-		return accMsg;
+		rMsg.fill_Header_Response(Header.Response.SUCCESS, "Changes submitted to database.");
+		return rMsg;
 	}
 	
 	private Room_Message DeleteRoom(Room_Message msg)
 	{
-		Room_Message accMsg = msg;
+		Room_Message rMsg = msg;
 		Connection connect = connect();
+		PreparedStatement statement = null;
 		
 		// check if room is in database already
-		//statement = connect.prepareStatement("SELECT * FROM MasterListRoom WHERE num = " + accMsg.num);
-		ResultSet rs = statement.executeQuery();
-		
-		if (!(rs.next())) {
-			//accMsg.status = "failed";
-			//accMsg.error = "room number is not in database";
-			return accMsg;
+		try {
+			statement = connect.prepareStatement("SELECT * FROM rooms WHERE num = " + rMsg.room_number);
+			ResultSet rs = statement.executeQuery();
+			if (!(rs.next())) {
+				rMsg.fill_Header_Response(Header.Response.FAIL, "Room number not in database.");
+				return rMsg;
+			}
+		} catch (Exception e) {
+			rMsg.fill_Header_Response(Header.Response.FAIL, "Unable to query database.");
+			return rMsg;
 		}
 		
-		//set deleted vairable to true
-		PreparedStatement statement = connect.prepareStatement("UPDATE MasterListRoom SET deleted = TRUE WHERE num = " + accMsg);
-		statement.executeUpdate();
-		
-		// set status as success
-		//accMsg.status = "success"
-		return accMsg;
-	}
-	
-	private Room_Message RoomCleaned(Room_Message msg)
-	{
-		Room_Message accMsg = msg;
-		Connection connect = connect();
-		
-		// check if room is in database already
-		//statement = connect.prepareStatement("SELECT * FROM MasterListRoom WHERE num = " + accMsg.num);
-		ResultSet rs = statement.executeQuery();
-		
-		if (!(rs.next())) {
-			//accMsg.status = "failed";
-			//accMsg.error = "room is not in database";
-			return accMsg;
+		//set deleted variable to true
+		try {
+			statement = connect.prepareStatement("UPDATE rooms SET deleted = TRUE WHERE num = " + rMsg.room_number);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			rMsg.fill_Header_Response(Header.Response.FAIL, "Unable to query database.");
+			return rMsg;
 		}
 		
-		//set deleted vairable to true
-		PreparedStatement statement = connect.prepareStatement("UPDATE MasterListRoom SET cleaned = TRUE WHERE num = " + accMsg);
-		statement.executeUpdate();
-		
 		// set status as success
-		//accMsg.status = "success"
-		return accMsg;
+		rMsg.fill_Header_Response(Header.Response.SUCCESS, "Room deleted from database.");
+		return rMsg;
 	}
+
 	
 	private Room_Message InquireRoom(Room_Message msg)
 	{
-		Room_Message accMsg = msg;
+		Room_Message rMsg = msg;
 		Connection connect = connect();
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		
 		// check if room is in database already
-		//statement = connect.prepareStatement("SELECT * FROM MasterListRoom WHERE num = " + accMsg.num);
-		ResultSet rs = statement.executeQuery();
-		
-		if (!(rs.next())) {
-			//accMsg.status = "failed";
-			//accMsg.error = "room is not in database";
-			return accMsg;
+		try {
+			statement = connect.prepareStatement("SELECT * FROM rooms WHERE num = " + rMsg.room_number);
+			rs = statement.executeQuery();
+			if (!(rs.next())) {
+				rMsg.fill_Header_Response(Header.Response.FAIL, "Room number not in database.");
+				return rMsg;
+			}
+		} catch (Exception e) {
+			rMsg.fill_Header_Response(Header.Response.FAIL, "Unable to query database.");
+			return rMsg;
 		}
 		
-		// query for room variables (deleted?)
-		PreparedStatement statement = connect.prepareStatement("SELECT * FROM MasterListRoom WHERE num = " + accMsg.num);
+		// query for room variables (deleted room?)
+		try {
+		statement = connect.prepareStatement("SELECT * FROM rooms WHERE num = " + rMsg.room_number + "AND ");
 		rs = statement.executeQuery();
-		
+		} catch (Exception e) {
+			rMsg.fill_Header_Response(Header.Response.FAIL, "Unable to query database.");
+			return rMsg;
+		}
 		//loop through to get room variables
 		
 		// set status as success
-		//accMsg.status = "success"
-		return accMsg;
+		rMsg.fill_Header_Response(Header.Response.SUCCESS, "Room information acquired from database.");
+		return rMsg;
 	}
 	
-	private Room_Message RoomOccupied()
+	private Room_Message RoomOccupied (Room_Message rMsg)
 	{
 		
+		return rMsg;
 	}
 	
-	private PreparedStatement createStatememt (String type) {
+	private Room_Message RoomCleaned (Room_Message rMsg)
+	{
+		return rMsg;
+	}
+	
+	private PreparedStatement createStatement (String type, Connection connect) {
 		PreparedStatement statement = null;
+		Connection pconnect = null;
+		pconnect = connect;
 		
-		statement = connect.prepareStatement(type + " MasterListRooms (" +
+		try {
+		statement = pconnect.prepareStatement(type + " rooms (" +
 				"rid, num, floor, type, price, onsuite, tv, disability, elevator, ebirdcall, " +
-				"emornpaper, availability, deleted, rinserttime) " +
-				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?, NOW())");
+				"emornpaper, availability, numBed, deleted) " +
+				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		
 		statement.setNull(1, java.sql.Types.INTEGER);
 		statement.setNull(2, java.sql.Types.INTEGER);
@@ -209,7 +225,10 @@ public class Room_Keeper{
 		statement.setNull(11, java.sql.Types.BOOLEAN);
 		statement.setNull(12, java.sql.Types.BOOLEAN);
 		statement.setNull(13, java.sql.Types.BOOLEAN);
-		
+		statement.setNull(13, java.sql.Types.INTEGER);
+		} catch (Exception e) {
+			
+		}
 		return statement;
 	}
 	
@@ -229,9 +248,9 @@ public class Room_Keeper{
 		try {
 			if (closeconnect != null) {
 				closeconnect.close();
-			} catch (Exception e) {
-				System.err.println("error while disconnecting");
-			}
+			} 
+		} catch (Exception e) {
+			System.err.println("error while disconnecting");
 		}
 	}
 	
