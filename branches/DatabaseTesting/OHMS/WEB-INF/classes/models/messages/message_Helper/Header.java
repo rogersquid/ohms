@@ -1,4 +1,4 @@
-package message_Helper;
+package messages.message_Helper;
 
 public class Header {
 	public enum To { ACCOUNT, BOOKING, ROOM }
