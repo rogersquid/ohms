@@ -1,0 +1,43 @@
+// !$*UTF8*$!
+{
+	88230FFE05D9926E00FE8D22 = {
+		activeBuildStyle = 88230FFC05D9926E00FE8D22;
+		activeExecutable = 88934D45061E10E600F42905;
+		activeTarget = 8823100505D9929B00FE8D22;
+		executables = (
+			88934D45061E10E600F42905,
+		);
+
+	};
+	8823100505D9929B00FE8D22 = {
+		activeExec = 0;
+	};
+	0A18416A0B964CD400C796C4 /* appletviewer */ = {
+		isa = PBXFileReference;
+		explicitFileType = "compiled.mach-o.executable";
+		name = appletviewer;
+		path = /usr/bin/appletviewer;
+		sourceTree = "<absolute>";
+	};
+	88934D45061E10E600F42905 = {
+		activeArgIndex = 0;
+		activeArgIndices = (
+			YES,
+		);
+		argumentStrings = (
+			OHMS.html,
+		);
+		configStateDict = {
+		};
+		debuggerPlugin = JavaDebugging;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		isa = PBXExecutable;
+		launchableReference = 0A18416A0B964CD400C796C4 /* appletviewer */;
+		name = "OHMS";
+		sourceDirectories = (
+		);
+		startupPath = "dist";
+	};
+}
