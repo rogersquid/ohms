@@ -5,14 +5,12 @@ import message_Helper.*;
 
 public class Hotel {
 	String				c_name;
-	String				c_hotel_database_connection;
 	Account_Keeper		c_account_keeper;
 	Room_Keeper			c_room_keeper;
 //	Booking_Keeper	c_booking_keeper;
 	
-	public Hotel(String i_name, String i_path, String i_DB_Connection){
+	public Hotel(String i_name, String i_path){
 		c_name				= i_name.toLowerCase();
-		C_hotel_database_connection =  i_DB_Connection;
 		c_account_keeper	= new Account_Keeper();
 		c_room_keeper		= new Room_Keeper();
 //		c_booking_keeper	= new Booking_Keeper();
