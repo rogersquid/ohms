@@ -1,4 +1,4 @@
-package database;
+/*package database;
 
 import java.io.*;
 import java.util.*;
@@ -38,4 +38,4 @@ public class Authenticator {
 			// asd
 		}
 		return result;
-	}
+	}*/

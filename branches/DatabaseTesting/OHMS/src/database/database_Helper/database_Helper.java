@@ -1,4 +1,4 @@
-package database_Helper;
+package database.database_Helper;
 
 import java.sql.*;
 
@@ -9,7 +9,7 @@ public class database_Helper {
     
 	private Connection connection; 
   	
-  public Database(String dbname) throws SQLException, ClassNotFoundException 
+  public database_Helper(String dbname) throws SQLException, ClassNotFoundException 
   	{
     	Class.forName(jdbcDriver); //set Java database connectivity driver
     	connection = DriverManager.getConnection(dbURL+dbname, "eece419", "dude");

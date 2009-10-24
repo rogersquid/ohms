@@ -3,7 +3,7 @@ package messages;
 import messages.message_Helper.*;
 
 public class Room_Message extends Message {
-	public Header.Action action;
+	
 	public int room_id;
 	public String room_type;
 	public int room_number;
@@ -32,7 +32,7 @@ public class Room_Message extends Message {
 	public void print_All(){
 		System.out.println("Room_Message is printing out");
 		System.out.println("Rest:");
-		System.out.println(action);
+		
 		System.out.println(room_id);
 		System.out.println(room_type);
 		System.out.println(room_number);

@@ -26,15 +26,14 @@ public class Hotel {
 	public void process_Message(Message i_msg){
 		// Hotel class simply hands the input message to one of the 
 		// Object-Handlers for processing
-		System.err.print("hotel message processing");
 		
 		Header head = i_msg.return_Header();
 		
 		if(head.to == Header.To.ACCOUNT){
-			account_keeper.process_Message((Account_Message) i_msg);
+			c_account_keeper.process_Message((Account_Message) i_msg);
 		}
 		if(head.to == Header.To.ROOM){
-			room_keeper.process_Message((Room_Message) i_msg);
+			c_room_keeper.Process_Message((Room_Message) i_msg);
 		}
 	/*	if(head.to == Header.To.BOOKING){
 			booking_keeper.process_Message((Booking_Message) i_msg);

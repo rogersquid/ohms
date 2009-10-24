@@ -18,7 +18,7 @@ public class Message_test {
 		test_alladdRoom();
 		
 	}
-	
+	/*
 private static void test_all(){
 	test_alladdRoom();
 	test_alladdAcc();
@@ -26,7 +26,7 @@ private static void test_all(){
 	test_alleditRoom();
 	test_alldeleteRoom();
 }
-
+*/
 private static void test_alladdRoom(){
 	System.out.println("Start Test Add Rooms \r");
 	for (int i=0; i<5; i++){
@@ -556,7 +556,7 @@ private static void test_deleteRoom (int i_num){
 				System.out.println("Failed Test ID 1 at verify");
 				}
 	}
-}
+}/*
 
 private static void test_addBook (int i_num){
 	//=====================Add Bookings Tests==========================
@@ -654,7 +654,7 @@ private static void test_deleteBook (int i_num){
 				System.out.println("Failed Test ID 1 at verify");
 				}
 		}
-	}	
+	}	*/
 }
 
 

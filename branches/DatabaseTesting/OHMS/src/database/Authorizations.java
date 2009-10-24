@@ -1,4 +1,4 @@
-package database;
+/*package database;
 
 public enum Auth_Levels {
 	WEBGUEST,
@@ -6,4 +6,4 @@ public enum Auth_Levels {
 	CUSTOMER,
 	STAFF,
 	ADMIN
-	}
+	}*/

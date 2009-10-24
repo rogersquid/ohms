@@ -13,8 +13,9 @@ public class Room_Keeper{
 	public Room_Message Process_Message(Room_Message msg)
 	{
 		Room_Message rMsg = msg;
+		Header action = rMsg.return_Header();
 		//switch statement to decide which Room functions to call
-		switch(rMsg.action) {
+		switch(action.action) {
 			case ADD:
 				rMsg = AddRoom(rMsg);
 				break;
