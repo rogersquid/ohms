@@ -36,7 +36,7 @@ private static void test_alladdRoom(){
 
 private static void test_alladdAcc(){
 	System.out.println("Start Test Add Accounts \r");
-	for (int i=0; i<8; i++){
+	for (int i=0; i<9; i++){
 		test_addAcc(i);
 		}
 	System.out.println("Finish Test Add Accounts \r");
@@ -44,7 +44,7 @@ private static void test_alladdAcc(){
 
 private static void test_alleditAcc(){
 	System.out.println("Start Test Edit Accounts \r");
-	for (int i=0; i<8; i++){
+	for (int i=0; i<1; i++){
 		test_editAcc(i);
 		}
 	System.out.println("Finish Test Edit Accounts \r");
@@ -52,7 +52,7 @@ private static void test_alleditAcc(){
 
 private static void test_alleditRoom(){
 	System.out.println("Start Test Edit Rooms \r");
-	for (int i=0; i<2; i++){
+	for (int i=0; i<1; i++){
 		test_editRoom(i);
 		}
 	System.out.println("Finish Test Edit Rooms \r");
@@ -60,7 +60,7 @@ private static void test_alleditRoom(){
 
 private static void test_alldelete(){
 	System.out.println("Start Test Delete \r");
-	for (int i=0; i<2; i++){
+	for (int i=0; i<1; i++){
 		test_delete(i);
 		}
 	System.out.println("Finish Test Delete \r");
