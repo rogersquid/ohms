@@ -3,6 +3,9 @@ package database;
 import messages.*;
 import message_Helper.*;
 
+// A Hotel object has keeper objects for each DB type (room, account, booking)
+// and it maintains the database connection string.
+
 public class Hotel {
 	String				c_name;
 	Account_Keeper		c_account_keeper;
