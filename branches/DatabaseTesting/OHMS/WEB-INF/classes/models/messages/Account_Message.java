@@ -1,6 +1,6 @@
 package messages;
 
-import message_Helper.*;
+import messages.message_Helper.*;
 import java.util.*;
 
 public class Account_Message extends Message{
