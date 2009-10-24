@@ -5,7 +5,7 @@ import message_Helper.*;
 
 public class Hotel {
 	String				c_name;
-	String				C_hotel_database_connection;
+	String				c_hotel_database_connection;
 	Account_Keeper		c_account_keeper;
 	Room_Keeper			c_room_keeper;
 //	Booking_Keeper	c_booking_keeper;
