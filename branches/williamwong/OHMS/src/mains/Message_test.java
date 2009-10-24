@@ -377,6 +377,28 @@ private static void test_addAcc (int i_num){
 			System.out.println("\r");
 		}		
 	}
+	
+	if(i_num==8){
+		System.out.println("Test ID 9");
+		System.out.println("Description: Failed to Added account due to multiple blank fields");
+		Add_Account_Message h_msg = new Add_Account_Message(0,0,"OHMS");
+		h_msg.fill_All(1, "Staff", "", "Wong", "passwd", true, 7738298, "", "");
+		Hotel hotel = new Hotel("OHMS", "/tmp/var/");
+		hotel.process_Message(h_msg);
+		if(Response.FAIL==h_msg.return_Response_Code()){
+			System.out.println("Passed Test ID 9");
+			System.out.println("Input:");
+			//h_msg.print_Middle();
+			System.out.println("Output:");
+			System.out.println("\r");
+		}
+		else{
+			System.out.println("Failed Test ID 9");
+			System.out.println("Expected Output:");
+			System.out.println("Expected Change:");
+			System.out.println("\r");
+		}		
+	}
 }
 
 private static void test_editAcc (int i_num){
