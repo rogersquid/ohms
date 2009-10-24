@@ -1,12 +1,20 @@
+package models.database;
+
+import models.messages.*;
 import java.util.*;
 
-public class AccountKeeper{
+public class Account_Keeper{
 	// People logged into the system
 	private Vector c_Accounts;
 	
 	public void Process_Message(AccountMessage msg)
 	{
 		
+	}
+	
+	public void process_Message(Account_Message i_msg){
+		System.err.print("in keeper");
+		i_msg.print_Middle();
 	}
 	
 	private void Add()
