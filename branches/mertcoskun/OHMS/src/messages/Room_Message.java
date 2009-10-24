@@ -7,9 +7,10 @@ public class Room_Message extends Message {
 	public int room_id;
 	public String room_type;
 	public int room_number;
-	public int price;
+	public float price;
 	public boolean available;
 	public boolean cleaned;
+	public int room_floor;
 	public Room_Specs room_specs;
 	
 	public Room_Message(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action) {
@@ -17,7 +18,7 @@ public class Room_Message extends Message {
 		room_specs = new Room_Specs();
 	}
 	
-	public boolean fill_All(int i_room_id, String i_room_type, int i_room_number, int i_floor, int i_price, boolean i_available, boolean i_clean, int[] i_room_specs){
+	public boolean fill_All(int i_room_id, String i_room_type, int i_room_number, int i_floor, float i_price, boolean i_available, boolean i_clean, int[] i_room_specs){
 		room_id=i_room_id;
 		room_type= i_room_type;
 		room_number=i_room_number;
