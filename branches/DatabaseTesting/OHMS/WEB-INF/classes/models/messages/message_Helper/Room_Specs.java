@@ -1,9 +1,10 @@
-package message_Helper;
+package messages.message_Helper;
 
 import java.util.Hashtable;
 
 public class Room_Specs {
 	Hashtable specs;
+	//type of bed
 	
 	public Room_Specs (){
 		specs = new Hashtable();
@@ -13,11 +14,10 @@ public class Room_Specs {
 	    specs.put("elevator", new Boolean(false));
 	    specs.put("ebirdcall", new Boolean(false));
 	    specs.put("emornpaper", new Boolean(false));
-	    specs.put("availability", new Boolean(false));
 	    specs.put("numBeds", new Integer(0));
 	}
-	public int search_Specs(String s_index){
-		return (Integer)specs.get(s_index);
+	public Object search_Specs(String s_index){
+		return specs.get(s_index);
 	}
 	public void fill_Specs (boolean onsuite, boolean tv, boolean disability, boolean elevator, boolean ebirdcall,
 			boolean emornpaper, boolean availability, int numBed)  {
@@ -27,61 +27,17 @@ public class Room_Specs {
 	    specs.put("elevator", elevator);
 	    specs.put("ebirdcall", ebirdcall);
 	    specs.put("emornpaper", emornpaper);
-	    specs.put("availability", availability);
 	    specs.put("numBeds", numBed);
 	}
 	
 	public void fill_Specs (int[] i_in )  {
-		if (i_in[0] == 0) {
-			specs.put("onsuite", false);
-		} else if (i_in[0] == 1) {
-			specs.put("onsuite", true);
-		} else {
-			System.err.println("error filling room specs");
-		}
-		if (i_in[0] == 0) {
-			specs.put("tv", false);
-		} else if (i_in[0] == 1) {
-			specs.put("tv", true);
-		} else {
-			System.err.println("error filling room specs");
-		}
-		if (i_in[0] == 0) {
-			specs.put("disability", false);
-		} else if (i_in[0] == 1) {
-			specs.put("disability", true);
-		} else {
-			System.err.println("error filling room specs");
-		}
-		if (i_in[0] == 0) {
-			specs.put("elevator", false);
-		} else if (i_in[0] == 1) {
-			specs.put("elevator", true);
-		} else {
-			System.err.println("error filling room specs");
-		}
-		if (i_in[0] == 0) {
-			specs.put("ebirdcall", false);
-		} else if (i_in[0] == 1) {
-			specs.put("ebirdcall", true);
-		} else {
-			System.err.println("error filling room specs");
-		}
-		if (i_in[0] == 0) {
-			specs.put("emornpaper", false);
-		} else if (i_in[0] == 1) {
-			specs.put("emornpaper", true);
-		} else {
-			System.err.println("error filling room specs");
-		}
-		if (i_in[0] == 0) {
-			specs.put("availability", false);
-		} else if (i_in[0] == 1) {
-			specs.put("availability", true);
-		} else {
-			System.err.println("error filling room specs");
-		}
-		specs.put("numBed", i_in[8]);
+		specs.put("onsuite", (i_in[0] != 0 ));
+		specs.put("tv", (i_in[1] != 0 ));
+		specs.put("disability", (i_in[2] != 0 ));
+		specs.put("elevator", (i_in[3] != 0 ));
+		specs.put("ebirdcall", (i_in[4] != 0 ));
+		specs.put("emornpaper", (i_in[5] != 0 ));
+		specs.put("numBed", i_in[6]);
 	}
 	
 	public void print_All(){
