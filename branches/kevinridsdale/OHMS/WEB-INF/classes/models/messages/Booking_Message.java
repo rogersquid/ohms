@@ -1,9 +1,9 @@
-package messages;
+package models.messages;
 
 import java.util.*;
 
-import message_Helper.Header;
-import message_Helper.Room_Specs;
+import models.message_Helper.Header;
+import models.message_Helper.Room_Specs;
 
 public class Booking_Message extends Message{
 	// attributes

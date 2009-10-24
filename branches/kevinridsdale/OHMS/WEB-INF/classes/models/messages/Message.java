@@ -1,6 +1,6 @@
-package messages;
+package models.messages;
 
-import message_Helper.*;
+import models.message_Helper.*;
 
 public class Message {
 	Header header;
@@ -11,7 +11,7 @@ public class Message {
 		header.fill_response(i_res, i_res_str);
 	}
 	public Header return_Header(){
-		Header h=new Header(header.msg_id, header.auth_level, header.name_hotel, header.to, header.action, header.response_code, header.response_string);
+		Header h=new Header(header.c_msg_id, header.c_auth_level, header.c_name_hotel, header.c_to, header.c_action, header.c_response_code, header.c_response_string);
 		return h;
 	}
 }

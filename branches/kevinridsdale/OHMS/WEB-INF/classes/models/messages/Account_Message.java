@@ -1,6 +1,6 @@
-package messages;
+package models.messages;
 
-import message_Helper.*;
+import models.message_Helper.*;
 
 public class Account_Message extends Message{
 	public int account_id;

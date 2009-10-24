@@ -1,8 +1,9 @@
-package messages;
+package models.messages;
 
-import message_Helper.*;
+import models.message_Helper.*;
 
 public class Room_Message extends Message {
+	
 	public Header.Action action;
 	public int room_id;
 	public String room_type;
@@ -21,6 +22,7 @@ public class Room_Message extends Message {
 		room_id=i_room_id;
 		room_type= i_room_type;
 		room_number=i_room_number;
+		floor_number=i_floor;
 		price=i_price;
 		available=i_available;
 		cleaned=i_clean;

@@ -1,6 +1,6 @@
-package database;
+package models.database;
 
-import messages.*;
+import models.messages.*;
 
 public class Account_Keeper {
 	public void process_Message(Account_Message i_msg){
