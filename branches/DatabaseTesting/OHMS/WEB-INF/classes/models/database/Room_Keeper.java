@@ -177,7 +177,7 @@ public class Room_Keeper{
 		
 		// query for room variables (deleted room?)
 		try {
-		statement = connect.prepareStatement("SELECT * FROM rooms WHERE num = " + rMsg.room_number + "AND ");
+		statement = connect.prepareStatement("DELETE FROM rooms WHERE num = " + rMsg.room_number + "AND ");
 		rs = statement.executeQuery();
 		} catch (Exception e) {
 			rMsg.fill_Header_Response(Header.Response.FAIL, "Unable to query database.");
