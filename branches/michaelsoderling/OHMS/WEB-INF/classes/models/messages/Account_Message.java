@@ -1,6 +1,7 @@
 package models.messages;
 
 import models.message_Helper.*;
+import java.util.*;
 
 public class Account_Message extends Message{
 	public int account_id;
@@ -12,6 +13,7 @@ public class Account_Message extends Message{
 	public String address;
 	public String email;
 	public boolean gender;
+	public Date date;
 	
 	public Account_Message(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
 		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.ACCOUNT, i_action);
