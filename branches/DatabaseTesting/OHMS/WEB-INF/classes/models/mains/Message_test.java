@@ -1,6 +1,6 @@
 package mains;
 
-import message_Helper.Header;
+import messages.message_Helper.Header;
 import messages.*;
 import database.Hotel;
 
