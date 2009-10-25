@@ -185,15 +185,30 @@ public class Room_Keeper{
 			return rMsg;
 		}
 		//loop through to get room variables
-		
+		try {
+			while (rs.next()) {
+				rMsg.room_number = rs.getInt("num");
+				rMsg.room_floor = rs.getInt("floor");
+				rMsg.room_type = rs.getString("type");
+				rMsg.price = rs.getFloat("price");
+				rMsg.available = rs.getBoolean("availability");
+				rMsg.available = rs.getBoolean("cleaned");
+				rMsg.room_specs.fill_Specs(rs.getBoolean("onsuite"), rs.getBoolean("tv"), rs.getBoolean("disability"), 
+						rs.getBoolean("elevator"), rs.getBoolean("ebirdcall"), rs.getBoolean("emornpaper"), 
+						rs.getInt("numBed"));
+			}
+		} catch (Exception e) {
+			rMsg.fill_Header_Response(Header.Response.FAIL, "Unable to read result of query.");
+			return rMsg;
+		}
 		// set status as success
 		rMsg.fill_Header_Response(Header.Response.SUCCESS, "Room information acquired from database.");
 		return rMsg;
 	}
 	
+	/*
 	private Room_Message RoomOccupied (Room_Message rMsg)
 	{
-		
 		return rMsg;
 	}
 	
@@ -201,6 +216,7 @@ public class Room_Keeper{
 	{
 		return rMsg;
 	}
+	*/
 	
 	private PreparedStatement createStatement (String type, Connection connect) {
 		PreparedStatement statement = null;
@@ -210,7 +226,7 @@ public class Room_Keeper{
 		try {
 		statement = pconnect.prepareStatement(type + " rooms (" +
 				"rid, num, floor, type, price, onsuite, tv, disability, elevator, ebirdcall, " +
-				"emornpaper, availability, numBed, deleted) " +
+				"emornpaper, availability, numBed) " +
 				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		
 		statement.setNull(1, java.sql.Types.INTEGER);
