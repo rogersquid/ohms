@@ -20,7 +20,7 @@ public class Room_Specs {
 		return specs.get(s_index);
 	}
 	public void fill_Specs (boolean onsuite, boolean tv, boolean disability, boolean elevator, boolean ebirdcall,
-			boolean emornpaper, boolean availability, int numBed)  {
+			boolean emornpaper, int numBed)  {
 		specs.put("onsuite", onsuite);
 	    specs.put("tv", tv);
 	    specs.put("disability", disability);
