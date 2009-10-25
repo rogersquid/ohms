@@ -6,6 +6,7 @@ import java.sql.*;
 import java.security.*;
 import messages.*;
 import misc.*;
+import database.database_Helper.*;
 
 public class Account {
 
@@ -21,79 +22,81 @@ public class Account {
 	private String c_Address;
 	private java.util.Date c_Date;
 
-	private Connection dbConnection;
-	private Statement stmt = null;
-	private String dbUrl;
+	private String dbUrl = "mayfer.homelinux.com";
 
-	public static boolean login(String username, String password) {
+	public boolean login(String username, String password) {
 		return accountIsValid(username, password);
 	}
 
-	public static boolean accountIsValid(String username, String password) {
+	public boolean accountIsValid(String username, String password) {
 		String md5_password = MD5.hashString(password);
 		boolean result = false;
+		database_Helper dbcon = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection dbcon = DriverManager.getConnection("jdbc:mysql://localhost/eece419", "eece419", "dude");
-			Statement statement = dbcon.createStatement();
-			String query = "SELECT * FROM users WHERE username='" + username + "' AND password='" + md5_password + "'";
-			ResultSet rs = statement.executeQuery(query);
+			dbcon = new database_Helper(dbUrl);
+			String query = "SELECT * FROM users WHERE email='" + username + "' AND password='" + md5_password + "'";
+			ResultSet rs = dbcon.select(query);
 
 			if(rs.next()) {
 				result = true;
 			} else {
 				result = false;
 			}
-			rs.close();
-			statement.close();
 			dbcon.close();
-		} catch(Exception e) {
-			// asd
+		} 
+		catch(SQLException e){
+			System.err.println("Error in 'accountIsValid'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		}
+		catch(ClassNotFoundException e){
+			System.err.println("Error in 'accountIsValid'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		}finally
+		{
+			if (dbcon != null) {
+				dbcon.close();
+			}
 		}
 		return result;
 	}
 
-	public static String test() {
-		String output = "TESTING: ";
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection dbcon = DriverManager.getConnection("jdbc:mysql://localhost/eece419", "eece419", "dude");
-			Statement statement = dbcon.createStatement();
-			String query = "SELECT * FROM users";
-			ResultSet rs = statement.executeQuery(query);
-
-			while(rs.next()) {
-				output += rs.getString("username");
-			}
-			rs.close();
-			statement.close();
-			dbcon.close();
-		} catch(Exception e) {
-			output += "(exception) ";
-			output += e.toString();
-		}
-		return output;
-	}
-
 	// Fetch Variable data from the database
 	// If user does not exist, return false
-	public boolean Fetch_All(String i_email, String i_pwd) throws SQLException
+	public boolean Fetch_All(String i_email, String i_pwd) 
 	{
-		if (stmt != null)
-		{
-			ResultSet returnedSet = stmt.executeQuery("Select from account where email = '" + i_email + "'");
+		boolean result = false;
+		database_Helper dbcon = null;
+		try {
+			dbcon = new database_Helper(dbUrl);
+			ResultSet returnedSet = dbcon.select("Select from account where email='" + i_email + "'");
 			if (returnedSet.first()) {
 				c_Account_ID = (int)returnedSet.getDouble("accountID");
-				c_F_name = returnedSet.getString("f_name");
-				c_S_name = returnedSet.getString("s_name");
+				c_F_name = returnedSet.getString("firstName");
+				c_S_name = returnedSet.getString("lastName");
 				c_Gender = returnedSet.getBoolean("gender");
 				c_Phone = returnedSet.getString("phone");
 				c_Email = returnedSet.getString("email");
 				c_Address = returnedSet.getString("address");
 				c_Date = returnedSet.getDate("date");
-				return true;
-			}else return false;
-		}else return false;
+				result = true;
+			}else result = false;
+		} catch (SQLException e) {
+			System.err.println("Error in 'Fetch_All'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Fetch_All'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		}finally
+		{
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		return result;
 	}
 
 	// Creates a unique ID, inserts today's date
@@ -101,67 +104,119 @@ public class Account {
 	public boolean Add_Account(String i_F_name,
 			String i_S_name, boolean i_Gender,
 			String i_Phone, String i_Email,
-			String i_Address) throws SQLException
-			{
+			String i_Address) 
+	{
 		// Verify parameters are valid.
 		// No date error checking implemented 
 
-		if (stmt != null) {
-			int returnedRows = stmt
-			.executeUpdate("Insert into account values ('" + i_F_name
+		boolean result = false;
+		database_Helper dbcon = null;
+		try {
+			Random randIdGen = new Random();
+			int id = randIdGen.nextInt();
+			dbcon = new database_Helper(dbUrl);
+			java.util.Date now = new java.util.Date();
+			int returnedRows = dbcon.modify("Insert into account values ('" 
+					+ id + "\', \'" + i_F_name
 					+ "\', \'" + i_S_name + "\', \'" + i_Gender
 					+ "\' + '" + i_Phone + "\', \'" + i_Email
-					+ "\', \'" + i_Address + "\')");
+					+ "\', \'" + i_Address + "\', \'" + now + "\')");
 			if (returnedRows == 1) {
 				System.out.println("Inserted Account with e-mail: " + i_Email
 						+ " sucessfully");
-				return true;
+				result = true;
 			} else {
 				System.out.println("Error inserting Account with e-mail: "
 						+ i_Email + " to the database");
-				return false;
+				result = false;
 			}
-		} else return false;
+		} catch (SQLException e) {
+			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		}finally
+		{
+			if (dbcon != null) {
+				dbcon.close();
 			}
+		}
+		return result;
+	}
 
 	// Deletes the account selected by the email
 	// Returns true if successful
-	public boolean Delete_Account(String i_email) throws SQLException
+	public boolean Delete_Account(String i_email) 
 	{
-		if (stmt != null) {
-			int returnedRows = stmt
-			.executeUpdate("Delete from account where email = '"
-					+ i_email + "'");
+		boolean result = false;
+		database_Helper dbcon = null;
+		try {
+			dbcon = new database_Helper(dbUrl);
+			int returnedRows = dbcon.modify("Delete from account where email = '"
+						+ i_email + "'");
 			if (returnedRows == 1) {
 				System.out.println("Account with email " + i_email
 						+ " was deleted sucessfully");
-				return true;
+				result = true;
 			} else {
 				System.out.println("Error deleting Account " + i_email
 						+ " from the database");
-				return false;
+				result = false;
+				}
+		} catch (SQLException e) {
+			System.err.println("Error in 'Delete_Account(i_email)'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Add_Account(i_email)'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		}finally
+		{
+			if (dbcon != null) {
+				dbcon.close();
 			}
-		} else return false;
+		}
+		return result;
 	}
 
 	// Deletes the account selected by the account ID
 	// Returns true if successful
-	public boolean Delete_Account(int i_Account_ID) throws SQLException
+	public boolean Delete_Account(int i_Account_ID)
 	{
-		if (stmt != null) {
-			int returnedRows = stmt
-			.executeUpdate("Delete from account where accountID = '"
+		boolean result = false;
+		database_Helper dbcon = null;
+		try {
+			dbcon = new database_Helper(dbUrl);
+			int returnedRows = dbcon.modify("Delete from account where accountID = '"
 					+ i_Account_ID + "'");
 			if (returnedRows == 1) {
 				System.out.println("Account with account ID " + i_Account_ID
 						+ " was deleted sucessfully");
-				return true;
+				result = true;
 			} else {
 				System.out.println("Error deleting Account " + i_Account_ID
 						+ " from the database");
-				return false;
+				result = false;
 			}
-		} else return false;
+		} catch (SQLException e) {
+			System.err.println("Error in 'Delete_Account(i_Account_ID)'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Add_Account(i_Account_ID)'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		} finally
+		{
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		return result;
 	}
 
 	// Fills the AccountMessage structure obj
