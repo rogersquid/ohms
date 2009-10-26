@@ -55,7 +55,7 @@ public class Account_Keeper {
 
 	}
 
-	private void Edit(i_msg)
+	private void Edit(Account_Message i_msg)
 	{
 		Account account = new Account();
 		account.Edit_Account(i_msg);
