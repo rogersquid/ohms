@@ -2,7 +2,7 @@ package models.messages.message_Helper;
 
 public class Header {
 	public enum To { ACCOUNT, BOOKING, ROOM }
-	public enum Action { ADD, EDIT, VIEW, DELETE }
+	public enum Action { ADD, EDIT, VIEW, DELETE, LOGIN, LOGOUT }
 	public enum Response { SUCCESS, FAIL }
 	
 	public int msg_id;

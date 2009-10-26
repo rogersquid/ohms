@@ -32,6 +32,7 @@ public class registerServlet extends HttpServlet {
 		String hotelname = "default_hotel";
 		Account_Message message = new Account_Message(userid, authlevel, hotelname, Header.Action.ADD);
 		message.email = email;
+		message.password = password;
 		message.firstname = firstname;
 		message.lastname = lastname;
 		message.phone = phone;

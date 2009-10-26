@@ -14,7 +14,7 @@ public class Account_Keeper {
 		switch(i_msg.return_Header().action)
 		{
 		case ADD:
-			Add();
+			Add(i_msg);
 			break;
 		case EDIT:
 			Edit();
@@ -25,11 +25,20 @@ public class Account_Keeper {
 		case DELETE:
 			Delete();
 			break;
+		case LOGIN:
+			Login();
+			break;
 		}
 		
 		i_msg.print_Middle();
 	}
+	private void Add(Account_Message i_msg)
+	{
+		Account anAccount = new Account();
 
+		anAccount.Add_Account(i_msg);
+
+	}
 	private void Add()
 	{
 		Account anAccount = new Account();
@@ -81,6 +90,16 @@ public class Account_Keeper {
 		anAccount.Fetch_All(c_Act_Msg.email, c_Act_Msg.password);
 		c_Act_Msg.fill_Header_Response(Header.Response.SUCCESS, "Results fetched");
 
+	}
+	
+	private void Login()
+	{
+		Account anAccount = new Account();
+		if(anAccount.login(c_Act_Msg.email, c_Act_Msg.password)) {
+			c_Act_Msg.fill_Header_Response(Header.Response.SUCCESS, "Login successful");
+		} else {
+			c_Act_Msg.fill_Header_Response(Header.Response.FAIL, "Login failed");
+		}
 	}
 
 }

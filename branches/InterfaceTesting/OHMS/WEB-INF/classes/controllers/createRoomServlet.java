@@ -16,7 +16,7 @@ public class createRoomServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
-	{
+	{ /*
 		int room_floor = (int)request.getParameter("room_floor");
 		int room_number = (int)request.getParameter("room_number");
 		float price = (float)request.getParameter("price");
@@ -29,7 +29,7 @@ public class createRoomServlet extends HttpServlet {
 		boolean disability = (boolean)request.getParameter("disability");
 		boolean elevator = (boolean)request.getParameter("elevator");
 		boolean ebirdcall = (boolean)request.getParameter("ebirdcall");
-		boolean emornpaper = (boolean)request.getParameter("emornpaper");
+		boolean emornpaper = (boolean)request.getParameter("emornpaper"); */
 		
 		getServletContext().getRequestDispatcher("/views/create_room_form.jsp").include(request, response);
 	}
