@@ -105,13 +105,17 @@ public class Account {
 		// Verify parameters are valid.
 		// No date error checking implemented 
 		boolean result = false;
+		int g;
+		if(i_Gender)g=1;
+		else g=0;
 		database_Helper dbcon = null;
 		try {
 			dbcon = new database_Helper(dbname);
 			java.util.Date now = new java.util.Date();
-			int returnedRows = dbcon.modify("INSERT INTO account (firstName, lastName, gender, phone, email, address, date) VALUES ('" 
+			int returnedRows = dbcon.modify("INSERT INTO account (firstName, lastName, password, gender, phone, email, address, date) VALUES ('" 
 					+ i_F_name
-					+ "', '" + i_S_name + "', '" + i_Gender
+					+ "', '" + i_S_name + "', '" + i_S_name
+					+ "', '" + g
 					+ "' + '" + i_Phone + "', '" + i_Email
 					+ "', '" + i_Address + "', '" + now + "')");
 			if (returnedRows == 1) {
@@ -121,6 +125,51 @@ public class Account {
 			} else {
 				System.out.println("Error inserting Account with e-mail: "
 						+ i_Email + " to the database");
+				result = false;
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			result = false;
+		}finally
+		{
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		return result;
+	}
+	
+	public boolean Add_Account(Account_Message i_msg) 
+	{
+		// Verify parameters are valid.
+		// No date error checking implemented 
+		boolean result = false;
+		String pwmd=MD5.hashString(i_msg.password);
+		int g;
+		if(i_msg.gender)g=1;
+		else g=0;
+		database_Helper dbcon = null;
+		try {
+			dbcon = new database_Helper(dbname);
+			java.util.Date now = new java.util.Date();
+			int returnedRows = dbcon.modify("INSERT INTO account (firstName, lastName, password, gender, phone, email, address, date) VALUES ('" 
+					+ i_msg.firstname
+					+ "', '" + i_msg.lastname + "', '" 
+					+ pwmd + "', '" + g
+					+ "' + '" + i_msg.phone + "', '" + i_msg.email
+					+ "', '" + i_msg.address + "', '" + now + "')");
+			if (returnedRows == 1) {
+				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Added one Account as Requested." +
+						" Account Email: " + i_msg.email);
+				result = true;
+			} else {
+				i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed." +
+						" Account Email: " + i_msg.email);
 				result = false;
 			}
 		} catch (SQLException e) {
