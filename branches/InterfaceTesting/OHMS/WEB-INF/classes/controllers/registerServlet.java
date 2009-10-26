@@ -45,7 +45,7 @@ public class registerServlet extends HttpServlet {
 			request.setAttribute("firstname", firstname);
 			request.setAttribute("lastname", lastname);
 			getServletContext().getRequestDispatcher("/views/register_success.jsp").include(request, response);
-		} else if(message.header.response_code == Header.Response.FAIL) {
+		} else {
 			request.setAttribute("status", "register_failed");
 			request.setAttribute("message", message.header.response_string);
 			getServletContext().getRequestDispatcher("/views/register_form.jsp").include(request, response);
