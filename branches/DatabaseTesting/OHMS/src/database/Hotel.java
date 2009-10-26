@@ -12,7 +12,7 @@ public class Hotel {
 	Room_Keeper			c_room_keeper;
 //	Booking_Keeper	c_booking_keeper;
 	
-	public Hotel(String i_name, String i_path){
+	public Hotel(String i_name){
 		c_name				= i_name.toLowerCase();
 		c_account_keeper	= new Account_Keeper();
 		c_room_keeper		= new Room_Keeper();

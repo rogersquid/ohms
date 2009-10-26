@@ -8,7 +8,7 @@ import java.sql.*;
 public class Room_Keeper{
 	static String dUser = "eece419";
 	static String dPass = "dude";
-	static String dbLocation = "jdbc:mysql://mayfer.homelinux.com";
+	static String dbLocation = "jdbc:mysql://localhost/default_hotel";
 	
 	public Room_Message Process_Message(Room_Message msg)
 	{
