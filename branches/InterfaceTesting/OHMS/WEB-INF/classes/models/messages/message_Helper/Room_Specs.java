@@ -13,21 +13,19 @@ public class Room_Specs {
 	    specs.put("elevator", new Boolean(false));
 	    specs.put("ebirdcall", new Boolean(false));
 	    specs.put("emornpaper", new Boolean(false));
-	    specs.put("availability", new Boolean(false));
 	    specs.put("numBeds", new Integer(0));
 	}
 	public int search_Specs(String s_index){
 		return (Integer)specs.get(s_index);
 	}
 	public void fill_Specs (boolean onsuite, boolean tv, boolean disability, boolean elevator, boolean ebirdcall,
-			boolean emornpaper, boolean availability, int numBed)  {
+			boolean emornpaper, int numBed)  {
 		specs.put("onsuite", onsuite);
 	    specs.put("tv", tv);
 	    specs.put("disability", disability);
 	    specs.put("elevator", elevator);
 	    specs.put("ebirdcall", ebirdcall);
 	    specs.put("emornpaper", emornpaper);
-	    specs.put("availability", availability);
 	    specs.put("numBeds", numBed);
 	}
 	
@@ -71,13 +69,6 @@ public class Room_Specs {
 			specs.put("emornpaper", false);
 		} else if (i_in[0] == 1) {
 			specs.put("emornpaper", true);
-		} else {
-			System.err.println("error filling room specs");
-		}
-		if (i_in[0] == 0) {
-			specs.put("availability", false);
-		} else if (i_in[0] == 1) {
-			specs.put("availability", true);
 		} else {
 			System.err.println("error filling room specs");
 		}

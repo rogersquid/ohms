@@ -3,7 +3,7 @@ package models.messages;
 import models.messages.message_Helper.*;
 
 public class Message {
-	Header header;
+	public Header header;
 	public void fill_Header_Input(int i_id, int i_auth, String i_name_Hotel, Header.To i_to, Header.Action i_action){
 		header.input(i_id, i_auth, i_name_Hotel, i_to, i_action);
 	}

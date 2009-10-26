@@ -56,7 +56,7 @@ public class Room_Keeper{
 		statement = createStatement("INSERT INTO", connect);
 		
 		// add in variable into statement
-		try {
+		try { /*
 			statement.setInt(1, rMsg.room_id);
 			statement.setInt(2, rMsg.room_number);
 			statement.setInt(3, rMsg.room_floor);
@@ -70,7 +70,7 @@ public class Room_Keeper{
 			statement.setBoolean(11, (Boolean)rMsg.room_specs.search_Specs("emornpaper"));
 			statement.setBoolean(12, (Boolean)rMsg.room_specs.search_Specs("availablity"));
 			statement.setBoolean(13, (Boolean)rMsg.room_specs.search_Specs("numBed"));
-			statement.setBoolean(14, false);
+			statement.setBoolean(14, false); */
 			// submits to database 
 			statement.executeUpdate();
 		} catch (Exception e) {
@@ -93,7 +93,7 @@ public class Room_Keeper{
 		PreparedStatement statement = createStatement("UPDATE", connect);
 		
 		// add in variable into statement
-		try {
+		try { /*
 			statement.setInt(1, rMsg.room_id);
 			statement.setInt(2, rMsg.room_number);
 			statement.setInt(3, rMsg.room_floor);
@@ -107,7 +107,7 @@ public class Room_Keeper{
 			statement.setBoolean(11, (Boolean)rMsg.room_specs.search_Specs("emornpaper"));
 			statement.setBoolean(12, (Boolean)rMsg.room_specs.search_Specs("availablity"));
 			statement.setBoolean(13, (Boolean)rMsg.room_specs.search_Specs("numBed"));
-			statement.setBoolean(14, false);
+			statement.setBoolean(14, false); */
 			
 			// submits to database 
 			statement.executeUpdate();
@@ -228,7 +228,7 @@ public class Room_Keeper{
 				"rid, num, floor, type, price, onsuite, tv, disability, elevator, ebirdcall, " +
 				"emornpaper, availability, numBed) " +
 				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		
+		/*
 		statement.setNull(1, java.sql.Types.INTEGER);
 		statement.setNull(2, java.sql.Types.INTEGER);
 		statement.setNull(3, java.sql.Types.INTEGER);
@@ -242,7 +242,7 @@ public class Room_Keeper{
 		statement.setNull(11, java.sql.Types.BOOLEAN);
 		statement.setNull(12, java.sql.Types.BOOLEAN);
 		statement.setNull(13, java.sql.Types.BOOLEAN);
-		statement.setNull(13, java.sql.Types.INTEGER);
+		statement.setNull(13, java.sql.Types.INTEGER); */
 		} catch (Exception e) {
 			
 		}

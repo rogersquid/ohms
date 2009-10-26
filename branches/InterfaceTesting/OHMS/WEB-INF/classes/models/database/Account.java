@@ -22,7 +22,7 @@ public class Account {
 	private String c_Address;
 	private java.util.Date c_Date;
 
-	private String dname = "default_hotel";
+	private String dbname = "default_hotel";
 
 	public boolean login(String username, String password) {
 		return accountIsValid(username, password);
@@ -33,7 +33,7 @@ public class Account {
 		boolean result = false;
 		database_Helper dbcon = null;
 		try {
-			dbcon = new database_Helper(dname);
+			dbcon = new database_Helper(dbname);
 			String query = "SELECT * FROM users WHERE email='" + username + "' AND password='" + md5_password + "'";
 			ResultSet rs = dbcon.select(query);
 
@@ -69,7 +69,7 @@ public class Account {
 		boolean result = false;
 		database_Helper dbcon = null;
 		try {
-			dbcon = new database_Helper(dname);
+			dbcon = new database_Helper(dbname);
 			ResultSet returnedSet = dbcon.select("Select from account where email='" + i_email + "'");
 			if (returnedSet.first()) {
 				c_Account_ID = (int)returnedSet.getDouble("accountID");
@@ -114,10 +114,11 @@ public class Account {
 		try {
 			dbcon = new database_Helper(dbname);
 			java.util.Date now = new java.util.Date();
+			int gender_int = (i_Gender) ? 1 : 0;
 			int returnedRows = dbcon.modify("INSERT INTO account (firstName, lastName, gender, phone, email, address, date) VALUES ('" 
 					+ i_F_name
-					+ "', '" + i_S_name + "', '" + i_Gender
-					+ "' + '" + i_Phone + "', '" + i_Email
+					+ "', '" + i_S_name + "', '" + gender_int
+					+ "', '" + i_Phone + "', '" + i_Email
 					+ "', '" + i_Address + "', '" + now + "')");
 			if (returnedRows == 1) {
 				System.out.println("Inserted Account with e-mail: " + i_Email
@@ -152,7 +153,7 @@ public class Account {
 		boolean result = false;
 		database_Helper dbcon = null;
 		try {
-			dbcon = new database_Helper(dname);
+			dbcon = new database_Helper(dbname);
 			int returnedRows = dbcon.modify("DELETE FROM account WHERE email = '"
 						+ i_email + "'");
 			if (returnedRows == 1) {
@@ -188,7 +189,7 @@ public class Account {
 		boolean result = false;
 		database_Helper dbcon = null;
 		try {
-			dbcon = new database_Helper(dname);
+			dbcon = new database_Helper(dbname);
 			int returnedRows = dbcon.modify("DELETE FROM account WHERE accountID = '"
 					+ i_Account_ID + "'");
 			if (returnedRows == 1) {
