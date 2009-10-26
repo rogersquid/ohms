@@ -4,10 +4,10 @@ import java.io.*;
 import java.util.*;
 import java.sql.*;
 import java.security.*;
-import messages.*;
-import messages.message_Helper.Header;
-import misc.*;
-import database.database_Helper.*;
+import models.messages.*;
+import models.messages.message_Helper.Header;
+import models.misc.*;
+import models.database.database_Helper.*;
 
 public class Account {
 	private int c_Account_ID;
