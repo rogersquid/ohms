@@ -1,4 +1,4 @@
-package message_Helper;
+package models.messages.message_Helper;
 
 import java.util.Hashtable;
 
