@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs"> 
 	<head> 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-		<title>OHMS &raquo; Create Room</title>
+		<title>OHMS &raquo; Edit Rooms</title>
 		<link rel='stylesheet' type='text/css' href='/ohms/ohms.css' />
 	</head> 
 	<body>
@@ -25,13 +25,13 @@
 						<li><a href='register.html'>Register</a></li>
 						<li><a href='editaccount.html'>Edit Account</a></li>
 						<li><a href='password.html'>Forgot password</a></li>
-						<li class='current'>Create Room</li>
-						<li><a href='editroom.html'>Edit Rooms</a></li>
+						<li><a href='createroom.html'>Create Room</a></li>
+						<li class='current'>Edit Rooms</li>
 						<li><a href='deleteroom.html'>Delete Rooms</a></li>
 					</ul>
 				</div>
 				<div id='content'>
-					<div id='title'>Create Room</div>
+					<div id='title'>Edit Rooms</div>
 					<%
 						if(request.getAttribute("status")=="register_failed") {
 							%>
