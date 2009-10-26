@@ -33,9 +33,9 @@
 				<div id='content'>
 					<div id='title'>Edit Rooms</div>
 					<%
-						if(request.getAttribute("status")=="register_failed") {
+						if(request.getAttribute("status")=="edit_room_failed") {
 							%>
-							<div class='error'>Register failed.</div>
+							<div class='error'>Attempt to edit the room failed.</div>
 							<%
 						}
 					%>
