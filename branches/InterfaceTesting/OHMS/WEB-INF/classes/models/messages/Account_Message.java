@@ -1,6 +1,6 @@
-package messages;
+package models.messages;
 
-import message_Helper.*;
+import models.messages.message_Helper.*;
 import java.util.*;
 
 public class Account_Message extends Message{

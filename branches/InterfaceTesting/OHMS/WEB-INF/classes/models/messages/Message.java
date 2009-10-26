@@ -1,6 +1,6 @@
-package messages;
+package models.messages;
 
-import message_Helper.*;
+import models.messages.message_Helper.*;
 
 public class Message {
 	Header header;
