@@ -17,7 +17,7 @@ public class Account_Keeper {
 			Add(i_msg);
 			break;
 		case EDIT:
-			Edit();
+			Edit(i_msg);
 			break;
 		case VIEW:
 			View();
@@ -55,10 +55,10 @@ public class Account_Keeper {
 
 	}
 
-	private void Edit()
+	private void Edit(i_msg)
 	{
-		Delete();
-		Add();
+		Account account = new Account();
+		account.Edit_Account(i_msg);
 	}
 
 	private void Delete()
