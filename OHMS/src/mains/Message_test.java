@@ -1,6 +1,6 @@
 package mains;
 
-import message_Helper.Header;
+import messages.message_Helper.Header;
 import messages.*;
 import database.Hotel;
 
@@ -18,15 +18,15 @@ public class Message_test {
 		test_alladdRoom();
 		
 	}
-	
+	/*
 private static void test_all(){
 	test_alladdRoom();
 	test_alladdAcc();
 	test_alleditAcc();
 	test_alleditRoom();
-	test_alldelete();
+	test_alldeleteRoom();
 }
-
+*/
 private static void test_alladdRoom(){
 	System.out.println("Start Test Add Rooms \r");
 	for (int i=0; i<5; i++){
@@ -59,10 +59,10 @@ private static void test_alleditRoom(){
 	System.out.println("Finish Test Edit Rooms \r");
 }
 
-private static void test_alldelete(){
+private static void test_alldeleteRoom(){
 	System.out.println("Start Test Delete \r");
 	for (int i=0; i<1; i++){
-		test_delete(i);
+		test_deleteRoom(i);
 		}
 	System.out.println("Finish Test Delete \r");
 }
@@ -389,11 +389,14 @@ private static void test_addAcc (int i_num){
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS", "/tmp/var/");
 		hotel.process_Message(h_msg);
+		Header head=h_msg.return_Header();
+		if(Header.Response.FAIL==head.response_code){
+		
 		Account_Message g_msg = new Account_Message(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		hotel.process_Message(g_msg);
-		Header head=g_msg.return_Header();
-		if(Header.Response.FAIL==head.response_code){
+		Header head1=g_msg.return_Header();
+		if(Header.Response.FAIL==head1.response_code){
 			System.out.println("Passed Test ID 8");
 			System.out.println("Input:");
 			//h_msg.print_Middle();
@@ -405,8 +408,14 @@ private static void test_addAcc (int i_num){
 			System.out.println("Expected Output:");
 			System.out.println("Expected Change:");
 			System.out.println("\r");
-		}		
+		}
 	}
+		
+		else{
+			System.out.println("Failed Test ID 1 at verify");
+		}
+	
+		}
 	
 	if(i_num==8){
 		System.out.println("Test ID 9");
@@ -443,7 +452,7 @@ private static void test_editAcc (int i_num){
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		hotel.process_Message(h_msg);
 		Header head = h_msg.return_Header();
-		
+		if(Header.Response.SUCCESS==head.response_code){
 		Account_Message g_msg = new Account_Message(0,0,"OHMS", Header.Action.EDIT);
 		g_msg.fill_All(1, "Staff", "Will", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		hotel.process_Message(g_msg);
@@ -465,6 +474,7 @@ private static void test_editAcc (int i_num){
 			System.out.println("Failed Test ID 1 at verify");
 		}
 	}
+}
 
 
 private static void test_editRoom (int i_num){
@@ -482,12 +492,14 @@ private static void test_editRoom (int i_num){
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS", "/tmp/var/");
 		hotel.process_Message(h_msg);
+		Header head = h_msg.return_Header();
+		if(Header.Response.SUCCESS==head.response_code){
 		
 		Room_Message g_msg = new Room_Message(0, 0, "OHMS", Header.Action.EDIT);
 		g_msg.fill_All(1, "Single", 1000, 1, 750, true, true, i);
 		hotel.process_Message(g_msg);
-		Header head = g_msg.return_Header();
-		if(Header.Response.SUCCESS==head.response_code){
+		Header head1 = g_msg.return_Header();
+		if(Header.Response.SUCCESS==head1.response_code){
 			System.out.println("Passed Test ID 1");
 			System.out.println("Input:");
 			System.out.println("Output:");
@@ -503,9 +515,10 @@ private static void test_editRoom (int i_num){
 		else{
 			System.out.println("Failed Test ID 1 at verify");
 		}
+	}
 }
 
-private static void test_delete (int i_num){
+private static void test_deleteRoom (int i_num){
 	//=====================Delete Tests==========================
 	if(i_num==0){
 		System.out.println("Test ID 1");
@@ -519,12 +532,14 @@ private static void test_delete (int i_num){
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS", "/tmp/var/");
 		hotel.process_Message(h_msg);
+		Header head = h_msg.return_Header();
+		if(Header.Response.SUCCESS==head.response_code){
 		
 		Room_Message g_msg = new Room_Message(0,0,"OHMS", Header.Action.DELETE);
 
 			hotel.process_Message(g_msg);
-			Header head = g_msg.return_Header();
-			if(Header.Response.SUCCESS==head.response_code){
+			Header head1 = g_msg.return_Header();
+			if(Header.Response.SUCCESS==head1.response_code){
 				System.out.println("Passed Test ID 1");
 				System.out.println("Input:");
 				System.out.println("Output:");
@@ -541,7 +556,105 @@ private static void test_delete (int i_num){
 				System.out.println("Failed Test ID 1 at verify");
 				}
 	}
-	
+}/*
+
+private static void test_addBook (int i_num){
+	//=====================Add Bookings Tests==========================
+	if(i_num==0){
+		System.out.println("Test ID 1");
+		System.out.println("Description: Success Added Booking");
+		Booking_Message h_msg = new Booking_Message(0,0,"OHMS", Header.Action.ADD);
+		//h_msg.fill_All
+		Hotel hotel = new Hotel("OHMS", "/tmp/var/");
+		hotel.process_Message(h_msg);
+		Header head=h_msg.return_Header();
+		if(Header.Response.SUCCESS==head.response_code){
+			System.out.println("Passed Test ID 1");
+			System.out.println("Input:");
+			//h_msg.print_Middle();
+			System.out.println("Output:");
+			System.out.println("\r");
+		}
+		else{
+			System.out.println("Failed Test ID 1");
+			System.out.println("Expected Output:");
+			System.out.println("Expected Change:");
+			System.out.println("\r");
+		}		
+	}	
+	else{
+		System.out.println("Failed Test ID 1 at verify");
+		}
+}
+
+
+
+private static void test_editBook (int i_num){
+	//=====================Edit Bookings Tests==========================
+	if(i_num==0){
+		System.out.println("Test ID 1");
+		System.out.println("Description: Success Edit Booking");
+		Booking_Message h_msg = new Booking_Message(0,0,"OHMS", Header.Action.ADD);
+		//h_msg.fill_All
+		Hotel hotel = new Hotel("OHMS", "/tmp/var/");
+		hotel.process_Message(h_msg);
+		Header head = h_msg.return_Header();
+		
+		Booking_Message g_msg = new Booking_Message (0,0,"OHMS", Header.Action.EDIT);
+		//g.msg.fill_All
+		hotel.process_Message(g_msg);
+		Header head1 = g_msg.return_Header();
+		if(Header.Response.SUCCESS==head1.response_code){
+			System.out.println("Passed Test ID 1");
+			System.out.println("Input:");
+			//h_msg.print_Middle();
+			System.out.println("Output:");
+			System.out.println("\r");
+		}
+		else{
+			System.out.println("Failed Test ID 1");
+			System.out.println("Expected Output:");
+			System.out.println("Expected Change:");
+			System.out.println("\r");
+		}		
+	}	
+
+}
+
+private static void test_deleteBook (int i_num){
+	//=====================Edit Bookings Tests==========================
+	if(i_num==0){
+		System.out.println("Test ID 1");
+		System.out.println("Description: Success Delete Booking");
+		Booking_Message h_msg = new Booking_Message(0,0,"OHMS", Header.Action.ADD);
+		//h_msg.fill_All
+		Hotel hotel = new Hotel("OHMS", "/tmp/var/");
+		hotel.process_Message(h_msg);
+		Header head = h_msg.return_Header();
+		if(Header.Response.SUCCESS==head.response_code){
+		Booking_Message g_msg = new Booking_Message (0,0,"OHMS", Header.Action.DELETE);
+		//g.msg.fill_All
+		hotel.process_Message(g_msg);
+		Header head1 = g_msg.return_Header();
+		if(Header.Response.SUCCESS==head1.response_code){
+			System.out.println("Passed Test ID 1");
+			System.out.println("Input:");
+			//h_msg.print_Middle();
+			System.out.println("Output:");
+			System.out.println("\r");
+		}
+		else{
+			System.out.println("Failed Test ID 1");
+			System.out.println("Expected Output:");
+			System.out.println("Expected Change:");
+			System.out.println("\r");
+		}
+		}
+		else{
+				System.out.println("Failed Test ID 1 at verify");
+				}
+		}
+	}	*/
 }
 
 

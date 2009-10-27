@@ -1,7 +1,7 @@
 package mains;
 
 import database.*;
-import message_Helper.Header;
+import messages.message_Helper.Header;
 import messages.*;
 import java.util.Random;
 
@@ -10,17 +10,17 @@ public class System_Brain {
 	Hotel[] hotels;
 	int num_hotels;
 	
-	public System_Brain(String names, String i_path){
+	public System_Brain(String name){
 		num_hotels=1;
 		hotels=new Hotel[num_hotels];
-		hotels[0]= new Hotel(names, i_path);	
+		hotels[0]= new Hotel(name);	
 	}
 	
-	public System_Brain(String[] names, String[] i_path){
+	public System_Brain(String[] names){
 		num_hotels=names.length;
 		hotels=new Hotel[num_hotels];
 		for (int i=0; i<names.length; i++){
-			hotels[i]= new Hotel(names[i], i_path[i]);
+			hotels[i]= new Hotel(names[i]);
 		}	
 	}
 	

@@ -1,18 +1,19 @@
 package database;
 
 import messages.*;
-import message_Helper.*;
+import messages.message_Helper.*;
+
+// A Hotel object has keeper objects for each DB type (room, account, booking)
+// and it maintains the database connection string.
 
 public class Hotel {
 	String				c_name;
-	String				C_hotel_database_connection;
 	Account_Keeper		c_account_keeper;
 	Room_Keeper			c_room_keeper;
 //	Booking_Keeper	c_booking_keeper;
 	
-	public Hotel(String i_name, String i_path, String i_DB_Connection){
+	public Hotel(String i_name){
 		c_name				= i_name.toLowerCase();
-		C_hotel_database_connection =  i_DB_Connection;
 		c_account_keeper	= new Account_Keeper();
 		c_room_keeper		= new Room_Keeper();
 //		c_booking_keeper	= new Booking_Keeper();
@@ -25,15 +26,14 @@ public class Hotel {
 	public void process_Message(Message i_msg){
 		// Hotel class simply hands the input message to one of the 
 		// Object-Handlers for processing
-		System.err.print("hotel message processing");
 		
 		Header head = i_msg.return_Header();
 		
 		if(head.to == Header.To.ACCOUNT){
-			account_keeper.process_Message((Account_Message) i_msg);
+			c_account_keeper.process_Message((Account_Message) i_msg);
 		}
 		if(head.to == Header.To.ROOM){
-			room_keeper.process_Message((Room_Message) i_msg);
+			c_room_keeper.Process_Message((Room_Message) i_msg);
 		}
 	/*	if(head.to == Header.To.BOOKING){
 			booking_keeper.process_Message((Booking_Message) i_msg);

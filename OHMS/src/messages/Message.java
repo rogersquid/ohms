@@ -1,6 +1,6 @@
 package messages;
 
-import message_Helper.*;
+import messages.message_Helper.*;
 
 public class Message {
 	Header header;
