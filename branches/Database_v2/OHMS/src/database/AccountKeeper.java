@@ -1,10 +1,11 @@
 package database;
 
 import messages.*;
-import messages.message_Helper.Header.Response;
+import messages.Header.Response;
+
 import java.sql.SQLException;
 
-public class Account_Keeper {
+public class AccountKeeper {
 	// People logged into the system
 	private Account_Message c_Act_Msg;
 
