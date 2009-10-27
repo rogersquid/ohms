@@ -17,17 +17,17 @@ public class Hotel {
 	public Message process_Message(Message i_msg){
 		// Hotel class simply hands the input message to one of the 
 		// Object-Handlers for processing
+		Message reply=null;
 		Header head = i_msg.return_Header();
 		if(head.to == Header.To.ACCOUNT){
-			accountKeeper.processMessage((AccountMessage) i_msg);
+			reply=accountKeeper.processMessage((AccountMessage) i_msg);
 		}
 		if(head.to == Header.To.ROOM){
-			roomKeeper.processMessage((RoomMessage) i_msg);
+			reply=roomKeeper.processMessage((RoomMessage) i_msg);
 		}
 	/*	if(head.to == Header.To.BOOKING){
 			booking_keeper.processMessage((Booking_Message) i_msg);
-		}
-	 */
+		}*/
 		return i_msg;
 	}
 	public String return_Name(){
