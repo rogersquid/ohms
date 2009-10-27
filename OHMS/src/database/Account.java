@@ -54,7 +54,7 @@ public class Account {
 				dbcon.close();
 			}
 		}
-		return reply;
+		return reply.deepCopy();
 	}
 	public AccountMessage editAccount(AccountMessage i_msg){
 		// Verify parameters are valid.
@@ -93,7 +93,7 @@ public class Account {
 				dbcon.close();
 			}
 		}
-		reply=i_msg;
+		reply=i_msg.deepCopy();
 		return reply;
 	}
 	// Deletes the account selected by the email or the id

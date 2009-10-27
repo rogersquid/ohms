@@ -17,6 +17,9 @@ public class AccountMessage extends Message{
 	public AccountMessage(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
 		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.ACCOUNT, i_action);
 	}
+	public AccountMessage(Header i_header){
+		header=i_header;
+	}
 	public boolean fill_All(int i_account_id, String i_account_type, String i_first_name, String i_surname, String i_pw, boolean i_gender, String i_phone, String i_add, String i_mail){
 		account_id=i_account_id;
 		account_type=i_account_type;
@@ -28,6 +31,11 @@ public class AccountMessage extends Message{
 		address=i_add;
 		email=i_mail;
 		return true;
+	}
+	public AccountMessage deepCopy(){
+		AccountMessage reply= new AccountMessage(this.header);
+		reply.fill_All(account_id, account_type, firstname, lastname, password, gender, phone, address, email);
+		return reply;
 	}
 	public void print_Middle(){
 		System.out.println(account_id);
