@@ -3,7 +3,7 @@ package messages;
 import java.util.*;
 
 
-public class Booking_Message extends Message{
+public class BookingMessage extends Message{
 	// attributes
 
 	public Header.Action action;
@@ -13,13 +13,13 @@ public class Booking_Message extends Message{
 	public int duration;
 	public String room_type;
 	public int room_id;
-	public Room_Specs room_specs;
+	public RoomInventory room_specs;
 	public boolean check_in;
 	public boolean check_out;
 	
-	public Booking_Message(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
+	public BookingMessage(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
 		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
-		room_specs= new Room_Specs();
+		room_specs= new RoomInventory();
 	}
 	public void fill_Specs (int[] i_in ){
 		room_specs.fill_Specs(i_in);

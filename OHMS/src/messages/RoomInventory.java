@@ -2,11 +2,11 @@ package messages;
 
 import java.util.Hashtable;
 
-public class Room_Specs {
+public class RoomInventory {
 	Hashtable specs;
 	//type of bed
 	
-	public Room_Specs (){
+	public RoomInventory (){
 		specs = new Hashtable();
 		specs.put("onsuite", new Boolean(false));
 	    specs.put("tv", new Boolean(false));
