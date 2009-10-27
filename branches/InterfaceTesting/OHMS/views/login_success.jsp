@@ -32,7 +32,7 @@
 				</div>
 				<div id='content'>
 					<div id='title'>Login successful</div>
-					Welcome, <%= request.getAttribute("username") %>
+					Welcome, <%= request.getAttribute("email") %>
 				</div>
 				<div class='clear'><!-- --></div>
 			</div>
