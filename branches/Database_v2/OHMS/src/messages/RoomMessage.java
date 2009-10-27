@@ -9,11 +9,11 @@ public class RoomMessage extends Message {
 	public boolean available;
 	public boolean cleaned;
 	public int room_floor;
-	public Room_Specs room_specs;
+	public RoomInventory room_specs;
 	
 	public RoomMessage(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action) {
 		header = new Header(i_id, i_auth, i_name_Hotel, Header.To.ROOM, i_action);
-		room_specs = new Room_Specs();
+		room_specs = new RoomInventory();
 	}
 	
 	public boolean fill_All(int i_room_id, String i_room_type, int i_room_number, int i_floor, float i_price, boolean i_available, boolean i_clean, int[] i_room_specs){
