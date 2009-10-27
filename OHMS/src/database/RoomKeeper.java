@@ -1,8 +1,6 @@
 package database;
 
 import messages.*;
-import java.io.*;
-import java.sql.*;
 
 public class RoomKeeper{	
 	public RoomMessage processMessage(RoomMessage i_msg){

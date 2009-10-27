@@ -1,8 +1,6 @@
 package database;
 
 import messages.*;
-// A Hotel object has keeper objects for each DB type (room, account, booking)
-// and it maintains the database connection string.
 
 public class Hotel {
 	String				hotelName;
