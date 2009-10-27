@@ -6,16 +6,16 @@ import java.util.*;
 public class BookingMessage extends Message{
 	// attributes
 
-	public Header.Action action;
-	public int booking_id;
-	public Date date;
-	public int owner_id;
-	public int duration;
-	public String room_type;
-	public int room_id;
-	public RoomInventory room_specs;
-	public boolean check_in;
-	public boolean check_out;
+	public Header.Action 	action;
+	public int 				booking_id;
+	public Date 			date;
+	public int 				owner_id;
+	public int 				duration;
+	public String 			room_type;
+	public int 				room_id;
+	public RoomInventory 	room_specs;
+	public boolean 			check_in;
+	public boolean 			check_out;
 	
 	public BookingMessage(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
 		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);

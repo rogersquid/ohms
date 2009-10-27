@@ -20,19 +20,19 @@ public class RoomKeeper{
 		}
 	}
 	private RoomMessage add(RoomMessage i_msg){
-		Room aRoom = new Room();
-		return aRoom.addRoom(i_msg);
+		Room 	aRoom = new Room();
+		return 	aRoom.addRoom(i_msg);
 	}
 	private RoomMessage edit(RoomMessage i_msg){
-		Room aRoom = new Room();
-		return aRoom.editRoom(i_msg);
+		Room 	aRoom = new Room();
+		return 	aRoom.editRoom(i_msg);
 	}
 	private RoomMessage delete(RoomMessage i_msg){
-		Room aRoom = new Room();
-		return aRoom.deleteRoom(i_msg);
+		Room 	aRoom = new Room();
+		return 	aRoom.deleteRoom(i_msg);
 	}
 	private RoomMessage view(RoomMessage i_msg){
-		Room aRoom = new Room();
-		return aRoom.viewRoom(i_msg);
+		Room 	aRoom = new Room();
+		return 	aRoom.viewRoom(i_msg);
 	}
 }
