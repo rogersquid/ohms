@@ -32,7 +32,7 @@ public class Account {
 		database_Helper dbcon = null;
 		try {
 			dbcon = new database_Helper(dbname);
-			String query = "SELECT * FROM users WHERE email='" + username + "' AND password='" + md5_password + "'";
+			String query = "SELECT * FROM account WHERE email='" + username + "' AND password='" + md5_password + "'";
 			ResultSet rs = dbcon.select(query);
 
 			if(rs.next()) {
