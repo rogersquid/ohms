@@ -1,9 +1,8 @@
 package messages;
 
-import messages.message_Helper.*;
 import java.util.*;
 
-public class Account_Message extends Message{
+public class AccountMessage extends Message{
 	public int account_id;
 	public String account_type;
 	public String firstname;
@@ -15,7 +14,7 @@ public class Account_Message extends Message{
 	public boolean gender;
 	public Date date;
 	
-	public Account_Message(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
+	public AccountMessage(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
 		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.ACCOUNT, i_action);
 	}
 	public boolean fill_All(int i_account_id, String i_account_type, String i_first_name, String i_surname, String i_pw, boolean i_gender, String i_phone, String i_add, String i_mail){

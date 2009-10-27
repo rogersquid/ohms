@@ -1,7 +1,5 @@
 package messages;
 
-import messages.message_Helper.*;
-
 public class Message {
 	Header header;
 	public void fill_Header_Input(int i_id, int i_auth, String i_name_Hotel, Header.To i_to, Header.Action i_action){

@@ -1,8 +1,6 @@
 package messages;
 
-import messages.message_Helper.*;
-
-public class Room_Message extends Message {
+public class RoomMessage extends Message {
 	
 	public int room_id;
 	public String room_type;
@@ -13,7 +11,7 @@ public class Room_Message extends Message {
 	public int room_floor;
 	public Room_Specs room_specs;
 	
-	public Room_Message(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action) {
+	public RoomMessage(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action) {
 		header = new Header(i_id, i_auth, i_name_Hotel, Header.To.ROOM, i_action);
 		room_specs = new Room_Specs();
 	}
