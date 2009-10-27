@@ -1,87 +1,44 @@
 package database;
 
 import messages.*;
-import messages.Header.Response;
-
-import java.sql.SQLException;
 
 public class AccountKeeper {
 	// People logged into the system
-	private Account_Message c_Act_Msg;
-
-	public void process_Message(Account_Message i_msg){
-		System.err.print("in keeper");
-		c_Act_Msg = i_msg;
+	public Message processMessage(AccountMessage i_msg){
 		switch(i_msg.return_Header().action)
 		{
 		case ADD:
-			Add();
-			break;
+			return add(i_msg);
 		case EDIT:
-			Edit(i_msg);
-			break;
+			return edit(i_msg);
 		case VIEW:
-			View();
-			break;
+			return view(i_msg);
 		case DELETE:
-			Delete();
-			break;
+			return delete(i_msg);
+		default:
+			//needs implementation
+			return i_msg;
 		}
-		
-		i_msg.print_Middle();
+	}
+	private AccountMessage add(AccountMessage i_msg){
+		Account anAccount = new Account();
+		return anAccount.addAccount(i_msg);
 	}
 
-	private void Add()
-	{
+	private AccountMessage edit(AccountMessage i_msg){
 		Account anAccount = new Account();
-
-		if(anAccount.Add_Account(c_Act_Msg.firstname, c_Act_Msg.lastname, 
-				c_Act_Msg.gender, c_Act_Msg.phone, c_Act_Msg.email, c_Act_Msg.address))
-		{
-			c_Act_Msg.fill_Header_Response(Response.SUCCESS, "Account " + c_Act_Msg.email + " added.");
-		}
-		else
-		{	
-			c_Act_Msg.fill_Header_Response(Response.FAIL, "Account " + c_Act_Msg.email + " was not added.");
-		}
-
+		return anAccount.editAccount(i_msg);
 	}
 
-	private void Edit(Account_Message i_msg)
-	{
+	private AccountMessage delete(AccountMessage i_msg){
 		Account anAccount = new Account();
-		anAccount.Edit_Account(i_msg);
+		return anAccount.deleteAccount(i_msg);
 	}
 
-	private void Delete()
+	private AccountMessage view(AccountMessage i_msg)
 	{
 		Account anAccount = new Account();
-
-		if(c_Act_Msg.email != "")
-		{
-			anAccount.Delete_Account(c_Act_Msg.email);
-			c_Act_Msg.fill_Header_Response(Response.SUCCESS, "Account " + c_Act_Msg.email + " deleted.");
-		}
-		else if(c_Act_Msg.account_id > 0)
-		{
-			anAccount.Delete_Account(c_Act_Msg.account_id);
-			c_Act_Msg.fill_Header_Response(Response.SUCCESS, "Account " + c_Act_Msg.account_id + " deleted.");
-		}
-		else
-		{
-			c_Act_Msg.fill_Header_Response(Response.FAIL, "Account " + c_Act_Msg.email + " was not found.");
-		}
-		anAccount.Fetch_All(c_Act_Msg.email, c_Act_Msg.password);
-
-	}
-
-	private void View()
-	{
-		Account anAccount = new Account();
-
-		anAccount.Fetch_All(c_Act_Msg.email, c_Act_Msg.password);
-		c_Act_Msg.fill_Header_Response(Response.SUCCESS, "Results fetched");
-
+		return anAccount.deleteAccount(i_msg);
 	}
 
 }
