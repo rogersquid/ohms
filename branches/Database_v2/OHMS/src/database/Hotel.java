@@ -20,10 +20,10 @@ public class Hotel {
 		Message reply=null;
 		Header head = i_msg.return_Header();
 		if(head.to == Header.To.ACCOUNT){
-			reply=accountKeeper.processMessage((AccountMessage) i_msg);
+			reply	= accountKeeper.processMessage((AccountMessage) i_msg);
 		}
 		if(head.to == Header.To.ROOM){
-			reply=roomKeeper.processMessage((RoomMessage) i_msg);
+			reply	= roomKeeper.processMessage((RoomMessage) i_msg);
 		}
 	/*	if(head.to == Header.To.BOOKING){
 			booking_keeper.processMessage((Booking_Message) i_msg);

@@ -8,26 +8,26 @@ public class RoomInventory {
 	
 	public RoomInventory (){
 		specs = new Hashtable();
-		specs.put("onsuite", new Boolean(false));
-	    specs.put("tv", new Boolean(false));
+		specs.put("onsuite", 	new Boolean(false));
+	    specs.put("tv", 		new Boolean(false));
 	    specs.put("disability", new Boolean(false));
-	    specs.put("elevator", new Boolean(false));
-	    specs.put("ebirdcall", new Boolean(false));
+	    specs.put("elevator", 	new Boolean(false));
+	    specs.put("ebirdcall", 	new Boolean(false));
 	    specs.put("emornpaper", new Boolean(false));
-	    specs.put("numBeds", new Integer(0));
+	    specs.put("numBeds", 	new Integer(0));
 	}
 	public Object search_Specs(String s_index){
 		return specs.get(s_index);
 	}
 	public void fill_Specs (boolean onsuite, boolean tv, boolean disability, boolean elevator, boolean ebirdcall,
 			boolean emornpaper, int numBed)  {
-		specs.put("onsuite", onsuite);
-	    specs.put("tv", tv);
+		specs.put("onsuite", 	onsuite);
+	    specs.put("tv", 		tv);
 	    specs.put("disability", disability);
-	    specs.put("elevator", elevator);
-	    specs.put("ebirdcall", ebirdcall);
+	    specs.put("elevator", 	elevator);
+	    specs.put("ebirdcall", 	ebirdcall);
 	    specs.put("emornpaper", emornpaper);
-	    specs.put("numBeds", numBed);
+	    specs.put("numBeds", 	numBed);
 	}
 	
 	public void fill_Specs (int[] i_in )  {

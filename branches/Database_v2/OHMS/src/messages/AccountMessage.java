@@ -21,15 +21,15 @@ public class AccountMessage extends Message{
 		header=i_header;
 	}
 	public boolean fill_All(int i_account_id, String i_account_type, String i_first_name, String i_surname, String i_pw, boolean i_gender, String i_phone, String i_add, String i_mail){
-		account_id=i_account_id;
-		account_type=i_account_type;
-		firstname= i_first_name;
-		lastname=i_surname;
-		password=i_pw;
-		gender=i_gender;
-		phone=i_phone;
-		address=i_add;
-		email=i_mail;
+		account_id		= i_account_id;
+		account_type	= i_account_type;
+		firstname		= i_first_name;
+		lastname		= i_surname;
+		password		= i_pw;
+		gender			= i_gender;
+		phone			= i_phone;
+		address			= i_add;
+		email			= i_mail;
 		return true;
 	}
 	public AccountMessage deepCopy(){
