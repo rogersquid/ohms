@@ -1,6 +1,6 @@
 package database;
 
-import messages.*;
+import messages.RoomMessage;
 
 public class Room {
 	public RoomMessage addRoom(RoomMessage i_msg) {
