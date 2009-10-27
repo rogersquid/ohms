@@ -1,8 +1,8 @@
 package messages;
 
 public class Header {
-	public enum To { ACCOUNT, BOOKING, ROOM }
-	public enum Action { ADD, EDIT, VIEW, DELETE }
+	public enum To { ACCOUNT, BOOKING, ROOM, REPORT_GENERATOR }
+	public enum Action { ADD, EDIT, VIEW, DELETE, AUTHENTICATE }
 	public enum Response { SUCCESS, FAIL }
 	
 	public int msg_id;
