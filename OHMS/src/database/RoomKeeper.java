@@ -5,7 +5,7 @@ import messages.message_Helper.*;
 import java.io.*;
 import java.sql.*;
 
-public class Room_Keeper{
+public class RoomKeeper{
 	static String dUser = "eece419";
 	static String dPass = "dude";
 	static String dbLocation = "jdbc:mysql://localhost/default_hotel";

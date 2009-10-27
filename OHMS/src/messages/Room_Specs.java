@@ -1,4 +1,4 @@
-package messages.message_Helper;
+package messages;
 
 import java.util.Hashtable;
 
