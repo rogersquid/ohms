@@ -1,6 +1,6 @@
-package database;
+package models.database;
 
-import messages.*;
+import models.messages.*;
 
 public class RoomKeeper{	
 	public RoomMessage processMessage(RoomMessage i_msg){

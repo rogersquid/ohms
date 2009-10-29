@@ -1,4 +1,4 @@
-package messages;
+package models.messages;
 
 public class Message {
 	Header header;

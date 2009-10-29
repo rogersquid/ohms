@@ -1,4 +1,4 @@
-package messages;
+package models.messages;
 
 public class Header {
 	public enum To { ACCOUNT, BOOKING, ROOM, REPORT_GENERATOR }

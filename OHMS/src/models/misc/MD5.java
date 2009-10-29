@@ -1,4 +1,4 @@
-package misc;
+package models.misc;
 import java.security.*;
 
 public class MD5 {

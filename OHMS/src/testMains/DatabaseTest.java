@@ -1,7 +1,7 @@
 package testMains;
 
-import messages.*;
-import database.Hotel;
+import models.messages.*;
+import models.database.Hotel;
 
 public class DatabaseTest {
 	public static void main(String [ ] args){

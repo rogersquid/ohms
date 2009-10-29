@@ -1,8 +1,8 @@
-package database;
+package models.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import messages.*;
+import models.messages.*;
 
 public class Room {
 	String dbname = "default_hotel";
