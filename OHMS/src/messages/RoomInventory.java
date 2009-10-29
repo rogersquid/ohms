@@ -34,10 +34,10 @@ public class RoomInventory {
 		specs.put("onsuite", (i_in[0] != 0 ));
 		specs.put("tv", (i_in[1] != 0 ));
 		specs.put("disability", (i_in[2] != 0 ));
-	/*	specs.put("elevator", (i_in[3] != 0 ));
+		specs.put("elevator", (i_in[3] != 0 ));
 		specs.put("ebirdcall", (i_in[4] != 0 ));
 		specs.put("emornpaper", (i_in[5] != 0 ));
-		specs.put("numBed", i_in[6]); */
+		specs.put("numBed", i_in[6]); 
 	}
 	
 	public void print_All(){
