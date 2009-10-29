@@ -75,10 +75,14 @@ private static void test_addRoom (int i_num){
 	if(i_num==0){
 		System.out.println("Test ID 1");
 		System.out.println("Description: Success Added room");
-		int[] i = new int[3];
+		int[] i = new int[7];
 		i[0]=1;
 		i[1]=1;
 		i[2]=1;
+		i[3]=1;
+		i[4]=1;
+		i[5]=1;
+		i[6]=1;
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
@@ -101,10 +105,14 @@ private static void test_addRoom (int i_num){
 	if(i_num==1){
 		System.out.println("Test ID 2");
 		System.out.println("Description: Failed to add room due to invalid room type");
-		int[] i = new int[3];
+		int[] i = new int[7];
 		i[0]=1;
 		i[1]=1;
 		i[2]=1;
+		i[3]=1;
+		i[4]=1;
+		i[5]=1;
+		i[6]=1;
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "B!E1ST.E ST", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
@@ -127,10 +135,14 @@ private static void test_addRoom (int i_num){
 	if(i_num==2){
 		System.out.println("Test ID 3");
 		System.out.println("Description: Failed to add room due to invalid room spec");
-		int[] i = new int[3];
+		int[] i = new int[7];
 		i[0]=1;
 		i[1]=2;
 		i[2]=999999;
+		i[3]=1;
+		i[4]=1;
+		i[5]=1;
+		i[6]=1;
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Suite", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
@@ -153,10 +165,14 @@ private static void test_addRoom (int i_num){
 	if(i_num==3){
 		System.out.println("Test ID 4");
 		System.out.println("Description: Failed to add room due to blank room type field");
-		int[] i = new int[3];
+		int[] i = new int[7];
 		i[0]=1;
 		i[1]=1;
 		i[2]=1;
+		i[3]=1;
+		i[4]=1;
+		i[5]=1;
+		i[6]=1;
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
@@ -179,10 +195,14 @@ private static void test_addRoom (int i_num){
 	if(i_num==4){
 		System.out.println("Test ID 5");
 		System.out.println("Description: Failed to add room due to room already existing");
-		int[] i = new int[3];
+		int[] i = new int[7];
 		i[0]=1;
 		i[1]=1;
 		i[2]=1;
+		i[3]=1;
+		i[4]=1;
+		i[5]=1;
+		i[6]=1;
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
