@@ -4,7 +4,9 @@ import java.io.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import models.*;
+import models.messages.*;
+import models.messages.message_Helper.*;
+import models.database.*;
 
 public class loginServlet extends HttpServlet {
 
@@ -17,11 +19,21 @@ public class loginServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		String username = request.getParameter("username");
+		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-
-		if(Account.login(username, password)) {
-			request.setAttribute("username", username);
+		
+		int userid = 0;
+		int authlevel = 0;
+		String hotelname = "default_hotel";
+		Account_Message message = new Account_Message(userid, authlevel, hotelname, Header.Action.LOGIN);
+		message.email = email;
+		message.password = password;
+		
+		Hotel hotel = new Hotel(hotelname);
+		hotel.process_Message(message);
+		
+		if(message.header.response_code == Header.Response.SUCCESS) {
+			request.setAttribute("email", email);
 			getServletContext().getRequestDispatcher("/views/login_success.jsp").include(request, response);
 		} else {
 			request.setAttribute("status", "login_failed");

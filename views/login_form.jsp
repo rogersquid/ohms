@@ -21,51 +21,34 @@
 			<div id='content-wrapper'>
 				<div id='left-nav'>
 					<ul>
-						<li><a href='login.html'>Login</a></li>
-						<li class='current'>Register</li>
+						<li class='current'>Login</li>
+						<li><a href='register.html'>Register</a></li>
+						<li><a href='editaccount.html'>Edit Account</a></li>
 						<li><a href='password.html'>Forgot password</a></li>
+						<li><a href='createroom.html'>Create Room</a></li>
+						<li><a href='editroom.html'>Edit Rooms</a></li>
+						<li><a href='deleteroom.html'>Delete Rooms</a></li>
 					</ul>
 				</div>
 				<div id='content'>
-					<div id='title'>Register</div>
+					<div id='title'>Login</div>
 					<%
-						if(request.getAttribute("status")=="register_failed") {
+						if(request.getAttribute("status")=="login_failed") {
 							%>
-							<div class='error'>Register failed.</div>
+							<div class='error'>Login failed.</div>
 							<%
 						}
 					%>
 					<form action='' method='post'>
 						<table>
 							<tr>
-								<td>Username: </td>
-								<td><input type='text' name='username' /></td>
+								<td>E-mail: </td>
+								<td><input type='text' name='email' /></td>
 							</tr>
 							<tr>
 								<td>Password: </td>
 								<td><input type='password' name='password' /></td>
 							</tr>
-							<tr>
-								<td>First name: </td>
-								<td><input type='text' name='firstname' /></td>
-							</tr>
-							<tr>
-								<td>Last name: </td>
-								<td><input type='text' name='lastname' /></td>
-							</tr>
-							<tr>
-								<td>E-mail address: </td>
-								<td><input type='text' name='email' /></td>
-							</tr>
-							<tr>
-								<td>Phone number: </td>
-								<td><input type='text' name='phone' /></td>
-							</tr>
-							<tr>
-								<td>Address: </td>
-								<td><textarea name='address'></textarea></td>
-							</tr>
-							
 							<tr>
 								<td></td>
 								<td><input type='submit' value='Continue' /></td>

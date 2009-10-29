@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs"> 
 	<head> 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-		<title>OHMS &raquo; Login</title>
+		<title>OHMS &raquo; Register</title>
 		<link rel='stylesheet' type='text/css' href='/ohms/ohms.css' />
 	</head> 
 	<body>
@@ -21,14 +21,19 @@
 			<div id='content-wrapper'>
 				<div id='left-nav'>
 					<ul>
-						<li class='current'>Login</li>
-						<li><a href='register.html'>Register</a></li>
+						<li><a href='login.html'>Login</a></li>
+						<li class='current'>Register</li>
 						<li><a href='password.html'>Forgot password</a></li>
+						<li><a href='createroom.html'>Create Room</a></li>
+						<li><a href='editroom.html'>Edit Rooms</a></li>
+						<li><a href='deleteroom.html'>Delete Rooms</a></li>
 					</ul>
 				</div>
 				<div id='content'>
-					<div id='title'>Login successful</div>
-					Welcome, <%= request.getAttribute("username") %>
+					<div id='title'>Register successful</div>
+					Welcome, <%=request.getAttribute("firstname") %> <%=request.getAttribute("lastname") %>.
+					<br />
+					You may <a href='login.html'>login</a> with your e-mail address and password.
 				</div>
 				<div class='clear'><!-- --></div>
 			</div>
