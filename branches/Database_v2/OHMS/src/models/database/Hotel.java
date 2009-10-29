@@ -1,6 +1,6 @@
-package database;
+package models.database;
 
-import messages.*;
+import models.messages.*;
 
 public class Hotel {
 	String				hotelName;

@@ -1,8 +1,8 @@
-package database;
+package models.database;
 
 import java.sql.*;
-import messages.*;
-import misc.*;
+import models.messages.*;
+import models.misc.*;
 
 public class Account {
 	java.util.Date date;

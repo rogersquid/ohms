@@ -1,4 +1,4 @@
-package messages;
+package models.messages;
 
 import java.util.*;
 
