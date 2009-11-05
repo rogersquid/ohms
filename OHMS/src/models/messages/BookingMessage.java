@@ -6,7 +6,6 @@ import java.util.*;
 public class BookingMessage extends Message{
 	// attributes
 
-	public Header.Action 	action;
 	public int 				booking_id;
 	public Date 			date;
 	public int 				owner_id;
@@ -28,7 +27,6 @@ public class BookingMessage extends Message{
 	public void print_All(){
 		System.out.println("Booking_message is printing out");
 		System.out.println("Rest:");
-		System.out.println(action);
 		System.out.println(booking_id);
 		System.out.println(date);
 		System.out.println(owner_id);
