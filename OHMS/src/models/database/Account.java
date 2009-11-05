@@ -9,6 +9,20 @@ public class Account {
 	String dbname = "default_hotel";
 	// Creates a unique ID, inserts today's date
 	// Returns true if successful, false if error
+	
+	/* ReMINDER FROM MERT:
+	 * we need a viewALL method that return all the accounts
+	 * so that the interface can display them
+	 * 
+	 * another thing is to use SQL date rather tan java.util.date
+	 * in booking I have a conversion example if you need it
+	 */
+	
+	public AccountMessage[] viewAllAccount(AccountMessage i_msg){
+		// needs to be implemented
+		AccountMessage[] am=null;
+		return am;
+	}
 	public AccountMessage addAccount(AccountMessage i_msg) {
 		// Verify parameters are valid.
 		// No date error checking implemented 
