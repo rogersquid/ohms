@@ -17,8 +17,8 @@ public class Booking {
 			int returnedRows 	= dbcon.modify("INSERT INTO booking (date, startDate, owner_id, duration, room_id, status) VALUES ('" 
 					+ now
 					+ "', '" + i_msg.startDate + "', '" 
-					+ i_msg.owner_id + "', '" + i_msg.duration
-					+ "' + '" + i_msg.room_id + "', '" + i_msg.status + "')");
+					+ i_msg.ownerID + "', '" + i_msg.duration
+					+ "' + '" + i_msg.roomID + "', '" + i_msg.status + "')");
 			if (returnedRows == 1) {
 				output.fill_Header_Response(Header.Response.SUCCESS, "Added one Booking as Requested." +
 						" StartDate: " + i_msg.startDate);
@@ -51,9 +51,9 @@ public class Booking {
 		try {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			// bookingDate should it be editttable???
-			int returnedRows = dbcon.modify("UPDATE booking SET ownerID='" + i_msg.owner_id
+			int returnedRows = dbcon.modify("UPDATE booking SET ownerID='" + i_msg.ownerID
 					+ "', bookingDate='" +i_msg.bookingDate + "', startDate='" + i_msg.startDate
-					+ "', duration='" + i_msg.duration + "', roomID='" + i_msg.room_id
+					+ "', duration='" + i_msg.duration + "', roomID='" + i_msg.roomID
 					+ "', status='" + i_msg.status + "'");
 			if (returnedRows == 1) {
 				output.fill_Header_Response(Header.Response.SUCCESS, "Edited one Booking as Requested." +
@@ -87,7 +87,7 @@ public class Booking {
 		try {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			// booking id or owner + sDate
-			int returnedRows = dbcon.modify("DELETE FROM booking WHERE bookingID='" + i_msg.booking_id
+			int returnedRows = dbcon.modify("DELETE FROM booking WHERE bookingID='" + i_msg.bookingID
 					+ "'");
 			if (returnedRows == 1) {
 				output.fill_Header_Response(Header.Response.SUCCESS, "Delete one Booking as Requested." +
@@ -121,7 +121,7 @@ public class Booking {
 		try {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			// booking id or owner + sDate
-			ResultSet rs=dbcon.select("Select count(*) FROM booking WHERE ownerID='" + i_msg.owner_id 
+			ResultSet rs=dbcon.select("Select count(*) FROM booking WHERE ownerID='" + i_msg.ownerID 
 					+ " AND bookingDate='" + i_msg.bookingDate +"'");
 			int i=rs.getInt(1);
 			if(i!=1){
@@ -129,7 +129,7 @@ public class Booking {
 						" StartDate: " + i_msg.startDate);
 				return output;
 			}
-			rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.owner_id 
+			rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID 
 					+ " AND bookingDate='" + i_msg.bookingDate +"'");
 			while (rs.next()) {
 	            int cbookingID = rs.getInt("bookingID");
@@ -164,8 +164,5 @@ public class Booking {
 	public BookingMessage[] viewAllBooking(){
 		BookingMessage[] output= null;
 		return output;
-	}
-	private void createBill(){
-		
 	}
 }
