@@ -92,7 +92,7 @@ public class Account {
 					+ "', lastName='" +i_msg.lastname + "', gender='" + genderInt
 					+ "', phone='" + i_msg.phone + "', email='" + i_msg.email
 					+ "', address='" + i_msg.address + "' "
-					+ "WHERE accountID='" + i_msg.account_id + "'");
+					+ "WHERE accountID='" + i_msg.accountID + "'");
 			if (returnedRows == 1) {
 				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Updated One Account as Requested." +
 						" Account Email: " + i_msg.email);
