@@ -14,8 +14,8 @@ public class AccountMessage extends Message{
 	public boolean gender;
 	public Date date;
 	
-	public AccountMessage(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
-		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.ACCOUNT, i_action);
+	public AccountMessage(int i_id, int mOID, int i_auth, String i_name_Hotel, Header.Action i_action){
+		header=new Header (i_id, mOID, i_auth, i_name_Hotel, Header.To.ACCOUNT, i_action);
 	}
 	public AccountMessage(Header i_header){
 		header=i_header;
