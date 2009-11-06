@@ -190,6 +190,7 @@ public class Booking {
 				output[i].status = rs.getInt("status");
 				output[i].fill_Header_Response(Header.Response.SUCCESS, "ViewAll one Booking as Requested." +
 						" StartDate: " + i_msg.startDate);
+				i++;
 	        }
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
