@@ -4,8 +4,6 @@ import java.util.*;
 
 
 public class BookingMessage extends Message{
-	// attributes
-
 	public int 				booking_id;
 	public int 				owner_id;
 	public Date				bookingDate;
