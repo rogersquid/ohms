@@ -19,6 +19,17 @@ public class RoomKeeper{
 			return i_msg;
 		}
 	}
+	public Message[] processMessageReturnBunch(RoomMessage i_msg){
+		BookingMessage[] reply=null;
+		switch(i_msg.return_Header().action)
+		{
+		case VIEWALL:
+			return viewAll(i_msg);
+		default:
+			//needs implementation
+			return reply;
+		}
+	}
 	private RoomMessage add(RoomMessage i_msg){
 		Room 	aRoom = new Room();
 		return 	aRoom.addRoom(i_msg);
@@ -34,5 +45,10 @@ public class RoomKeeper{
 	private RoomMessage view(RoomMessage i_msg){
 		Room 	aRoom = new Room();
 		return 	aRoom.viewRoom(i_msg);
+	}
+	private RoomMessage[] viewAll(RoomMessage i_msg){
+		//usign autherizations
+		Room aBooking = new Room();
+		return 	aBooking.viewAllRoom(i_msg);
 	}
 }

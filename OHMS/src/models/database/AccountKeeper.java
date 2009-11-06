@@ -20,6 +20,17 @@ public class AccountKeeper {
 			return i_msg;
 		}
 	}
+	public Message[] processMessageReturnBunch(AccountMessage i_msg){
+		BookingMessage[] reply=null;
+		switch(i_msg.return_Header().action)
+		{
+		case VIEWALL:
+			return viewAll(i_msg);
+		default:
+			//needs implementation
+			return reply;
+		}
+	}
 	private AccountMessage add(AccountMessage i_msg){
 		Account anAccount = new Account();
 		return 	anAccount.addAccount(i_msg);
@@ -40,5 +51,10 @@ public class AccountKeeper {
 		//usign autherizations
 		Account anAccount = new Account();
 		return 	anAccount.deleteAccount(i_msg);
+	}
+	private AccountMessage[] viewAll(AccountMessage i_msg){
+		//usign autherizations
+		Account aAccount = new Account();
+		return 	aAccount.viewAllAccount(i_msg);
 	}
 }

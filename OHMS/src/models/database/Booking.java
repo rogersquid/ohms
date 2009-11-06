@@ -161,7 +161,7 @@ public class Booking {
 		}
 		return output;
 	}
-	public BookingMessage[] viewAllBooking(){
+	public BookingMessage[] viewAllBooking(BookingMessage i_msg){
 		BookingMessage[] output= null;
 		return output;
 	}

@@ -86,7 +86,7 @@ private static void test_addRoom (int i_num){
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.SUCCESS==head.response_code){
 		System.out.println("Passed Test ID 1");
@@ -116,7 +116,7 @@ private static void test_addRoom (int i_num){
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "B!E1ST.E ST", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 		System.out.println("Passed Test ID 2");
@@ -146,7 +146,7 @@ private static void test_addRoom (int i_num){
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Suite", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 		System.out.println("Passed Test ID 3");
@@ -176,7 +176,7 @@ private static void test_addRoom (int i_num){
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 		System.out.println("Passed Test ID 4");
@@ -208,7 +208,7 @@ private static void test_addRoom (int i_num){
 		Hotel hotel = new Hotel("OHMS");
 		RoomMessage g_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		g_msg.fill_All(1, "Suite", 1000, 1, 500, true, true, i );
-		hotel.process_Message(g_msg);
+		hotel.processMessage(g_msg);
 		Header head = h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 		System.out.println("Passed Test ID 5");
@@ -233,7 +233,7 @@ private static void test_addAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.SUCCESS==head.response_code){
 			System.out.println("Passed Test ID 1");
@@ -256,7 +256,7 @@ private static void test_addAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "!s@. #TZ", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 			System.out.println("Passed Test ID 2");
@@ -279,7 +279,7 @@ private static void test_addAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "G.E&*%s", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 			System.out.println("Passed Test ID 3");
@@ -302,7 +302,7 @@ private static void test_addAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "b%^.S", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 			System.out.println("Passed Test ID 4");
@@ -325,7 +325,7 @@ private static void test_addAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "o/%h m.s", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 			System.out.println("Passed Test ID 5");
@@ -348,7 +348,7 @@ private static void test_addAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "Bo!ul.e%!@vard St.", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 			System.out.println("Passed Test ID 6");
@@ -371,7 +371,7 @@ private static void test_addAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwon#g!gmai*l com");
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 			System.out.println("Passed Test ID 7");
@@ -394,13 +394,13 @@ private static void test_addAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 		
 		AccountMessage g_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
-		hotel.process_Message(g_msg);
+		hotel.processMessage(g_msg);
 		Header head1=g_msg.return_Header();
 		if(Header.Response.FAIL==head1.response_code){
 			System.out.println("Passed Test ID 8");
@@ -429,7 +429,7 @@ private static void test_addAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "", "Wong", "passwd", true, "6047738298", "", "");
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 			System.out.println("Passed Test ID 9");
@@ -456,12 +456,12 @@ private static void test_editAcc (int i_num){
 		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		Hotel hotel = new Hotel("OHMS");
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head = h_msg.return_Header();
 		if(Header.Response.SUCCESS==head.response_code){
 		AccountMessage g_msg = new AccountMessage(0,0,"OHMS", Header.Action.EDIT);
 		g_msg.fill_All(1, "Staff", "Will", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
-		hotel.process_Message(g_msg);
+		hotel.processMessage(g_msg);
 		Header head1 = g_msg.return_Header();
 		if(Header.Response.SUCCESS==head1.response_code){
 			System.out.println("Passed Test ID 1");
@@ -497,13 +497,13 @@ private static void test_editRoom (int i_num){
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head = h_msg.return_Header();
 		if(Header.Response.SUCCESS==head.response_code){
 		
 		RoomMessage g_msg = new RoomMessage(0, 0, "OHMS", Header.Action.EDIT);
 		g_msg.fill_All(1, "Single", 1000, 1, 750, true, true, i);
-		hotel.process_Message(g_msg);
+		hotel.processMessage(g_msg);
 		Header head1 = g_msg.return_Header();
 		if(Header.Response.SUCCESS==head1.response_code){
 			System.out.println("Passed Test ID 1");
@@ -537,13 +537,13 @@ private static void test_deleteRoom (int i_num){
 		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
-		hotel.process_Message(h_msg);
+		hotel.processMessage(h_msg);
 		Header head = h_msg.return_Header();
 		if(Header.Response.SUCCESS==head.response_code){
 		
 		RoomMessage g_msg = new RoomMessage(0,0,"OHMS", Header.Action.DELETE);
 
-			hotel.process_Message(g_msg);
+			hotel.processMessage(g_msg);
 			Header head1 = g_msg.return_Header();
 			if(Header.Response.SUCCESS==head1.response_code){
 				System.out.println("Passed Test ID 1");
