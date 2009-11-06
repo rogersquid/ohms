@@ -11,8 +11,8 @@ public class BookingMessage extends Message{
 	public int 				roomID;
 	public int 				status; // 0= not yet checked in
 									// 1= checked in // 2= checked out
-	public BookingMessage(int i_id, int i_auth, String i_name_Hotel, Header.Action i_action){
-		header=new Header (i_id, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
+	public BookingMessage(int i_id, int mOID, int i_auth, String i_name_Hotel, Header.Action i_action){
+		header=new Header (i_id, mOID, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
 	}
 	public void fillAll( int bID, int oID, Date bDate, Date sDate, int d, int rID, int s){
 		bookingID=bID;
