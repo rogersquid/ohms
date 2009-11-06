@@ -10,16 +10,18 @@ public class Header {
 	public String 	name_hotel;
 	public To 		to; // which class inside the hotel
 	public Action 	action; // specific action in that class
+	public int		messageOwnerID;
 	
 	public Response response_code;
 	public String 	response_string;
 	
-	public Header(int i_m, int i_a, String i_n, To i_t, Action i_action){
+	public Header(int i_m, int i_a,int mOID, String i_n, To i_t, Action i_action){
 		msg_id		= i_m;
 		auth_level	= i_a;
 		name_hotel	= i_n;
 		to			= i_t; // which class inside the hotel
 		action		= i_action; // specific action in that class
+		messageOwnerID = mOID;
 	}
 	
 	public Header(int i_m, int i_a, String i_n, To i_t, Action i_action, Response i_res, String res_str){
