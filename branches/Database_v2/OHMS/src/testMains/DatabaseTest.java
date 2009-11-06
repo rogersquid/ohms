@@ -83,7 +83,7 @@ private static void test_addRoom (int i_num){
 		i[4]=1;
 		i[5]=1;
 		i[6]=1;
-		RoomMessage h_msg = new RoomMessage(0, 0, 0, "OHMS", Header.Action.ADD);
+		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -113,7 +113,7 @@ private static void test_addRoom (int i_num){
 		i[4]=1;
 		i[5]=1;
 		i[6]=1;
-		RoomMessage h_msg = new RoomMessage(0, 0, 0, "OHMS", Header.Action.ADD);
+		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "B!E1ST.E ST", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -143,7 +143,7 @@ private static void test_addRoom (int i_num){
 		i[4]=1;
 		i[5]=1;
 		i[6]=1;
-		RoomMessage h_msg = new RoomMessage(0, 0, 0, "OHMS", Header.Action.ADD);
+		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Suite", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -173,7 +173,7 @@ private static void test_addRoom (int i_num){
 		i[4]=1;
 		i[5]=1;
 		i[6]=1;
-		RoomMessage h_msg = new RoomMessage(0, 0, 0, "OHMS", Header.Action.ADD);
+		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -203,10 +203,10 @@ private static void test_addRoom (int i_num){
 		i[4]=1;
 		i[5]=1;
 		i[6]=1;
-		RoomMessage h_msg = new RoomMessage(0,0, 0, "OHMS", Header.Action.ADD);
+		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
-		RoomMessage g_msg = new RoomMessage(0,0, 0, "OHMS", Header.Action.ADD);
+		RoomMessage g_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		g_msg.fill_All(1, "Suite", 1000, 1, 500, true, true, i );
 		hotel.processMessage(g_msg);
 		Header head = h_msg.return_Header();
@@ -230,7 +230,7 @@ private static void test_addAcc (int i_num){
 	if(i_num==0){
 		System.out.println("Test ID 1");
 		System.out.println("Description: Success Added account");
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -253,7 +253,7 @@ private static void test_addAcc (int i_num){
 	if(i_num==1){
 		System.out.println("Test ID 2");
 		System.out.println("Description: Failed to Added account due to invalid Account Type");
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "!s@. #TZ", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -276,7 +276,7 @@ private static void test_addAcc (int i_num){
 	if(i_num==2){
 		System.out.println("Test ID 3");
 		System.out.println("Description: Failed to Added account due to invalid First Name");
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "G.E&*%s", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -299,7 +299,7 @@ private static void test_addAcc (int i_num){
 	if(i_num==3){
 		System.out.println("Test ID 4");
 		System.out.println("Description: Failed to Added account due to invalid Surname");
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "b%^.S", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -322,7 +322,7 @@ private static void test_addAcc (int i_num){
 	if(i_num==4){
 		System.out.println("Test ID 5");
 		System.out.println("Description: Failed to Added account due to invalid password");
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "o/%h m.s", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -345,7 +345,7 @@ private static void test_addAcc (int i_num){
 	if(i_num==5){
 		System.out.println("Test ID 6");
 		System.out.println("Description: Failed to Added account due to invalid Address");
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "Bo!ul.e%!@vard St.", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -368,7 +368,7 @@ private static void test_addAcc (int i_num){
 	if(i_num==6){
 		System.out.println("Test ID 7");
 		System.out.println("Description: Failed to Added account due to invalid email");
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwon#g!gmai*l com");
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -391,14 +391,14 @@ private static void test_addAcc (int i_num){
 	if(i_num==7){
 		System.out.println("Test ID 8");
 		System.out.println("Description: Failed to Added account due to duplicate user");
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
 		Header head=h_msg.return_Header();
 		if(Header.Response.FAIL==head.response_code){
 		
-		AccountMessage g_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage g_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		hotel.processMessage(g_msg);
 		Header head1=g_msg.return_Header();
@@ -426,7 +426,7 @@ private static void test_addAcc (int i_num){
 	if(i_num==8){
 		System.out.println("Test ID 9");
 		System.out.println("Description: Failed to Added account due to multiple blank fields");
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Staff", "", "Wong", "passwd", true, "6047738298", "", "");
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
@@ -453,13 +453,13 @@ private static void test_editAcc (int i_num){
 		System.out.println("Test ID 1");
 		System.out.println("Description: Success Edit Account: First Name");
 		
-		AccountMessage h_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.ADD);
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
 		Hotel hotel = new Hotel("OHMS");
 		h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		hotel.processMessage(h_msg);
 		Header head = h_msg.return_Header();
 		if(Header.Response.SUCCESS==head.response_code){
-		AccountMessage g_msg = new AccountMessage(0,0,0,"OHMS", Header.Action.EDIT);
+		AccountMessage g_msg = new AccountMessage(0,0,"OHMS", Header.Action.EDIT);
 		g_msg.fill_All(1, "Staff", "Will", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong@gmail.com");
 		hotel.processMessage(g_msg);
 		Header head1 = g_msg.return_Header();
@@ -494,14 +494,14 @@ private static void test_editRoom (int i_num){
 		i[1]=1;
 		i[2]=1;
 		
-		RoomMessage h_msg = new RoomMessage(0,0, 0, "OHMS", Header.Action.ADD);
+		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
 		Header head = h_msg.return_Header();
 		if(Header.Response.SUCCESS==head.response_code){
 		
-		RoomMessage g_msg = new RoomMessage(0,0, 0, "OHMS", Header.Action.EDIT);
+		RoomMessage g_msg = new RoomMessage(0, 0, "OHMS", Header.Action.EDIT);
 		g_msg.fill_All(1, "Single", 1000, 1, 750, true, true, i);
 		hotel.processMessage(g_msg);
 		Header head1 = g_msg.return_Header();
@@ -534,14 +534,14 @@ private static void test_deleteRoom (int i_num){
 		i[1]=1;
 		i[2]=1;
 		
-		RoomMessage h_msg = new RoomMessage(0,0, 0, "OHMS", Header.Action.ADD);
+		RoomMessage h_msg = new RoomMessage(0, 0, "OHMS", Header.Action.ADD);
 		h_msg.fill_All(1, "Single", 1000, 1, 500, true, true, i );
 		Hotel hotel = new Hotel("OHMS");
 		hotel.processMessage(h_msg);
 		Header head = h_msg.return_Header();
 		if(Header.Response.SUCCESS==head.response_code){
 		
-		RoomMessage g_msg = new RoomMessage(0,0,0,"OHMS", Header.Action.DELETE);
+		RoomMessage g_msg = new RoomMessage(0,0,"OHMS", Header.Action.DELETE);
 
 			hotel.processMessage(g_msg);
 			Header head1 = g_msg.return_Header();

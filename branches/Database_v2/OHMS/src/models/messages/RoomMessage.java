@@ -11,12 +11,12 @@ public class RoomMessage extends Message {
 	public int 				room_floor;
 	public RoomInventory 	room_specs;
 	
-	public RoomMessage(int i_id, int mOID, int i_auth, String i_name_Hotel, Header.Action i_action) {
-		header 		= new Header(i_id, mOID, i_auth, i_name_Hotel, Header.To.ROOM, i_action);
+	public RoomMessage(int mOID, int i_auth, String i_name_Hotel, Header.Action i_action) {
+		header 		= new Header(mOID, i_auth, i_name_Hotel, Header.To.ROOM, i_action);
 		room_specs 	= new RoomInventory();
 	}
 	public RoomMessage(Header i_header, RoomInventory i_inventory) {
-		header 		= new Header(i_header.msg_id, i_header.messageOwnerID, i_header.auth_level, i_header.name_hotel, i_header.to, i_header.action);
+		header 		= new Header(i_header.messageOwnerID, i_header.auth_level, i_header.name_hotel, i_header.to, i_header.action);
 		room_specs	= i_inventory;
 	}
 	public boolean fill_All(int i_room_id, String i_room_type, int i_room_number, int i_floor, float i_price, boolean i_available, boolean i_clean, int[] i_room_specs){
