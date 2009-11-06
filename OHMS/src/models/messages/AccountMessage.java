@@ -3,8 +3,8 @@ package models.messages;
 import java.util.*;
 
 public class AccountMessage extends Message{
-	public int account_id;
-	public String account_type;
+	public int accountID;
+	public String accountType;
 	public String firstname;
 	public String lastname;
 	public String password;
@@ -21,8 +21,8 @@ public class AccountMessage extends Message{
 		header=i_header;
 	}
 	public boolean fill_All(int i_account_id, String i_account_type, String i_first_name, String i_surname, String i_pw, boolean i_gender, String i_phone, String i_add, String i_mail){
-		account_id		= i_account_id;
-		account_type	= i_account_type;
+		accountID		= i_account_id;
+		accountType	= i_account_type;
 		firstname		= i_first_name;
 		lastname		= i_surname;
 		password		= i_pw;
@@ -34,12 +34,12 @@ public class AccountMessage extends Message{
 	}
 	public AccountMessage deepCopy(){
 		AccountMessage reply= new AccountMessage(this.header);
-		reply.fill_All(account_id, account_type, firstname, lastname, password, gender, phone, address, email);
+		reply.fill_All(accountID, accountType, firstname, lastname, password, gender, phone, address, email);
 		return reply;
 	}
 	public void print_Middle(){
-		System.out.println(account_id);
-		System.out.println(account_type);
+		System.out.println(accountID);
+		System.out.println(accountType);
 		System.out.println(firstname);
 		System.out.println(lastname);
 		System.out.println(password);
