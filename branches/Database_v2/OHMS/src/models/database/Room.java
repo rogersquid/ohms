@@ -170,4 +170,8 @@ public class Room {
 		}
 		return reply.deepCopy();
 	}
+	public RoomMessage[] viewAllRoom(RoomMessage i_msg){
+		RoomMessage[] output= null;
+		return output;
+	}
 }

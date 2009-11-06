@@ -17,7 +17,6 @@ public class Account {
 	 * another thing is to use SQL date rather tan java.util.date
 	 * in booking I have a conversion example if you need it
 	 */
-	
 	public AccountMessage[] viewAllAccount(AccountMessage i_msg){
 		// needs to be implemented
 		AccountMessage[] am=null;
