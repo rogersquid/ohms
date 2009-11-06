@@ -163,6 +163,50 @@ public class Booking {
 	}
 	public BookingMessage[] viewAllBooking(BookingMessage i_msg){
 		BookingMessage[] output= null;
+		Header iheader=i_msg.return_Header();
+		databaseHelper dbcon 	= null;
+		// for customer
+		try {
+			dbcon 				= new databaseHelper(iheader.name_hotel);
+			// booking id or owner + sDate
+			ResultSet rs=dbcon.select("Select count(*) FROM " + iheader.name_hotel + 
+									"_bookings WHERE ownerID='" + i_msg.ownerID +"'");
+			int numberofrows=rs.getInt(1);
+			if(numberofrows<1){
+				output[0].fill_Header_Response(Header.Response.FAIL, "viewAll Booking failed." +
+						" OwnerID: " + i_msg.ownerID);
+				return output;
+			}
+			rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID + "'");
+			int i=0;
+			while (rs.next()) {
+				output[i]=new BookingMessage(iheader.msg_id, iheader.messageOwnerID, iheader.auth_level, iheader.name_hotel, iheader.action);
+				output[i].bookingID=rs.getInt("bookingID");
+				output[i].ownerID= rs.getInt("ownerId");
+				output[i].bookingDate= rs.getDate("bookingDate");
+				output[i].startDate= rs.getDate("startDate");
+				output[i].duration= rs.getInt("duration");
+				output[i].roomID= rs.getInt("roomID");
+				output[i].status = rs.getInt("status");
+				output[i].fill_Header_Response(Header.Response.SUCCESS, "ViewAll one Booking as Requested." +
+						" StartDate: " + i_msg.startDate);
+	        }
+		} catch (SQLException e) {
+			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			output[0].fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
+					" StartDate: " + i_msg.startDate);
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			output[0].fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
+					" StartDate: " + i_msg.startDate);
+		}
+		finally {
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
 		return output;
 	}
 }
