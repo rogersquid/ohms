@@ -180,7 +180,7 @@ public class Booking {
 			rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID + "'");
 			int i=0;
 			while (rs.next()) {
-				output[i]=new BookingMessage(iheader.msg_id, iheader.messageOwnerID, iheader.auth_level, iheader.name_hotel, iheader.action);
+				output[i]=new BookingMessage(iheader.messageOwnerID, iheader.auth_level, iheader.name_hotel, iheader.action);
 				output[i].bookingID=rs.getInt("bookingID");
 				output[i].ownerID= rs.getInt("ownerId");
 				output[i].bookingDate= rs.getDate("bookingDate");

@@ -11,8 +11,8 @@ public class BillMessage extends Message{
 	public String[] 	nameOfItem;
 	public float[]		priceOfItem;
 	
-	public BillMessage(int i_id, int mOID, int i_auth, String i_name_Hotel, Header.Action i_action){
-		header=new Header (i_id, mOID, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
+	public BillMessage(int mOID, int i_auth, String i_name_Hotel, Header.Action i_action){
+		header=new Header (mOID, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
 	}
 	public void initialize(int size){
 		nameOfItem= new String[size];

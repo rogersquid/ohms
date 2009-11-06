@@ -11,8 +11,8 @@ public class Message {
 		header.fill_response(i_res, i_res_str);
 	}
 	public Header return_Header(){
-		Header h=new Header(header.msg_id, 
-							header.auth_level, 
+		Header h=new Header(header.auth_level, 
+							header.messageOwnerID,
 							header.name_hotel, 
 							header.to, 
 							header.action, 
