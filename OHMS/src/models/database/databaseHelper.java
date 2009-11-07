@@ -29,12 +29,29 @@ public class databaseHelper {
 	    return st.executeQuery();
 	}
 	  
+	// modify() is DEPRECATED. use insert or update instead.
 	public int modify(String statement)throws SQLException 
 	{
 		PreparedStatement st  = connection.prepareStatement(statement);
 	    return st.executeUpdate();
 	}
-  
+	
+	public int update(String statement)throws SQLException 
+	{
+		PreparedStatement st  = connection.prepareStatement(statement);
+	    return st.executeUpdate();
+	}	
+	public int insert(String query)throws SQLException 
+	{
+		PreparedStatement st  = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+	    st.executeUpdate();
+		ResultSet res = stmt.getGeneratedKeys();
+		if(res.next()) {
+			return res.getInt(1);
+		} else {
+			return 0;
+		}
+	}
 	public void close() 
 	{
 		try 
