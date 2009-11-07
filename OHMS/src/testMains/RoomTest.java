@@ -7,6 +7,11 @@ import models.messages.RoomMessage;
 public class RoomTest {
 	static int numInventoryItems = 8;
 	
+	public static void main(String [ ] args){
+		System.out.println("\r");
+		test_allRoom();
+	}
+	
 	public static void test_allRoom(){
 		System.out.println("Start Test Rooms \r");
 		for (int i=0; i<8; i++){
@@ -21,6 +26,7 @@ public class RoomTest {
 		for (int l=0; l<8; l++){
 			test_viewRoom(l);
 		}
+		test_viewAllRoom();
 		System.out.println("Finish Test Rooms \r");
 	}
 	
@@ -537,6 +543,35 @@ public class RoomTest {
 					}
 		}
 	}
+
+	private static void test_viewAllRoom (){
+		//=====================View All Tests==========================
+			System.out.println("Test ID 1");
+			System.out.println("Description: Success View All Room");
+			
+			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.VIEWALL);
+			Hotel hotel = new Hotel("OHMS");
+			RoomMessage[] searchResults = (RoomMessage[]) hotel.processMessageReturnBunch(h_msg);
+			Header head = searchResults[0].returnHeader();
+				if(Header.Response.SUCCESS==head.responseCode){
+					System.out.println("Passed Test ID 1");
+					System.out.println("Input: " + h_msg.room_number);
+					System.out.println("Output: ");
+					for (int i = 0; i < searchResults.length; i ++) {
+						test_printRoom(searchResults[i]);
+					}
+					
+					System.out.println("\r");
+				}
+				else{
+					System.out.println("Failed Test ID 1");
+					System.out.println("Expected Output:");
+					System.out.println("Expected Change:");
+					System.out.println("Error Message: " + head.responseString);
+					System.out.println("\r");
+					}
+	}
+	
 	private static void test_printRoom (RoomMessage h_msg){
 		System.out.println("   Room ID: " + h_msg.room_id);
 		System.out.println("   Room Number: " + h_msg.room_number);
