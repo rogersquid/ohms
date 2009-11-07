@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Booking {
 	public BookingMessage addBooking(BookingMessage i_msg){
-		System.out.println("ýnside ADd booking");
+		System.out.println("Inside Add booking");
 		Header iheader=i_msg.return_Header();
 		BookingMessage output=new BookingMessage(iheader.messageOwnerID, iheader.auth_level,iheader.name_hotel, iheader.action);
 		databaseHelper dbcon 	= null;
@@ -15,15 +15,17 @@ public class Booking {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			java.util.Date today 	= new java.util.Date();
 			java.sql.Date now= new java.sql.Date(today.getTime());
-			int returnedRows 	= dbcon.modify("INSERT INTO booking (creationDate, startDate, owner_id, duration, room_id, status) VALUES ('" 
-					+ now
-					+ "', '" + i_msg.startDate + "', '" 
-					+ i_msg.ownerID + "', '" + i_msg.duration
-					+ "' + '" + i_msg.roomID + "', '" + i_msg.status + "')");
+			int returnedRows 	= dbcon.modify("INSERT INTO test_bookings (creationDate, startDate, ownerID, duration, roomID, status) " +
+					"VALUES ('" 
+					+ now + "', '" + i_msg.startDate + "', '" 
+					+ i_msg.ownerID + "', '" + i_msg.duration + "', '" 
+					+ i_msg.roomID + "', '" + i_msg.status + "')");
 			if (returnedRows == 1) {
+				System.out.println("Success");
 				output.fill_Header_Response(Header.Response.SUCCESS, "Added one Booking as Requested." +
 						" StartDate: " + i_msg.startDate);
 			} else {
+				System.out.println("Failure");
 				output.fill_Header_Response(Header.Response.FAIL, "Adding Booking failed." +
 						" StartDate: " + i_msg.startDate);
 			}
@@ -52,7 +54,7 @@ public class Booking {
 		try {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			// bookingDate should it be editttable???
-			int returnedRows = dbcon.modify("UPDATE booking SET ownerID='" + i_msg.ownerID
+			int returnedRows = dbcon.modify("UPDATE test_bookings SET ownerID='" + i_msg.ownerID
 					+ "', creationDate='" +i_msg.creationDate + "', startDate='" + i_msg.startDate
 					+ "', duration='" + i_msg.duration + "', roomID='" + i_msg.roomID
 					+ "', status='" + i_msg.status + "'");
@@ -88,7 +90,7 @@ public class Booking {
 		try {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			// booking id or owner + sDate
-			int returnedRows = dbcon.modify("DELETE FROM booking WHERE bookingID='" + i_msg.bookingID
+			int returnedRows = dbcon.modify("DELETE FROM test_bookings WHERE bookingID='" + i_msg.bookingID
 					+ "'");
 			if (returnedRows == 1) {
 				output.fill_Header_Response(Header.Response.SUCCESS, "Delete one Booking as Requested." +
@@ -122,7 +124,7 @@ public class Booking {
 		try {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			// booking id or owner + sDate
-			ResultSet rs=dbcon.select("Select count(*) FROM booking WHERE ownerID='" + i_msg.ownerID 
+			ResultSet rs=dbcon.select("Select count(*) FROM test_bookings WHERE ownerID='" + i_msg.ownerID 
 					+ " AND bookingDate='" + i_msg.creationDate +"'");
 			int i=rs.getInt(1);
 			if(i!=1){
