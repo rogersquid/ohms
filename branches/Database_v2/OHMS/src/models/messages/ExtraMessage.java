@@ -14,7 +14,7 @@ public class ExtraMessage extends Message{
 		header=new Header (mOID, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
 	}
 
-	public void fillAll(int bID, Date oDate, String eName, float eCost){
+	public void fillAll(Date oDate, int bID, String eName, float eCost){
 		orderDate=oDate;
 		extraName=eName;
 		extraCost=eCost;

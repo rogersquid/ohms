@@ -88,7 +88,7 @@ public class Extras {
 				Date corderDate = rs.getDate("orderDate");
 				String cextraName = rs.getString("extraName");
 				float cextraCost = rs.getFloat("extraCost");
-				output.fillAll(cbookingID, corderDate, cextraName, cextraCost);	      
+				output.fillAll(corderDate, cbookingID, cextraName, cextraCost);	      
 	            }
 			output.fill_Header_Response(Header.Response.SUCCESS, "View one extra as Requested.");
 		} catch (SQLException e) {
