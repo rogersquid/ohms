@@ -169,11 +169,13 @@ public class Booking {
 	public BookingMessage[] viewAllBooking(BookingMessage i_msg){
 		BookingMessage[] output= new BookingMessage[1];
 		Header iheader=i_msg.returnHeader();
+		output[0]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
 		databaseHelper dbcon 	= null;
 		// for customer
 		try {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
 			ResultSet rs=dbcon.select("Select count(*) FROM " + iheader.nameHotel + "_bookings");
+			rs.next();
 			int numberofrows=rs.getInt(1);
 			if(numberofrows<0){
 				output[0].fillHeaderResponse(Header.Response.FAIL, "viewAll Booking failed." +
@@ -187,13 +189,13 @@ public class Booking {
 			}else{
 				output=new BookingMessage[numberofrows];
 			}
-			rs=dbcon.select("Select * FROM " + iheader.nameHotel + "_booking");
+			rs=dbcon.select("Select * FROM " + iheader.nameHotel + "_bookings");
 			int i=0;
 			while (rs.next()) {
 				output[i]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
 				output[i].bookingID=rs.getInt("bookingID");
 				output[i].ownerID= rs.getInt("ownerId");
-				output[i].creationDate= rs.getDate("bookingDate");
+				output[i].creationDate= rs.getDate("creationDate");
 				output[i].startDate= rs.getDate("startDate");
 				output[i].duration= rs.getInt("duration");
 				output[i].roomID= rs.getInt("roomID");
