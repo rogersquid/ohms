@@ -17,7 +17,7 @@ public class Room {
 				reply	= i_msg;
 			} else {
 				dbcon = new databaseHelper(dbname);
-				Header tempHead = i_msg.return_Header();
+				Header tempHead = i_msg.returnHeader();
 				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 				if (rs.next()) {
 					i_msg.fillHeaderResponse(Header.Response.FAIL, "Room number already in database.");
@@ -79,7 +79,7 @@ public class Room {
 				reply	= i_msg;
 			} else {
 				dbcon = new databaseHelper(dbname);
-				Header tempHead = i_msg.return_Header();
+				Header tempHead = i_msg.returnHeader();
 				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 				if (!rs.next()) {
 					i_msg.fillHeaderResponse(Header.Response.FAIL, "Room number is not in database.");
@@ -139,7 +139,7 @@ public class Room {
 				reply	= i_msg;
 			} else {
 				dbcon = new databaseHelper(dbname);
-				Header tempHead = i_msg.return_Header();
+				Header tempHead = i_msg.returnHeader();
 				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 
 				if (!rs.next()) {
@@ -186,7 +186,7 @@ public class Room {
 				reply	= i_msg;
 			} else {
 				dbcon = new databaseHelper(dbname);
-				Header tempHead = i_msg.return_Header();
+				Header tempHead = i_msg.returnHeader();
 				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 				if (!rs.next()) {
 					i_msg.fillHeaderResponse(Header.Response.FAIL, "Room number not in database.");
@@ -236,7 +236,7 @@ public class Room {
 		int i = 0;
 		try {
 			dbcon = new databaseHelper(dbname);
-			Header tempHead = i_msg.return_Header();
+			Header tempHead = i_msg.returnHeader();
 			ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms");
 			if (!rs.next()) {
 				i_msg.fillHeaderResponse(Header.Response.FAIL, "Room number not in database.");
