@@ -8,14 +8,15 @@ public class RoomInventory {
 	
 	public RoomInventory (){
 		specs = new Hashtable();
-		specs.put("onsuite", 	new Boolean(false));
-	    specs.put("tv", 		new Boolean(false));
-	    specs.put("disability", new Boolean(false));
-	    specs.put("elevator", 	new Boolean(false));
-	    specs.put("ebirdcall", 	new Boolean(false));
-	    specs.put("emornpaper", new Boolean(false));
+		specs.put("onsuite", 	new Integer(0));
+	    specs.put("tv", 		new Integer(0));
+	    specs.put("disability", new Integer(0));
+	    specs.put("elevator", 	new Integer(0));
+	    specs.put("ebirdcall", 	new Integer(0));
+	    specs.put("emornpaper", new Integer(0));
 	    specs.put("numBeds", 	new Integer(0));
 	}
+
 	public Object search_Specs(String s_index){
 		return specs.get(s_index);
 	}
@@ -31,12 +32,12 @@ public class RoomInventory {
 	}
 	
 	public void fill_Specs (int[] i_in )  {
-		specs.put("onsuite", (i_in[0] != 0 ));
-		specs.put("tv", (i_in[1] != 0 ));
-		specs.put("disability", (i_in[2] != 0 ));
-		specs.put("elevator", (i_in[3] != 0 ));
-		specs.put("ebirdcall", (i_in[4] != 0 ));
-		specs.put("emornpaper", (i_in[5] != 0 ));
+		specs.put("onsuite", i_in[0]);
+		specs.put("tv", i_in[1]);
+		specs.put("disability", i_in[2]);
+		specs.put("elevator", i_in[3]);
+		specs.put("ebirdcall", i_in[4]);
+		specs.put("emornpaper", i_in[5]);
 		specs.put("numBed", i_in[6]); 
 	}
 	
