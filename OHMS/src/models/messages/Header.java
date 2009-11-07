@@ -23,13 +23,13 @@ public class Header {
 		
 		responseString="";
 	}
-	public Header(int i_m, int i_a, String i_n, To i_t, Action i_action, Response i_res, String res_str){
+	public Header(int i_m, int i_a, String i_n, To i_t, Action i_action, Response i_res, String i_resStr){
 		authLevel		= i_a;
 		nameHotel		= i_n;
 		to				= i_t; // which class inside the hotel
 		action			= i_action; // specific action in that class
 		responseCode	= i_res;
-		responseString	= res_str;	
+		responseString	= i_resStr;	
 	}
 	public void input(int i_mOID, int i_a, String i_n, To i_t, Action i_action){
 		messageOwnerID=i_mOID;
