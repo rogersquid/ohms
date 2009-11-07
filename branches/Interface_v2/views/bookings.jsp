@@ -42,20 +42,49 @@
 
 					<table>
 						<tr>
-							<th>Room</th>
-							<th>Start date</th>
+							<th>Owner ID</th>
+							<th>Room ID</th>
+							<th>Start Date</th>
 							<th>Duration</th>
+							<th>Status</th>
 						</tr>
+						
 						<%
-							for(int i=0; i<5; i++) {
-								%>
-								<tr>
-									<td><%=i %></td>
-									<td><%=i %></td>
-									<td><%=i %></td>
-								</tr>
-								<%
+						BookingMessage[] bookingsArray = request.getAttribute("bookingsArray");
+						// These string arrays hold the data from the array of RoomMessages
+						String owner	[bookingsArray.length];
+						String room		[bookingsArray.length];
+						String date		[bookingsArray.length];
+						String duration	[bookingsArray.length];
+						String status	[bookingsArray.length];
+						
+						// Populate the string arrays
+						for (int i=0; i<bookingsArray.length; i++){
+							owner[i] 	= (String)	reply[i].ownerID;
+							room[i]		= (String)	reply[i].startDate;
+							date[i] 	= (String)	reply[i].duration;
+							duration[i] = (String)	reply[i].roomID;
+							switch (reply[i].status){
+								case 0:	status[i] = "Not checked in";
+								case 1: status[i] = "Checked in";
+								case 2: status[i] = "Checked out";
+								default: status[i] = "ERROR: Status int has unsupported value!";
 							}
+						}
+						
+						// Print the values into the table
+						for(int i=0; i < bookingsArray.length; i++) { 
+							%>
+							<tr>
+								<td></td>
+								<td><%=owner[i]%></td>
+								<td><%=room[i]%></td>
+								<td><%=date[i]%></td>
+								<td><%=duration[i] %></td>
+								<td><%=status[i] %></td>
+							</tr>
+							<%
+						}
 						%>
 					</table>
 				</div>
