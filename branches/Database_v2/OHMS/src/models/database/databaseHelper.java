@@ -5,14 +5,14 @@ import java.sql.*;
 public class databaseHelper {
   	
   private static final String jdbcDriver = "com.mysql.jdbc.Driver";
-	private static final String dbURL = "jdbc:mysql://localhost/";
+	private static final String dbURL = "jdbc:mysql://localhost/ohms";
     
 	private Connection connection; 
   	
   public databaseHelper(String dbname) throws SQLException, ClassNotFoundException 
   	{
     	Class.forName(jdbcDriver); //set Java database connectivity driver
-    	connection = DriverManager.getConnection(dbURL+dbname, "eece419", "dude");
+    	connection = DriverManager.getConnection("eece419", "dude");
 	}
 	
 	public ResultSet select(String query)throws SQLException 
