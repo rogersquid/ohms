@@ -21,7 +21,7 @@ public class ExtrasTest {
 				//Header head=h_msg.return_Header();
 				
 				ExtraMessage reply=(ExtraMessage) hotel.processMessage(h_msg);
-				Header head=reply.return_Header();
+				Header head=reply.returnHeader();
 				if(Header.Response.SUCCESS==head.responseCode){
 				System.out.println("Passed Test ID 1");
 				System.out.println("\r");
@@ -44,7 +44,7 @@ public class ExtrasTest {
 				java.sql.Date date1 = new java.sql.Date(new java.util.Date().getTime());
 				h_msg.fillAll(date1, 5, "TV", 700);
 				hotel.processMessage(g_msg);
-				Header head=h_msg.return_Header();
+				Header head=h_msg.returnHeader();
 				if(Header.Response.SUCCESS==head.responseCode){
 				System.out.println("Passed Test ID 2");
 				System.out.println("\r");
