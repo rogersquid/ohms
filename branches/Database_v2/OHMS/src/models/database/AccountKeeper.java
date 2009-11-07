@@ -45,7 +45,7 @@ public class AccountKeeper {
 	}
 	private AccountMessage view(AccountMessage i_msg){
 		Account anAccount = new Account();
-		return 	anAccount.deleteAccount(i_msg);
+		return 	anAccount.viewAccount(i_msg);
 	}
 	private AccountMessage authenticate(AccountMessage i_msg){
 		//usign autherizations
