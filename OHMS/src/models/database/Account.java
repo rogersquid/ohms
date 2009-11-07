@@ -6,7 +6,7 @@ import models.misc.*;
 
 public class Account {
 	java.util.Date date;
-	String dbname = "default_hotel";
+	String dbname = "ohms";
 	// Creates a unique ID, inserts today's date
 	// Returns true if successful, false if error
 	
