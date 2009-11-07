@@ -8,16 +8,16 @@ public class Message {
 		header.input(i_id, i_auth, i_name_Hotel, i_to, i_action);
 	}
 	public void fill_Header_Response(Header.Response i_res, String i_res_str){
-		header.fill_response(i_res, i_res_str);
+		header.fillResponse(i_res, i_res_str);
 	}
 	public Header return_Header(){
-		Header h=new Header(header.auth_level, 
+		Header h=new Header(header.authLevel, 
 							header.messageOwnerID,
-							header.name_hotel, 
+							header.nameHotel, 
 							header.to, 
 							header.action, 
-							header.response_code, 
-							header.response_string);
+							header.responseCode, 
+							header.responseString);
 		return h;
 	}
 }

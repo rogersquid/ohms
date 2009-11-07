@@ -12,7 +12,7 @@ public class Extras {
 		Header iheader=i_msg.return_Header();
 		databaseHelper dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper(iheader.name_hotel);
+			dbcon 				= new databaseHelper(iheader.nameHotel);
 			java.util.Date today 	= new java.util.Date();
 			java.sql.Date now = new java.sql.Date(today.getTime());
 			int returnedRows = dbcon.modify("INSERT INTO extra (orderDate, extraName, extraCost, bookingID) VALUES ('" 
@@ -48,7 +48,7 @@ public class Extras {
 		Header iheader=i_msg.return_Header();
 		databaseHelper dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper(iheader.name_hotel);
+			dbcon 				= new databaseHelper(iheader.nameHotel);
 
 			int returnedRows = dbcon.modify("DELETE FROM extra WHERE bookingID='" + i_msg.bookingID + "'");
 			if (returnedRows == 1) {
@@ -79,7 +79,7 @@ public class Extras {
 		databaseHelper dbcon 	= null;
 		
 		try {
-			dbcon 				= new databaseHelper(iheader.name_hotel);
+			dbcon 				= new databaseHelper(iheader.nameHotel);
 					
 			ResultSet rs=dbcon.select("Select * FROM extra WHERE bookingID='" + i_msg.bookingID 
 					+ " AND extraName='" + i_msg.extraName +"'");
@@ -113,7 +113,7 @@ public class Extras {
 		Header iheader=i_msg.return_Header();
 		databaseHelper dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper(iheader.name_hotel);
+			dbcon 				= new databaseHelper(iheader.nameHotel);
 
 			int returnedRows = dbcon.modify("UPDATE extra SET extraName='" + i_msg.extraName
 					+ "', extraCost='" + i_msg.extraCost +  "'");
