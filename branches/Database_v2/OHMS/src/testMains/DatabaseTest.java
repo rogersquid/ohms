@@ -5,13 +5,67 @@ import java.util.*;
 
 import models.messages.*;
 import models.database.Hotel;
+import java.sql.*;
 
 public class DatabaseTest {
 	public static void main(String [ ] args){
 		System.out.println("\r");
+
+		//test_alladdRoom();
+		test_Extras(0);
+		test_Extras(1);
+		// WILLIAM - THE CODE LOOKS GOOD AND WELL ORGANISED. TRY TO TAKE THE NAME OF THE HOTEL FROM ARGS
+		// ONCE YOU HAVE THE DATABASE CHECK READY TOO, I THINK THIS WILL WORK WELL
+
 		// test_alladdRoom();
 		testBooking();
+
 	}
+
+private static void test_Extras(int i_num){
+	
+	if (i_num==0){
+	ExtraMessage h_msg = new ExtraMessage(0, 0, 0, "test", Header.Action.ADD);
+	java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+	h_msg.fillAll(date,4, "TV", 700);
+	Hotel hotel = new Hotel("test");
+	hotel.processMessage(h_msg);
+	Header head=h_msg.return_Header();
+	if(Header.Response.SUCCESS==head.response_code){
+	System.out.println("Passed Test ID 1");
+	System.out.println("\r");
+	}
+else{
+	System.out.println("Failed Test ID 1");
+	System.out.println("\r");
+	}
+}
+	
+	if (i_num==1){
+		ExtraMessage h_msg = new ExtraMessage(0, 0, 0, "test", Header.Action.ADD);
+		java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+		h_msg.fillAll(date, 5, "TV", 700);
+		Hotel hotel = new Hotel("test");
+		hotel.processMessage(h_msg);
+		
+		ExtraMessage g_msg = new ExtraMessage(0, 0, 0, "test", Header.Action.DELETE);
+		java.sql.Date date1 = new java.sql.Date(new java.util.Date().getTime());
+		h_msg.fillAll(date1, 5, "TV", 700);
+		hotel.processMessage(g_msg);
+		Header head=h_msg.return_Header();
+		if(Header.Response.SUCCESS==head.response_code){
+		System.out.println("Passed Test ID 2");
+		System.out.println("\r");
+		}
+	else{
+		System.out.println("Failed Test ID 2");
+		System.out.println("\r");
+		}
+	}
+	
+}
+
+
 	private static void testBooking(){
 		System.out.println("Start Running Test for booking");
 		Hotel myHotel= new Hotel("test");
@@ -27,6 +81,7 @@ public class DatabaseTest {
 		Header myHeader=reply.return_Header();
 		System.out.println(myHeader.response_string);
 	}
+	
 private static void test_all(){
 	test_alladdRoom();
 	test_alladdAcc();
