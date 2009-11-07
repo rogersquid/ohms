@@ -8,7 +8,7 @@
 		<script type="text/javascript" src="/ohms/js/date.js"></script>
 		<script type="text/javascript" charset="utf-8"> 
             $(function() {
-				$('.date-pick').datePicker();
+				$('.date-pick').datePicker({clickInput:true})
             });
 		</script> 
 	</head>
