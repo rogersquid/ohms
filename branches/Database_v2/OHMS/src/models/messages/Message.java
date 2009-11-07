@@ -2,15 +2,18 @@ package models.messages;
 
 public class Message {
 	Header header;
-	public void fill_Header_Input(int i_id, int i_auth, 
-									String i_name_Hotel, Header.To i_to, 
+	public void fillHeaderInput(int i_id, int i_auth, 
+									String i_nameHotel, Header.To i_to, 
 									Header.Action i_action){
-		header.input(i_id, i_auth, i_name_Hotel, i_to, i_action);
+		header.input(i_id, i_auth, i_nameHotel, i_to, i_action);
 	}
-	public void fill_Header_Response(Header.Response i_res, String i_res_str){
-		header.fillResponse(i_res, i_res_str);
+	public void fillHeaderResponse(Header.Response i_res, String i_resStr){
+		header.fillResponse(i_res, i_resStr);
 	}
-	public Header return_Header(){
+	public void concatHeaderResponse(Header.Response i_res, String i_resStr){
+		header.concatResponse(i_res, i_resStr);
+	}
+	public Header returnHeader(){
 		Header h=new Header(header.authLevel, 
 							header.messageOwnerID,
 							header.nameHotel, 
