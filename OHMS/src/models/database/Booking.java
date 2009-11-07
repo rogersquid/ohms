@@ -23,7 +23,7 @@ public class Booking {
 			if (returnedRows == 1) {
 				System.out.println("Success");
 				output.fill_Header_Response(Header.Response.SUCCESS, "Added one Booking as Requested." +
-						" StartDate: " + i_msg.startDate);
+						" OwnerID: " + iheader.messageOwnerID);
 			} else {
 				System.out.println("Failure");
 				output.fill_Header_Response(Header.Response.FAIL, "Adding Booking failed." +
@@ -124,25 +124,25 @@ public class Booking {
 		try {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
 			// booking id or owner + sDate
-			ResultSet rs=dbcon.select("Select count(*) FROM test_bookings WHERE ownerID='" + i_msg.ownerID 
-					+ " AND bookingDate='" + i_msg.creationDate +"'");
+			ResultSet rs=dbcon.select("Select count(*) FROM test_bookings WHERE bookingID='" 
+					+ i_msg.bookingID +"'");
 			int i=rs.getInt(1);
 			if(i!=1){
 				output.fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.startDate);
 				return output;
 			}
-			rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID 
-					+ " AND bookingDate='" + i_msg.creationDate +"'");
+			rs=dbcon.select("Select * FROM test_bookings WHERE bookingID='" 
+					+ i_msg.bookingID +"'");
 			while (rs.next()) {
 	            int cbookingID = rs.getInt("bookingID");
 	            int cownerID = rs.getInt("ownerId");
-	            java.sql.Date cbookingDate = rs.getDate("bookingDate");
+	            java.sql.Date creationDate = rs.getDate("creationDate");
 	            java.sql.Date cstartDate = rs.getDate("startDate");
 	            int cduration = rs.getInt("duration");
 	            int croomID = rs.getInt("roomID");
 	            int cstatus = rs.getInt("status");
-	            output.fillAll(cbookingID, cownerID, cbookingDate, cstartDate, cduration, croomID, cstatus);
+	            output.fillAll(cbookingID, cownerID, creationDate, cstartDate, cduration, croomID, cstatus);
 	        }
 			output.fill_Header_Response(Header.Response.SUCCESS, "View one Booking as Requested." +
 						" StartDate: " + i_msg.startDate);
