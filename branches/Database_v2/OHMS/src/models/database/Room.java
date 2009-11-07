@@ -12,7 +12,7 @@ public class Room {
 		databaseHelper 	dbcon = null;
 		try {
 			if (validateParam(i_msg)){
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Invalid input(s).");
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "Invalid input(s).");
 				
 				reply	= i_msg;
 			} else {
@@ -20,7 +20,7 @@ public class Room {
 				Header tempHead = i_msg.return_Header();
 				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 				if (rs.next()) {
-					i_msg.fill_Header_Response(Header.Response.FAIL, "Room number already in database.");
+					i_msg.fillHeaderResponse(Header.Response.FAIL, "Room number already in database.");
 					
 					reply	= i_msg;
 				} else {
@@ -42,11 +42,11 @@ public class Room {
 							i_msg.room_specs.search_Specs("kitchen") + ", " + 
 							i_msg.cleaned + ")");
 					if (insertStatus == 1) {
-						i_msg.fill_Header_Response(Header.Response.SUCCESS, "Room created in database.");
+						i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Room created in database.");
 						
 						reply = i_msg;
 					} else {
-						i_msg.fill_Header_Response(Header.Response.FAIL, "Insert operation failed.");
+						i_msg.fillHeaderResponse(Header.Response.FAIL, "Insert operation failed.");
 						
 						reply = i_msg;
 					}
@@ -55,12 +55,12 @@ public class Room {
 		} catch (SQLException e) {
 			System.err.println("Error in 'addRoom'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed.");
 			reply	= i_msg;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'addRoom'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed.");
 			reply	= i_msg;
 		}
 		finally {
@@ -74,7 +74,7 @@ public class Room {
 		databaseHelper 	dbcon = null;
 		try {
 			if (validateParam(i_msg)){
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Invalid input(s).");
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "Invalid input(s).");
 				
 				reply	= i_msg;
 			} else {
@@ -82,7 +82,7 @@ public class Room {
 				Header tempHead = i_msg.return_Header();
 				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 				if (!rs.next()) {
-					i_msg.fill_Header_Response(Header.Response.FAIL, "Room number is not in database.");
+					i_msg.fillHeaderResponse(Header.Response.FAIL, "Room number is not in database.");
 					
 					reply	= i_msg;
 				} else {
@@ -103,11 +103,11 @@ public class Room {
 						"clean="		+ i_msg.cleaned + " " + 
 						"WHERE roomID=" + i_msg.room_id);
 					if (updateStatus ==1) {
-						i_msg.fill_Header_Response(Header.Response.SUCCESS, "Room updated in database.");
+						i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Room updated in database.");
 						
 						reply = i_msg;
 					} else {
-						i_msg.fill_Header_Response(Header.Response.FAIL, "Update operation failed.");
+						i_msg.fillHeaderResponse(Header.Response.FAIL, "Update operation failed.");
 						
 						reply = i_msg;
 					}
@@ -116,12 +116,12 @@ public class Room {
 		} catch (SQLException e) {
 			System.err.println("Error in 'editRoom'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed.");
 			reply	= i_msg;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'editRoom'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed.");
 			reply	= i_msg;
 		}
 		finally {
@@ -134,7 +134,7 @@ public class Room {
 		databaseHelper 	dbcon = null;
 		try {
 			if (i_msg.room_number < 0) {
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Invalid input(s).");
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "Invalid input(s).");
 				
 				reply	= i_msg;
 			} else {
@@ -143,18 +143,18 @@ public class Room {
 				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 
 				if (!rs.next()) {
-					i_msg.fill_Header_Response(Header.Response.FAIL, "Room number not in database.");
+					i_msg.fillHeaderResponse(Header.Response.FAIL, "Room number not in database.");
 					
 					reply	= i_msg;
 				} else {
 					int deleteStatus = dbcon.modify("DELETE FROM test_rooms WHERE roomNumber = " + i_msg.room_number);
 					
 					if (deleteStatus == 1) {
-						i_msg.fill_Header_Response(Header.Response.SUCCESS, "Room deleted from database.");
+						i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Room deleted from database.");
 						
 						reply = i_msg;
 					} else {
-						i_msg.fill_Header_Response(Header.Response.FAIL, "Delete operation failed.");
+						i_msg.fillHeaderResponse(Header.Response.FAIL, "Delete operation failed.");
 						
 						reply = i_msg;
 					}
@@ -163,12 +163,12 @@ public class Room {
 		} catch (SQLException e) {
 			System.err.println("Error in 'editRoom'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed.");
 			reply	= i_msg;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'editRoom'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed.");
 			reply	= i_msg;
 		}
 		finally {
@@ -181,7 +181,7 @@ public class Room {
 		databaseHelper 	dbcon = null;
 		try {
 			if (i_msg.room_number < 0){
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Invalid input(s).");
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "Invalid input(s).");
 				
 				reply	= i_msg;
 			} else {
@@ -189,7 +189,7 @@ public class Room {
 				Header tempHead = i_msg.return_Header();
 				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 				if (!rs.next()) {
-					i_msg.fill_Header_Response(Header.Response.FAIL, "Room number not in database.");
+					i_msg.fillHeaderResponse(Header.Response.FAIL, "Room number not in database.");
 					
 					reply	= i_msg;
 				} else {
@@ -207,7 +207,7 @@ public class Room {
 								rs.getBoolean("internet"), rs.getBoolean("kitchen"));
 					}
 					
-					i_msg.fill_Header_Response(Header.Response.SUCCESS, "Room retrieved from database.");
+					i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Room retrieved from database.");
 					
 					reply = i_msg;
 				}
@@ -215,12 +215,12 @@ public class Room {
 		} catch (SQLException e) {
 			System.err.println("Error in 'editRoom'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Retrival failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Retrival failed.");
 			reply	= i_msg;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'editRoom'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Retrival failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Retrival failed.");
 			reply	= i_msg;
 		}
 		finally {
@@ -239,7 +239,7 @@ public class Room {
 			Header tempHead = i_msg.return_Header();
 			ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms");
 			if (!rs.next()) {
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Room number not in database.");
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "Room number not in database.");
 				output[0] = i_msg.deepCopy();
 				i++;
 			} else {
@@ -261,19 +261,19 @@ public class Room {
 					tempMsg.room_specs.fill_Specs(rs.getBoolean("onsuite"), rs.getBoolean("tv"), rs.getBoolean("disability"), 
 							rs.getBoolean("elevator"), (Integer)rs.getInt("numBed"), rs.getBoolean("phone"), 
 							rs.getBoolean("internet"), rs.getBoolean("kitchen"));
-					tempMsg.fill_Header_Response(Header.Response.SUCCESS, "Rooms retrieved from database.");
+					tempMsg.fillHeaderResponse(Header.Response.SUCCESS, "Rooms retrieved from database.");
 					output[i++] = tempMsg.deepCopy();
 				}
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'editRoom'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed.");
 			output[0] = i_msg.deepCopy();
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'editRoom'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed.");
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed.");
 			output[0] = i_msg.deepCopy();
 		}
 		finally {
