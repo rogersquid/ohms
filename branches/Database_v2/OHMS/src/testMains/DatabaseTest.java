@@ -30,7 +30,7 @@ public class DatabaseTest {
 		input.roomID=1;
 		input.status=0;
 		BookingMessage reply=(BookingMessage) myHotel.processMessage(input);
-		Header myHeader=reply.return_Header();
+		Header myHeader=reply.returnHeader();
 		System.out.println(myHeader.responseCode);
 		System.out.println(myHeader.responseString);
 		
@@ -39,7 +39,7 @@ public class DatabaseTest {
 		input.ownerID=1;
 		input.startDate= date;
 		reply=(BookingMessage) myHotel.processMessage(input);
-		myHeader=reply.return_Header();
+		myHeader=reply.returnHeader();
 		System.out.println(myHeader.responseCode);
 		System.out.println(myHeader.responseString);
 	}
