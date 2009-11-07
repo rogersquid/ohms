@@ -41,6 +41,10 @@
       <servlet-name>editRoomServlet</servlet-name>
       <servlet-class>controllers.editRoomServlet</servlet-class>
     </servlet>
+	<servlet>
+      <servlet-name>viewallRoomServlet</servlet-name>
+      <servlet-class>controllers.viewallRoomServlet</servlet-class>
+    </servlet>
 
 	<servlet>
 		<servlet-name>bookingServlet</servlet-name>
@@ -78,6 +82,10 @@
     <servlet-mapping>
         <servlet-name>editRoomServlet</servlet-name>
         <url-pattern>/editroom.html</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>viewallRoomServlet</servlet-name>
+		<url-pattern>/rooms.html</url-pattern>
     </servlet-mapping>
 
 	<servlet-mapping>
