@@ -45,7 +45,7 @@ public class databaseHelper {
 	{
 		PreparedStatement st  = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 	    st.executeUpdate();
-		ResultSet res = stmt.getGeneratedKeys();
+		ResultSet res = st.getGeneratedKeys();
 		if(res.next()) {
 			return res.getInt(1);
 		} else {
