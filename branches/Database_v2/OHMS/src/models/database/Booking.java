@@ -15,15 +15,16 @@ public class Booking {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
 			java.util.Date today 	= new java.util.Date();
 			java.sql.Date now= new java.sql.Date(today.getTime());
-			int returnedRows 	= dbcon.modify("INSERT INTO test_bookings (creationDate, startDate, ownerID, duration, roomID, status) " +
+			int returnedRows 	= dbcon.insert("INSERT INTO test_bookings (creationDate, startDate, ownerID, duration, roomID, status) " +
 					"VALUES ('" 
 					+ now + "', '" + i_msg.startDate + "', '" 
 					+ i_msg.ownerID + "', '" + i_msg.duration + "', '" 
 					+ i_msg.roomID + "', '" + i_msg.status + "')");
-			if (returnedRows == 1) {
+			if (returnedRows > 0) {
 				System.out.println("Success");
 				output.fill_Header_Response(Header.Response.SUCCESS, "Added one Booking as Requested." +
 						" OwnerID: " + iheader.messageOwnerID);
+				output.bookingID=returnedRows;
 			} else {
 				System.out.println("Failure");
 				output.fill_Header_Response(Header.Response.FAIL, "Adding Booking failed." +
@@ -94,21 +95,21 @@ public class Booking {
 					+ "'");
 			if (returnedRows == 1) {
 				output.fill_Header_Response(Header.Response.SUCCESS, "Delete one Booking as Requested." +
-						" StartDate: " + i_msg.startDate);
+						" bookingID: " + i_msg.bookingID);
 			} else {
 				output.fill_Header_Response(Header.Response.FAIL, "Deleting Booking failed." +
-						" StartDate: " + i_msg.startDate);
+						" bookingID: " + i_msg.bookingID);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
 			output.fill_Header_Response(Header.Response.FAIL, "Deleting Booking failed." +
-					" StartDate: " + i_msg.startDate);
+					" bookingID: " + i_msg.bookingID);
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
 			output.fill_Header_Response(Header.Response.FAIL, "Deleting Booking failed." +
-					" StartDate: " + i_msg.startDate);
+					" bookingID: " + i_msg.bookingID);
 		}
 		finally {
 			if (dbcon != null) {
@@ -126,6 +127,7 @@ public class Booking {
 			// booking id or owner + sDate
 			ResultSet rs=dbcon.select("Select count(*) FROM test_bookings WHERE bookingID='" 
 					+ i_msg.bookingID +"'");
+			rs.next();
 			int i=rs.getInt(1);
 			if(i!=1){
 				output.fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
