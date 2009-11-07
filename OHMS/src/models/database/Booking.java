@@ -9,10 +9,10 @@ public class Booking {
 	public BookingMessage addBooking(BookingMessage i_msg){
 		System.out.println("Inside Add booking");
 		Header iheader=i_msg.return_Header();
-		BookingMessage output=new BookingMessage(iheader.messageOwnerID, iheader.auth_level,iheader.name_hotel, iheader.action);
+		BookingMessage output=new BookingMessage(iheader.messageOwnerID, iheader.authLevel,iheader.nameHotel, iheader.action);
 		databaseHelper dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper(iheader.name_hotel);
+			dbcon 				= new databaseHelper(iheader.nameHotel);
 			java.util.Date today 	= new java.util.Date();
 			java.sql.Date now= new java.sql.Date(today.getTime());
 			int returnedRows 	= dbcon.modify("INSERT INTO test_bookings (creationDate, startDate, ownerID, duration, roomID, status) " +
@@ -52,7 +52,7 @@ public class Booking {
 		Header iheader=i_msg.return_Header();
 		databaseHelper dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper(iheader.name_hotel);
+			dbcon 				= new databaseHelper(iheader.nameHotel);
 			// bookingDate should it be editttable???
 			int returnedRows = dbcon.modify("UPDATE test_bookings SET ownerID='" + i_msg.ownerID
 					+ "', creationDate='" +i_msg.creationDate + "', startDate='" + i_msg.startDate
@@ -88,7 +88,7 @@ public class Booking {
 		Header iheader=i_msg.return_Header();
 		databaseHelper dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper(iheader.name_hotel);
+			dbcon 				= new databaseHelper(iheader.nameHotel);
 			// booking id or owner + sDate
 			int returnedRows = dbcon.modify("DELETE FROM test_bookings WHERE bookingID='" + i_msg.bookingID
 					+ "'");
@@ -122,7 +122,7 @@ public class Booking {
 		Header iheader=i_msg.return_Header();
 		databaseHelper dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper(iheader.name_hotel);
+			dbcon 				= new databaseHelper(iheader.nameHotel);
 			// booking id or owner + sDate
 			ResultSet rs=dbcon.select("Select count(*) FROM test_bookings WHERE ownerID='" + i_msg.ownerID 
 					+ " AND bookingDate='" + i_msg.creationDate +"'");
@@ -170,9 +170,9 @@ public class Booking {
 		databaseHelper dbcon 	= null;
 		// for customer
 		try {
-			dbcon 				= new databaseHelper(iheader.name_hotel);
+			dbcon 				= new databaseHelper(iheader.nameHotel);
 			// booking id or owner + sDate
-			ResultSet rs=dbcon.select("Select count(*) FROM " + iheader.name_hotel + 
+			ResultSet rs=dbcon.select("Select count(*) FROM " + iheader.nameHotel + 
 									"_bookings WHERE ownerID='" + i_msg.ownerID +"'");
 			int numberofrows=rs.getInt(1);
 			if(numberofrows<1){
@@ -183,7 +183,7 @@ public class Booking {
 			rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID + "'");
 			int i=0;
 			while (rs.next()) {
-				output[i]=new BookingMessage(iheader.messageOwnerID, iheader.auth_level, iheader.name_hotel, iheader.action);
+				output[i]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
 				output[i].bookingID=rs.getInt("bookingID");
 				output[i].ownerID= rs.getInt("ownerId");
 				output[i].creationDate= rs.getDate("bookingDate");

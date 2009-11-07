@@ -17,15 +17,15 @@ public class Accountant {
 	public BillMessage showBill(BillMessage i_msg){
 		RoomKeeper room = new RoomKeeper();
 		Header header = i_msg.return_Header();
-		RoomMessage msgR= new RoomMessage(header.messageOwnerID, header.auth_level, header.name_hotel, Header.Action.VIEW);
+		RoomMessage msgR= new RoomMessage(header.messageOwnerID, header.authLevel, header.nameHotel, Header.Action.VIEW);
 		BookingKeeper book = new BookingKeeper();
-		BookingMessage msgB=new BookingMessage(header.messageOwnerID, header.auth_level, header.name_hotel, Header.Action.VIEW);
+		BookingMessage msgB=new BookingMessage(header.messageOwnerID, header.authLevel, header.nameHotel, Header.Action.VIEW);
 		msgB.bookingID=i_msg.bookingID;
 		BookingMessage replyB=(BookingMessage)book.processMessage(msgB);
 		msgR.room_id=replyB.roomID;
 		RoomMessage replyR = room.processMessage(msgR);
-		BillMessage myReply= new BillMessage(header.messageOwnerID, header.auth_level,
-											header.name_hotel, header.action);
+		BillMessage myReply= new BillMessage(header.messageOwnerID, header.authLevel,
+											header.nameHotel, header.action);
 		myReply.initialize(1);
 		myReply.nameOfItem[0]="Price of the Room";
 		myReply.priceOfItem[0]=replyR.price*replyB.duration;

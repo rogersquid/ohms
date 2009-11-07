@@ -16,7 +16,7 @@ public class RoomMessage extends Message {
 		room_specs 	= new RoomInventory();
 	}
 	public RoomMessage(Header i_header, RoomInventory i_inventory) {
-		header 		= new Header(i_header.messageOwnerID, i_header.auth_level, i_header.name_hotel, i_header.to, i_header.action);
+		header 		= new Header(i_header.messageOwnerID, i_header.authLevel, i_header.nameHotel, i_header.to, i_header.action);
 		room_specs	= i_inventory;
 	}
 	public boolean fill_All(int i_room_id, String i_room_type, int i_room_number, int i_floor, float i_price, boolean i_available, boolean i_clean, int[] i_room_specs){
