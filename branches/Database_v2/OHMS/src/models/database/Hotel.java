@@ -17,6 +17,7 @@ public class Hotel {
 	public Message processMessage(Message i_msg){
 		// Hotel class simply hands the input message to one of the 
 		// Object-Handlers for processing
+		System.out.println("Inside Hotel");
 		Message reply=null;
 		Header head = i_msg.return_Header();
 		if(head.to == Header.To.ACCOUNT){
@@ -25,9 +26,9 @@ public class Hotel {
 		if(head.to == Header.To.ROOM){
 			reply	= roomKeeper.processMessage((RoomMessage) i_msg);
 		}
-		/*if(head.to == Header.To.BOOKING){
-			bookingKeeper.processMessage((Booking_Message) i_msg);
-		}*/
+		if(head.to == Header.To.BOOKING){
+			bookingKeeper.processMessage((BookingMessage) i_msg);
+		}
 		return i_msg;
 	}
 	public Message[] processMessageReturnBunch(Message i_msg){

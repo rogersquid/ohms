@@ -7,14 +7,15 @@ import java.util.Date;
 
 public class Booking {
 	public BookingMessage addBooking(BookingMessage i_msg){
-		BookingMessage output=i_msg;
+		System.out.println("ýnside ADd booking");
 		Header iheader=i_msg.return_Header();
+		BookingMessage output=new BookingMessage(iheader.messageOwnerID, iheader.auth_level,iheader.name_hotel, iheader.action);
 		databaseHelper dbcon 	= null;
 		try {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			java.util.Date today 	= new java.util.Date();
 			java.sql.Date now= new java.sql.Date(today.getTime());
-			int returnedRows 	= dbcon.modify("INSERT INTO booking (date, startDate, owner_id, duration, room_id, status) VALUES ('" 
+			int returnedRows 	= dbcon.modify("INSERT INTO booking (creationDate, startDate, owner_id, duration, room_id, status) VALUES ('" 
 					+ now
 					+ "', '" + i_msg.startDate + "', '" 
 					+ i_msg.ownerID + "', '" + i_msg.duration
@@ -52,7 +53,7 @@ public class Booking {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			// bookingDate should it be editttable???
 			int returnedRows = dbcon.modify("UPDATE booking SET ownerID='" + i_msg.ownerID
-					+ "', bookingDate='" +i_msg.bookingDate + "', startDate='" + i_msg.startDate
+					+ "', creationDate='" +i_msg.creationDate + "', startDate='" + i_msg.startDate
 					+ "', duration='" + i_msg.duration + "', roomID='" + i_msg.roomID
 					+ "', status='" + i_msg.status + "'");
 			if (returnedRows == 1) {
@@ -122,7 +123,7 @@ public class Booking {
 			dbcon 				= new databaseHelper(iheader.name_hotel);
 			// booking id or owner + sDate
 			ResultSet rs=dbcon.select("Select count(*) FROM booking WHERE ownerID='" + i_msg.ownerID 
-					+ " AND bookingDate='" + i_msg.bookingDate +"'");
+					+ " AND bookingDate='" + i_msg.creationDate +"'");
 			int i=rs.getInt(1);
 			if(i!=1){
 				output.fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
@@ -130,12 +131,12 @@ public class Booking {
 				return output;
 			}
 			rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID 
-					+ " AND bookingDate='" + i_msg.bookingDate +"'");
+					+ " AND bookingDate='" + i_msg.creationDate +"'");
 			while (rs.next()) {
 	            int cbookingID = rs.getInt("bookingID");
 	            int cownerID = rs.getInt("ownerId");
-	            Date cbookingDate = rs.getDate("bookingDate");
-	            Date cstartDate = rs.getDate("startDate");
+	            java.sql.Date cbookingDate = rs.getDate("bookingDate");
+	            java.sql.Date cstartDate = rs.getDate("startDate");
 	            int cduration = rs.getInt("duration");
 	            int croomID = rs.getInt("roomID");
 	            int cstatus = rs.getInt("status");
@@ -183,7 +184,7 @@ public class Booking {
 				output[i]=new BookingMessage(iheader.messageOwnerID, iheader.auth_level, iheader.name_hotel, iheader.action);
 				output[i].bookingID=rs.getInt("bookingID");
 				output[i].ownerID= rs.getInt("ownerId");
-				output[i].bookingDate= rs.getDate("bookingDate");
+				output[i].creationDate= rs.getDate("bookingDate");
 				output[i].startDate= rs.getDate("startDate");
 				output[i].duration= rs.getInt("duration");
 				output[i].roomID= rs.getInt("roomID");

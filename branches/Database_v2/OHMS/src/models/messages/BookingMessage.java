@@ -5,8 +5,8 @@ import java.util.*;
 public class BookingMessage extends Message{
 	public int 				bookingID;
 	public int 				ownerID;
-	public Date				bookingDate;
-	public Date 			startDate;
+	public java.sql.Date	creationDate;
+	public java.sql.Date 	startDate;
 	public int 				duration;
 	public int 				roomID;
 	public int 				status; // 0= not yet checked in
@@ -14,10 +14,10 @@ public class BookingMessage extends Message{
 	public BookingMessage(int mOID, int i_auth, String i_name_Hotel, Header.Action i_action){
 		header=new Header (mOID, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
 	}
-	public void fillAll( int bID, int oID, Date bDate, Date sDate, int d, int rID, int s){
+	public void fillAll( int bID, int oID, java.sql.Date bDate, java.sql.Date sDate, int d, int rID, int s){
 		bookingID=bID;
 		ownerID=oID;
-		bookingDate=bDate;
+		creationDate=bDate;
 		startDate=sDate;
 		duration=d;
 		roomID=rID;

@@ -1,16 +1,32 @@
 package testMains;
 
+import java.sql.Date;
+import java.util.*;
+
 import models.messages.*;
 import models.database.Hotel;
 
 public class DatabaseTest {
 	public static void main(String [ ] args){
 		System.out.println("\r");
-		test_alladdRoom();
-		// WILLIAM - THE CODE LOOKS GOOD AND WELL ORGANISED. TRY TO TAKE THE NAME OF THE HOTEL FROM ARGS
-		// ONCE YOU HAVE THE DATABASE CHECK READY TOO, I THINK THIS WILL WORK WELL
+		// test_alladdRoom();
+		testBooking();
 	}
-
+	private static void testBooking(){
+		System.out.println("Start Running Test for booking");
+		Hotel myHotel= new Hotel("test");
+		java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+		BookingMessage input= new BookingMessage(1, 1, "test", Header.Action.ADD);
+		input.bookingID=10;
+		input.startDate=date;
+		input.duration=1;
+		input.ownerID=1;
+		input.roomID=1;
+		input.status=0;
+		BookingMessage reply=(BookingMessage) myHotel.processMessage(input);
+		Header myHeader=reply.return_Header();
+		System.out.println(myHeader.response_string);
+	}
 private static void test_all(){
 	test_alladdRoom();
 	test_alladdAcc();
