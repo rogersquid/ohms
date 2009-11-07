@@ -44,10 +44,9 @@ public class BookingKeeper {
 	}
 	private BookingMessage view(BookingMessage i_msg){
 		Booking aBooking = new Booking();
-		return 	aBooking.deleteBooking(i_msg);
+		return 	aBooking.viewBooking(i_msg);
 	}
 	private BookingMessage[] viewAll(BookingMessage i_msg){
-		//usign autherizations
 		Booking aBooking = new Booking();
 		return 	aBooking.viewAllBooking(i_msg);
 	}
