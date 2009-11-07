@@ -20,6 +20,8 @@ public class Header {
 		to			= i_t; // which class inside the hotel
 		action		= i_action; // specific action in that class
 		messageOwnerID = mOID;
+		
+		responseString="";
 	}
 	public Header(int i_m, int i_a, String i_n, To i_t, Action i_action, Response i_res, String res_str){
 		authLevel		= i_a;
@@ -39,5 +41,9 @@ public class Header {
 	public void fillResponse(Response i_r_c, String i_r_str){
 		responseCode=i_r_c;
 		responseString=i_r_str;
+	}
+	public void concatResponse(Response i_r_c, String input){
+		responseCode=i_r_c;
+		responseString = responseString + input;
 	}
 }
