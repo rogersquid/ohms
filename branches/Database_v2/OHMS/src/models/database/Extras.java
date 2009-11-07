@@ -9,7 +9,7 @@ public class Extras {
 
 	public ExtraMessage addExtra(ExtraMessage i_msg){
 		ExtraMessage output= i_msg;
-		Header iheader=i_msg.return_Header();
+		Header iheader=i_msg.returnHeader();
 		databaseHelper dbcon 	= null;
 		try {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
@@ -21,19 +21,19 @@ public class Extras {
 					+ i_msg.extraCost + "', '" 
 					+ i_msg.bookingID + "')");
 			if (returnedRows == 1) {
-				output.fill_Header_Response(Header.Response.SUCCESS, "Added one extra Requested.");
+				output.fillHeaderResponse(Header.Response.SUCCESS, "Added one extra Requested.");
 			} else {
-				output.fill_Header_Response(Header.Response.FAIL, "Adding extra failed.");
+				output.fillHeaderResponse(Header.Response.FAIL, "Adding extra failed.");
 			}
 			
 		} catch (SQLException e) {
 			System.err.println("Error SQLException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Failed: SQLException");
+			output.fillHeaderResponse(Header.Response.FAIL, "Failed: SQLException");
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Failed: ClassNotFoundException");
+			output.fillHeaderResponse(Header.Response.FAIL, "Failed: ClassNotFoundException");
 		}
 		finally {
 			if (dbcon != null) {
@@ -45,25 +45,25 @@ public class Extras {
 	
 	public ExtraMessage deleteExtra(ExtraMessage i_msg){
 		ExtraMessage output=i_msg;
-		Header iheader=i_msg.return_Header();
+		Header iheader=i_msg.returnHeader();
 		databaseHelper dbcon 	= null;
 		try {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
 
 			int returnedRows = dbcon.modify("DELETE FROM extra WHERE bookingID='" + i_msg.bookingID + "'");
 			if (returnedRows == 1) {
-				output.fill_Header_Response(Header.Response.SUCCESS, "Delete one extra as Requested.");
+				output.fillHeaderResponse(Header.Response.SUCCESS, "Delete one extra as Requested.");
 			} else {
-				output.fill_Header_Response(Header.Response.FAIL, "Deleting extra failed.");
+				output.fillHeaderResponse(Header.Response.FAIL, "Deleting extra failed.");
 			}			
 		} catch (SQLException e) {
 			System.err.println("Error SQLException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Failed: SQLException");
+			output.fillHeaderResponse(Header.Response.FAIL, "Failed: SQLException");
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Failed: ClassNotFoundException");
+			output.fillHeaderResponse(Header.Response.FAIL, "Failed: ClassNotFoundException");
 		}
 		finally {
 			if (dbcon != null) {
@@ -75,7 +75,7 @@ public class Extras {
 	
 	public ExtraMessage viewExtra(ExtraMessage i_msg){
 		ExtraMessage output=i_msg;
-		Header iheader=i_msg.return_Header();
+		Header iheader=i_msg.returnHeader();
 		databaseHelper dbcon 	= null;
 		
 		try {
@@ -90,15 +90,15 @@ public class Extras {
 				float cextraCost = rs.getFloat("extraCost");
 				output.fillAll(corderDate, cbookingID, cextraName, cextraCost);	      
 	            }
-			output.fill_Header_Response(Header.Response.SUCCESS, "View one extra as Requested.");
+			output.fillHeaderResponse(Header.Response.SUCCESS, "View one extra as Requested.");
 		} catch (SQLException e) {
 			System.err.println("Error SQLException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "view extra failed.");
+			output.fillHeaderResponse(Header.Response.FAIL, "view extra failed.");
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "view extra failed.");
+			output.fillHeaderResponse(Header.Response.FAIL, "view extra failed.");
 		}
 		finally {
 			if (dbcon != null) {
@@ -110,7 +110,7 @@ public class Extras {
 
 	public ExtraMessage editExtra(ExtraMessage i_msg){		
 		ExtraMessage output=i_msg;
-		Header iheader=i_msg.return_Header();
+		Header iheader=i_msg.returnHeader();
 		databaseHelper dbcon 	= null;
 		try {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
@@ -118,18 +118,18 @@ public class Extras {
 			int returnedRows = dbcon.modify("UPDATE extra SET extraName='" + i_msg.extraName
 					+ "', extraCost='" + i_msg.extraCost +  "'");
 			if (returnedRows == 1) {
-				output.fill_Header_Response(Header.Response.SUCCESS, "Edited one extra as Requested.");
+				output.fillHeaderResponse(Header.Response.SUCCESS, "Edited one extra as Requested.");
 			} else {
-				output.fill_Header_Response(Header.Response.FAIL, "Editting extra failed.");
+				output.fillHeaderResponse(Header.Response.FAIL, "Editting extra failed.");
 			}
 		} catch (SQLException e) {
 			System.err.println("Error SQLException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Editting extra failed.");
+			output.fillHeaderResponse(Header.Response.FAIL, "Editting extra failed.");
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Editting extra failed.");
+			output.fillHeaderResponse(Header.Response.FAIL, "Editting extra failed.");
 		}
 		finally {
 			if (dbcon != null) {
@@ -142,7 +142,7 @@ public class Extras {
 	
 	public ExtraMessage[] viewAllExtra(ExtraMessage i_msg){
 			ExtraMessage[] output= null;
-			Header iheader=i_msg.return_Header();
+			Header iheader=i_msg.returnHeader();
 			databaseHelper dbcon 	= null;
 			// for customer
 			try {
@@ -152,7 +152,7 @@ public class Extras {
 										"_extra WHERE bookingID='" + i_msg.bookingID +"'");
 				int numberofrows=rs.getInt(1);
 				if(numberofrows<1){
-					output[0].fill_Header_Response(Header.Response.FAIL, "viewAll Booking failed." +
+					output[0].fillHeaderResponse(Header.Response.FAIL, "viewAll Booking failed." +
 							" bookingID: " + i_msg.bookingID);
 					return output;
 				}
@@ -165,17 +165,17 @@ public class Extras {
 					output[i].extraCost=rs.getFloat("extraCost");
 					output[i].orderDate= rs.getDate("orderDate");
 					
-					output[i].fill_Header_Response(Header.Response.SUCCESS, "ViewAll one Booking as Requested.");
+					output[i].fillHeaderResponse(Header.Response.SUCCESS, "ViewAll one Booking as Requested.");
 					i++;
 		        }
 			} catch (SQLException e) {
 				System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 				e.printStackTrace(System.err);
-				output[0].fill_Header_Response(Header.Response.FAIL, "view Booking failed.");
+				output[0].fillHeaderResponse(Header.Response.FAIL, "view Booking failed.");
 			} catch (ClassNotFoundException e) {
 				System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 				e.printStackTrace(System.err);
-				output[0].fill_Header_Response(Header.Response.FAIL, "view Booking failed.");
+				output[0].fillHeaderResponse(Header.Response.FAIL, "view Booking failed.");
 			}
 			finally {
 				if (dbcon != null) {
