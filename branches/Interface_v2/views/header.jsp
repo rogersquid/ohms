@@ -5,6 +5,7 @@
 		<title>OHMS &raquo; Hotel Management</title>
 		<link rel='stylesheet' type='text/css' href='/ohms/ohms.css' />
 		<script type="text/javascript" src="/ohms/js/jquery.js"></script>
+		<script type="text/javascript" src="/ohms/js/datepicker-jquery.js"></script>
 		<script type="text/javascript" src="/ohms/js/date.js"></script>
 		<script type="text/javascript" charset="utf-8"> 
             $(function() {
