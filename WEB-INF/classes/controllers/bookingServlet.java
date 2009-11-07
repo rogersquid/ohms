@@ -48,7 +48,7 @@ public class bookingServlet extends HttpServlet {
 
 			Hotel hotel 			= new Hotel(hotelname);
 			BookingMessage reply 	= (BookingMessage)hotel.processMessage(message);
-			Header replyHeader 		= reply.return_Header();
+			Header replyHeader 		= reply.returnHeader();
 
 			if(replyHeader.responseCode == Header.Response.SUCCESS) {
 				request.setAttribute("status", "booking_success");
