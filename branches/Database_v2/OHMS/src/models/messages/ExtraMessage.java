@@ -10,7 +10,7 @@ public class ExtraMessage extends Message{
 	public float			extraCost;
 	public Date				orderDate;
 	
-	public ExtraMessage(int i_id, int mOID, int i_auth, String i_name_Hotel, Header.Action i_action){
+	public ExtraMessage(int mOID, int i_auth, String i_name_Hotel, Header.Action i_action){
 		header=new Header (mOID, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
 	}
 

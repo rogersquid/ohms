@@ -141,8 +141,49 @@ public class Extras {
 	}
 	
 	public ExtraMessage[] viewAllExtra(ExtraMessage i_msg){
-		ExtraMessage[] output= null;
-		return output;
+			ExtraMessage[] output= null;
+			Header iheader=i_msg.return_Header();
+			databaseHelper dbcon 	= null;
+			// for customer
+			try {
+				dbcon 				= new databaseHelper(iheader.nameHotel);
+				// booking id or owner + sDate
+				ResultSet rs=dbcon.select("Select count(*) FROM " + iheader.nameHotel + 
+										"_extra WHERE bookingID='" + i_msg.bookingID +"'");
+				int numberofrows=rs.getInt(1);
+				if(numberofrows<1){
+					output[0].fill_Header_Response(Header.Response.FAIL, "viewAll Booking failed." +
+							" bookingID: " + i_msg.bookingID);
+					return output;
+				}
+				rs=dbcon.select("Select * FROM extra WHERE bookingID='" + i_msg.bookingID + "'");
+				int i=0;
+				while (rs.next()) {
+					output[i]=new ExtraMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
+					output[i].bookingID=rs.getInt("bookingID");
+					output[i].extraName=rs.getString("extraName");
+					output[i].extraCost=rs.getFloat("extraCost");
+					output[i].orderDate= rs.getDate("orderDate");
+					
+					output[i].fill_Header_Response(Header.Response.SUCCESS, "ViewAll one Booking as Requested.");
+					i++;
+		        }
+			} catch (SQLException e) {
+				System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+				e.printStackTrace(System.err);
+				output[0].fill_Header_Response(Header.Response.FAIL, "view Booking failed.");
+			} catch (ClassNotFoundException e) {
+				System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+				e.printStackTrace(System.err);
+				output[0].fill_Header_Response(Header.Response.FAIL, "view Booking failed.");
+			}
+			finally {
+				if (dbcon != null) {
+					dbcon.close();
+				}
+			}
+			return output;
 	}
+	
 	
 }
