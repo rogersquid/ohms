@@ -17,11 +17,11 @@ public class viewallRoomServlet extends HttpServlet {
 		int userid 				= 1;
 		int authlevel 			= 3;
 		String hotelname 		= "test";
-		BookingMessage message 	= new RoomMessage(userid, authlevel, hotelname, Header.Action.VIEWALL);
+		RoomMessage message 	= new RoomMessage(userid, authlevel, hotelname, Header.Action.VIEWALL);
 
 		Hotel hotel 			= new Hotel(hotelname);
-		BookingMessage[] reply 	= (RoomMessage)hotel.processMessageReturnBunch(message);
-		Header replyHeader 		= reply.return_Header();
+		RoomMessage[] reply 	= (RoomMessage)hotel.processMessageReturnBunch(message);
+		Header replyHeader 		= reply.returnHeader();
 		
 		request.setAttribute("roomsArray", 		reply);
 		getServletContext().getRequestDispatcher("/views/viewall_room.jsp").include(request, response);
