@@ -6,13 +6,21 @@ public class databaseHelper {
   	
   private static final String jdbcDriver = "com.mysql.jdbc.Driver";
 	private static final String dbURL = "jdbc:mysql://localhost/ohms";
-    
+	private static final String username  = "eece419";
+    private static final String password  = "dude";
+	
 	private Connection connection; 
   	
-  public databaseHelper(String dbname) throws SQLException, ClassNotFoundException 
+    public databaseHelper(String dbname) throws SQLException, ClassNotFoundException 
   	{
     	Class.forName(jdbcDriver); //set Java database connectivity driver
-    	connection = DriverManager.getConnection("eece419", "dude");
+    	connection = DriverManager.getConnection(dbURL, username, password);
+	}
+	
+	public databaseHelper() throws SQLException, ClassNotFoundException 
+  	{
+    	Class.forName(jdbcDriver); //set Java database connectivity driver
+    	connection = DriverManager.getConnection(dbURL, username, password);
 	}
 	
 	public ResultSet select(String query)throws SQLException 
