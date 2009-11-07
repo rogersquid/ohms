@@ -1,3 +1,5 @@
+@import url("datepicker.css")
+
 body { background: #ddd; color: #333; font-family: Arial, Helvetica, Geneva, sans-serif; font-size: 13px; text-align:center; line-height: 1.3em; margin: 0 0 0 0; padding: 0; }
 a, a:visited { color: #11959A; }
 a:hover { color: #9A5A11; }
