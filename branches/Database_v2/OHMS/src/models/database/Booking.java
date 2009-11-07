@@ -8,7 +8,7 @@ import java.util.Date;
 public class Booking {
 	public BookingMessage addBooking(BookingMessage i_msg){
 		System.out.println("Inside Add booking");
-		Header iheader=i_msg.return_Header();
+		Header iheader=i_msg.returnHeader();
 		BookingMessage output=new BookingMessage(iheader.messageOwnerID, iheader.authLevel,iheader.nameHotel, iheader.action);
 		databaseHelper dbcon 	= null;
 		try {
@@ -22,23 +22,23 @@ public class Booking {
 					+ i_msg.roomID + "', '" + i_msg.status + "')");
 			if (returnedRows > 0) {
 				System.out.println("Success");
-				output.fill_Header_Response(Header.Response.SUCCESS, "Added one Booking as Requested." +
+				output.fillHeaderResponse(Header.Response.SUCCESS, "Added one Booking as Requested." +
 						" OwnerID: " + iheader.messageOwnerID);
 				output.bookingID=returnedRows;
 			} else {
 				System.out.println("Failure");
-				output.fill_Header_Response(Header.Response.FAIL, "Adding Booking failed." +
+				output.fillHeaderResponse(Header.Response.FAIL, "Adding Booking failed." +
 						" StartDate: " + i_msg.startDate);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Adding Booking failed." +
+			output.fillHeaderResponse(Header.Response.FAIL, "Adding Booking failed." +
 					" StartDate: " + i_msg.startDate);
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Adding Booking failed." +
+			output.fillHeaderResponse(Header.Response.FAIL, "Adding Booking failed." +
 					" StartDate: " + i_msg.startDate);
 		}
 		finally {
@@ -50,7 +50,7 @@ public class Booking {
 	}
 	public BookingMessage editBooking(BookingMessage i_msg){
 		BookingMessage output=i_msg;
-		Header iheader=i_msg.return_Header();
+		Header iheader=i_msg.returnHeader();
 		databaseHelper dbcon 	= null;
 		try {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
@@ -60,21 +60,21 @@ public class Booking {
 					+ "', duration='" + i_msg.duration + "', roomID='" + i_msg.roomID
 					+ "', status='" + i_msg.status + "'");
 			if (returnedRows == 1) {
-				output.fill_Header_Response(Header.Response.SUCCESS, "Edited one Booking as Requested." +
+				output.fillHeaderResponse(Header.Response.SUCCESS, "Edited one Booking as Requested." +
 						" StartDate: " + i_msg.startDate);
 			} else {
-				output.fill_Header_Response(Header.Response.FAIL, "Editting Booking failed." +
+				output.fillHeaderResponse(Header.Response.FAIL, "Editting Booking failed." +
 						" StartDate: " + i_msg.startDate);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Editting Booking failed." +
+			output.fillHeaderResponse(Header.Response.FAIL, "Editting Booking failed." +
 					" StartDate: " + i_msg.startDate);
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Editting Booking failed." +
+			output.fillHeaderResponse(Header.Response.FAIL, "Editting Booking failed." +
 					" StartDate: " + i_msg.startDate);
 		}
 		finally {
@@ -86,7 +86,7 @@ public class Booking {
 	}
 	public BookingMessage deleteBooking(BookingMessage i_msg){
 		BookingMessage output=i_msg;
-		Header iheader=i_msg.return_Header();
+		Header iheader=i_msg.returnHeader();
 		databaseHelper dbcon 	= null;
 		try {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
@@ -94,21 +94,21 @@ public class Booking {
 			int returnedRows = dbcon.modify("DELETE FROM test_bookings WHERE bookingID='" + i_msg.bookingID
 					+ "'");
 			if (returnedRows == 1) {
-				output.fill_Header_Response(Header.Response.SUCCESS, "Delete one Booking as Requested." +
+				output.fillHeaderResponse(Header.Response.SUCCESS, "Delete one Booking as Requested." +
 						" bookingID: " + i_msg.bookingID);
 			} else {
-				output.fill_Header_Response(Header.Response.FAIL, "Deleting Booking failed." +
+				output.fillHeaderResponse(Header.Response.FAIL, "Deleting Booking failed." +
 						" bookingID: " + i_msg.bookingID);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Deleting Booking failed." +
+			output.fillHeaderResponse(Header.Response.FAIL, "Deleting Booking failed." +
 					" bookingID: " + i_msg.bookingID);
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "Deleting Booking failed." +
+			output.fillHeaderResponse(Header.Response.FAIL, "Deleting Booking failed." +
 					" bookingID: " + i_msg.bookingID);
 		}
 		finally {
@@ -120,7 +120,7 @@ public class Booking {
 	}
 	public BookingMessage viewBooking(BookingMessage i_msg){
 		BookingMessage output=i_msg;
-		Header iheader=i_msg.return_Header();
+		Header iheader=i_msg.returnHeader();
 		databaseHelper dbcon 	= null;
 		try {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
@@ -130,7 +130,7 @@ public class Booking {
 			rs.next();
 			int i=rs.getInt(1);
 			if(i!=1){
-				output.fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
+				output.fillHeaderResponse(Header.Response.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.startDate);
 				return output;
 			}
@@ -146,17 +146,17 @@ public class Booking {
 	            int cstatus = rs.getInt("status");
 	            output.fillAll(cbookingID, cownerID, creationDate, cstartDate, cduration, croomID, cstatus);
 	        }
-			output.fill_Header_Response(Header.Response.SUCCESS, "View one Booking as Requested." +
+			output.fillHeaderResponse(Header.Response.SUCCESS, "View one Booking as Requested." +
 						" StartDate: " + i_msg.startDate);
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
+			output.fillHeaderResponse(Header.Response.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.startDate);
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			output.fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
+			output.fillHeaderResponse(Header.Response.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.startDate);
 		}
 		finally {
@@ -168,7 +168,7 @@ public class Booking {
 	}
 	public BookingMessage[] viewAllBooking(BookingMessage i_msg){
 		BookingMessage[] output= null;
-		Header iheader=i_msg.return_Header();
+		Header iheader=i_msg.returnHeader();
 		databaseHelper dbcon 	= null;
 		// for customer
 		try {
@@ -178,12 +178,12 @@ public class Booking {
 									"_bookings WHERE bookingID='" + i_msg.bookingID +"'");
 			int numberofrows=rs.getInt(1);
 			if(numberofrows<0){
-				output[0].fill_Header_Response(Header.Response.FAIL, "viewAll Booking failed." +
+				output[0].fillHeaderResponse(Header.Response.FAIL, "viewAll Booking failed." +
 						" OwnerID: " + i_msg.ownerID);
 				return output;
 			}
 			else if (numberofrows==0){
-				output[0].fill_Header_Response(Header.Response.SUCCESS, "There is no booking." +
+				output[0].fillHeaderResponse(Header.Response.SUCCESS, "There is no booking." +
 						" OwnerID: " + i_msg.ownerID);
 				return output;
 			}
@@ -198,19 +198,19 @@ public class Booking {
 				output[i].duration= rs.getInt("duration");
 				output[i].roomID= rs.getInt("roomID");
 				output[i].status = rs.getInt("status");
-				output[i].fill_Header_Response(Header.Response.SUCCESS, "ViewAll one Booking as Requested." +
+				output[i].fillHeaderResponse(Header.Response.SUCCESS, "ViewAll one Booking as Requested." +
 						" StartDate: " + i_msg.startDate);
 				i++;
 	        }
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			output[0].fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
+			output[0].fillHeaderResponse(Header.Response.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.startDate);
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			output[0].fill_Header_Response(Header.Response.FAIL, "view Booking failed." +
+			output[0].fillHeaderResponse(Header.Response.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.startDate);
 		}
 		finally {
