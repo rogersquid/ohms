@@ -3,6 +3,7 @@ package models.database;
 import java.sql.*;
 import models.messages.*;
 import models.misc.*;
+import java.text.*;
 
 public class Account {
 	java.util.Date date;
@@ -121,14 +122,108 @@ public class Account {
 	// Deletes the account selected by the email or the id
 	// Returns true if successful
 	public AccountMessage deleteAccount(AccountMessage i_msg) {
-		AccountMessage reply	= null;
-		return reply;
+		// Verify parameters are valid.
+		// No date error checking implemented 
+		AccountMessage reply = null;
+		databaseHelper dbcon 	= null;
+		try {
+			dbcon = new databaseHelper(dbname);
+			int returnedRows = dbcon.modify("DELETE FROM account WHERE accountID='" + i_msg.accountID 
+					+ "')");
+			if (returnedRows == 1) 
+			{
+				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Deleted Account as Requested." +
+						" Account ID: " + i_msg.accountID);
+				reply	= i_msg;
+			}
+			else 
+			{
+				i_msg.fill_Header_Response(Header.Response.FAIL, "Delete failed." +
+						" Account ID: " + i_msg.accountID);
+				reply	= i_msg;
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'deleteAccount'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed." +
+					" Account ID: " + i_msg.accountID);
+			reply	= i_msg;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'deleteAccount'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed." +
+					" Account ID: " + i_msg.accountID);
+			reply	= i_msg;
+		}
+		finally {
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		return reply.deepCopy();
 	}
 	// Fetch Variable data from the database
 	// If user does not exist, return false
 	public AccountMessage viewAccount(AccountMessage i_msg) {
-		AccountMessage reply	= null;
-		return reply;
+		// Verify parameters are valid.
+		// No date error checking implemented 
+		AccountMessage reply = null;
+		databaseHelper dbcon 	= null;
+		try {
+			dbcon = new databaseHelper(dbname);
+			ResultSet returnedSet = dbcon.select("SELECT * FROM account WHERE accountID='" + i_msg.accountID 
+					+ "')");
+			if (returnedSet.first()) 
+			{
+				int r_account_id = returnedSet.getInt("accountID");
+				String r_account_type = returnedSet.getString("accountType"); 
+				String r_first_name = returnedSet.getString("firstName");  
+				String r_surname = returnedSet.getString("lastName");  
+				boolean r_gender = returnedSet.getBoolean("gender");  
+				String r_phone = returnedSet.getString("phone"); ; 
+				String r_mail = returnedSet.getString("email"); 
+				String r_add = returnedSet.getString("address"); 
+				String r_date = returnedSet.getString("date"); 
+				
+				reply.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
+				DateFormat formatter = DateFormat.getDateInstance();
+				reply.date = formatter.parse(r_date);
+				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Return Account as Requested." +
+						" Account ID: " + i_msg.accountID);
+				reply	= i_msg;
+			}
+			else 
+			{
+				i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+						" Account ID: " + i_msg.accountID);
+				reply	= i_msg;
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'viewAccount'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+					" Account ID: " + i_msg.accountID);
+			reply	= i_msg;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'viewAccount'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+					" Account ID: " + i_msg.accountID);
+			reply	= i_msg;
+		} catch (ParseException e)
+		{
+			System.err.println("Error in 'viewAccount'.  ParseException was thrown from parsing the date:");
+			e.printStackTrace(System.err);
+			i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+					" Account ID: " + i_msg.accountID);
+			reply	= i_msg;
+		}
+		finally {
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		return reply.deepCopy();
 	}
 	// authentication is job of authenticator he will  use view.
 }
