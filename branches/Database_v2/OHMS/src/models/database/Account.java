@@ -260,6 +260,69 @@ public class Account {
 		return reply.deepCopy();
 	}
 	// authentication is job of authenticator he will  use view.
+	
+	public AccountMessage login(AccountMessage i_msg) {
+		// Verify parameters are valid.
+		// No date error checking implemented 
+		AccountMessage reply = null;
+		databaseHelper dbcon 	= null;
+		try {
+			dbcon = new databaseHelper(dbname);
+			String md5_password = MD5.hashString(i_msg.password);
+			ResultSet returnedSet = dbcon.select("SELECT * FROM account WHERE email='" + i_msg.email 
+					+ "' AND password='"+md5_password+"'"");
+			if (returnedSet.first()) 
+			{
+				int r_account_id = returnedSet.getInt("accountID");
+				String r_account_type = returnedSet.getString("accountType"); 
+				String r_first_name = returnedSet.getString("firstName");  
+				String r_surname = returnedSet.getString("lastName");  
+				boolean r_gender = returnedSet.getBoolean("gender");  
+				String r_phone = returnedSet.getString("phone"); ; 
+				String r_mail = returnedSet.getString("email"); 
+				String r_add = returnedSet.getString("address"); 
+				String r_date = returnedSet.getString("date"); 
+				
+				reply.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
+				DateFormat formatter = DateFormat.getDateInstance();
+				reply.date = formatter.parse(r_date);
+				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Login successful." +
+						" Account email: " + i_msg.email);
+				reply	= i_msg;
+			}
+			else 
+			{
+				i_msg.fill_Header_Response(Header.Response.FAIL, "Login failed." +
+						" Account email: " + i_msg.email);
+				reply	= i_msg;
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'login'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+					" Account email: " + i_msg.email);
+			reply	= i_msg;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'login'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+					" Account email: " + i_msg.email);
+			reply	= i_msg;
+		} catch (ParseException e)
+		{
+			System.err.println("Error in 'viewAccount'.  ParseException was thrown from parsing the date:");
+			e.printStackTrace(System.err);
+			i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+					" Account email: " + i_msg.email);
+			reply	= i_msg;
+		}
+		finally {
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		return reply.deepCopy();
+	}
 
 //	public AccountMessage validateParams(AccountMessage i_msg){
 //		AccountMessage 	reply;

@@ -2,22 +2,18 @@ package models.database;
 import java.sql.SQLException;
 
 import models.messages.*;
+import models.misc.*;
 import java.sql.*;
-public class Authorization {
-	
-	public String dbname = "default_hotel";
-	
-	public AuthMessage getAuthLevel(AuthMessage i_msg)
+
+public static class Authorization 
+{
+	public static AuthMessage getAuthLevel(AuthMessage i_msg)
 	{
-		
 		AuthMessage reply = null;
-		
 		databaseHelper 	dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper(dbname);
-			
+			dbcon 				= new databaseHelper();
 			ResultSet results = dbcon.select("SELECT authLevel FROM account WHERE accountID="+ i_msg.account_id);
-			
 			if (results.first()) {
 				i_msg.authLevel = results.getInt(results.findColumn("authLevel"));
 				i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Got authorization level for" +
@@ -47,7 +43,6 @@ public class Authorization {
 			}
 		}
 		return reply.deepCopy();
-		
 	}
-	
+
 }
