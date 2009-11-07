@@ -11,7 +11,7 @@
 
 						if(request.getAttribute("status")=="booking_success") {
 							%>
-							<div class='success'>Booking successfully made: <%=request.getAttribute("message") %></div>
+							<div class='success'><%=request.getAttribute("message") %></div>
 							<%
 						}
 					%>
@@ -27,7 +27,7 @@
 							</tr>
 							<tr>
 								<td>Start date: </td>
-								<td><input type='text' name='startDate' /></td>
+								<td><input type='text' name='startDate' class='date-pick' /></td>
 							</tr>
 							<tr>
 								<td>Duration: </td>
