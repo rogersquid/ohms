@@ -1,11 +1,7 @@
 package testMains;
 
-import java.sql.Date;
-import java.util.*;
-
 import models.messages.*;
 import models.database.Hotel;
-import java.sql.*;
 
 public class DatabaseTest {
 	public static void main(String [ ] args){
