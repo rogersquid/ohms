@@ -27,9 +27,9 @@ public class Hotel {
 			reply	= roomKeeper.processMessage((RoomMessage) i_msg);
 		}
 		if(head.to == Header.To.BOOKING){
-			bookingKeeper.processMessage((BookingMessage) i_msg);
+			reply = bookingKeeper.processMessage((BookingMessage) i_msg);
 		}
-		return i_msg;
+		return reply;
 	}
 	public Message[] processMessageReturnBunch(Message i_msg){
 		// Hotel class simply hands the input message to one of the 
