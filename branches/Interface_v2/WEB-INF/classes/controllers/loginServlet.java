@@ -5,7 +5,6 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import models.messages.*;
-import models.messages.message_Helper.*;
 import models.database.*;
 
 public class loginServlet extends HttpServlet {
@@ -21,22 +20,24 @@ public class loginServlet extends HttpServlet {
 	{
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		
+
 		int userid = 0;
 		int authlevel = 0;
 		String hotelname = "default_hotel";
-		Account_Message message = new Account_Message(userid, authlevel, hotelname, Header.Action.LOGIN);
+		AccountMessage message = new AccountMessage(userid, authlevel, hotelname, Header.Action.AUTHENTICATE);
 		message.email = email;
 		message.password = password;
-		
+
 		Hotel hotel = new Hotel(hotelname);
-		hotel.process_Message(message);
-		
-		if(message.header.response_code == Header.Response.SUCCESS) {
+		AccountMessage reply = (AccountMessage)hotel.processMessage(message);
+		Header replyHeader = reply.return_Header();
+
+		if(replyHeader.response_code == Header.Response.SUCCESS) {
 			request.setAttribute("email", email);
 			getServletContext().getRequestDispatcher("/views/login_success.jsp").include(request, response);
 		} else {
 			request.setAttribute("status", "login_failed");
+			request.setAttribute("message", replyHeader.response_string);
 			getServletContext().getRequestDispatcher("/views/login_form.jsp").include(request, response);
 		}
 	}
