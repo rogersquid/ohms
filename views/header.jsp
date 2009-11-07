@@ -4,6 +4,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>OHMS &raquo; Hotel Management</title>
 		<link rel='stylesheet' type='text/css' href='/ohms/ohms.css' />
+		<script type="text/javascript" src="/ohms/js/jquery.js"></script>
+		<script type="text/javascript" src="/ohms/js/date.js"></script>
 	</head>
 	<body>
 		<div id='wrapper'>
