@@ -19,7 +19,7 @@ public class Hotel {
 		// Object-Handlers for processing
 		System.out.println("Inside Hotel");
 		Message reply=null;
-		Header head = i_msg.return_Header();
+		Header head = i_msg.returnHeader();
 		if(head.to == Header.To.ACCOUNT){
 			reply	= accountKeeper.processMessage((AccountMessage) i_msg);
 		}
@@ -35,7 +35,7 @@ public class Hotel {
 		// Hotel class simply hands the input message to one of the 
 		// Object-Handlers for processing
 		Message reply[]=null;
-		Header head = i_msg.return_Header();
+		Header head = i_msg.returnHeader();
 		if(head.to == Header.To.ACCOUNT){
 			reply	= accountKeeper.processMessageReturnBunch((AccountMessage) i_msg);
 		}
