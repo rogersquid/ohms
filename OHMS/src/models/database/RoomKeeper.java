@@ -47,7 +47,7 @@ public class RoomKeeper{
 		return 	aRoom.viewRoom(i_msg);
 	}
 	private RoomMessage[] viewAll(RoomMessage i_msg){
-		//usign autherizations
+		//using autherizations
 		Room aBooking = new Room();
 		return 	aBooking.viewAllRoom(i_msg);
 	}

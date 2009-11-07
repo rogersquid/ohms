@@ -5,7 +5,7 @@ import java.sql.*;
 public class databaseHelper {
   	
   private static final String jdbcDriver = "com.mysql.jdbc.Driver";
-	private static final String dbURL = "jdbc:mysql://localhost/ohms";
+	private static final String dbURL = "jdbc:mysql://mayfer.homelinux.com/ohms";
 	private static final String username  = "eece419";
     private static final String password  = "dude";
 	
