@@ -173,10 +173,15 @@ public class Booking {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
 			// booking id or owner + sDate
 			ResultSet rs=dbcon.select("Select count(*) FROM " + iheader.nameHotel + 
-									"_bookings WHERE ownerID='" + i_msg.ownerID +"'");
+									"_bookings WHERE bookingID='" + i_msg.bookingID +"'");
 			int numberofrows=rs.getInt(1);
-			if(numberofrows<1){
+			if(numberofrows<0){
 				output[0].fill_Header_Response(Header.Response.FAIL, "viewAll Booking failed." +
+						" OwnerID: " + i_msg.ownerID);
+				return output;
+			}
+			else if (numberofrows==0){
+				output[0].fill_Header_Response(Header.Response.SUCCESS, "There is no booking." +
 						" OwnerID: " + i_msg.ownerID);
 				return output;
 			}
