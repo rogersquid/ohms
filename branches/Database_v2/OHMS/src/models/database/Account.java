@@ -47,24 +47,24 @@ public class Account {
 					+ "', '" + i_msg.phone + "', '" + i_msg.email
 					+ "', '" + i_msg.address + "', '" + now + "')");
 			if (returnedRows == 1) {
-				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Added one Account as Requested." +
+				i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Added one Account as Requested." +
 						" Account Email: " + i_msg.email);
 				reply	= i_msg;
 			}else {
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed." +
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed." +
 						" Account Email: " + i_msg.email);
 				reply	= i_msg;
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed." +
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed." +
 					" Account Email: " + i_msg.email);
 			reply	= i_msg;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed." +
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed." +
 					" Account Email: " + i_msg.email);
 			reply	= i_msg;
 		}
@@ -95,14 +95,14 @@ public class Account {
 					+ "', address='" + i_msg.address + "' "
 					+ "WHERE accountID='" + i_msg.accountID + "'");
 			if (returnedRows == 1) {
-				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Updated One Account as Requested." +
+				i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Updated One Account as Requested." +
 						" Account Email: " + i_msg.email);
 			} else if (returnedRows>1) {
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Updated More than one Account. " +
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "Updated More than one Account. " +
 						"Indicated inconsistency. Account Email: " + i_msg.email);	
 			}
 			else {
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Update Failed. Nothing changed.");	
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "Update Failed. Nothing changed.");	
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
@@ -132,26 +132,26 @@ public class Account {
 					+ "')");
 			if (returnedRows == 1) 
 			{
-				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Deleted Account as Requested." +
+				i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Deleted Account as Requested." +
 						" Account ID: " + i_msg.accountID);
 				reply	= i_msg;
 			}
 			else 
 			{
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Delete failed." +
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "Delete failed." +
 						" Account ID: " + i_msg.accountID);
 				reply	= i_msg;
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'deleteAccount'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed." +
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed." +
 					" Account ID: " + i_msg.accountID);
 			reply	= i_msg;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'deleteAccount'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "Update failed." +
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "Update failed." +
 					" Account ID: " + i_msg.accountID);
 			reply	= i_msg;
 		}
@@ -188,33 +188,33 @@ public class Account {
 				reply.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
 				DateFormat formatter = DateFormat.getDateInstance();
 				reply.date = formatter.parse(r_date);
-				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Return Account as Requested." +
+				i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Return Account as Requested." +
 						" Account ID: " + i_msg.accountID);
 				reply	= i_msg;
 			}
 			else 
 			{
-				i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+				i_msg.fillHeaderResponse(Header.Response.FAIL, "View failed." +
 						" Account ID: " + i_msg.accountID);
 				reply	= i_msg;
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'viewAccount'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "View failed." +
 					" Account ID: " + i_msg.accountID);
 			reply	= i_msg;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'viewAccount'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "View failed." +
 					" Account ID: " + i_msg.accountID);
 			reply	= i_msg;
 		} catch (ParseException e)
 		{
 			System.err.println("Error in 'viewAccount'.  ParseException was thrown from parsing the date:");
 			e.printStackTrace(System.err);
-			i_msg.fill_Header_Response(Header.Response.FAIL, "View failed." +
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "View failed." +
 					" Account ID: " + i_msg.accountID);
 			reply	= i_msg;
 		}
