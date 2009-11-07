@@ -2,7 +2,6 @@ package testMains;
 
 import models.database.Hotel;
 import models.messages.ExtraMessage;
-import models.messages.BookingMessage;
 import models.messages.Header;
 
 public class ExtrasTest {
