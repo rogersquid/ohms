@@ -16,7 +16,7 @@ public class Accountant {
 	 */
 	public BillMessage showBill(BillMessage i_msg){
 		RoomKeeper room = new RoomKeeper();
-		Header header = i_msg.return_Header();
+		Header header = i_msg.returnHeader();
 		RoomMessage msgR= new RoomMessage(header.messageOwnerID, header.authLevel, header.nameHotel, Header.Action.VIEW);
 		BookingKeeper book = new BookingKeeper();
 		BookingMessage msgB=new BookingMessage(header.messageOwnerID, header.authLevel, header.nameHotel, Header.Action.VIEW);
