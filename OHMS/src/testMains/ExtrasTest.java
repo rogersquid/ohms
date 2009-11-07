@@ -17,11 +17,11 @@ public class ExtrasTest {
 				java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
 				h_msg.fillAll(date,4, "TV", 700);
 				Hotel hotel = new Hotel("test");
-				//hotel.processMessage(h_msg);
-				//Header head=h_msg.return_Header();
+				hotel.processMessage(h_msg);
+				Header head=h_msg.returnHeader();
 				
-				ExtraMessage reply=(ExtraMessage) hotel.processMessage(h_msg);
-				Header head=reply.returnHeader();
+				//ExtraMessage reply=(ExtraMessage) hotel.processMessage(h_msg);
+				//Header head=reply.returnHeader();
 				if(Header.Response.SUCCESS==head.responseCode){
 				System.out.println("Passed Test ID 1");
 				System.out.println("\r");
