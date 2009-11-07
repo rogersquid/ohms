@@ -13,6 +13,8 @@ public class AccountKeeper {
 			return edit(i_msg);
 		case VIEW:
 			return view(i_msg);
+		case LOGIN:
+			return login(i_msg);
 		case DELETE:
 			return delete(i_msg);
 		default:
@@ -46,6 +48,10 @@ public class AccountKeeper {
 	private AccountMessage view(AccountMessage i_msg){
 		Account anAccount = new Account();
 		return 	anAccount.viewAccount(i_msg);
+	}
+	private AccountMessage login(AccountMessage i_msg){
+		Account anAccount = new Account();
+		return 	anAccount.login(i_msg);
 	}
 	private AccountMessage authenticate(AccountMessage i_msg){
 		//usign autherizations
