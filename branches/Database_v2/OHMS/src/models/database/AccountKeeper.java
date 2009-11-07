@@ -5,7 +5,7 @@ import models.messages.*;
 public class AccountKeeper {
 	// People logged into the system
 	public Message processMessage(AccountMessage i_msg){
-		switch(i_msg.return_Header().action)
+		switch(i_msg.returnHeader().action)
 		{
 		case ADD:
 			return add(i_msg);
@@ -22,7 +22,7 @@ public class AccountKeeper {
 	}
 	public Message[] processMessageReturnBunch(AccountMessage i_msg){
 		BookingMessage[] reply=null;
-		switch(i_msg.return_Header().action)
+		switch(i_msg.returnHeader().action)
 		{
 		case VIEWALL:
 			return viewAll(i_msg);
