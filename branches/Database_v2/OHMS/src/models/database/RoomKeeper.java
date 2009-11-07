@@ -20,7 +20,7 @@ public class RoomKeeper{
 		}
 	}
 	public Message[] processMessageReturnBunch(RoomMessage i_msg){
-		BookingMessage[] reply=null;
+		RoomMessage[] reply=null;
 		switch(i_msg.returnHeader().action)
 		{
 		case VIEWALL:

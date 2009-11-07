@@ -44,18 +44,18 @@ public class RoomTest {
 			h_msg.fill_All(1, "Single", 101, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head=h_msg.return_Header();
-			if(Header.Response.SUCCESS==head.response_code){
+			Header head=h_msg.returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
 			System.out.println("Passed Test ID 1");
 			System.out.println("Input:");
-			System.out.println("Output: " + head.response_string);
+			System.out.println("Output: " + head.responseString);
 			System.out.println("\r");
 			}
 		else{
 			System.out.println("Failed Test ID 1");
 			System.out.println("Expected Output:");
 			System.out.println("Expected Change:");
-			System.out.println("Error Message: " + head.response_string);
+			System.out.println("Error Message: " + head.responseString);
 			System.out.println("\r");
 			}
 		}
@@ -77,18 +77,18 @@ public class RoomTest {
 			h_msg.fill_All(2, "Single", 102, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head=h_msg.return_Header();
-			if(Header.Response.FAIL==head.response_code){
+			Header head=h_msg.returnHeader();
+			if(Header.Response.FAIL==head.responseCode){
 			System.out.println("Passed Test ID 2");
 			System.out.println("Input:");
-			System.out.println("Output: " + head.response_string);
+			System.out.println("Output: " + head.responseString);
 			System.out.println("\r");
 			}
 		else{
 			System.out.println("Failed Test ID 2");
 			System.out.println("Expected Output:");
 			System.out.println("Expected Change:");
-			System.out.println("Error Message: " + head.response_string);
+			System.out.println("Error Message: " + head.responseString);
 			System.out.println("\r");
 			}
 		}
@@ -108,18 +108,18 @@ public class RoomTest {
 			h_msg.fill_All(3, "", 103, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head=h_msg.return_Header();
-			if(Header.Response.FAIL==head.response_code){
+			Header head=h_msg.returnHeader();
+			if(Header.Response.FAIL==head.responseCode){
 			System.out.println("Passed Test ID 3");
 			System.out.println("Input:");
-			System.out.println("Output: " + head.response_string);
+			System.out.println("Output: " + head.responseString);
 			System.out.println("\r");
 			}
 		else{
 			System.out.println("Failed Test ID 3");
 			System.out.println("Expected Output:");
 			System.out.println("Expected Change:");
-			System.out.println("Error Message: " + head.response_string);
+			System.out.println("Error Message: " + head.responseString);
 			System.out.println("\r");
 			}
 		}
@@ -140,18 +140,18 @@ public class RoomTest {
 			h_msg.fill_All(4, "Single", 101, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head=h_msg.return_Header();
-			if(Header.Response.FAIL==head.response_code){
+			Header head=h_msg.returnHeader();
+			if(Header.Response.FAIL==head.responseCode){
 			System.out.println("Passed Test ID 4");
 			System.out.println("Input:");
-			System.out.println("Output: " + head.response_string);
+			System.out.println("Output: " + head.responseString);
 			System.out.println("\r");
 			}
 		else{
 			System.out.println("Failed Test ID 4");
 			System.out.println("Expected Output:");
 			System.out.println("Expected Change:");
-			System.out.println("Error Message: " + head.response_string);
+			System.out.println("Error Message: " + head.responseString);
 			System.out.println("\r");
 			}
 		}
@@ -175,30 +175,30 @@ public class RoomTest {
 			h_msg.fill_All(11, "Single", 201, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-			if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
 				RoomMessage g_msg = new RoomMessage(0, 0, "test", Header.Action.EDIT);
 				//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
 				g_msg.fill_All(11, "Single", 201, 1, 750, true, true, i);
 				hotel.processMessage(g_msg);
-				Header head1 = g_msg.return_Header();
-				if(Header.Response.SUCCESS==head1.response_code){
+				Header head1 = g_msg.returnHeader();
+				if(Header.Response.SUCCESS==head1.responseCode){
 					System.out.println("Passed Test ID 1");
 					System.out.println("Input:");
-					System.out.println("Output: " + head1.response_string);
+					System.out.println("Output: " + head1.responseString);
 					System.out.println("\r");
 				}
 				else{
 					System.out.println("Failed Test ID 1");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head1.response_string);
+					System.out.println("Error Message: " + head1.responseString);
 					System.out.println("\r");
 					}
 				}
 			else{
 				System.out.println("Failed Test ID 1 at verify");
-				System.out.println("Error Message: " + head.response_string);
+				System.out.println("Error Message: " + head.responseString);
 				System.out.println("\r");
 			}
 		}
@@ -218,30 +218,30 @@ public class RoomTest {
 			h_msg.fill_All(12, "Single", 202, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-			if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
 				RoomMessage g_msg = new RoomMessage(0, 0, "test", Header.Action.EDIT);
 				//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
 				g_msg.fill_All(12, "Single", 202, 1, 500, true, true, i);
 				hotel.processMessage(g_msg);
-				Header head1 = g_msg.return_Header();
-				if(Header.Response.SUCCESS==head1.response_code){
+				Header head1 = g_msg.returnHeader();
+				if(Header.Response.SUCCESS==head1.responseCode){
 					System.out.println("Passed Test ID 2");
 					System.out.println("Input:");
-					System.out.println("Output: " + head1.response_string);
+					System.out.println("Output: " + head1.responseString);
 					System.out.println("\r");
 				}
 				else{
 					System.out.println("Failed Test ID 2");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head1.response_string);
+					System.out.println("Error Message: " + head1.responseString);
 					System.out.println("\r");
 					}
 				}
 			else{
 				System.out.println("Failed Test ID 2 at verify");
-				System.out.println("Error Message: " + head.response_string);
+				System.out.println("Error Message: " + head.responseString);
 				System.out.println("\r");
 			}
 		}
@@ -260,30 +260,30 @@ public class RoomTest {
 			h_msg.fill_All(13, "Single", 203, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-			if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
 				RoomMessage g_msg = new RoomMessage(0, 0, "test", Header.Action.EDIT);
 				//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
 				g_msg.fill_All(13, "Single", -203, 1, 500, true, true, i);
 				hotel.processMessage(g_msg);
-				Header head1 = g_msg.return_Header();
-				if(Header.Response.SUCCESS==head1.response_code){
+				Header head1 = g_msg.returnHeader();
+				if(Header.Response.SUCCESS==head1.responseCode){
 					System.out.println("Passed Test ID 3");
 					System.out.println("Input:");
-					System.out.println("Output: " + head1.response_string);
+					System.out.println("Output: " + head1.responseString);
 					System.out.println("\r");
 				}
 				else{
 					System.out.println("Failed Test ID 3");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head1.response_string);
+					System.out.println("Error Message: " + head1.responseString);
 					System.out.println("\r");
 					}
 				}
 			else{
 				System.out.println("Failed Test ID 3 at verify");
-				System.out.println("Error Message: " + head.response_string);
+				System.out.println("Error Message: " + head.responseString);
 				System.out.println("\r");
 			}
 		}
@@ -303,30 +303,30 @@ public class RoomTest {
 			h_msg.fill_All(14, "Single", 204, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-			if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
 				RoomMessage g_msg = new RoomMessage(0, 0, "test", Header.Action.EDIT);
 				//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
 				g_msg.fill_All(14, "", 204, 1, 500, true, true, i);
 				hotel.processMessage(g_msg);
-				Header head1 = g_msg.return_Header();
-				if(Header.Response.SUCCESS==head1.response_code){
+				Header head1 = g_msg.returnHeader();
+				if(Header.Response.SUCCESS==head1.responseCode){
 					System.out.println("Passed Test ID 4");
 					System.out.println("Input:");
-					System.out.println("Output: " + head1.response_string);
+					System.out.println("Output: " + head1.responseString);
 					System.out.println("\r");
 				}
 				else{
 					System.out.println("Failed Test ID 4");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head1.response_string);
+					System.out.println("Error Message: " + head1.responseString);
 					System.out.println("\r");
 					}
 				}
 			else{
 				System.out.println("Failed Test ID 4 at verify");
-				System.out.println("Error Message: " + head.response_string);
+				System.out.println("Error Message: " + head.responseString);
 				System.out.println("\r");
 			}
 		}
@@ -347,30 +347,30 @@ public class RoomTest {
 			h_msg.fill_All(101, "Single", 301, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-			if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
 			
 			RoomMessage g_msg = new RoomMessage(0,0,"test", Header.Action.DELETE);
 				g_msg.room_number = h_msg.room_number;
 				hotel.processMessage(g_msg);
-				Header head1 = g_msg.return_Header();
-				if(Header.Response.SUCCESS==head1.response_code){
+				Header head1 = g_msg.returnHeader();
+				if(Header.Response.SUCCESS==head1.responseCode){
 					System.out.println("Passed Test ID 1");
 					System.out.println("Input:");
-					System.out.println("Output: " + head1.response_string);
+					System.out.println("Output: " + head1.responseString);
 					System.out.println("\r");
 				}
 				else{
 					System.out.println("Failed Test ID 1");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head1.response_string);
+					System.out.println("Error Message: " + head1.responseString);
 					System.out.println("\r");
 					}
 			}
 				else{
 					System.out.println("Failed Test ID 1 at verify");
-					System.out.println("Error Message: " + head.response_string);
+					System.out.println("Error Message: " + head.responseString);
 					System.out.println("\r");
 					}
 		}
@@ -388,30 +388,30 @@ public class RoomTest {
 			h_msg.fill_All(102, "Single", 302, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-			if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
 			
 			RoomMessage g_msg = new RoomMessage(0,0,"test", Header.Action.DELETE);
 				g_msg.room_number = 999;
 				hotel.processMessage(g_msg);
-				Header head1 = g_msg.return_Header();
-				if(Header.Response.SUCCESS==head1.response_code){
+				Header head1 = g_msg.returnHeader();
+				if(Header.Response.SUCCESS==head1.responseCode){
 					System.out.println("Passed Test ID 2");
 					System.out.println("Input:");
-					System.out.println("Output: " + head1.response_string);
+					System.out.println("Output: " + head1.responseString);
 					System.out.println("\r");
 				}
 				else{
 					System.out.println("Failed Test ID 2");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head1.response_string);
+					System.out.println("Error Message: " + head1.responseString);
 					System.out.println("\r");
 					}
 			}
 				else{
 					System.out.println("Failed Test ID 2 at verify");
-					System.out.println("Error Message: " + head.response_string);
+					System.out.println("Error Message: " + head.responseString);
 					System.out.println("\r");
 					}
 		}
@@ -430,30 +430,30 @@ public class RoomTest {
 			h_msg.fill_All(101, "Single", 301, 1, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-			if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
 			
 			RoomMessage g_msg = new RoomMessage(0,0,"test", Header.Action.DELETE);
 				g_msg.room_number = -101;
 				hotel.processMessage(g_msg);
-				Header head1 = g_msg.return_Header();
-				if(Header.Response.SUCCESS==head1.response_code){
+				Header head1 = g_msg.returnHeader();
+				if(Header.Response.SUCCESS==head1.responseCode){
 					System.out.println("Passed Test ID 13");
 					System.out.println("Input:");
-					System.out.println("Output: " + head1.response_string);
+					System.out.println("Output: " + head1.responseString);
 					System.out.println("\r");
 				}
 				else{
 					System.out.println("Failed Test ID 3");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head1.response_string);
+					System.out.println("Error Message: " + head1.responseString);
 					System.out.println("\r");
 					}
 			}
 				else{
 					System.out.println("Failed Test ID 3 at verify");
-					System.out.println("Error Message: " + head.response_string);
+					System.out.println("Error Message: " + head.responseString);
 					System.out.println("\r");
 					}
 		}
@@ -469,8 +469,8 @@ public class RoomTest {
 			h_msg.room_number = 101;
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-				if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+				if(Header.Response.SUCCESS==head.responseCode){
 					System.out.println("Passed Test ID 1");
 					System.out.println("Input: " + h_msg.room_number);
 					System.out.println("Output: ");
@@ -482,7 +482,7 @@ public class RoomTest {
 					System.out.println("Failed Test ID 1");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head.response_string);
+					System.out.println("Error Message: " + head.responseString);
 					System.out.println("\r");
 					}
 		}
@@ -494,8 +494,8 @@ public class RoomTest {
 			h_msg.room_number = 999;
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-				if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+				if(Header.Response.SUCCESS==head.responseCode){
 					System.out.println("Passed Test ID 2");
 					System.out.println("Input: " + h_msg.room_number);
 					System.out.println("Output: ");
@@ -507,7 +507,7 @@ public class RoomTest {
 					System.out.println("Failed Test ID 2");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head.response_string);
+					System.out.println("Error Message: " + head.responseString);
 					System.out.println("\r");
 					}
 		}
@@ -519,8 +519,8 @@ public class RoomTest {
 			h_msg.room_number = -101;
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
-			Header head = h_msg.return_Header();
-				if(Header.Response.SUCCESS==head.response_code){
+			Header head = h_msg.returnHeader();
+				if(Header.Response.SUCCESS==head.responseCode){
 					System.out.println("Passed Test ID 3");
 					System.out.println("Input: " + h_msg.room_number);
 					System.out.println("Output: ");
@@ -532,7 +532,7 @@ public class RoomTest {
 					System.out.println("Failed Test ID 3");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head.response_string);
+					System.out.println("Error Message: " + head.responseString);
 					System.out.println("\r");
 					}
 		}

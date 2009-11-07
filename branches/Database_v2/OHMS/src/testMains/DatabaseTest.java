@@ -7,8 +7,8 @@ public class DatabaseTest {
 	public static void main(String [ ] args){
 		System.out.println("\r");
 		//testBooking();
-		AccountTest.test_alladdAcc();
-		AccountTest.test_alleditAcc();
+		//AccountTest.test_alladdAcc();
+		//AccountTest.test_alleditAcc();
 		RoomTest.test_allRoom();
 		//test_Extras(0);
 		//test_Extras(1);
