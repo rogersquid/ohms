@@ -38,11 +38,12 @@ public class Account {
 		try {
 			dbcon 				= new databaseHelper(dbname);
 			java.util.Date now 	= new java.util.Date();
-			int returnedRows 	= dbcon.modify("INSERT INTO account (firstName, lastName, password, gender, phone, email, address, date) VALUES ('" 
+			int returnedRows 	= dbcon.modify("INSERT INTO account (firstName, lastName, accountType, password, gender, phone, email, address, date) VALUES ('" 
 					+ i_msg.firstname
 					+ "', '" + i_msg.lastname + "', '" 
+					+ "customer" + "', '"
 					+ pwmd + "', '" + genderInt
-					+ "' + '" + i_msg.phone + "', '" + i_msg.email
+					+ "', '" + i_msg.phone + "', '" + i_msg.email
 					+ "', '" + i_msg.address + "', '" + now + "')");
 			if (returnedRows == 1) {
 				i_msg.fill_Header_Response(Header.Response.SUCCESS, "Added one Account as Requested." +
