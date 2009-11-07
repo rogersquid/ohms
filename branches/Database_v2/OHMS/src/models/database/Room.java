@@ -18,7 +18,7 @@ public class Room {
 			} else {
 				dbcon = new databaseHelper(dbname);
 				Header tempHead = i_msg.return_Header();
-				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.name_hotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
+				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 				if (rs.next()) {
 					i_msg.fill_Header_Response(Header.Response.FAIL, "Room number already in database.");
 					
@@ -80,7 +80,7 @@ public class Room {
 			} else {
 				dbcon = new databaseHelper(dbname);
 				Header tempHead = i_msg.return_Header();
-				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.name_hotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
+				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 				if (!rs.next()) {
 					i_msg.fill_Header_Response(Header.Response.FAIL, "Room number is not in database.");
 					
@@ -140,7 +140,7 @@ public class Room {
 			} else {
 				dbcon = new databaseHelper(dbname);
 				Header tempHead = i_msg.return_Header();
-				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.name_hotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
+				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 
 				if (!rs.next()) {
 					i_msg.fill_Header_Response(Header.Response.FAIL, "Room number not in database.");
@@ -187,7 +187,7 @@ public class Room {
 			} else {
 				dbcon = new databaseHelper(dbname);
 				Header tempHead = i_msg.return_Header();
-				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.name_hotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
+				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms WHERE roomNumber = " + i_msg.room_number);
 				if (!rs.next()) {
 					i_msg.fill_Header_Response(Header.Response.FAIL, "Room number not in database.");
 					
@@ -235,40 +235,34 @@ public class Room {
 		RoomMessage tempMsg = null;
 		int i = 0;
 		try {
-			if (i_msg.room_number < 0){
-				i_msg.fill_Header_Response(Header.Response.FAIL, "Invalid input(s).");
-				
-				reply	= i_msg;
+			dbcon = new databaseHelper(dbname);
+			Header tempHead = i_msg.return_Header();
+			ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.nameHotel + "_rooms");
+			if (!rs.next()) {
+				i_msg.fill_Header_Response(Header.Response.FAIL, "Room number not in database.");
+				output[0] = i_msg.deepCopy();
+				i++;
 			} else {
-				dbcon = new databaseHelper(dbname);
-				Header tempHead = i_msg.return_Header();
-				ResultSet rs = dbcon.select("SELECT * FROM " + tempHead.name_hotel + "_rooms");
-				if (!rs.next()) {
-					i_msg.fill_Header_Response(Header.Response.FAIL, "Room number not in database.");
-					output[0] = i_msg.deepCopy();
+				while (rs.next()) {
 					i++;
-				} else {
-					while (rs.next()) {
-						i++;
-					}
-					rs = dbcon.select("SELECT * FROM test_rooms");
-					output = new RoomMessage[i];
-					i = 0;
-					tempMsg = i_msg.deepCopy();
-					while (rs.next()) {
-						tempMsg.room_id = rs.getInt("roomID");
-						tempMsg.room_number = rs.getInt("roomNumber");
-						tempMsg.room_floor = rs.getInt("roomFloor");
-						tempMsg.room_type = rs.getString("roomType");
-						tempMsg.price = rs.getFloat("price");
-						tempMsg.available = rs.getBoolean("availability");
-						tempMsg.cleaned = rs.getBoolean("cleaned");
-						tempMsg.room_specs.fill_Specs(rs.getBoolean("onsuite"), rs.getBoolean("tv"), rs.getBoolean("disability"), 
-								rs.getBoolean("elevator"), (Integer)rs.getInt("numBed"), rs.getBoolean("phone"), 
-								rs.getBoolean("internet"), rs.getBoolean("kitchen"));
-						tempMsg.fill_Header_Response(Header.Response.SUCCESS, "Rooms retrieved from database.");
-						output[i++] = tempMsg.deepCopy();
-					}
+				}
+				rs = dbcon.select("SELECT * FROM test_rooms");
+				output = new RoomMessage[i];
+				i = 0;
+				tempMsg = i_msg.deepCopy();
+				while (rs.next()) {
+					tempMsg.room_id = rs.getInt("roomID");
+					tempMsg.room_number = rs.getInt("roomNumber");
+					tempMsg.room_floor = rs.getInt("roomFloor");
+					tempMsg.room_type = rs.getString("roomType");
+					tempMsg.price = rs.getFloat("price");
+					tempMsg.available = rs.getBoolean("availability");
+					tempMsg.cleaned = rs.getBoolean("cleaned");
+					tempMsg.room_specs.fill_Specs(rs.getBoolean("onsuite"), rs.getBoolean("tv"), rs.getBoolean("disability"), 
+							rs.getBoolean("elevator"), (Integer)rs.getInt("numBed"), rs.getBoolean("phone"), 
+							rs.getBoolean("internet"), rs.getBoolean("kitchen"));
+					tempMsg.fill_Header_Response(Header.Response.SUCCESS, "Rooms retrieved from database.");
+					output[i++] = tempMsg.deepCopy();
 				}
 			}
 		} catch (SQLException e) {
