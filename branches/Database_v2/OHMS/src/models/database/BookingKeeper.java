@@ -4,7 +4,7 @@ import models.messages.*;
 
 public class BookingKeeper {
 	public Message processMessage(BookingMessage i_msg){
-		switch(i_msg.return_Header().action)
+		switch(i_msg.returnHeader().action)
 		{
 		case ADD:
 			return add(i_msg);
@@ -21,7 +21,7 @@ public class BookingKeeper {
 	}
 	public Message[] processMessageReturnBunch(BookingMessage i_msg){
 		BookingMessage[] reply=null;
-		switch(i_msg.return_Header().action)
+		switch(i_msg.returnHeader().action)
 		{
 		case VIEWALL:
 			return viewAll(i_msg);
