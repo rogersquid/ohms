@@ -12,6 +12,7 @@ public class ExtrasTest {
 	
 		private static void test_Extras(int i_num){	
 			if (i_num==0){
+				System.out.println("Start Add Extra Test");
 				ExtraMessage h_msg = new ExtraMessage(0, 0, "test", Header.Action.ADD);
 				java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
 				h_msg.fillAll(date,4, "TV", 700);
@@ -26,6 +27,7 @@ public class ExtrasTest {
 				System.out.println("Failed Test ID 1");
 				System.out.println("\r");
 			}
+				System.out.println("Finish Add Extra Test");		
 		}
 			if (i_num==1){
 				ExtraMessage h_msg = new ExtraMessage(0, 0, "test", Header.Action.ADD);
@@ -48,6 +50,6 @@ public class ExtrasTest {
 				System.out.println("\r");
 				}
 			}
-			
+			System.out.println("Finish Delete extra Test");
 		}
 }
