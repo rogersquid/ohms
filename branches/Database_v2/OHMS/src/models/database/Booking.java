@@ -29,6 +29,13 @@ public class Booking {
 				output.fill_Header_Response(Header.Response.FAIL, "Adding Booking failed." +
 						" StartDate: " + i_msg.startDate);
 			}
+			ResultSet rs = dbcon.select("SELECT bookingID FROM " + iheader.nameHotel + "_bookings " +
+					"WHERE ownerID='" + i_msg.ownerID
+					+ "', creationDate='" +i_msg.creationDate + "', startDate='" + i_msg.startDate
+					+ "', duration='" + i_msg.duration + "', roomID='" + i_msg.roomID
+					+ "', status='" + i_msg.status + "'");
+			output.bookingID=rs.getInt(1);
+			
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
