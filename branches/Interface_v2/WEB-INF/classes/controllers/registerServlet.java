@@ -40,7 +40,7 @@ public class registerServlet extends HttpServlet {
 
 		Hotel hotel = new Hotel(hotelname);
 		AccountMessage reply = (AccountMessage)hotel.processMessage(message);
-		Header replyHeader = reply.return_Header();
+		Header replyHeader = reply.returnHeader();
 
 		if(replyHeader.response_code == Header.Response.SUCCESS) {
 			request.setAttribute("firstname", firstname);
