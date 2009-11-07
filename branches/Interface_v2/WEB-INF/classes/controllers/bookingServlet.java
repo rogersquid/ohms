@@ -3,6 +3,7 @@ package controllers;
 import java.io.*;
 import java.util.*;
 import java.text.*;
+import java.sql.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import models.database.*;
@@ -30,7 +31,7 @@ public class bookingServlet extends HttpServlet {
 	{
 		try {
 			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-			Date startDate = df.parse(request.getParameter("startDate"));
+			java.sql.Date startDate = new java.sql.Date(df.parse(request.getParameter("startDate")).getTime());
 			int duration = Integer.parseInt(request.getParameter("duration"));
 			int ownerID = Integer.parseInt(request.getParameter("ownerID"));
 			int roomID = Integer.parseInt(request.getParameter("roomID"));
@@ -48,14 +49,14 @@ public class bookingServlet extends HttpServlet {
 			BookingMessage reply = (BookingMessage)hotel.processMessage(message);
 			Header replyHeader = reply.return_Header();
 
-			if(replyHeader.response_code == Header.Response.SUCCESS) {
+			if(replyHeader.responseCode == Header.Response.SUCCESS) {
 				request.setAttribute("status", "booking_success");
 				request.setAttribute("message", "Your booking has been made.");
 				request.setAttribute("booking", reply);
 				getServletContext().getRequestDispatcher("/views/bookings.jsp").include(request, response);
 			} else {
 				request.setAttribute("status", "booking_failed");
-				request.setAttribute("message", replyHeader.response_string);
+				request.setAttribute("message", replyHeader.responseString);
 				getServletContext().getRequestDispatcher("/views/bookings.jsp").include(request, response);
 			}
 		} catch(Exception e) {
