@@ -4,7 +4,7 @@ import models.messages.*;
 
 public class RoomKeeper{	
 	public RoomMessage processMessage(RoomMessage i_msg){
-		switch(i_msg.return_Header().action)
+		switch(i_msg.returnHeader().action)
 		{
 		case ADD:
 			return add(i_msg);
@@ -21,7 +21,7 @@ public class RoomKeeper{
 	}
 	public Message[] processMessageReturnBunch(RoomMessage i_msg){
 		BookingMessage[] reply=null;
-		switch(i_msg.return_Header().action)
+		switch(i_msg.returnHeader().action)
 		{
 		case VIEWALL:
 			return viewAll(i_msg);
