@@ -5,6 +5,7 @@ import java.io.*;
 import models.database.Hotel;
 import models.messages.BookingMessage;
 import models.messages.Header;
+import models.messages.Message;
 
 public class BookingTest {
 	public static void main(String [ ] args){
@@ -57,13 +58,27 @@ public class BookingTest {
 		System.out.println(myHeader.responseCode);
 		System.out.println(myHeader.responseString);
 		
+		try {
+	    	userName = br.readLine();
+	    	} catch (IOException ioe) {
+	    		System.out.println("IO error trying to read your name!");
+	    		System.exit(1);
+	    	}
+		System.out.println("Start Running Test for booking");
+		input= new BookingMessage(1, 1, "test", Header.Action.VIEWALL);
+		input.bookingID=reply.bookingID;
+		Message[] replyArray=myHotel.processMessageReturnBunch(input);
+		System.out.print(replyArray.length);
+		myHeader=replyArray[0].returnHeader();
+		System.out.println(myHeader.responseCode);
+		System.out.println(myHeader.responseString);
+		
 	    try {
 	    	userName = br.readLine();
 	    	} catch (IOException ioe) {
 	    		System.out.println("IO error trying to read your name!");
 	    		System.exit(1);
 	    	}
-		
 		System.out.println("Start Running Test for booking");
 		input= new BookingMessage(1, 1, "test", Header.Action.DELETE);
 		input.bookingID=reply.bookingID;
