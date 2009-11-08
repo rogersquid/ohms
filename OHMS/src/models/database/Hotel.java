@@ -7,12 +7,14 @@ public class Hotel {
 	AccountKeeper		accountKeeper;
 	RoomKeeper			roomKeeper;
 	BookingKeeper		bookingKeeper;
+	ExtraKeeper			extraKeeper;
 	
 	public Hotel(String i_name){
 		hotelName		= i_name.toLowerCase();
 		accountKeeper	= new AccountKeeper();
 		roomKeeper	 	= new RoomKeeper();
 		bookingKeeper 	= new BookingKeeper();
+		extraKeeper		= new ExtraKeeper();
 	}
 	public Message processMessage(Message i_msg){
 		// Hotel class simply hands the input message to one of the 
@@ -28,6 +30,9 @@ public class Hotel {
 		}
 		if(head.to == Header.To.BOOKING){
 			reply = bookingKeeper.processMessage((BookingMessage) i_msg);
+		}
+		if(head.to == Header.To.EXTRA){
+			reply = extraKeeper.processMessage((ExtraMessage) i_msg);
 		}
 		return reply;
 	}
