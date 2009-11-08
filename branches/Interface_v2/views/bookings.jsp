@@ -1,6 +1,6 @@
+<%@ page import="models.*" %>
 <%@ include file="header.jsp" %>
 <%@ include file="left_nav.jsp" %>
-<%@ page import="models.messages.BookingMessage;" %>
 				<div id='content'>
 					<div id='title'>Bookings</div>
 					<%
