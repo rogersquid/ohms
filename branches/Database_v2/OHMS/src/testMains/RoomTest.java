@@ -26,7 +26,10 @@ public class RoomTest {
 		for (int l=0; l<8; l++){
 			test_viewRoom(l);
 		}
-		test_viewAllRoom();
+		for (int m=0; m<8; m++){
+			test_viewAllRoom(m);
+		}
+		
 		System.out.println("Finish Test Rooms \r");
 	}
 	
@@ -178,14 +181,14 @@ public class RoomTest {
 			
 			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.ADD);
 			//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
-			h_msg.fill_All(11, "Single", 201, 1, 500, true, true, i );
+			h_msg.fill_All(11, "Single", 201, 2, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
 			Header head = h_msg.returnHeader();
 			if(Header.Response.SUCCESS==head.responseCode){
 				RoomMessage g_msg = new RoomMessage(0, 0, "test", Header.Action.EDIT);
 				//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
-				g_msg.fill_All(11, "Single", 201, 1, 750, true, true, i);
+				g_msg.fill_All(11, "Single", 201, 2, 750, true, true, i);
 				hotel.processMessage(g_msg);
 				Header head1 = g_msg.returnHeader();
 				if(Header.Response.SUCCESS==head1.responseCode){
@@ -221,14 +224,14 @@ public class RoomTest {
 			
 			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.ADD);
 			//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
-			h_msg.fill_All(12, "Single", 202, 1, 500, true, true, i );
+			h_msg.fill_All(12, "Single", 202, 2, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
 			Header head = h_msg.returnHeader();
 			if(Header.Response.SUCCESS==head.responseCode){
 				RoomMessage g_msg = new RoomMessage(0, 0, "test", Header.Action.EDIT);
 				//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
-				g_msg.fill_All(12, "Single", 202, 1, 500, true, true, i);
+				g_msg.fill_All(12, "Single", 202, 2, 500, true, true, i);
 				hotel.processMessage(g_msg);
 				Header head1 = g_msg.returnHeader();
 				if(Header.Response.SUCCESS==head1.responseCode){
@@ -263,14 +266,14 @@ public class RoomTest {
 			
 			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.ADD);
 			//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
-			h_msg.fill_All(13, "Single", 203, 1, 500, true, true, i );
+			h_msg.fill_All(13, "Single", 203, 2, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
 			Header head = h_msg.returnHeader();
 			if(Header.Response.SUCCESS==head.responseCode){
 				RoomMessage g_msg = new RoomMessage(0, 0, "test", Header.Action.EDIT);
 				//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
-				g_msg.fill_All(13, "Single", -203, 1, 500, true, true, i);
+				g_msg.fill_All(13, "Single", -203, 2, 500, true, true, i);
 				hotel.processMessage(g_msg);
 				Header head1 = g_msg.returnHeader();
 				if(Header.Response.SUCCESS==head1.responseCode){
@@ -306,14 +309,14 @@ public class RoomTest {
 			
 			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.ADD);
 			//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
-			h_msg.fill_All(14, "Single", 204, 1, 500, true, true, i );
+			h_msg.fill_All(14, "Single", 204, 2, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
 			Header head = h_msg.returnHeader();
 			if(Header.Response.SUCCESS==head.responseCode){
 				RoomMessage g_msg = new RoomMessage(0, 0, "test", Header.Action.EDIT);
 				//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
-				g_msg.fill_All(14, "", 204, 1, 500, true, true, i);
+				g_msg.fill_All(14, "", 204, 2, 500, true, true, i);
 				hotel.processMessage(g_msg);
 				Header head1 = g_msg.returnHeader();
 				if(Header.Response.SUCCESS==head1.responseCode){
@@ -350,7 +353,7 @@ public class RoomTest {
 			}
 			
 			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.ADD);
-			h_msg.fill_All(101, "Single", 301, 1, 500, true, true, i );
+			h_msg.fill_All(101, "Single", 301, 3, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
 			Header head = h_msg.returnHeader();
@@ -391,7 +394,7 @@ public class RoomTest {
 			}
 			
 			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.ADD);
-			h_msg.fill_All(102, "Single", 302, 1, 500, true, true, i );
+			h_msg.fill_All(102, "Single", 302, 3, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
 			Header head = h_msg.returnHeader();
@@ -433,7 +436,7 @@ public class RoomTest {
 			}
 			
 			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.ADD);
-			h_msg.fill_All(101, "Single", 301, 1, 500, true, true, i );
+			h_msg.fill_All(101, "Single", 301, 3, 500, true, true, i );
 			Hotel hotel = new Hotel("OHMS");
 			hotel.processMessage(h_msg);
 			Header head = h_msg.returnHeader();
@@ -544,8 +547,9 @@ public class RoomTest {
 		}
 	}
 
-	private static void test_viewAllRoom (){
+	private static void test_viewAllRoom (int i_num){
 		//=====================View All Tests==========================
+		if(i_num==0){
 			System.out.println("Test ID 1");
 			System.out.println("Description: Success View All Room");
 			
@@ -553,23 +557,99 @@ public class RoomTest {
 			Hotel hotel = new Hotel("OHMS");
 			RoomMessage[] searchResults = (RoomMessage[]) hotel.processMessageReturnBunch(h_msg);
 			Header head = searchResults[0].returnHeader();
-				if(Header.Response.SUCCESS==head.responseCode){
-					System.out.println("Passed Test ID 1");
-					System.out.println("Input: " + h_msg.room_number);
-					System.out.println("Output: ");
-					for (int i = 0; i < searchResults.length; i ++) {
-						test_printRoom(searchResults[i]);
-					}
-					
-					System.out.println("\r");
+			if(Header.Response.SUCCESS==head.responseCode){
+				System.out.println("Passed Test ID 1");
+				System.out.println("Input: " + h_msg.room_number);
+				System.out.println("Output: # of Rooms: " + searchResults.length);
+				for (int i = 0; i < searchResults.length; i ++) {
+					test_printRoom(searchResults[i]);
 				}
-				else{
-					System.out.println("Failed Test ID 1");
-					System.out.println("Expected Output:");
-					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + head.responseString);
-					System.out.println("\r");
-					}
+				
+				System.out.println("\r");
+			}
+			else{
+				System.out.println("Failed Test ID 1");
+				System.out.println("Expected Output:");
+				System.out.println("Expected Change:");
+				System.out.println("Error Message: " + head.responseString);
+				System.out.println("\r");
+			}
+		}
+
+		if(i_num==1){
+			System.out.println("Test ID 2");
+			System.out.println("Description: Success View all Room available");
+			
+			//filling the RoomInventory
+			int[] i = new int[numInventoryItems];
+			for (int j = 0; j < numInventoryItems; j++) {
+				i[j] = 0;
+			}
+			
+			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.VIEWSPECIFIC);
+
+			//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
+			h_msg.fill_All(1111, "", 0, 0, 0, true, false, i );
+			
+			Hotel hotel = new Hotel("OHMS");
+			RoomMessage[] searchResults = (RoomMessage[]) hotel.processMessageReturnBunch(h_msg);
+			Header head = searchResults[0].returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
+				System.out.println("Passed Test ID 1");
+				System.out.println("Input: " + h_msg.room_number);
+				System.out.println("Output: # of Rooms: " + searchResults.length);
+				for (int j = 0; j < searchResults.length; j ++) {
+					test_printRoom(searchResults[j]);
+				}
+				
+				System.out.println("\r");
+			}
+			else{
+				System.out.println("Failed Test ID 1");
+				System.out.println("Expected Output:");
+				System.out.println("Expected Change:");
+				System.out.println("Error Message: " + head.responseString);
+				System.out.println("\r");
+			}
+		}
+
+		if(i_num==2){
+			System.out.println("Test ID 3");
+			System.out.println("Description: Success View all Single Room on the 3rd floor");
+			
+			//filling the RoomInventory
+			int[] i = new int[numInventoryItems];
+			for (int j = 0; j < numInventoryItems; j++) {
+				i[j] = 0;
+			}
+			
+			RoomMessage h_msg = new RoomMessage(0, 0, "test", Header.Action.VIEWSPECIFIC);
+
+			//roomID, roomType, roomNumber, floor, price, available, clean, RoomInventory
+			h_msg.fill_All(0, "Single", 0, 2, 0, false, false, i );
+			
+			Hotel hotel = new Hotel("OHMS");
+			RoomMessage[] searchResults = (RoomMessage[]) hotel.processMessageReturnBunch(h_msg);
+			Header head = searchResults[0].returnHeader();
+			if(Header.Response.SUCCESS==head.responseCode){
+				System.out.println("Passed Test ID 3");
+				System.out.println("Input: " + h_msg.room_number);
+				System.out.println("Output: # of Rooms: " + searchResults.length);
+				for (int j = 0; j < searchResults.length; j ++) {
+					test_printRoom(searchResults[j]);
+				}
+				
+				System.out.println("\r");
+			}
+			else{
+				System.out.println("Failed Test ID 3");
+				System.out.println("Expected Output:");
+				System.out.println("Expected Change:");
+				System.out.println("Error Message: " + head.responseString);
+				System.out.println("\r");
+			}
+		}
+		
 	}
 	
 	private static void test_printRoom (RoomMessage h_msg){
@@ -588,6 +668,7 @@ public class RoomTest {
 		System.out.println("   phone: " + h_msg.room_specs.search_Specs("phone"));
 		System.out.println("   internet: " + h_msg.room_specs.search_Specs("internet"));
 		System.out.println("   kitchen: " + h_msg.room_specs.search_Specs("kitchen"));
+		System.out.println("\r");
 	}
 	
 }

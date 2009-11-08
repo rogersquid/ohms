@@ -25,6 +25,8 @@ public class RoomKeeper{
 		{
 		case VIEWALL:
 			return viewAll(i_msg);
+		case VIEWSPECIFIC:
+			return viewSpecific(i_msg);
 		default:
 			//needs implementation
 			return reply;
@@ -48,7 +50,12 @@ public class RoomKeeper{
 	}
 	private RoomMessage[] viewAll(RoomMessage i_msg){
 		//using autherizations
-		Room aBooking = new Room();
-		return 	aBooking.viewAllRoom(i_msg);
+		Room 	aRoom = new Room();
+		return 	aRoom.viewAllRoom(i_msg);
+	}
+	private RoomMessage[] viewSpecific(RoomMessage i_msg){
+		//using autherizations
+		Room 	aRoom = new Room();
+		return 	aRoom.viewSpecificRoom(i_msg);
 	}
 }
