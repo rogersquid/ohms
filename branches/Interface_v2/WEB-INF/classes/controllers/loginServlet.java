@@ -6,6 +6,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import models.messages.*;
 import models.database.*;
+import models.misc.*;
 
 public class loginServlet extends HttpServlet {
 
@@ -23,21 +24,26 @@ public class loginServlet extends HttpServlet {
 
 		int userid = 0;
 		int authlevel = 0;
-		String hotelname = "default_hotel";
-		AccountMessage message = new AccountMessage(userid, authlevel, hotelname, Header.Action.AUTHENTICATE);
+		String hotelname = "test";
+		AccountMessage message = new AccountMessage(userid, authlevel, hotelname, Header.Action.LOGIN);
 		message.email = email;
 		message.password = password;
 
 		Hotel hotel = new Hotel(hotelname);
 		AccountMessage reply = (AccountMessage)hotel.processMessage(message);
 		Header replyHeader = reply.returnHeader();
+		
 
 		if(replyHeader.response_code == Header.Response.SUCCESS) {
-			request.setAttribute("email", email);
+			Cookie userCookie = new Cookie("accountID", reply.accountID);
+			String md5_password = MD5.hashString(reply.password);
+			Cookie passwordCookie = new Cookie("md5_password", md5_password);
+			response.addCookie(userCookie);
+			
 			getServletContext().getRequestDispatcher("/views/login_success.jsp").include(request, response);
 		} else {
 			request.setAttribute("status", "login_failed");
-			request.setAttribute("message", replyHeader.response_string);
+			request.setAttribute("message", replyHeader.responsetring);
 			getServletContext().getRequestDispatcher("/views/login_form.jsp").include(request, response);
 		}
 	}
