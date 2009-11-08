@@ -28,7 +28,7 @@ public class Accountant {
 											header.nameHotel, header.action);
 		myReply.initialize(1);
 		myReply.nameOfItem[0]="Price of the Room";
-		myReply.priceOfItem[0]=replyR.price*replyB.duration;
+		myReply.priceOfItem[0]=replyR.price*(float)((replyB.endDate.getTime()- replyB.startDate.getTime())/86400000); //86400000 = MILIsecs per day
 
 		return myReply;	 
 	}
