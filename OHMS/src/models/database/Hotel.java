@@ -50,6 +50,9 @@ public class Hotel {
 		if(head.to == Header.To.BOOKING){
 			reply	= bookingKeeper.processMessageReturnBunch((BookingMessage) i_msg);
 		}
+		if(head.to == Header.To.EXTRA){
+			reply	= extraKeeper.processMessageReturnBunch((ExtraMessage) i_msg);
+		}
 		return reply;
 	}
 	public String returnName(){
