@@ -20,8 +20,71 @@ public class Account {
 	 */
 	public AccountMessage[] viewAllAccount(AccountMessage i_msg){
 		// needs to be implemented
-		AccountMessage[] am=null;
-		return am;
+		AccountMessage[] reply = null;
+		databaseHelper dbcon 	= null;
+		try {
+			dbcon = new databaseHelper(dbname);
+			// First find out the size of the array we need
+			ResultSet returnedSet = dbcon.select("SELECT COUNT(*) FROM account");
+			returnedSet.first();
+			int resultSize = returnedSet.getInt(1);
+			
+			reply = new AccountMessage[resultSize];
+			returnedSet = dbcon.select("SELECT * FROM account");
+			int i = 0;
+			AccountMessage temp_msg = i_msg.deepCopy();
+			while (returnedSet.next()) 
+			{
+				int r_account_id = returnedSet.getInt("accountID");
+				String r_account_type = returnedSet.getString("accountType"); 
+				String r_first_name = returnedSet.getString("firstName");  
+				String r_surname = returnedSet.getString("lastName");  
+				boolean r_gender = returnedSet.getBoolean("gender");  
+				String r_phone = returnedSet.getString("phone"); ; 
+				String r_mail = returnedSet.getString("email"); 
+				String r_add = returnedSet.getString("address"); 
+//				String r_date = returnedSet.getString("date"); 
+
+				temp_msg.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
+				DateFormat formatter = DateFormat.getDateInstance();
+//				reply[i].date = returnedSet.getDate("date");
+//				reply[i].date = formatter.parse(r_date);
+				temp_msg.fillHeaderResponse(Header.Response.SUCCESS, "Return Account as Requested." +
+						" Account ID: " + i_msg.accountID);
+				reply[i] = temp_msg.deepCopy();
+				i++;
+			}
+		} catch (SQLException e) {
+			reply = new AccountMessage[1];
+			System.err.println("Error in 'viewAllAccount'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "View All failed." +
+					" Account ID: " + i_msg.accountID);
+			reply[0] = i_msg;
+		} catch (ClassNotFoundException e) {
+			reply = new AccountMessage[1];
+			System.err.println("Error in 'viewAllAccount'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			i_msg.fillHeaderResponse(Header.Response.FAIL, "View All failed." +
+					" Account ID: " + i_msg.accountID);
+			reply[0] = i_msg;
+//		} catch (ParseException e)
+//		{
+//			reply = new AccountMessage[1];
+//			System.err.println("Error in 'viewAllAccount'.  ParseException was thrown from parsing the date:");
+//			e.printStackTrace(System.err);
+//			i_msg.fillHeaderResponse(Header.Response.FAIL, "View All failed." +
+//					" Account ID: " + i_msg.accountID);
+//			reply[0] = i_msg;
+		}
+		finally {
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		
+		
+		return reply;
 	}
 	public AccountMessage addAccount(AccountMessage i_msg) {
 		// No date error checking implemented 
@@ -204,12 +267,13 @@ public class Account {
 				boolean r_gender = returnedSet.getBoolean("gender");  
 				String r_phone = returnedSet.getString("phone"); ; 
 				String r_mail = returnedSet.getString("email"); 
-				String r_add = returnedSet.getString("address"); 
-				String r_date = returnedSet.getString("date"); 
+				String r_add = returnedSet.getString("address");
+//				String r_date = returnedSet.getString("date"); 
 
 				reply.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
-				DateFormat formatter = DateFormat.getDateInstance();
-				reply.date = formatter.parse(r_date);
+//				DateFormat formatter = DateFormat.getDateInstance();
+//				reply.date = returnedSet.getDate("date");
+//				reply.date = formatter.parse(r_date);
 				i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Return Account as Requested." +
 						" Account ID: " + i_msg.accountID);
 				reply	= i_msg;
@@ -232,13 +296,13 @@ public class Account {
 			i_msg.fillHeaderResponse(Header.Response.FAIL, "View failed." +
 					" Account ID: " + i_msg.accountID);
 			reply	= i_msg;
-		} catch (ParseException e)
-		{
-			System.err.println("Error in 'viewAccount'.  ParseException was thrown from parsing the date:");
-			e.printStackTrace(System.err);
-			i_msg.fillHeaderResponse(Header.Response.FAIL, "View failed." +
-					" Account ID: " + i_msg.accountID);
-			reply	= i_msg;
+//		} catch (ParseException e)
+//		{
+//			System.err.println("Error in 'viewAccount'.  ParseException was thrown from parsing the date:");
+//			e.printStackTrace(System.err);
+//			i_msg.fillHeaderResponse(Header.Response.FAIL, "View failed." +
+//					" Account ID: " + i_msg.accountID);
+//			reply	= i_msg;
 		}
 		finally {
 			if (dbcon != null) {
