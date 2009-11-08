@@ -276,6 +276,57 @@ public class Booking {
 				}
 			}
 		}
+		else if(i_msg.startDate!=null && i_msg.endDate!=null){
+			// owner Search
+			try {
+				dbcon 				= new databaseHelper(iheader.nameHotel);
+				// nadd
+				
+				ResultSet rs=dbcon.select("Select count(*) FROM " + iheader.nameHotel + 
+										"_bookings WHERE ownerID='" + i_msg.ownerID +"'");
+				int numberofrows=rs.getInt(1);
+				if(numberofrows<0){
+					output[0].fillHeaderResponse(Header.Response.FAIL, "viewAll Booking failed." +
+							" OwnerID: " + i_msg.ownerID);
+					return output;
+				}
+				else if (numberofrows==0){
+					output[0].fillHeaderResponse(Header.Response.SUCCESS, "There is no booking." +
+							" OwnerID: " + i_msg.ownerID);
+					return output;
+				}
+				rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID + "'");
+				int i=0;
+				while (rs.next()) {
+					output[i]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
+					output[i].bookingID=rs.getInt("bookingID");
+					output[i].ownerID= rs.getInt("ownerId");
+					output[i].creationDate= rs.getDate("bookingDate");
+					output[i].startDate= rs.getDate("startDate");
+					output[i].endDate= rs.getDate("endDate");
+					output[i].roomID= rs.getInt("roomID");
+					output[i].status = rs.getInt("status");
+					output[i].fillHeaderResponse(Header.Response.SUCCESS, "ViewAll one Booking as Requested." +
+							" StartDate: " + i_msg.startDate);
+					i++;
+		        }
+			} catch (SQLException e) {
+				System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+				e.printStackTrace(System.err);
+				output[0].fillHeaderResponse(Header.Response.FAIL, "view Booking failed." +
+						" StartDate: " + i_msg.startDate);
+			} catch (ClassNotFoundException e) {
+				System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+				e.printStackTrace(System.err);
+				output[0].fillHeaderResponse(Header.Response.FAIL, "view Booking failed." +
+						" StartDate: " + i_msg.startDate);
+			}
+			finally {
+				if (dbcon != null) {
+					dbcon.close();
+				}
+			}
+		}
 		return output;
 	}
 }
