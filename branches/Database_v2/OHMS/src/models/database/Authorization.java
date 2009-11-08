@@ -5,8 +5,7 @@ import models.messages.*;
 import models.misc.*;
 import java.sql.*;
 
-public static class Authorization 
-{
+public class Authorization {
 	public static AuthMessage getAuthLevel(AuthMessage i_msg)
 	{
 		AuthMessage reply = null;
