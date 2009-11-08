@@ -46,7 +46,7 @@
 							<th>Owner ID</th>
 							<th>Room ID</th>
 							<th>Start Date</th>
-							<th>Duration</th>
+							<th>End Date</th>
 							<th>Status</th>
 						</tr>
 						
@@ -55,16 +55,16 @@
 						// These string arrays hold the data from the array of RoomMessages
 						String owner	[bookingsArray.length];
 						String room		[bookingsArray.length];
-						String date		[bookingsArray.length];
-						String duration	[bookingsArray.length];
+						String start	[bookingsArray.length];
+						String end		[bookingsArray.length];
 						String status	[bookingsArray.length];
 						
 						// Populate the string arrays
 						for (int i=0; i<bookingsArray.length; i++){
 							owner[i] 	= (String)	reply[i].ownerID;
-							room[i]		= (String)	reply[i].startDate;
-							date[i] 	= (String)	reply[i].duration;
-							duration[i] = (String)	reply[i].roomID;
+							room[i]		= (String)	reply[i].roomID;
+							start[i] 	= (String)	reply[i].startDate;
+							end[i]		= (String)	reply[i].endDate;
 							switch (reply[i].status){
 								case 0:	status[i] = "Not checked in";
 								case 1: status[i] = "Checked in";
@@ -80,8 +80,8 @@
 								<td></td>
 								<td><%=owner[i]%></td>
 								<td><%=room[i]%></td>
-								<td><%=date[i]%></td>
-								<td><%=duration[i] %></td>
+								<td><%=start[i]%></td>
+								<td><%=end[i] %></td>
 								<td><%=status[i] %></td>
 							</tr>
 							<%
