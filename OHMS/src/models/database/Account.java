@@ -270,7 +270,7 @@ public class Account {
 			dbcon = new databaseHelper(dbname);
 			String md5_password = MD5.hashString(i_msg.password);
 			ResultSet returnedSet = dbcon.select("SELECT * FROM account WHERE email='" + i_msg.email 
-					+ "' AND password='"+md5_password+"'"");
+					+ "' AND password='"+md5_password+"'");
 			if (returnedSet.first()) 
 			{
 				int r_account_id = returnedSet.getInt("accountID");
