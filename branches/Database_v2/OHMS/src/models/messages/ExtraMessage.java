@@ -6,6 +6,7 @@ import java.util.*;
 public class ExtraMessage extends Message{
 	// attributes
 	public int				bookingID;
+	public int				extraID;
 	public String			extraName;
 	public float			extraCost;
 	public Date				orderDate;
@@ -14,16 +15,19 @@ public class ExtraMessage extends Message{
 		header=new Header (mOID, i_auth, i_name_Hotel, Header.To.EXTRA, i_action);
 	}
 
-	public void fillAll(Date oDate, int bID, String eName, float eCost){
+	public void fillAll(int eID, int bID, String eName, float eCost, Date oDate){
+		extraID=eID;
+		bookingID=bID;
 		orderDate=oDate;
 		extraName=eName;
 		extraCost=eCost;
-		bookingID=bID;
+		
 		
 	}
 	
 	public void print_All(){
 		System.out.println("Extras Message is printing out");
+		System.out.println(extraID);
 		System.out.println(bookingID);
 		System.out.println(orderDate);
 		System.out.println(extraName);
