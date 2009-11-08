@@ -244,7 +244,7 @@ public class AccountTest {
 			if(Header.Response.FAIL==head.responseCode)
 			{
 				AccountMessage g_msg = new AccountMessage(0,0,"OHMS", Header.Action.ADD);
-				h_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong8@gmail.com");
+				g_msg.fill_All(1, "Staff", "William", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong8@gmail.com");
 				hotel.processMessage(g_msg);
 				Header head1=g_msg.returnHeader();
 				if(Header.Response.FAIL==head1.responseCode)

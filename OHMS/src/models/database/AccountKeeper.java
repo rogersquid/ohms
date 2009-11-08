@@ -107,7 +107,7 @@ public class AccountKeeper {
 			m = validPwd.matcher(testPwd);
 				if(!m.matches() || (m.groupCount() > 1))
 			{
-				i_msg.concatHeaderResponse(Header.Response.FAIL, "Email address is not vaild " +
+				i_msg.concatHeaderResponse(Header.Response.FAIL, "Password string is not vaild " +
 						"Account ID: " + i_msg.accountID );
 			}			
 		}
@@ -122,13 +122,13 @@ public class AccountKeeper {
 		}
 		else
 		{
-			Pattern validAddr = Pattern.compile("[\\da-zA-Z-!@#\\$%\\^&\\*\\?,\\.\\|;:]+");
-			m = validAddr.matcher(testAddr);
-				if(!m.matches())
-			{
-				i_msg.concatHeaderResponse(Header.Response.FAIL, "Address is not vaild " +
-						"Account ID: " + i_msg.accountID );
-			}			
+//			Pattern validAddr = Pattern.compile("[\\da-zA-Z-!@#\\$%\\^&\\*\\?,\\.\\|;:]+");
+//			m = validAddr.matcher(testAddr);
+//				if(!m.matches())
+//			{
+//				i_msg.concatHeaderResponse(Header.Response.FAIL, "Address is not vaild " +
+//						"Account ID: " + i_msg.accountID );
+//			}			
 		}
 
 
