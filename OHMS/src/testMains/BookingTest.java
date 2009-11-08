@@ -1,6 +1,9 @@
 package testMains;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import models.database.Hotel;
 import models.messages.BookingMessage;
@@ -32,24 +35,30 @@ public class BookingTest {
 	    		System.out.println("IO error trying to read your name!");
 	    		System.exit(1);
 	    	}
-		input= new BookingMessage(1, 1, "test", Header.Action.ADD);
-		input.startDate=date;
-		input.duration=2;
-		input.ownerID=1;
-		input.roomID=1;
-		input.status=0;
-		reply=(BookingMessage) myHotel.processMessage(input);
-		myHeader=reply.returnHeader();
-		System.out.println(myHeader.responseCode);
-		System.out.println(myHeader.responseString);
-		
+	    DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
+	    java.sql.Date endDate;
+		try {
+			endDate = new java.sql.Date(df.parse("22/02/2010").getTime());
+			input= new BookingMessage(1, 1, "test", Header.Action.ADD);
+			input.startDate=date;
+			input.endDate=endDate;
+			input.ownerID=1;
+			input.roomID=1;
+			input.status=0;
+			reply=(BookingMessage) myHotel.processMessage(input);
+			myHeader=reply.returnHeader();
+			System.out.println(myHeader.responseCode);
+			System.out.println(myHeader.responseString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	    try {
 	    	userName = br.readLine();
 	    	} catch (IOException ioe) {
 	    		System.out.println("IO error trying to read your name!");
 	    		System.exit(1);
 	    	}
-		
 		System.out.println("Start Running Test for booking");
 		input= new BookingMessage(1, 1, "test", Header.Action.VIEW);
 		input.bookingID=reply.bookingID;
