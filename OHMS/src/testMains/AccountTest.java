@@ -6,8 +6,9 @@ import models.messages.Header;
 
 public class AccountTest {
 	public static void main(String [ ] args){
-		test_alladdAcc();
-		test_alleditAcc();
+//		test_alladdAcc();
+//		test_alleditAcc();
+		test_viewAllAcc();
 	}
 	protected static void test_alladdAcc(){
 		System.out.println("Start Test Add Accounts \r");
@@ -622,5 +623,34 @@ public class AccountTest {
 		default:
 			break;
 		}
+	}
+
+	private static void test_viewAllAcc()
+	{
+		AccountMessage h_msg = new AccountMessage(0,0,"OHMS", Header.Action.VIEWALL);
+		Hotel hotel = new Hotel("OHMS");
+		AccountMessage[] returned = (AccountMessage[])hotel.processMessageReturnBunch(h_msg);
+		Header head = h_msg.returnHeader();
+		
+		for(int i=0; i< returned.length; i++)
+		{
+			printRoom(returned[i]);
+		}
+	}
+	
+	private static void printRoom(AccountMessage i_msg)
+	{
+		System.out.println("   Account ID: " + i_msg.accountID);
+		System.out.println(" Account Type: " + i_msg.accountType);
+		System.out.println("      Address: " + i_msg.address);
+		System.out.println("        Email: " + i_msg.email);
+		System.out.println("   First Name: " + i_msg.firstname);
+		System.out.println("    Last Name: " + i_msg.lastname);
+		System.out.println("        Phone: " + i_msg.phone);
+		System.out.println("         Date: " + i_msg.date);
+		System.out.println("       Gender: " + i_msg.gender);
+		
+		
+		
 	}
 }
