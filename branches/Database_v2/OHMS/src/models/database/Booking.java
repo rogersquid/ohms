@@ -58,7 +58,7 @@ public class Booking {
 			int returnedRows = dbcon.modify("UPDATE test_bookings SET ownerID='" + i_msg.ownerID
 					+ "', startDate='" + i_msg.startDate
 					+ "', endDate='" + i_msg.endDate + "', roomID='" + i_msg.roomID
-					+ "', status='" + i_msg.status + "'WHERE bookingID='"+bookingID+"'");
+					+ "', status='" + i_msg.status + "'WHERE bookingID='"+i_msg.bookingID+"'");
 			if (returnedRows == 1) {
 				output.fillHeaderResponse(Header.Response.SUCCESS, "Edited one Booking as Requested." +
 						" Booking ID: " + i_msg.bookingID);
