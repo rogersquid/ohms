@@ -139,7 +139,7 @@ public class Booking {
 			while (rs.next()) {
 	            int cbookingID = rs.getInt("bookingID");
 	            int cownerID = rs.getInt("ownerId");
-	            java.sql.Time creationTime = rs.getTime("creationTime");
+	            java.sql.Timestamp creationTime = rs.getTimestamp("creationTime");
 	            java.sql.Date cstartDate = rs.getDate("startDate");
 	            java.sql.Date endDate = rs.getDate("endDate");
 	            int croomID = rs.getInt("roomID");
@@ -195,7 +195,7 @@ public class Booking {
 				output[i]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
 				output[i].bookingID=rs.getInt("bookingID");
 				output[i].ownerID= rs.getInt("ownerId");
-				output[i].creationTime= rs.getTime("creationTime");
+				output[i].creationTime= rs.getTimestamp("creationTime");
 				output[i].startDate= rs.getDate("startDate");
 				output[i].endDate= rs.getDate("endDate");
 				output[i].roomID= rs.getInt("roomID");
@@ -250,7 +250,7 @@ public class Booking {
 					output[i]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
 					output[i].bookingID=rs.getInt("bookingID");
 					output[i].ownerID= rs.getInt("ownerId");
-					output[i].creationTime= rs.getTime("bookingDate");
+					output[i].creationTime= rs.getTimestamp("creationTime");
 					output[i].startDate= rs.getDate("startDate");
 					output[i].endDate= rs.getDate("endDate");
 					output[i].roomID= rs.getInt("roomID");
@@ -301,7 +301,7 @@ public class Booking {
 					output[i]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
 					output[i].bookingID=rs.getInt("bookingID");
 					output[i].ownerID= rs.getInt("ownerId");
-					output[i].creationTime= rs.getTime("creationTime");
+					output[i].creationTime= rs.getTimestamp("creationTime");
 					output[i].startDate= rs.getDate("startDate");
 					output[i].endDate= rs.getDate("endDate");
 					output[i].roomID= rs.getInt("roomID");
