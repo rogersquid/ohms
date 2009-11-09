@@ -35,3 +35,7 @@ input[type=text], input[type=password], textarea { border-style: inset; padding:
 .rooms ol { color: #999; font: 2em "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; margin: 0; }
 .rooms ol li { display: list-item; position: relative; margin: 20px 0; background: #eee; padding: 5px; }
 .rooms ol li span { padding: 5px; color: #333; font: 13px Arial, Helvetica, Geneva, sans-serif; }
+
+table.bookings { width: 100%; }
+
+.index { color: #aaa; }

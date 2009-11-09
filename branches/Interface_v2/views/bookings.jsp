@@ -1,4 +1,6 @@
-<%@ page import="models.*" %>
+<%@ page import="models.database.*" %>
+<%@ page import="models.messages.*" %>
+<%@ page import="java.sql.*" %>
 <%@ include file="header.jsp" %>
 <%@ include file="left_nav.jsp" %>
 				<div id='content'>
@@ -31,8 +33,8 @@
 								<td><input type='text' name='startDate' class='date-pick' /></td>
 							</tr>
 							<tr>
-								<td>Duration: </td>
-								<td><input type='text' name='duration' /></td>
+								<td>End date: </td>
+								<td><input type='text' name='endDate' class='date-pick' /></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -41,43 +43,45 @@
 						</table>
 					</form>
 
-					<table>
+					<table class='bookings'>
 						<tr>
+							<th></th>
 							<th>Owner ID</th>
 							<th>Room ID</th>
 							<th>Start Date</th>
 							<th>End Date</th>
 							<th>Status</th>
 						</tr>
-						
+
 						<%
-						BookingMessage[] bookingsArray = request.getAttribute("bookingsArray");
+						BookingMessage bookingsArray[] = (BookingMessage[])request.getAttribute("bookingsArray");
 						// These string arrays hold the data from the array of RoomMessages
-						String owner	[bookingsArray.length];
-						String room		[bookingsArray.length];
-						String start	[bookingsArray.length];
-						String end		[bookingsArray.length];
-						String status	[bookingsArray.length];
-						
+						int arraySize = bookingsArray.length;
+						int owner[] = new int[arraySize];
+						int room[] = new int[arraySize];
+						Date start[] = new Date[arraySize];
+						Date end[] = new Date[arraySize];
+						String status[] = new String[arraySize];
+
 						// Populate the string arrays
 						for (int i=0; i<bookingsArray.length; i++){
-							owner[i] 	= (String)	reply[i].ownerID;
-							room[i]		= (String)	reply[i].roomID;
-							start[i] 	= (String)	reply[i].startDate;
-							end[i]		= (String)	reply[i].endDate;
-							switch (reply[i].status){
-								case 0:	status[i] = "Not checked in";
-								case 1: status[i] = "Checked in";
-								case 2: status[i] = "Checked out";
+							owner[i] 	= bookingsArray[i].ownerID;
+							room[i]		= bookingsArray[i].roomID;
+							start[i] 	= bookingsArray[i].startDate;
+							end[i]		= bookingsArray[i].endDate;
+							switch (bookingsArray[i].status){
+								case 0:	status[i] = "Not checked in"; break;
+								case 1: status[i] = "Checked in"; break;
+								case 2: status[i] = "Checked out"; break;
 								default: status[i] = "ERROR: Status int has unsupported value!";
 							}
 						}
-						
+
 						// Print the values into the table
-						for(int i=0; i < bookingsArray.length; i++) { 
+						for(int i=0; i < bookingsArray.length; i++) {
 							%>
 							<tr>
-								<td></td>
+								<td><span class='index'><%=i+1 %></span></td>
 								<td><%=owner[i]%></td>
 								<td><%=room[i]%></td>
 								<td><%=start[i]%></td>
