@@ -3,7 +3,7 @@ package models.database;
 import models.messages.*;
 
 import java.sql.*;
-import java.util.Date;
+import java.util.*;
 
 public class Booking {
 	public BookingMessage addBooking(BookingMessage i_msg){
@@ -15,9 +15,9 @@ public class Booking {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
 			java.util.Date today 	= new java.util.Date();
 			java.sql.Date now= new java.sql.Date(today.getTime());
-			int returnedRows 	= dbcon.insert("INSERT INTO test_bookings (creationDate, startDate, ownerID, endDate, roomID, status) " +
+			int returnedRows 	= dbcon.insert("INSERT INTO test_bookings (startDate, ownerID, endDate, roomID, status) " +
 					"VALUES ('" 
-					+ now + "', '" + i_msg.startDate + "', '" 
+					+ i_msg.startDate + "', '" 
 					+ i_msg.ownerID + "', '" + i_msg.endDate + "', '" 
 					+ i_msg.roomID + "', '" + i_msg.status + "')");
 			if (returnedRows > 0) {
@@ -56,15 +56,15 @@ public class Booking {
 			dbcon 				= new databaseHelper(iheader.nameHotel);
 			// bookingDate should it be editttable???
 			int returnedRows = dbcon.modify("UPDATE test_bookings SET ownerID='" + i_msg.ownerID
-					+ "', creationDate='" +i_msg.creationDate + "', startDate='" + i_msg.startDate
+					+ "', startDate='" + i_msg.startDate
 					+ "', endDate='" + i_msg.endDate + "', roomID='" + i_msg.roomID
-					+ "', status='" + i_msg.status + "'");
+					+ "', status='" + i_msg.status + "'WHERE bookingID='"+bookingID+"'");
 			if (returnedRows == 1) {
 				output.fillHeaderResponse(Header.Response.SUCCESS, "Edited one Booking as Requested." +
-						" StartDate: " + i_msg.startDate);
+						" Booking ID: " + i_msg.bookingID);
 			} else {
 				output.fillHeaderResponse(Header.Response.FAIL, "Editting Booking failed." +
-						" StartDate: " + i_msg.startDate);
+						" Booking ID: " + i_msg.bookingID);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
@@ -139,12 +139,12 @@ public class Booking {
 			while (rs.next()) {
 	            int cbookingID = rs.getInt("bookingID");
 	            int cownerID = rs.getInt("ownerId");
-	            java.sql.Date creationDate = rs.getDate("creationDate");
+	            java.sql.Time creationTime = rs.getTime("creationTime");
 	            java.sql.Date cstartDate = rs.getDate("startDate");
 	            java.sql.Date endDate = rs.getDate("endDate");
 	            int croomID = rs.getInt("roomID");
 	            int cstatus = rs.getInt("status");
-	            output.fillAll(cbookingID, cownerID, creationDate, cstartDate, endDate, croomID, cstatus);
+	            output.fillAll(cbookingID, cownerID, creationTime, cstartDate, endDate, croomID, cstatus);
 	        }
 			output.fillHeaderResponse(Header.Response.SUCCESS, "View one Booking as Requested." +
 						" StartDate: " + i_msg.startDate);
@@ -189,13 +189,13 @@ public class Booking {
 			}else{
 				output=new BookingMessage[numberofrows];
 			}
-			rs=dbcon.select("Select * FROM " + iheader.nameHotel + "_bookings");
+			rs=dbcon.select("Select * FROM " + iheader.nameHotel + "_bookings ORDER BY creationTime DESC");
 			int i=0;
 			while (rs.next()) {
 				output[i]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
 				output[i].bookingID=rs.getInt("bookingID");
 				output[i].ownerID= rs.getInt("ownerId");
-				output[i].creationDate= rs.getDate("creationDate");
+				output[i].creationTime= rs.getTime("creationTime");
 				output[i].startDate= rs.getDate("startDate");
 				output[i].endDate= rs.getDate("endDate");
 				output[i].roomID= rs.getInt("roomID");
@@ -244,13 +244,13 @@ public class Booking {
 							" OwnerID: " + i_msg.ownerID);
 					return output;
 				}
-				rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID + "'");
+				rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID + "' ORDER BY creationTime DESC");
 				int i=0;
 				while (rs.next()) {
 					output[i]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
 					output[i].bookingID=rs.getInt("bookingID");
 					output[i].ownerID= rs.getInt("ownerId");
-					output[i].creationDate= rs.getDate("bookingDate");
+					output[i].creationTime= rs.getTime("bookingDate");
 					output[i].startDate= rs.getDate("startDate");
 					output[i].endDate= rs.getDate("endDate");
 					output[i].roomID= rs.getInt("roomID");
@@ -295,13 +295,13 @@ public class Booking {
 							" OwnerID: " + i_msg.ownerID);
 					return output;
 				}
-				rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID + "'");
+				rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.ownerID + "' ORDER BY creationTime DESC");
 				int i=0;
 				while (rs.next()) {
 					output[i]=new BookingMessage(iheader.messageOwnerID, iheader.authLevel, iheader.nameHotel, iheader.action);
 					output[i].bookingID=rs.getInt("bookingID");
 					output[i].ownerID= rs.getInt("ownerId");
-					output[i].creationDate= rs.getDate("bookingDate");
+					output[i].creationTime= rs.getTime("creationTime");
 					output[i].startDate= rs.getDate("startDate");
 					output[i].endDate= rs.getDate("endDate");
 					output[i].roomID= rs.getInt("roomID");
