@@ -5,7 +5,7 @@ import java.util.*;
 public class BookingMessage extends Message{
 	public int 				bookingID;
 	public int 				ownerID;
-	public java.sql.Time	creationTime;
+	public java.sql.Timestamp creationTime;
 	public java.sql.Date 	startDate;
 	public java.sql.Date	endDate;
 	public int 				roomID;
@@ -14,7 +14,7 @@ public class BookingMessage extends Message{
 	public BookingMessage(int mOID, int i_auth, String i_name_Hotel, Header.Action i_action){
 		header=new Header (mOID, i_auth, i_name_Hotel, Header.To.BOOKING, i_action);
 	}
-	public void fillAll( int bID, int oID, java.sql.Time cTime, java.sql.Date sDate, 
+	public void fillAll( int bID, int oID, java.sql.Timestamp cTime, java.sql.Date sDate, 
 										java.sql.Date eDate, int rID, int s){
 		bookingID=bID;
 		ownerID=oID;
