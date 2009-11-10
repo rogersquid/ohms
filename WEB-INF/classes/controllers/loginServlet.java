@@ -35,7 +35,7 @@ public class loginServlet extends HttpServlet {
 		
 
 		if(replyHeader.responseCode == Header.Response.SUCCESS) {
-			Cookie userCookie = new Cookie("accountID", reply.accountID.toString());
+			Cookie userCookie = new Cookie("accountID", Integer.toString(reply.accountID));
 			String md5_password = MD5.hashString(reply.password);
 			Cookie passwordCookie = new Cookie("md5_password", md5_password);
 			response.addCookie(userCookie);
