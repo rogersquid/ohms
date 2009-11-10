@@ -360,14 +360,14 @@ public class Account {
 			i_msg.fillHeaderResponse(Header.Response.FAIL, "View failed." +
 					" Account email: " + i_msg.email);
 			reply	= i_msg;
-		} catch (ParseException e)
+		}/* catch (ParseException e)
 		{
 			System.err.println("Error in 'viewAccount'.  ParseException was thrown from parsing the date:");
 			e.printStackTrace(System.err);
 			i_msg.fillHeaderResponse(Header.Response.FAIL, "View failed." +
 					" Account email: " + i_msg.email);
 			reply	= i_msg;
-		}
+		}*/
 		finally {
 			if (dbcon != null) {
 				dbcon.close();
