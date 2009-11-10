@@ -34,7 +34,7 @@ public class loginServlet extends HttpServlet {
 		Header replyHeader = reply.returnHeader();
 		
 
-		if(replyHeader.response_code == Header.Response.SUCCESS) {
+		if(replyHeader.responseCode == Header.Response.SUCCESS) {
 			Cookie userCookie = new Cookie("accountID", reply.accountID);
 			String md5_password = MD5.hashString(reply.password);
 			Cookie passwordCookie = new Cookie("md5_password", md5_password);
@@ -43,7 +43,7 @@ public class loginServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/views/login_success.jsp").include(request, response);
 		} else {
 			request.setAttribute("status", "login_failed");
-			request.setAttribute("message", replyHeader.responsetring);
+			request.setAttribute("message", replyHeader.responseString);
 			getServletContext().getRequestDispatcher("/views/login_form.jsp").include(request, response);
 		}
 	}
