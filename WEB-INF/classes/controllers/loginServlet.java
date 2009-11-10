@@ -39,7 +39,7 @@ public class loginServlet extends HttpServlet {
 			String md5_password = MD5.hashString(reply.password);
 			Cookie passwordCookie = new Cookie("md5_password", md5_password);
 			response.addCookie(userCookie);
-			
+			request.setAttribute("name", reply.firstName+" "+reply.lastName);
 			getServletContext().getRequestDispatcher("/views/login_success.jsp").include(request, response);
 		} else {
 			request.setAttribute("status", "login_failed");
