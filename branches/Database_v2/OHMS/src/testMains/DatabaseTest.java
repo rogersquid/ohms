@@ -9,7 +9,8 @@ public class DatabaseTest {
 		//testBooking();
 		//AccountTest.test_alladdAcc();
 		//AccountTest.test_alleditAcc();
-		RoomTest.test_allRoom();
+		//RoomTest.test_allRoom();
+		BookingTest.main(args);
 		//test_Extras(0);
 		//test_Extras(1);
 		// WILLIAM - THE CODE LOOKS GOOD AND WELL ORGANISED. TRY TO TAKE THE NAME OF THE HOTEL FROM ARGS

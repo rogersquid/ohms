@@ -14,6 +14,8 @@ public class BookingKeeper {
 			return view(i_msg);
 		case DELETE:
 			return delete(i_msg);
+		case CHECKIN:
+			return checkIn(i_msg);
 		default:
 			//needs implementation
 			return i_msg;
@@ -49,5 +51,9 @@ public class BookingKeeper {
 	private BookingMessage[] viewAll(BookingMessage i_msg){
 		Booking aBooking = new Booking();
 		return 	aBooking.viewAllBooking(i_msg);
+	}
+	private BookingMessage checkIn(BookingMessage i_msg){
+		Booking aBooking = new Booking();
+		return 	aBooking.checkIn(i_msg);
 	}
 }
