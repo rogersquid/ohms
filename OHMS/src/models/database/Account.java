@@ -335,7 +335,7 @@ public class Account {
 				String r_add = returnedSet.getString("address"); 
 				String r_date = returnedSet.getString("date"); 
 				
-				reply.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
+				i_msg.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
 				//DateFormat formatter = DateFormat.getDateInstance();
 				//reply.date = formatter.parse(r_date);
 				i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Login successful." +
