@@ -323,7 +323,7 @@ public class Account {
 			String md5_password = MD5.hashString(i_msg.password);
 			ResultSet returnedSet = dbcon.select("SELECT * FROM account WHERE email='" + i_msg.email 
 					+ "' AND password='"+md5_password+"'");
-			if (returnedSet.first()) 
+			if (returnedSet.next()) 
 			{
 				int r_account_id = returnedSet.getInt("accountID");
 				String r_account_type = returnedSet.getString("accountType"); 
@@ -336,8 +336,8 @@ public class Account {
 				String r_date = returnedSet.getString("date"); 
 				
 				reply.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
-				DateFormat formatter = DateFormat.getDateInstance();
-				reply.date = formatter.parse(r_date);
+				//DateFormat formatter = DateFormat.getDateInstance();
+				//reply.date = formatter.parse(r_date);
 				i_msg.fillHeaderResponse(Header.Response.SUCCESS, "Login successful." +
 						" Account email: " + i_msg.email);
 				reply	= i_msg;
