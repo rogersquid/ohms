@@ -329,4 +329,79 @@ public class Booking {
 		}
 		return output;
 	}
+	
+	public BookingMessage checkIn (BookingMessage i_msg){
+		BookingMessage output=i_msg;
+		Header iheader=i_msg.returnHeader();
+		databaseHelper dbcon 	= null;
+		try {
+			dbcon 				= new databaseHelper(iheader.nameHotel);
+			// booking id or owner + sDate
+			
+			if (i_msg.bookingID < 0) {
+				output.fillHeaderResponse(Header.Response.FAIL, "Checkin Failed: invalid Booking ID");
+				return output;
+			} else {
+				ResultSet rs=dbcon.select("Select count(*) FROM test_bookings WHERE bookingID='" 
+						+ i_msg.bookingID +"'");
+				rs.next();
+				int i=rs.getInt(1);
+				if(i!=1){
+					output.fillHeaderResponse(Header.Response.FAIL, "Checkin Failed: Booking ID do not exist");
+					return output;
+				}
+				rs=dbcon.select("Select * FROM test_bookings WHERE bookingID='" 
+						+ i_msg.bookingID +"'");
+				while (rs.next()) {
+					java.util.Date today 	= new java.util.Date();
+					java.sql.Date now = new java.sql.Date(today.getTime());
+					java.sql.Date bookedTime = rs.getDate("startDate");
+					if (rs.getInt("status") == 1) {
+						output.fillHeaderResponse(Header.Response.FAIL, "Checkin Failed: Booking has been checked in already");
+						return output;
+						/*
+		            } else if (bookedTime.getYear() == now.getYear() &&
+		            		bookedTime.getMonth() == now.getMonth() &&
+		            		bookedTime.getDate() == now.getDate()) {
+		            		*/
+					} else if (now.getTime() >= bookedTime.getTime() && now.getTime() <= (bookedTime.getTime() + 86400000)) {
+						int cbookingID = rs.getInt("bookingID");
+			            int cownerID = rs.getInt("ownerId");
+			            java.sql.Timestamp creationTime = rs.getTimestamp("creationTime");
+			            java.sql.Date cstartDate = rs.getDate("startDate");
+			            java.sql.Date endDate = rs.getDate("endDate");
+			            int croomID = rs.getInt("roomID");
+			            output.fillAll(cbookingID, cownerID, creationTime, cstartDate, endDate, croomID, 1);
+			            editBooking(output);
+			            Header head = output.returnHeader();
+			            if (head.responseCode == Header.Response.SUCCESS) {
+			            	output.fillHeaderResponse(Header.Response.SUCCESS, "Check-in request succceed");
+			            } else {
+			            	output.fillHeaderResponse(Header.Response.FAIL, "Check-in request failed during update");
+			            }
+		            } else {
+		            	output.fillHeaderResponse(Header.Response.FAIL, "Checkin Failed: Checkin Time does not match");
+						return output;
+		            } 
+		        }
+				
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'Checkin'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			output.fillHeaderResponse(Header.Response.FAIL, "Checkin failed." +
+					" StartDate: " + i_msg.startDate);
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Checkin'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			output.fillHeaderResponse(Header.Response.FAIL, "Checkin failed." +
+					" StartDate: " + i_msg.startDate);
+		}
+		finally {
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		return output;
+	}
 }

@@ -13,7 +13,8 @@ import models.messages.Message;
 public class BookingTest {
 	public static void main(String [ ] args){
 		System.out.println("\r");
-		testBooking();
+		//testBooking();
+		testCheckIn();
 	}
 	private static void testBooking(){
 		System.out.println("Start Running Test for Add booking");
@@ -95,5 +96,56 @@ public class BookingTest {
 		myHeader=reply.returnHeader();
 		System.out.println(myHeader.responseCode);
 		System.out.println(myHeader.responseString);
+	}
+	
+	private static void testCheckIn(){
+		System.out.println("Running Test for Checkin");
+	
+		Hotel myHotel= new Hotel("test");
+		BookingMessage input= null;
+		BookingMessage reply=null;
+		Header myHeader=null;
+
+		input= new BookingMessage(0, 0, "test", Header.Action.CHECKIN);
+		
+		System.out.println("Test ID 1");
+		System.out.println("Description: Success Checkin room");
+		input.bookingID = 41;
+		reply = (BookingMessage) myHotel.processMessage(input);
+		myHeader=reply.returnHeader();
+		System.out.println(myHeader.responseCode);
+		System.out.println(myHeader.responseString);
+		System.out.println("\r");
+		
+		System.out.println("Test ID 2");
+		System.out.println("Description: Failed Checkin room due to invalid Booking Id");
+		input.bookingID = -42;
+		reply = (BookingMessage) myHotel.processMessage(input);
+		myHeader=reply.returnHeader();
+		System.out.println(myHeader.responseCode);
+		System.out.println(myHeader.responseString);
+		System.out.println("\r");
+		
+		System.out.println("Test ID 3");
+		System.out.println("Description: Failed Checkin room due to checkin being too late");
+		input.bookingID = 43;
+		reply = (BookingMessage) myHotel.processMessage(input);
+		myHeader=reply.returnHeader();
+		System.out.println(myHeader.responseCode);
+		System.out.println(myHeader.responseString);
+		System.out.println("\r");
+		
+		System.out.println("Test ID 4");
+		System.out.println("Description: Failed Checkin room due to checkin being too early");
+		input.bookingID = 44;
+		reply = (BookingMessage) myHotel.processMessage(input);
+		myHeader=reply.returnHeader();
+		System.out.println(myHeader.responseCode);
+		System.out.println(myHeader.responseString);	
+		System.out.println("\r");
+		
+		
+		
+	
 	}
 }
