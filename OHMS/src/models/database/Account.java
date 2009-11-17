@@ -4,6 +4,8 @@ import java.sql.*;
 import models.messages.*;
 import models.misc.*;
 import java.text.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Account {
 	java.util.Date date;
@@ -89,6 +91,12 @@ public class Account {
 	public AccountMessage addAccount(AccountMessage i_msg) {
 		// No date error checking implemented 
 		AccountMessage 	reply;
+		reply = null;
+		validateParams(i_msg, reply);
+		if(reply.returnHeader().responseCode == Header.Response.FAIL)
+		{
+			return reply;
+		}
 		String pwmd = MD5.hashString(i_msg.password);
 		int genderInt;
 		if (i_msg.gender) {
@@ -153,8 +161,13 @@ public class Account {
 
 	public AccountMessage editAccount(AccountMessage i_msg){
 		// No date error checking implemented 
-		AccountMessage 	reply;
+		AccountMessage 	reply ;
 		reply = null;
+		validateParams(i_msg, reply);
+		if(reply.returnHeader().responseCode == Header.Response.FAIL)
+		{
+			return reply;
+		}
 		int genderInt;
 		if (i_msg.gender) {
 			genderInt = 1;
@@ -375,7 +388,128 @@ public class Account {
 		}
 		return reply.deepCopy();
 	}
+	
+	public AccountMessage validateParams(AccountMessage i_msg, AccountMessage r_reply){
 
+		Matcher m;
+		// Verify accountType
+		// guest, maid, customer, staff, or admin
+		if(!(i_msg.accountType.equalsIgnoreCase("guest") ||
+				i_msg.accountType.equalsIgnoreCase("customer") ||
+				i_msg.accountType.equalsIgnoreCase("maid") ||
+				i_msg.accountType.equalsIgnoreCase("staff") ||
+				i_msg.accountType.equalsIgnoreCase("admin")))
+		{
+			r_reply.concatHeaderResponse(Header.Response.FAIL, "Invaild accountType: " + i_msg.accountType +
+					". Account ID: " + i_msg.accountID );
+		}
+
+		// Verify password
+		String testPwd = i_msg.password;
+		if(testPwd.isEmpty())
+		{
+			r_reply.concatHeaderResponse(Header.Response.FAIL, "Password String should not be empty. " +
+					"Account ID: " + i_msg.accountID );
+		}
+		else
+		{
+			Pattern validPwd = Pattern.compile("[\\da-zA-Z-!@#\\$%\\^&\\*\\?,\\.\\|;:]+");
+			m = validPwd.matcher(testPwd);
+				if(!m.matches() || (m.groupCount() > 1))
+			{
+					r_reply.concatHeaderResponse(Header.Response.FAIL, "Password string is not vaild " +
+						"Account ID: " + i_msg.accountID );
+			}			
+		}
+
+		
+		// Verify address
+		String testAddr = i_msg.address;
+		if(testAddr.isEmpty())
+		{
+			r_reply.concatHeaderResponse(Header.Response.FAIL, "Address String should not be empty. " +
+					"Account ID: " + i_msg.accountID );
+		}
+		else
+		{
+//			Pattern validAddr = Pattern.compile("[\\da-zA-Z-!@#\\$%\\^&\\*\\?,\\.\\|;:]+");
+//			m = validAddr.matcher(testAddr);
+//				if(!m.matches())
+//			{
+//				i_msg.concatHeaderResponse(Header.Response.FAIL, "Address is not vaild " +
+//						"Account ID: " + i_msg.accountID );
+//			}			
+		}
+
+
+		// Verify email
+		String testEmail = i_msg.email;
+		if(testEmail.isEmpty())
+		{
+			r_reply.concatHeaderResponse(Header.Response.FAIL, "Email address should not be empty. " +
+					"Account ID: " + i_msg.accountID );
+		}
+		else
+		{
+			Pattern validEmail = Pattern.compile(".+@.+\\.[a-z]+");
+			m = validEmail.matcher(testEmail);
+				if(!m.matches() || (m.groupCount() > 1))
+			{
+					r_reply.concatHeaderResponse(Header.Response.FAIL, "Email address is not vaild " +
+						"Account ID: " + i_msg.accountID );
+			}
+		}
+
+		// Verify First Name
+		String testFName = i_msg.firstname;
+		if(testFName.isEmpty())
+		{
+			r_reply.concatHeaderResponse(Header.Response.FAIL, "First Name should not be empty. " +
+					"Account ID: " + i_msg.accountID );
+		}
+		else {
+			Pattern validName = Pattern.compile("[a-zA-Z-]+");
+			m = validName.matcher(testFName);
+			if (!m.matches() || (m.groupCount() > 1)) {
+
+				r_reply.concatHeaderResponse(Header.Response.FAIL, "First Name is not vaild " + 
+						"Account ID: " + i_msg.accountID);
+			}
+		}
+
+		// Verify Last Name
+		String testLName = i_msg.lastname;
+		if(testLName.isEmpty())
+		{
+			r_reply.concatHeaderResponse(Header.Response.FAIL, "Last Name should not be empty. " +
+					"Account ID: " + i_msg.accountID );
+		}
+		else {
+			Pattern validName = Pattern.compile("[a-zA-Z-]+");
+			m = validName.matcher(testLName);
+			if (!m.matches() || (m.groupCount() > 1)) {
+				r_reply.concatHeaderResponse(Header.Response.FAIL, "Last Name is not vaild " + 
+						"Account ID: " + i_msg.accountID);
+			}
+		}
+
+		// Verify Phone
+		String testPhone = i_msg.phone;
+		if(testLName.isEmpty())
+		{
+			r_reply.concatHeaderResponse(Header.Response.FAIL, "Phone number should not be empty. " +
+					"Account ID: " + i_msg.accountID );
+		}
+		else {
+			Pattern validPhone = Pattern.compile("[\\d-]+");
+			m = validPhone.matcher(testPhone);
+			if (!m.matches() || (m.groupCount() > 1)) {
+				r_reply.concatHeaderResponse(Header.Response.FAIL, "Phone number is not vaild " + 
+						"Account ID: " + i_msg.accountID);
+			}
+		}
+		return r_reply;
+	}
 
 }
 
