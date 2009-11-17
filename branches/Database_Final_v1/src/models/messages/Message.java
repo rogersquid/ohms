@@ -1,13 +1,13 @@
 package models.messages;
 
 public class Message {
-	HeaderMessage header;
-	AccountMessage[] accounts;
-	RoomMessage[] rooms;
-	BookingMessage[] bookings;
-	BillMessage[] bills;
-	ExtraMessage[] extras;
-	ResponseMessage response;
+	public HeaderMessage header;
+	public AccountMessage[] accounts;
+	public RoomMessage[] rooms;
+	public BookingMessage[] bookings;
+	public BillMessage[] bills;
+	public ExtraMessage[] extras;
+	public ResponseMessage response;
 	
 	public Message(int i_authlevel, int i_mOID, String i_hotelname){ 
 		header= new HeaderMessage(i_authlevel, i_mOID, i_hotelname);
@@ -16,7 +16,7 @@ public class Message {
 		bookings=null;
 		bills=null;
 		extras=null;
-		response=null;
+		response=new ResponseMessage();
 	}
 	public void initializeAccounts(int arraysize){
 		accounts=new AccountMessage[arraysize];
