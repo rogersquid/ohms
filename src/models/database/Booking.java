@@ -7,18 +7,21 @@ import java.util.Date;
 
 public class Booking {
 	public Message addBooking(Message i_msg){
+		// COMMENT YOUR CODE
+		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		// Not the best way to do it but should be a deep Copy - I will investigate
 		replyMessage.bookings=i_msg.bookings;
 		try {
+			// create connection
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			java.util.Date today 	= new java.util.Date();
-			java.sql.Date now= new java.sql.Date(today.getTime());
-			int returnedRows 	= dbcon.insert("INSERT INTO test_bookings (creationDate, startDate, ownerID, endDate, roomID, status) " +
-					"VALUES ('" 
-					+ now + "', '" + i_msg.bookings[0].startDate + "', '" 
+			// insert the booking in to appropriate hotel booking
+			int returnedRows 	= dbcon.insert("INSERT INTO " + i_msg.header.nameHotel + "_bookings (creationDate, startDate, ownerID, endDate, roomID, status) " +
+					"VALUES ('" + i_msg.bookings[0].startDate + "', '" 
 					+ i_msg.bookings[0].ownerID + "', '" + i_msg.bookings[0].endDate + "', '" 
 					+ i_msg.bookings[0].roomID + "', '" + i_msg.bookings[0].status + "')");
+			// check the number of rows changed to see whether response is as expected
 			if (returnedRows > 0) {
 				System.out.println("Success");
 				replyMessage.response.fillResponse(i_msg.response.responseCode.SUCCESS, "Added one Booking as Requested." +
@@ -28,6 +31,7 @@ public class Booking {
 				replyMessage.response.fillResponse(i_msg.response.responseCode.FAIL, "Adding Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
 			}
+		// check the exceptions. If an exception is thrown, operation failed
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
@@ -37,6 +41,43 @@ public class Booking {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Adding Booking failed." +
+					" StartDate: " + i_msg.bookings[0].startDate);
+		}
+		finally {
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		return replyMessage;
+	}
+	public Message editBooking(Message i_msg){
+		// Creating database handle and create return message
+		databaseHelper dbcon = null;
+		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		// Not the best way to do it but should be a deep Copy - I will investigate
+		replyMessage.bookings=i_msg.bookings;
+		try {
+			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			int returnedRows = dbcon.modify("UPDATE test_bookings SET ownerID='" + i_msg.bookings[0].ownerID
+					+ "', creationDate='" +i_msg.bookings[0].creationDate + "', startDate='" + i_msg.bookings[0].startDate
+					+ "', endDate='" + i_msg.bookings[0].endDate + "', roomID='" + i_msg.bookings[0].roomID
+					+ "', status='" + i_msg.bookings[0].status + "'");
+			if (returnedRows == 1) {
+				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "Edited one Booking as Requested." +
+						" StartDate: " + i_msg.bookings[0].startDate);
+			} else {
+				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Editting Booking failed." +
+						" StartDate: " + i_msg.bookings[0].startDate);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Editting Booking failed." +
+					" StartDate: " + i_msg.bookings[0].startDate);
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Editting Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
 		}
 		finally {
