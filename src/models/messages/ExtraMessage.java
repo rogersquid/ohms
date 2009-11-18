@@ -1,17 +1,15 @@
 package models.messages;
 
-import java.util.Date;
-
 public class ExtraMessage{
 	// attributes
 	public int 					extraID;
 	public int					bookingID;
 	public String				extraName;
 	public float				price;
-	public java.sql.Timestamp	date;
-	public java.sql.Timestamp	creationDate;
+	public java.sql.Date		date;
+	public java.sql.Date		creationDate;
 	
-	public void fillAll(int eID, int bID, String eName, float ePrice, java.sql.Timestamp eDate, java.sql.Timestamp cDate ){
+	public void fillAll(int eID, int bID, String eName, float ePrice, java.sql.Date eDate, java.sql.Date cDate ){
 		extraID=eID;
 		bookingID=bID;
 		extraName=eName;
