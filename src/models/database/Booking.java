@@ -183,7 +183,7 @@ public class Booking {
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		// Not the best way to do it but should be a deep Copy - I will investigate
+		
 		try {
 			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
 			ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + "_bookings");
@@ -241,7 +241,7 @@ public class Booking {
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 
 		if(i_msg.bookings[0].ownerID>0){
-			// owner Search
+			// Bookings of a specific owner
 			try {
 				dbcon = new databaseHelper(i_msg.header.nameHotel);
 				ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + 
