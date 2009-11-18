@@ -10,6 +10,7 @@ import java.util.Date;
 public class Booking {
 	public Message addBooking(Message i_msg){
 		// COMMENT YOUR CODE
+		// All the information is filled in. This puts all the information into the database.
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -39,11 +40,13 @@ public class Booking {
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Adding Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
+			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Adding Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
+			return replyMessage;
 		}
 		finally {
 			if (dbcon != null) {
@@ -59,34 +62,36 @@ public class Booking {
 		// Not the best way to do it but should be a deep Copy - I will investigate
 		replyMessage.bookings=i_msg.bookings;
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
-			int returnedRows = dbcon.modify("UPDATE test_bookings SET ownerID='" + i_msg.bookings[0].ownerID
+			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			int returnedRows = dbcon.modify("UPDATE "+ i_msg.header.nameHotel + "_bookings SET ownerID='" + i_msg.bookings[0].ownerID
 					+ "', creationDate='" +i_msg.bookings[0].creationDate + "', startDate='" + i_msg.bookings[0].startDate
 					+ "', endDate='" + i_msg.bookings[0].endDate + "', roomID='" + i_msg.bookings[0].roomID
 					+ "', status='" + i_msg.bookings[0].status + "'");
-			if (returnedRows == 1) {
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "Edited one Booking as Requested." +
-						" StartDate: " + i_msg.bookings[0].startDate);
-			} else {
+			if (returnedRows != 1) {
 				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Editting Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
+				return replyMessage;
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Editting Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
+			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Editting Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
+			return replyMessage;
 		}
 		finally {
 			if (dbcon != null) {
 				dbcon.close();
 			}
 		}
+		replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "Edited one Booking as Requested." +
+				" StartDate: " + i_msg.bookings[0].startDate);
 		return replyMessage;
 	}
 	public Message deleteBooking(Message i_msg){
@@ -96,31 +101,33 @@ public class Booking {
 		try {
 			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
 			// booking id or owner + sDate
-			int returnedRows = dbcon.modify("DELETE FROM test_bookings WHERE bookingID='" + i_msg.bookings[0].bookingID
+			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_bookings WHERE bookingID='" + i_msg.bookings[0].bookingID
 					+ "'");
-			if (returnedRows == 1) {
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "Delete one Booking as Requested." +
-						" bookingID: " + i_msg.bookings[0].bookingID);
-			} else {
+			if (returnedRows != 1){
 				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Deleting Booking failed." +
 						" bookingID: " + i_msg.bookings[0].bookingID);
+				return replyMessage;
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Deleting Booking failed." +
 					" bookingID: " + i_msg.bookings[0].bookingID);
+			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Deleting Booking failed." +
 					" bookingID: " + i_msg.bookings[0].bookingID);
+			return replyMessage;
 		}
 		finally {
 			if (dbcon != null) {
 				dbcon.close();
 			}
 		}
+		replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "Edited one Booking as Requested." +
+				" StartDate: " + i_msg.bookings[0].startDate);
 		return replyMessage;
 	}
 	public Message getBooking(Message i_msg){
@@ -131,8 +138,8 @@ public class Booking {
 		replyMessage.initializeBookings(1);
 		try {
 			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
-			// booking id or owner + sDate
-			ResultSet rs=dbcon.select("Select count(*) FROM test_bookings WHERE bookingID='" 
+			// booking id
+			ResultSet rs=dbcon.select("Select count(*) FROM  "+ i_msg.header.nameHotel + "_bookings WHERE bookingID='" 
 					+ i_msg.bookings[0].bookingID +"'");
 			rs.next();
 			int i=rs.getInt(1);
@@ -153,24 +160,26 @@ public class Booking {
 	            int cstatus = rs.getInt("status");
 	            replyMessage.bookings[0].fillAll(cbookingID, cownerID, creationDate, cstartDate, endDate, croomID, cstatus);
 	        }
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "View one Booking as Requested." +
-						" StartDate: " + i_msg.bookings[0].startDate);
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
+			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
+			return replyMessage;
 		}
 		finally {
 			if (dbcon != null) {
 				dbcon.close();
 			}
 		}
+		replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "View one Booking as Requested." +
+				" StartDate: " + i_msg.bookings[0].startDate);
 		return replyMessage;
 	}
 	public Message getAllBooking(Message i_msg){
@@ -184,7 +193,7 @@ public class Booking {
 			rs.next();
 			int numberofrows=rs.getInt(1);
 			if(numberofrows<0){
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "viewAll Booking failed." +
+				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "get All Booking failed." +
 						" OwnerID: " + i_msg.bookings[0].ownerID);
 				return replyMessage;
 			}
@@ -237,7 +246,7 @@ public class Booking {
 		if(i_msg.bookings[0].ownerID>0){
 			// owner Search
 			try {
-				dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+				dbcon = new databaseHelper(i_msg.header.nameHotel);
 				ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + 
 										"_bookings WHERE ownerID='" + i_msg.bookings[0].ownerID +"'");
 				int numberofrows=rs.getInt(1);
@@ -268,25 +277,30 @@ public class Booking {
 				e.printStackTrace(System.err);
 				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
+				return replyMessage;
 			} catch (ClassNotFoundException e) {
 				System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 				e.printStackTrace(System.err);
 				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
+				return replyMessage;
 			}
 			finally {
 				if (dbcon != null) {
 					dbcon.close();
 				}
 			}
-			replyMessage.response.fillResponse(ResponseCode.SUCCESS, "ViewAll one Booking as Requested." +
-					" StartDate: " + i_msg.bookings[0].startDate);
 		}
 		else if(i_msg.bookings[0].startDate!=null && i_msg.bookings[0].endDate!=null){
 			// owner Search
 			try {
-				dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+				dbcon 	= new databaseHelper(i_msg.header.nameHotel);
 				// nadd
+				dbcon.select("SELECT roomID FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN " +
+				"(SELECT roomID FROM test_bookings WHERE " +
+				"(endDate > startd AND endDate < endd) "+
+				"OR"+
+				"(endDate> endd AND startDate <= endd))");
 				/*SELECT roomID FROM test_rooms WHERE roomID NOT IN
 				(SELECT roomID FROM test_bookings WHERE 
 				(endDate > startd AND endDate < endd)
