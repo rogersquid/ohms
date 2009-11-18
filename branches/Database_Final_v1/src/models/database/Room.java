@@ -23,7 +23,7 @@ public class Room {
 			} else {
 				// insert room into the database
 				int insertStatus = dbcon.modify("INSERT INTO " + i_msg.header.nameHotel + "_rooms (roomID, roomNumber, roomFloor, roomType, price, onsuite, " +
-						"tv, disability, elevator, availability, phone, internet, kitchen, clean, singleBeds, queenBeds, kingBeds ) VALUES (" + 
+						"tv, disabilityAccess, elevator, available, phone, internet, kitchen, clean, singleBeds, queenBeds, kingBeds ) VALUES (" + 
 						i_msg.rooms[0].roomID + ", " + 
 						i_msg.rooms[0].roomNumber + ", " + 
 						i_msg.rooms[0].floor + ", '" + 
@@ -94,14 +94,14 @@ public class Room {
 			// update room in database that match roomID
 			int updateStatus = dbcon.modify("UPDATE " + i_msg.header.nameHotel + "_rooms SET " +
 					"roomNumber="	+ i_msg.rooms[0].roomNumber + ", " +
-					"roomFloor="	+ i_msg.rooms[0].floor + ", " +
+					"floor="	+ i_msg.rooms[0].floor + ", " +
 					"roomType="		+ i_msg.rooms[0].roomType + ", " +
 					"price="		+ i_msg.rooms[0].price + ", " +
 					"onsuite="		+ ((i_msg.rooms[0].onsuite)?1:0) + ", " +
 					"tv="			+ ((i_msg.rooms[0].tv)?1:0) + ", " +
-					"disability="	+ ((i_msg.rooms[0].disabilityAccess)?1:0) + ", " +
+					"disabilityAccess="	+ ((i_msg.rooms[0].disabilityAccess)?1:0) + ", " +
 					"elevator="		+ ((i_msg.rooms[0].elevator)?1:0) + ", " +
-					"availability="	+ ((i_msg.rooms[0].available)?1:0) + ", " +
+					"available="	+ ((i_msg.rooms[0].available)?1:0) + ", " +
 					"phone=" 		+ ((i_msg.rooms[0].phone)?1:0) + ", " +
 					"internet=" 	+ ((i_msg.rooms[0].internet)?1:0) + ", " +
 					"kitchen=" 		+ ((i_msg.rooms[0].kitchen)?1:0) + ", " +
@@ -195,14 +195,14 @@ public class Room {
 				while (rs.next()) {
 					replyMessage.rooms[i].roomID = rs.getInt("roomID");
 					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
-					replyMessage.rooms[i].floor = rs.getInt("roomFloor");
+					replyMessage.rooms[i].floor = rs.getInt("floor");
 					replyMessage.rooms[i].roomType = rs.getString("roomType");
 					replyMessage.rooms[i].price = rs.getFloat("price");
 					replyMessage.rooms[i].onsuite = rs.getBoolean("onsuite");
 					replyMessage.rooms[i].tv = rs.getBoolean("tv");
-					replyMessage.rooms[i].disabilityAccess = rs.getBoolean("disability");
+					replyMessage.rooms[i].disabilityAccess = rs.getBoolean("disabilityAccess");
 					replyMessage.rooms[i].elevator = rs.getBoolean("elevator");
-					replyMessage.rooms[i].available = rs.getBoolean("availability");
+					replyMessage.rooms[i].available = rs.getBoolean("available");
 					replyMessage.rooms[i].phone = rs.getBoolean("phone");
 					replyMessage.rooms[i].internet = rs.getBoolean("internet");
 					replyMessage.rooms[i].kitchen = rs.getBoolean("kitchen");
@@ -242,14 +242,14 @@ public class Room {
 			while (rs.next()) {
 				replyMessage.rooms[0].roomID = rs.getInt("roomID");
 				replyMessage.rooms[0].roomNumber = rs.getInt("roomNumber");
-				replyMessage.rooms[0].floor = rs.getInt("roomFloor");
+				replyMessage.rooms[0].floor = rs.getInt("floor");
 				replyMessage.rooms[0].roomType = rs.getString("roomType");
 				replyMessage.rooms[0].price = rs.getFloat("price");
 				replyMessage.rooms[0].onsuite = rs.getBoolean("onsuite");
 				replyMessage.rooms[0].tv = rs.getBoolean("tv");
-				replyMessage.rooms[0].disabilityAccess = rs.getBoolean("disability");
+				replyMessage.rooms[0].disabilityAccess = rs.getBoolean("disabilityAccess");
 				replyMessage.rooms[0].elevator = rs.getBoolean("elevator");
-				replyMessage.rooms[0].available = rs.getBoolean("availability");
+				replyMessage.rooms[0].available = rs.getBoolean("available");
 				replyMessage.rooms[0].phone = rs.getBoolean("phone");
 				replyMessage.rooms[0].internet = rs.getBoolean("internet");
 				replyMessage.rooms[0].kitchen = rs.getBoolean("kitchen");
@@ -287,7 +287,7 @@ public class Room {
 			
 			boolean nonFirst = false;
 			if (i_msg.rooms[0].available) {
-				queryString = queryString + "availability=1";
+				queryString = queryString + "available=1";
 				nonFirst = true;
 			}
 			if (i_msg.rooms[0].roomType != "") {
@@ -302,7 +302,7 @@ public class Room {
 			}
 			if (i_msg.rooms[0].floor != 0) {
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "roomFloor=" + i_msg.rooms[0].floor;
+				queryString = queryString + "floor=" + i_msg.rooms[0].floor;
 				nonFirst = true;
 			}
 			
@@ -324,14 +324,14 @@ public class Room {
 				while (rs.next()) {
 					replyMessage.rooms[i].roomID = rs.getInt("roomID");
 					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
-					replyMessage.rooms[i].floor = rs.getInt("roomFloor");
+					replyMessage.rooms[i].floor = rs.getInt("floor");
 					replyMessage.rooms[i].roomType = rs.getString("roomType");
 					replyMessage.rooms[i].price = rs.getFloat("price");
 					replyMessage.rooms[i].onsuite = rs.getBoolean("onsuite");
 					replyMessage.rooms[i].tv = rs.getBoolean("tv");
-					replyMessage.rooms[i].disabilityAccess = rs.getBoolean("disability");
+					replyMessage.rooms[i].disabilityAccess = rs.getBoolean("disabilityAccess");
 					replyMessage.rooms[i].elevator = rs.getBoolean("elevator");
-					replyMessage.rooms[i].available = rs.getBoolean("availability");
+					replyMessage.rooms[i].available = rs.getBoolean("available");
 					replyMessage.rooms[i].phone = rs.getBoolean("phone");
 					replyMessage.rooms[i].internet = rs.getBoolean("internet");
 					replyMessage.rooms[i].kitchen = rs.getBoolean("kitchen");
