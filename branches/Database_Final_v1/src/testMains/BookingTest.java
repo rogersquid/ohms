@@ -56,7 +56,7 @@ public class BookingTest {
 	    		System.out.println("IO error trying to read your name!");
 	    		System.exit(1);
 	    	}
-		System.out.println("Start Running Test for booking");
+		System.out.println("Start Running Test for get booking");
 		input= new Message(1, 1, "test");
 		input.bookings[0].bookingID=reply.bookings[0].bookingID;
 		reply=mybooking.getBooking(input);
