@@ -2,10 +2,7 @@ package models.database;
 
 import models.messages.*;
 import models.messages.ResponseMessage.ResponseCode;
-
-import java.awt.image.ReplicateScaleFilter;
 import java.sql.*;
-import java.util.Date;
 
 public class Booking {
 	public Message addBooking(Message i_msg){
@@ -27,24 +24,24 @@ public class Booking {
 			// check the number of rows changed to see whether response is as expected
 			if (returnedRows > 0) {
 				System.out.println("Success");
-				replyMessage.response.fillResponse(i_msg.response.responseCode.SUCCESS, "Added one Booking as Requested." +
+				replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Added one Booking as Requested." +
 						" OwnerID: " + i_msg.header.messageOwnerID);
 			} else {
 				System.out.println("Failure");
-				replyMessage.response.fillResponse(i_msg.response.responseCode.FAIL, "Adding Booking failed." +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Adding Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
 			}
 		// check the exceptions. If an exception is thrown, operation failed
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Adding Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Adding Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Adding Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Adding Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
 			return replyMessage;
 		}
@@ -68,20 +65,20 @@ public class Booking {
 					+ "', endDate='" + i_msg.bookings[0].endDate + "', roomID='" + i_msg.bookings[0].roomID
 					+ "', status='" + i_msg.bookings[0].status + "'");
 			if (returnedRows != 1) {
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Editting Booking failed." +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
 				return replyMessage;
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Editting Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Editting Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
 			return replyMessage;
 		}
@@ -90,7 +87,7 @@ public class Booking {
 				dbcon.close();
 			}
 		}
-		replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "Edited one Booking as Requested." +
+		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Edited one Booking as Requested." +
 				" StartDate: " + i_msg.bookings[0].startDate);
 		return replyMessage;
 	}
@@ -104,20 +101,20 @@ public class Booking {
 			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_bookings WHERE bookingID='" + i_msg.bookings[0].bookingID
 					+ "'");
 			if (returnedRows != 1){
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Deleting Booking failed." +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Deleting Booking failed." +
 						" bookingID: " + i_msg.bookings[0].bookingID);
 				return replyMessage;
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Deleting Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Deleting Booking failed." +
 					" bookingID: " + i_msg.bookings[0].bookingID);
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Deleting Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Deleting Booking failed." +
 					" bookingID: " + i_msg.bookings[0].bookingID);
 			return replyMessage;
 		}
@@ -126,7 +123,7 @@ public class Booking {
 				dbcon.close();
 			}
 		}
-		replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "Edited one Booking as Requested." +
+		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Edited one Booking as Requested." +
 				" StartDate: " + i_msg.bookings[0].startDate);
 		return replyMessage;
 	}
@@ -144,7 +141,7 @@ public class Booking {
 			rs.next();
 			int i=rs.getInt(1);
 			if(i!=1){
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
 				return replyMessage;
 			}
@@ -163,13 +160,13 @@ public class Booking {
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
 			return replyMessage;
 		}
@@ -178,7 +175,7 @@ public class Booking {
 				dbcon.close();
 			}
 		}
-		replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "View one Booking as Requested." +
+		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "View one Booking as Requested." +
 				" StartDate: " + i_msg.bookings[0].startDate);
 		return replyMessage;
 	}
@@ -193,12 +190,12 @@ public class Booking {
 			rs.next();
 			int numberofrows=rs.getInt(1);
 			if(numberofrows<0){
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "get All Booking failed." +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "get All Booking failed." +
 						" OwnerID: " + i_msg.bookings[0].ownerID);
 				return replyMessage;
 			}
 			else if (numberofrows==0){
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "There is no booking." +
+				replyMessage.response.fillResponse(ResponseCode.SUCCESS, "There is no booking." +
 						" OwnerID: " + i_msg.bookings[0].ownerID);
 				return replyMessage;
 			}else{
@@ -219,13 +216,13 @@ public class Booking {
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 					" StartDate: " + i_msg.bookings[0].startDate);
 			return replyMessage;
 		}
@@ -234,7 +231,7 @@ public class Booking {
 				dbcon.close();
 			}
 		}
-		replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "ViewAll one Booking as Requested." +
+		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "ViewAll one Booking as Requested." +
 				" StartDate: " + i_msg.bookings[0].startDate);
 		return replyMessage;
 	}
@@ -251,12 +248,12 @@ public class Booking {
 										"_bookings WHERE ownerID='" + i_msg.bookings[0].ownerID +"'");
 				int numberofrows=rs.getInt(1);
 				if(numberofrows<0){
-					replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "viewAll Booking failed." +
+					replyMessage.response.fillResponse(ResponseCode.FAIL, "viewAll Booking failed." +
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
 				else if (numberofrows==0){
-					replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "There is no booking." +
+					replyMessage.response.fillResponse(ResponseCode.SUCCESS, "There is no booking." +
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
@@ -275,13 +272,13 @@ public class Booking {
 			} catch (SQLException e) {
 				System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 				e.printStackTrace(System.err);
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
 				return replyMessage;
 			} catch (ClassNotFoundException e) {
 				System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 				e.printStackTrace(System.err);
-				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "view Booking failed." +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
 				return replyMessage;
 			}
@@ -292,44 +289,39 @@ public class Booking {
 			}
 		}
 		else if(i_msg.bookings[0].startDate!=null && i_msg.bookings[0].endDate!=null){
-			// owner Search
+			// ROOM ID that are available in a given range of dates
 			try {
 				dbcon 	= new databaseHelper(i_msg.header.nameHotel);
-				// nadd
-				dbcon.select("SELECT roomID FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN " +
-				"(SELECT roomID FROM test_bookings WHERE " +
-				"(endDate > startd AND endDate < endd) "+
-				"OR"+
-				"(endDate> endd AND startDate <= endd))");
-				/*SELECT roomID FROM test_rooms WHERE roomID NOT IN
-				(SELECT roomID FROM test_bookings WHERE 
-				(endDate > startd AND endDate < endd)
-				OR
-				(endDate> endd AND startDate <= endd))*/
-				
-				ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + 
-										"_bookings WHERE ownerID='" + i_msg.bookings[0].ownerID +"'");
+				// for a given day range what rooms are free?  -- QUESTION FOR MURAT 
+				/*
+				 * ' ve " serpistirmek gerekio mu
+				 * what about the extra joins?
+				 */
+				ResultSet rs=dbcon.select("SELECT count(*) FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN " +
+						"(SELECT roomID FROM "+ i_msg.header.nameHotel +"_bookings WHERE " +
+						"(endDate > "+ i_msg.bookings[0].startDate +" AND endDate < "+ i_msg.bookings[0].endDate +") "+
+						"OR "+
+						"(endDate> "+ i_msg.bookings[0].startDate +" AND startDate <= "+ i_msg.bookings[0].endDate +"))");
 				int numberofrows=rs.getInt(1);
 				if(numberofrows<0){
-					replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "viewAll Booking failed." +
+					replyMessage.response.fillResponse(ResponseCode.FAIL, "viewAll Booking failed." +
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
 				else if (numberofrows==0){
-					replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "There is no booking." +
+					replyMessage.response.fillResponse(ResponseCode.SUCCESS, "There is no booking." +
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
-				rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.bookings[0].ownerID + "'");
+				replyMessage.initializeBookings(numberofrows);
+				rs=dbcon.select("SELECT roomID FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN " +
+						"(SELECT roomID FROM "+ i_msg.header.nameHotel +"_bookings WHERE " +
+						"(endDate > "+ i_msg.bookings[0].startDate +" AND endDate < "+ i_msg.bookings[0].endDate +") "+
+						"OR "+
+						"(endDate> "+ i_msg.bookings[0].startDate +" AND startDate <= "+ i_msg.bookings[0].endDate +"))");
 				int i=0;
 				while (rs.next()) {
-					replyMessage.bookings[i].bookingID=rs.getInt("bookingID");
-					replyMessage.bookings[i].ownerID= rs.getInt("ownerId");
-					replyMessage.bookings[i].creationDate= new java.sql.Timestamp(rs.getDate("bookingDate").getTime());
-					replyMessage.bookings[i].startDate= rs.getDate("startDate");
-					replyMessage.bookings[i].endDate= rs.getDate("endDate");
-					replyMessage.bookings[i].roomID= rs.getInt("roomID");
-					replyMessage.bookings[i].status = rs.getInt("status");
+					replyMessage.bookings[i].roomID=rs.getInt("roomID");
 					i++;
 		        }
 			} catch (SQLException e) {
@@ -337,11 +329,13 @@ public class Booking {
 				e.printStackTrace(System.err);
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
+				return replyMessage;
 			} catch (ClassNotFoundException e) {
 				System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 				e.printStackTrace(System.err);
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
+				return replyMessage;
 			}
 			finally {
 				if (dbcon != null) {
