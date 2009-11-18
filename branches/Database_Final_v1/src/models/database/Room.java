@@ -22,9 +22,8 @@ public class Room {
 				replyMessage.response.responseString = "Room number already in database.";
 			} else {
 				// insert room into the database
-				int insertStatus = dbcon.modify("INSERT INTO " + i_msg.header.nameHotel + "_rooms (roomID, roomNumber, roomFloor, roomType, price, onsuite, " +
+				int insertStatus = dbcon.modify("INSERT INTO " + i_msg.header.nameHotel + "_rooms (roomNumber, roomFloor, roomType, price, onsuite, " +
 						"tv, disabilityAccess, elevator, available, phone, internet, kitchen, clean, singleBeds, queenBeds, kingBeds ) VALUES (" + 
-						i_msg.rooms[0].roomID + ", " + 
 						i_msg.rooms[0].roomNumber + ", " + 
 						i_msg.rooms[0].floor + ", '" + 
 						i_msg.rooms[0].roomType + "', " + 
