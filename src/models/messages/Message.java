@@ -23,6 +23,9 @@ public class Message {
 	}
 	public void initializeBookings(int arraysize){
 		bookings=new BookingMessage[arraysize];
+		for(int i=0; i<arraysize; i++){
+			bookings[i]=new BookingMessage();
+		}
 	}
 	public void initializeRooms(int arraysize){
 		rooms=new RoomMessage[arraysize];
