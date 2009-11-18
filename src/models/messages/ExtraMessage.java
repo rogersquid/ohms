@@ -7,9 +7,9 @@ public class ExtraMessage{
 	public String				extraName;
 	public float				price;
 	public java.sql.Date		date;
-	public java.sql.Date		creationDate;
+	public java.sql.Timestamp	creationDate;
 	
-	public void fillAll(int eID, int bID, String eName, float ePrice, java.sql.Date eDate, java.sql.Date cDate ){
+	public void fillAll(int eID, int bID, String eName, float ePrice, java.sql.Date eDate, java.sql.Timestamp cDate ){
 		extraID=eID;
 		bookingID=bID;
 		extraName=eName;
