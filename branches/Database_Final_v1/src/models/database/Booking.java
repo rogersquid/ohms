@@ -87,6 +87,40 @@ public class Booking {
 		}
 		return replyMessage;
 	}
+	public Message deleteBooking(Message i_msg){
+		// Creating database handle and create return message
+		databaseHelper dbcon = null;
+		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		try {
+			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			// booking id or owner + sDate
+			int returnedRows = dbcon.modify("DELETE FROM test_bookings WHERE bookingID='" + i_msg.bookings[0].bookingID
+					+ "'");
+			if (returnedRows == 1) {
+				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, "Delete one Booking as Requested." +
+						" bookingID: " + i_msg.bookings[0].bookingID);
+			} else {
+				replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Deleting Booking failed." +
+						" bookingID: " + i_msg.bookings[0].bookingID);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Deleting Booking failed." +
+					" bookingID: " + i_msg.bookings[0].bookingID);
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.fillResponse(ResponseMessage.ResponseCode.FAIL, "Deleting Booking failed." +
+					" bookingID: " + i_msg.bookings[0].bookingID);
+		}
+		finally {
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		return replyMessage;
+	}
 }
 	/*
 	public BookingMessage editBooking(BookingMessage i_msg){
