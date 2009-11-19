@@ -42,4 +42,16 @@ public class RoomMessage {
 		onsuite=i_onsuite;
 		elevator=i_elevator;
 	}
+	
+	public boolean validateParam(Message i_msg){
+		boolean validity = true;
+		
+		if (i_msg.rooms[0].roomID < 0 || i_msg.rooms[0].roomNumber < 0 || i_msg.rooms[0].floor < 0 || i_msg.rooms[0].price < 0 ||
+				i_msg.rooms[0].singleBeds < 0 || i_msg.rooms[0].queenBeds < 0 || i_msg.rooms[0].kingBeds < 0) {
+			validity = false;		
+		} if (i_msg.rooms[0].roomType == "" || i_msg.rooms[0].roomType == null) {
+			validity = false;
+		}
+		return validity;
+	}
 }

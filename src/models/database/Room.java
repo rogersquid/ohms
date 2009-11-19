@@ -10,6 +10,7 @@ public class Room {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
+		
 		try {
 			// create connection
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
@@ -22,8 +23,8 @@ public class Room {
 				replyMessage.response.responseString = "Room number already in database.";
 			} else {
 				// insert room into the database
-				int insertStatus = dbcon.modify("INSERT INTO " + i_msg.header.nameHotel + "_rooms (roomNumber, roomFloor, roomType, price, onsuite, " +
-						"tv, disabilityAccess, elevator, available, phone, internet, kitchen, clean, singleBeds, queenBeds, kingBeds ) VALUES (" + 
+				int insertID = dbcon.insert("INSERT INTO " + i_msg.header.nameHotel + "_rooms (roomNumber, floor, roomType, price, onsuite, " +
+						"tv, disabilityAccess, elevator, available, phone, internet, kitchen, cleaned, singleBeds, queenBeds, kingBeds ) VALUES (" + 
 						i_msg.rooms[0].roomNumber + ", " + 
 						i_msg.rooms[0].floor + ", '" + 
 						i_msg.rooms[0].roomType + "', " + 
@@ -40,13 +41,9 @@ public class Room {
 						i_msg.rooms[0].singleBeds + ", " +
 						i_msg.rooms[0].queenBeds + ", " +
 						i_msg.rooms[0].kingBeds + ")");
-				if (insertStatus == 1) {
-					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-					replyMessage.response.responseString = "Room created in database.";
-				} else {
-					replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-					replyMessage.response.responseString = "Insert operation failed.";
-				}
+				replyMessage.rooms[0].roomID = insertID;
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Room created.";
 			}
 		
 		} catch (SQLException e) {
@@ -72,6 +69,7 @@ public class Room {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
+		
 		try {
 			// create connection
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
@@ -94,7 +92,7 @@ public class Room {
 			int updateStatus = dbcon.modify("UPDATE " + i_msg.header.nameHotel + "_rooms SET " +
 					"roomNumber="	+ i_msg.rooms[0].roomNumber + ", " +
 					"floor="	+ i_msg.rooms[0].floor + ", " +
-					"roomType="		+ i_msg.rooms[0].roomType + ", " +
+					"roomType='"		+ i_msg.rooms[0].roomType + "', " +
 					"price="		+ i_msg.rooms[0].price + ", " +
 					"onsuite="		+ ((i_msg.rooms[0].onsuite)?1:0) + ", " +
 					"tv="			+ ((i_msg.rooms[0].tv)?1:0) + ", " +
@@ -104,7 +102,7 @@ public class Room {
 					"phone=" 		+ ((i_msg.rooms[0].phone)?1:0) + ", " +
 					"internet=" 	+ ((i_msg.rooms[0].internet)?1:0) + ", " +
 					"kitchen=" 		+ ((i_msg.rooms[0].kitchen)?1:0) + ", " +
-					"clean="		+ ((i_msg.rooms[0].cleaned)?1:0) + ", " +
+					"cleaned="		+ ((i_msg.rooms[0].cleaned)?1:0) + ", " +
 					"singleBeds=" 	+ i_msg.rooms[0].singleBeds + ", " +
 					"queenBeds="	+ i_msg.rooms[0].queenBeds + ", " +
 					"kingBeds="		+ i_msg.rooms[0].kingBeds + " " +
@@ -138,6 +136,7 @@ public class Room {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
+		
 		try {
 			// create connection
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
@@ -173,6 +172,7 @@ public class Room {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
+		
 		try {
 			// create connection
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
@@ -188,10 +188,11 @@ public class Room {
 					i++;
 				}
 				rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms");
-				replyMessage.rooms = new RoomMessage[i];
+				replyMessage.initializeRooms(i);
 				i = 0;
 				
 				while (rs.next()) {
+					replyMessage.rooms[i] = new RoomMessage();
 					replyMessage.rooms[i].roomID = rs.getInt("roomID");
 					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
 					replyMessage.rooms[i].floor = rs.getInt("floor");
@@ -205,7 +206,7 @@ public class Room {
 					replyMessage.rooms[i].phone = rs.getBoolean("phone");
 					replyMessage.rooms[i].internet = rs.getBoolean("internet");
 					replyMessage.rooms[i].kitchen = rs.getBoolean("kitchen");
-					replyMessage.rooms[i].cleaned = rs.getBoolean("clean");
+					replyMessage.rooms[i].cleaned = rs.getBoolean("cleaned");
 					replyMessage.rooms[i].singleBeds = rs.getInt("singleBeds");
 					replyMessage.rooms[i].queenBeds = rs.getInt("queenBeds");
 					replyMessage.rooms[i].kingBeds = rs.getInt("kingBeds");
@@ -233,11 +234,12 @@ public class Room {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
+		
 		try {
 			// create connection
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
 			// query the database for all rooms
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = " + i_msg.rooms[0].roomID);
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
 			while (rs.next()) {
 				replyMessage.rooms[0].roomID = rs.getInt("roomID");
 				replyMessage.rooms[0].roomNumber = rs.getInt("roomNumber");
@@ -252,21 +254,21 @@ public class Room {
 				replyMessage.rooms[0].phone = rs.getBoolean("phone");
 				replyMessage.rooms[0].internet = rs.getBoolean("internet");
 				replyMessage.rooms[0].kitchen = rs.getBoolean("kitchen");
-				replyMessage.rooms[0].cleaned = rs.getBoolean("clean");
+				replyMessage.rooms[0].cleaned = rs.getBoolean("cleaned");
 				replyMessage.rooms[0].singleBeds = rs.getInt("singleBeds");
 				replyMessage.rooms[0].queenBeds = rs.getInt("queenBeds");
 				replyMessage.rooms[0].kingBeds = rs.getInt("kingBeds");
 			}
 		} catch (SQLException e) {
-			System.err.println("Error in 'deleteRoom'.  SQLException was thrown:");
+			System.err.println("Error in 'getRoom'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-			replyMessage.response.responseString = "Delete failed.";
+			replyMessage.response.responseString = "Query failed.";
 		} catch (ClassNotFoundException e) {
-			System.err.println("Error in 'deleteRoom'.  ClassNotFoundException was thrown:");
+			System.err.println("Error in 'getRoom'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-			replyMessage.response.responseString = "Delete failed.";
+			replyMessage.response.responseString = "Query failed.";
 		}
 		finally {
 			if (dbcon != null) dbcon.close();
@@ -278,6 +280,7 @@ public class Room {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
+		
 		try {
 			// create connection
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
@@ -296,7 +299,7 @@ public class Room {
 			}
 			if (i_msg.rooms[0].cleaned) {
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "clean=1";
+				queryString = queryString + "cleaned=1";
 				nonFirst = true;
 			}
 			if (i_msg.rooms[0].floor != 0) {
@@ -317,7 +320,7 @@ public class Room {
 					i++;
 				}
 				rs = dbcon.select(queryString);
-				replyMessage.rooms = new RoomMessage[i];
+				replyMessage.initializeRooms(i);
 				i = 0;
 				
 				while (rs.next()) {
@@ -334,7 +337,7 @@ public class Room {
 					replyMessage.rooms[i].phone = rs.getBoolean("phone");
 					replyMessage.rooms[i].internet = rs.getBoolean("internet");
 					replyMessage.rooms[i].kitchen = rs.getBoolean("kitchen");
-					replyMessage.rooms[i].cleaned = rs.getBoolean("clean");
+					replyMessage.rooms[i].cleaned = rs.getBoolean("cleaned");
 					replyMessage.rooms[i].singleBeds = rs.getInt("singleBeds");
 					replyMessage.rooms[i].queenBeds = rs.getInt("queenBeds");
 					replyMessage.rooms[i].kingBeds = rs.getInt("kingBeds");
