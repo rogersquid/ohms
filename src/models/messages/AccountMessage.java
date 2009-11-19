@@ -41,7 +41,7 @@ public class AccountMessage{
 	}
 	
 	public ResponseMessage validateParams(){
-		response = new ResponseMessage();
+		ResponseMessage response = new ResponseMessage();
 		//response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 		Matcher m;
 		// Verify accountType
@@ -67,7 +67,7 @@ public class AccountMessage{
 		else
 		{
 			Pattern validPwd = Pattern.compile("[\\da-zA-Z-!@#\\$%\\^&\\*\\?,\\.\\|;:]+");
-			m = validPwd.matcher(testPwd);
+			m = validPwd.matcher(password);
 				if(!m.matches() || (m.groupCount() > 1))
 			{
 					response.responseString = response.responseString +  ("Password string is not vaild \n");
@@ -92,7 +92,7 @@ public class AccountMessage{
 		else
 		{
 			Pattern validEmail = Pattern.compile(".+@.+\\.[a-z]+");
-			m = validEmail.matcher(testEmail);
+			m = validEmail.matcher(email);
 				if(!m.matches() || (m.groupCount() > 1))
 			{
 			response.responseString = response.responseString + ("Email address is not vaild.\n"); 
@@ -108,7 +108,7 @@ public class AccountMessage{
 		}
 		else {
 			Pattern validName = Pattern.compile("[a-zA-Z-]+");
-			m = validName.matcher(testFName);
+			m = validName.matcher(firstName);
 			if (!m.matches() || (m.groupCount() > 1)) {
 				response.responseString = response.responseString + ("First Name is not valid.\n");
 				response.responseCode = ResponseMessage.ResponseCode.FAIL;
@@ -123,7 +123,7 @@ public class AccountMessage{
 		}
 		else {
 			Pattern validName = Pattern.compile("[a-zA-Z-]+");
-			m = validName.matcher(testLName);
+			m = validName.matcher(lastName);
 			if (!m.matches() || (m.groupCount() > 1)) {
 				response.responseString = response.responseString + ("Last Name is not valid. \n");
 				response.responseCode = ResponseMessage.ResponseCode.FAIL;
@@ -138,7 +138,7 @@ public class AccountMessage{
 		}
 		else {
 			Pattern validPhone = Pattern.compile("[\\d-]+");
-			m = validPhone.matcher(testPhone);
+			m = validPhone.matcher(phone);
 			if (!m.matches() || (m.groupCount() > 1)) {
 				response.responseString = response.responseString + ("Phone number is not valid. \n");
 				response.responseCode = ResponseMessage.ResponseCode.FAIL;
