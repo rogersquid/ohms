@@ -103,7 +103,7 @@ public class AccountMessage{
 		// Verify First Name
 		if(firstName.isEmpty())
 		{
-			response.responseString = i_msg.response.responseString + ("First Name should not be empty. \n");
+			response.responseString = response.responseString + ("First Name should not be empty. \n");
 			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 		}
 		else {
