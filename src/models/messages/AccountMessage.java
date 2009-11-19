@@ -13,7 +13,7 @@ public class AccountMessage{
 	public String address;
 	public String email;
 	public boolean gender;
-	public java.sql.Timestamp creationDate;
+	public java.sql.Timestamp creationTime;
 	
 	public boolean fill_All(int i_account_id, String i_account_type, String i_first_name, String i_surname, String i_pw, boolean i_gender, String i_phone, String i_add, String i_mail){
 		accountID		= i_account_id;
