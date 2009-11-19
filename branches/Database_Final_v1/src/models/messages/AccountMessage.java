@@ -40,34 +40,29 @@ public class AccountMessage{
 		System.out.println(email);
 	}
 	
-	public Message validateParams(Message i_msg){
-		//Message r_i_msg = i_msg;
-		i_msg.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+	public ResponseMessage validateParams(){
+		response = new ResponseMessage();
+		//response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 		Matcher m;
 		// Verify accountType
 		// guest, maid, customer, staff, or admin
-		if(!(i_msg.accounts[0].accountType.equalsIgnoreCase("guest") ||
-				i_msg.accounts[0].accountType.equalsIgnoreCase("customer") ||
-				i_msg.accounts[0].accountType.equalsIgnoreCase("maid") ||
-				i_msg.accounts[0].accountType.equalsIgnoreCase("staff") ||
-				i_msg.accounts[0].accountType.equalsIgnoreCase("admin")))
+		if(!(accountType.equalsIgnoreCase("guest") ||
+				accountType.equalsIgnoreCase("customer") ||
+				accountType.equalsIgnoreCase("maid") ||
+				accountType.equalsIgnoreCase("staff") ||
+				accountType.equalsIgnoreCase("admin")))
 		{
-			//i_msg.concatHeaderResponse(Header.Response.FAIL, "Invaild accountType: " + i_msg.accountType +
-			//		". Account ID: " + i_msg.accounts[0].accountID );
-			i_msg.response.responseString = i_msg.response.responseString + ("Invalid account type: " + i_msg.accounts[0].accountType + ". Account id: " + i_msg.accounts[0].accountID);
+			response.responseString = response.responseString + ("Invalid account type: " + accountType + ". Account id: " + accountID + "\n");
 			//CHANGE RESPONSE CODE
-			i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 		}
 
 		
 		// Verify password
-		String testPwd = i_msg.accounts[0].password;
-		if(testPwd.isEmpty())
+		if(password.isEmpty())
 		{
-			//i_msg.concatHeaderResponse(Header.Response.FAIL, "Password String should not be empty. " +
-				//	"Account ID: " + i_msg.accountID );
-			i_msg.response.responseString = i_msg.response.responseString +  ("Password String should not be empty. " + "Account ID: " + i_msg.accounts[0].accountID);
-			i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			response.responseString = response.responseString +  ("Password should not be empty. \n");
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 		}
 		else
 		{
@@ -75,42 +70,24 @@ public class AccountMessage{
 			m = validPwd.matcher(testPwd);
 				if(!m.matches() || (m.groupCount() > 1))
 			{
-				//i_msg.concatHeaderResponse(Header.Response.FAIL, "Password string is not vaild " +
-					//	"Account ID: " + i_msg.accountID );
-					i_msg.response.responseString = i_msg.response.responseString +  ("Password string is not vaild " + "Account ID: " + i_msg.accounts[0].accountID);
-					i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+					response.responseString = response.responseString +  ("Password string is not vaild \n");
+					response.responseCode = ResponseMessage.ResponseCode.FAIL;
 			}			
 		}
 		
 		// Verify address
-		String testAddr = i_msg.accounts[0].address;
-		if(testAddr.isEmpty())
+		if(address.isEmpty())
 		{
-			//i_msg.concatHeaderResponse(Header.Response.FAIL, "Address String should not be empty. " +
-				//	"Account ID: " + i_msg.accountID );
-			i_msg.response.responseString = i_msg.response.responseString + ("Address String should not be empty. " + "Account ID: " + i_msg.accounts[0].accountID);			
-			i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-		}
-		else
-		{
-//			Pattern validAddr = Pattern.compile("[\\da-zA-Z-!@#\\$%\\^&\\*\\?,\\.\\|;:]+");
-//			m = validAddr.matcher(testAddr);
-//				if(!m.matches())
-//			{
-//				i_msg.concatHeaderResponse(Header.Response.FAIL, "Address is not vaild " +
-//						"Account ID: " + i_msg.accountID );
-//			}			
+			response.responseString = response.responseString + ("Address field should not be blank.\n");			
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 		}
 
 		
 		// Verify email
-		String testEmail = i_msg.accounts[0].email;
-		if(testEmail.isEmpty())
+		if(email.isEmpty())
 		{
-			//i_msg.concatHeaderResponse(Header.Response.FAIL, "Email address should not be empty. " +
-				//	"Account ID: " + i_msg.accountID );
-			i_msg.response.responseString = i_msg.response.responseString + ("Email address should not be empty. " + "Account ID: " + i_msg.accounts[0].accountID);
-			i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			response.responseString = response.responseString + ("Email address should not be empty. \n" + "Account ID: " + accountID);
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 		}
 		else
 		{
@@ -118,77 +95,57 @@ public class AccountMessage{
 			m = validEmail.matcher(testEmail);
 				if(!m.matches() || (m.groupCount() > 1))
 			{
-				//i_msg.concatHeaderResponse(Header.Response.FAIL, "Email address is not vaild " +
-					//	"Account ID: " + i_msg.accountID );
-			i_msg.response.responseString = i_msg.response.responseString + ("Email address is not vaild " + "Account ID: " + i_msg.accounts[0].accountID ); 
-			i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			response.responseString = response.responseString + ("Email address is not vaild.\n"); 
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 			}
 		}
 
 		// Verify First Name
-		String testFName = i_msg.accounts[0].firstName;
-		if(testFName.isEmpty())
+		if(firstName.isEmpty())
 		{
-		//	i_msg.concatHeaderResponse(Header.Response.FAIL, "First Name should not be empty. " +
-			//		"Account ID: " + i_msg.accountID );
-			i_msg.response.responseString = i_msg.response.responseString + ("First Name should not be empty. " + "Account ID: " + i_msg.accounts[0].accountID );
-			i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			response.responseString = i_msg.response.responseString + ("First Name should not be empty. \n");
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 		}
 		else {
 			Pattern validName = Pattern.compile("[a-zA-Z-]+");
 			m = validName.matcher(testFName);
 			if (!m.matches() || (m.groupCount() > 1)) {
-
-				//i_msg.concatHeaderResponse(Header.Response.FAIL, "First Name is not vaild " + 
-					//	"Account ID: " + i_msg.accountID);
-				i_msg.response.responseString = i_msg.response.responseString + ("First Name is not vaild " + "Account ID: " + i_msg.accounts[0].accountID);
-				i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+				response.responseString = response.responseString + ("First Name is not valid.\n");
+				response.responseCode = ResponseMessage.ResponseCode.FAIL;
 			}
 		}
 		
 		// Verify Last Name
-		String testLName = i_msg.accounts[0].lastName;
-		if(testLName.isEmpty())
+		if(lastName.isEmpty())
 		{
-			//i_msg.concatHeaderResponse(Header.Response.FAIL, "Last Name should not be empty. " +
-				//	"Account ID: " + i_msg.accountID );
-			i_msg.response.responseString = i_msg.response.responseString + ("Last Name should not be empty. " + "Account ID: " + i_msg.accounts[0].accountID );
-			i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			response.responseString = response.responseString + ("Last Name should not be empty. \n");
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 		}
 		else {
 			Pattern validName = Pattern.compile("[a-zA-Z-]+");
 			m = validName.matcher(testLName);
 			if (!m.matches() || (m.groupCount() > 1)) {
-				//i_msg.concatHeaderResponse(Header.Response.FAIL, "Last Name is not vaild " + 
-					//	"Account ID: " + i_msg.accountID);
-				i_msg.response.responseString = i_msg.response.responseString + ("Last Name is not vaild " + "Account ID: " + i_msg.accounts[0].accountID);
-				i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+				response.responseString = response.responseString + ("Last Name is not valid. \n");
+				response.responseCode = ResponseMessage.ResponseCode.FAIL;
 			}
 		}		
 		
 		// Verify Phone
-		String testPhone = i_msg.accounts[0].phone;
-		if(testLName.isEmpty())
+		if(phone.isEmpty())
 		{
-			//i_msg.concatHeaderResponse(Header.Response.FAIL, "Phone number should not be empty. " +
-				//	"Account ID: " + i_msg.accountID );
-			i_msg.response.responseString = i_msg.response.responseString + ("Phone number should not be empty. " + "Account ID: " + i_msg.accounts[0].accountID );
-			i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			response.responseString = response.responseString + ("Phone number should not be empty. \n");
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 		}
 		else {
 			Pattern validPhone = Pattern.compile("[\\d-]+");
 			m = validPhone.matcher(testPhone);
 			if (!m.matches() || (m.groupCount() > 1)) {
-				//i_msg.concatHeaderResponse(Header.Response.FAIL, "Phone number is not vaild " + 
-					//	"Account ID: " + i_msg.accountID);
-				i_msg.response.responseString = i_msg.response.responseString + ("Phone number is not vaild " + "Account ID: " + i_msg.accounts[0].accountID);
-				i_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+				response.responseString = response.responseString + ("Phone number is not valid. \n");
+				response.responseCode = ResponseMessage.ResponseCode.FAIL;
 			}
 		}
 	
-		
-		
-		return i_msg;
+		return response;
 	}
 	
 }
