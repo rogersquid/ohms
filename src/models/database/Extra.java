@@ -28,7 +28,7 @@ public class Extra {
 			if (returnedRows > 0) {
 				System.out.println("Success");
 				replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Added one Extra as Requested." +
-						" OwnerID: " + i_msg.header.messageOwnerID);
+						" extraID: " + i_msg.header.messageOwnerID);
 			} else {
 				System.out.println("Failure");
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Adding Extra failed." +
@@ -167,13 +167,13 @@ public class Extra {
 	            replyMessage.extras[0].fillAll(cextraID, cbookingID, cextraName, cprice, cdate, creationDate);
 	        }
 		} catch (SQLException e) {
-			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+			System.err.println("Error.  SQLException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Extra failed." +
 					" StartDate: " + i_msg.extras[0].date);
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
-			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			System.err.println("Error.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Extra failed." +
 					" StartDate: " + i_msg.extras[0].date);
@@ -201,12 +201,12 @@ public class Extra {
 			int numberofrows=rs.getInt(1);
 			if(numberofrows<0){
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "get All Extra failed." +
-						" OwnerID: " + i_msg.extras[0].extraID);
+						" extraID: " + i_msg.extras[0].extraID);
 				return replyMessage;
 			}
 			else if (numberofrows==0){
 				replyMessage.response.fillResponse(ResponseCode.SUCCESS, "There is no Extra." +
-						" OwnerID: " + i_msg.extras[0].extraID);
+						" extraID: " + i_msg.extras[0].extraID);
 				return replyMessage;
 			}else{
 				replyMessage.initializeBookings(numberofrows);
@@ -214,8 +214,8 @@ public class Extra {
 			rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel + "_extras");
 			int i=0;
 			while (rs.next()) {
-				replyMessage.extras[i].extraID=rs.getInt("bookingID");
-				replyMessage.extras[i].bookingID= rs.getInt("ownerId");
+				replyMessage.extras[i].extraID=rs.getInt("extraID");
+				replyMessage.extras[i].bookingID= rs.getInt("bookingID");
 				replyMessage.extras[i].extraName= rs.getString("extraName");
 				replyMessage.extras[i].price= rs.getFloat("price");
 				replyMessage.extras[i].date= rs.getDate("date");
@@ -255,13 +255,15 @@ public class Extra {
 			
 			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_extras WHERE ";
 			
-			
+			boolean nonFirst = false;
 			if (i_msg.extras[0].bookingID !=0) {
 				queryString = queryString + "bookingID='" + i_msg.extras[0].bookingID + "'";
-				
+				nonFirst = true;
 			}
 			if (i_msg.extras[0].date != null) {
+				if (nonFirst) queryString = queryString + " AND ";
 				queryString = queryString + "date='" + i_msg.extras[0].date + "'";
+				nonFirst = true;
 			}
 						
 			// query the database for all rooms
