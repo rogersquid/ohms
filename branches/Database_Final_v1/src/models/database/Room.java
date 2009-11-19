@@ -183,11 +183,11 @@ public class Room {
 				replyMessage.response.responseString = "No Rooms in database.";
 			} else {
 				int i = 0;
-				rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms");
+				rs.beforeFirst();
 				while (rs.next()) {
 					i++;
 				}
-				rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms");
+				rs.beforeFirst();
 				replyMessage.initializeRooms(i);
 				i = 0;
 				
@@ -380,11 +380,11 @@ public class Room {
 				replyMessage.response.responseString = "No Rooms in database.";
 			} else {
 				int i = 0;
-				rs = dbcon.select(queryString);
+				rs.beforeFirst();
 				while (rs.next()) {
 					i++;
 				}
-				rs = dbcon.select(queryString);
+				rs.beforeFirst();
 				replyMessage.initializeRooms(i);
 				
 				i = 0;
