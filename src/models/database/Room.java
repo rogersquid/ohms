@@ -141,9 +141,9 @@ public class Room {
 			// create connection
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
 			// query the database for 
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = " + i_msg.rooms[0].roomID);
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
 			rs.next();
-			int deleteStatus = dbcon.modify("DELETE FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = " + i_msg.rooms[0].roomID);
+			int deleteStatus = dbcon.modify("DELETE FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
 			if (deleteStatus == 1) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Room deleted.";
@@ -212,6 +212,8 @@ public class Room {
 					replyMessage.rooms[i].kingBeds = rs.getInt("kingBeds");
 					i++;
 				}
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Query succeeded.";
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'getAllRoom'.  SQLException was thrown:");
@@ -259,6 +261,8 @@ public class Room {
 				replyMessage.rooms[0].queenBeds = rs.getInt("queenBeds");
 				replyMessage.rooms[0].kingBeds = rs.getInt("kingBeds");
 			}
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+			replyMessage.response.responseString = "Query succeeded.";
 		} catch (SQLException e) {
 			System.err.println("Error in 'getRoom'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
@@ -287,24 +291,85 @@ public class Room {
 			
 			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE ";
 			
+			//first RoomMessage holds the filter toggles, and the second message hold the filter values
 			boolean nonFirst = false;
-			if (i_msg.rooms[0].available) {
-				queryString = queryString + "available=1";
+			if (i_msg.rooms[0].floor != 0) {
+				queryString = queryString + "floor=" + i_msg.rooms[1].floor;
 				nonFirst = true;
 			}
-			if (i_msg.rooms[0].roomType != "") {
+			if (i_msg.rooms[0].roomNumber != 0) {
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "roomType='" + i_msg.rooms[0].roomType + "'";
+				queryString = queryString + "roomNumber=" + i_msg.rooms[1].roomNumber;
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].roomType == "CHECK") {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "roomType='" + i_msg.rooms[1].roomType + "'";
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].price != 0) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "price=" + i_msg.rooms[1].price;
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].onsuite) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "onsuite=" + ((i_msg.rooms[1].onsuite)?1:0);
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].tv) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "tv=" + ((i_msg.rooms[1].tv)?1:0);
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].disabilityAccess) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "disabilityAccess=" + ((i_msg.rooms[1].disabilityAccess)?1:0);
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].elevator) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "elevator=" + ((i_msg.rooms[1].elevator)?1:0);
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].available) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "available=" + ((i_msg.rooms[1].available)?1:0);
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].phone) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "phone=" + ((i_msg.rooms[1].phone)?1:0);
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].internet) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "internet=" + ((i_msg.rooms[1].internet)?1:0);
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].kitchen) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "kitchen=" + ((i_msg.rooms[1].kitchen)?1:0);
 				nonFirst = true;
 			}
 			if (i_msg.rooms[0].cleaned) {
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "cleaned=1";
+				queryString = queryString + "cleaned=" + ((i_msg.rooms[1].cleaned)?1:0);
 				nonFirst = true;
 			}
-			if (i_msg.rooms[0].floor != 0) {
+			if (i_msg.rooms[0].singleBeds != 0) {
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "floor=" + i_msg.rooms[0].floor;
+				queryString = queryString + "singleBeds=" + i_msg.rooms[1].singleBeds;
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].queenBeds != 0) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "queenBeds=" + i_msg.rooms[1].queenBeds;
+				nonFirst = true;
+			}
+			if (i_msg.rooms[0].kingBeds != 0) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "kingBeds=" + i_msg.rooms[1].kingBeds;
 				nonFirst = true;
 			}
 			
@@ -321,9 +386,11 @@ public class Room {
 				}
 				rs = dbcon.select(queryString);
 				replyMessage.initializeRooms(i);
+				
 				i = 0;
 				
 				while (rs.next()) {
+					replyMessage.rooms[i] = new RoomMessage();
 					replyMessage.rooms[i].roomID = rs.getInt("roomID");
 					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
 					replyMessage.rooms[i].floor = rs.getInt("floor");
@@ -343,6 +410,8 @@ public class Room {
 					replyMessage.rooms[i].kingBeds = rs.getInt("kingBeds");
 					i++;
 				}
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Query succeeded.";
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'getAllRoom'.  SQLException was thrown:");
