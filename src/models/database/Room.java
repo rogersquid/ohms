@@ -69,44 +69,51 @@ public class Room {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
-		
+		int updateStatus;
 		try {
 			// create connection
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			// query the database for the room that matches roomID
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = " + i_msg.rooms[0].roomID);
-			rs.next();	
-			// see if request want to edit roomNumber
-			if (rs.getInt("roomNumber") != i_msg.rooms[0].roomNumber) {
-				// query database for room that matches roomNumber
-				rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
-				// check that the roomNumber does not already exists
-				if (rs.next()) {
-					replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-					replyMessage.response.responseString = "Room number already in database.";
-					if (dbcon != null) dbcon.close();
-					return replyMessage;
-				} 
+			
+			//assume that the maid has the authorization level of 3
+			if (i_msg.header.authLevel != 3) {
+				// query the database for the room that matches roomID
+				ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = " + i_msg.rooms[0].roomID);
+				rs.next();	
+				// see if request want to edit roomNumber
+				if (rs.getInt("roomNumber") != i_msg.rooms[0].roomNumber) {
+					// query database for room that matches roomNumber
+					rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
+					// check that the roomNumber does not already exists
+					if (rs.next()) {
+						replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+						replyMessage.response.responseString = "Room number already in database.";
+						if (dbcon != null) dbcon.close();
+						return replyMessage;
+					} 
+				}
+				// update room in database that match roomID
+				updateStatus = dbcon.modify("UPDATE " + i_msg.header.nameHotel + "_rooms SET " +
+						"roomNumber="	+ i_msg.rooms[0].roomNumber + ", " +
+						"floor="	+ i_msg.rooms[0].floor + ", " +
+						"roomType='"		+ i_msg.rooms[0].roomType + "', " +
+						"price="		+ i_msg.rooms[0].price + ", " +
+						"onsuite="		+ ((i_msg.rooms[0].onsuite)?1:0) + ", " +
+						"tv="			+ ((i_msg.rooms[0].tv)?1:0) + ", " +
+						"disabilityAccess="	+ ((i_msg.rooms[0].disabilityAccess)?1:0) + ", " +
+						"elevator="		+ ((i_msg.rooms[0].elevator)?1:0) + ", " +
+						"available="	+ ((i_msg.rooms[0].available)?1:0) + ", " +
+						"phone=" 		+ ((i_msg.rooms[0].phone)?1:0) + ", " +
+						"internet=" 	+ ((i_msg.rooms[0].internet)?1:0) + ", " +
+						"kitchen=" 		+ ((i_msg.rooms[0].kitchen)?1:0) + ", " +
+						"cleaned="		+ ((i_msg.rooms[0].cleaned)?1:0) + ", " +
+						"singleBeds=" 	+ i_msg.rooms[0].singleBeds + ", " +
+						"queenBeds="	+ i_msg.rooms[0].queenBeds + ", " +
+						"kingBeds="		+ i_msg.rooms[0].kingBeds + " " +
+						"WHERE roomID=" + i_msg.rooms[0].roomID);
+			} else {
+				updateStatus = dbcon.modify("UPDATE " + i_msg.header.nameHotel + "_rooms SET cleaned=1 WHERE roomNumber=" + 
+						i_msg.rooms[0].roomNumber);
 			}
-			// update room in database that match roomID
-			int updateStatus = dbcon.modify("UPDATE " + i_msg.header.nameHotel + "_rooms SET " +
-					"roomNumber="	+ i_msg.rooms[0].roomNumber + ", " +
-					"floor="	+ i_msg.rooms[0].floor + ", " +
-					"roomType='"		+ i_msg.rooms[0].roomType + "', " +
-					"price="		+ i_msg.rooms[0].price + ", " +
-					"onsuite="		+ ((i_msg.rooms[0].onsuite)?1:0) + ", " +
-					"tv="			+ ((i_msg.rooms[0].tv)?1:0) + ", " +
-					"disabilityAccess="	+ ((i_msg.rooms[0].disabilityAccess)?1:0) + ", " +
-					"elevator="		+ ((i_msg.rooms[0].elevator)?1:0) + ", " +
-					"available="	+ ((i_msg.rooms[0].available)?1:0) + ", " +
-					"phone=" 		+ ((i_msg.rooms[0].phone)?1:0) + ", " +
-					"internet=" 	+ ((i_msg.rooms[0].internet)?1:0) + ", " +
-					"kitchen=" 		+ ((i_msg.rooms[0].kitchen)?1:0) + ", " +
-					"cleaned="		+ ((i_msg.rooms[0].cleaned)?1:0) + ", " +
-					"singleBeds=" 	+ i_msg.rooms[0].singleBeds + ", " +
-					"queenBeds="	+ i_msg.rooms[0].queenBeds + ", " +
-					"kingBeds="		+ i_msg.rooms[0].kingBeds + " " +
-					"WHERE roomID=" + i_msg.rooms[0].roomID);
 			if (updateStatus == 1) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Room updated.";
