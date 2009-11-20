@@ -45,12 +45,10 @@ public class RoomTest {
 			h_msg.rooms[0] = new RoomMessage();
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Room room = new Room();
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
 			}
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 1");
@@ -79,12 +77,10 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			h_msg.rooms[0].roomType = "INVALID";
 
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Room room = new Room();
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
 			}
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
@@ -112,13 +108,12 @@ public class RoomTest {
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			h_msg.rooms[0].roomType = "";
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Room room = new Room();
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
-			}
+			} 
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
 			System.out.println("Passed Test ID 3");
 			System.out.println("Input:");
@@ -144,12 +139,10 @@ public class RoomTest {
 			h_msg.rooms[0] = new RoomMessage();
 			//fill room info:
 			test_fillRoom(h_msg, t_set, 0);
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Room room = new Room();
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
 			}
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
 			System.out.println("Passed Test ID 4");
@@ -182,11 +175,9 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			
 			Room room = new Room();
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
 			}
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
@@ -197,11 +188,9 @@ public class RoomTest {
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
 				g_msg.rooms[0].price = (float)199.99;
-				if (g_msg.rooms[0].validateParam(g_msg)) {
+				g_msg.response = h_msg.rooms[0].validateParam(h_msg);
+				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = room.editRoom(g_msg);
-				} else { 
-					g_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-					g_msg.response.responseString = "invalid inputs";
 				}
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 					System.out.println("Passed Test ID 1");
@@ -237,12 +226,10 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			
 			Room room = new Room();
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
-			}
+			} 
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				/*
@@ -255,12 +242,10 @@ public class RoomTest {
 				g_msg.rooms[0].roomNumber = h_msg.rooms[0].roomNumber;
 				*/
 				Message g_msg = h_msg;
-				if (g_msg.rooms[0].validateParam(g_msg)) {
+				g_msg.response = h_msg.rooms[0].validateParam(h_msg);
+				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = room.addRoom(g_msg);
-				} else { 
-					g_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-					g_msg.response.responseString = "invalid inputs";
-				}
+				} 
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
 					System.out.println("Passed Test ID 2");
 					System.out.println("Input:");
@@ -293,12 +278,10 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			
 			Room room = new Room();
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
-			}
+			} 
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
@@ -308,12 +291,10 @@ public class RoomTest {
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomNumber = -211;
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
-				if (g_msg.rooms[0].validateParam(g_msg)) {
+				g_msg.response = h_msg.rooms[0].validateParam(h_msg);
+				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = room.addRoom(g_msg);
-				} else { 
-					g_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-					g_msg.response.responseString = "invalid inputs";
-				}
+				} 
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
 					System.out.println("Passed Test ID 3");
 					System.out.println("Input:");
@@ -346,12 +327,10 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			
 			Room room = new Room();
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
-			}
+			} 
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
@@ -361,12 +340,10 @@ public class RoomTest {
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
 				g_msg.rooms[0].roomType = null;
-				if (g_msg.rooms[0].validateParam(g_msg)) {
+				g_msg.response = h_msg.rooms[0].validateParam(h_msg);
+				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = room.addRoom(g_msg);
-				} else { 
-					g_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-					g_msg.response.responseString = "invalid inputs";
-				}
+				} 
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
 					System.out.println("Passed Test ID 4");
 					System.out.println("Input:");
@@ -401,12 +378,10 @@ public class RoomTest {
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
-			}
+			} 
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
@@ -447,12 +422,10 @@ public class RoomTest {
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
-			}
+			} 
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
@@ -494,12 +467,10 @@ public class RoomTest {
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
-			}
+			} 
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
@@ -707,12 +678,10 @@ public class RoomTest {
 			h_msg.rooms[1].kingBeds = 0;
 			
 			Room room = new Room();
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.getFilteredRooms(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
-			}
+			} 
 			
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
@@ -780,12 +749,10 @@ public class RoomTest {
 			h_msg.rooms[1].kingBeds = 0;
 			
 			Room room = new Room();
-			if (h_msg.rooms[0].validateParam(h_msg)) {
+			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.getFilteredRooms(h_msg);
-			} else { 
-				h_msg.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				h_msg.response.responseString = "invalid inputs";
-			}
+			} 
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 3");
