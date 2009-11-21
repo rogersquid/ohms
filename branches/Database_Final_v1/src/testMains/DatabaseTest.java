@@ -1,8 +1,5 @@
 package testMains;
 
-import models.messages.*;
-import models.database.Hotel;
-
 public class DatabaseTest {
 	public static void main(String [ ] args){
 		System.out.println("\r");
@@ -10,7 +7,7 @@ public class DatabaseTest {
 		//AccountTest.test_alladdAcc();
 		//AccountTest.test_alleditAcc();
 		//RoomTest.test_allRoom();
-		BookingTest.main(args);
+		//BookingTest.main(args);
 		//test_Extras(0);
 		//test_Extras(1);
 		// WILLIAM - THE CODE LOOKS GOOD AND WELL ORGANISED. TRY TO TAKE THE NAME OF THE HOTEL FROM ARGS
@@ -19,7 +16,7 @@ public class DatabaseTest {
 		// test_alladdRoom();
 		//testBooking();
 
-	}
+	}}/*
 	private static void testBooking(){
 		System.out.println("Start Running Test for Add booking");
 		Hotel myHotel= new Hotel("test");

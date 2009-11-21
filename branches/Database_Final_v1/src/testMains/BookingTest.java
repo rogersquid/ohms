@@ -23,7 +23,6 @@ public class BookingTest {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	    String userName = null;
-
 	      //  read the username from the command-line; need to use try/catch with the
 	      //  readLine() method
 	    try {
@@ -36,7 +35,7 @@ public class BookingTest {
 	    java.sql.Date endDate;
 		try {
 			endDate = new java.sql.Date(df.parse("22/02/2010").getTime());
-			input= new Message(1, 1, "test");
+			input= new Message(99, 1, "test");
 			input.initializeBookings(1);
 			input.bookings[0].startDate=date;
 			input.bookings[0].endDate=endDate;
@@ -58,6 +57,7 @@ public class BookingTest {
 	    	}
 		System.out.println("Start Running Test for get booking");
 		input= new Message(1, 1, "test");
+		input.initializeBookings(1);
 		input.bookings[0].bookingID=reply.bookings[0].bookingID;
 		reply=mybooking.getBooking(input);
 		System.out.println(reply.response.responseCode);
