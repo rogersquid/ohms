@@ -93,9 +93,8 @@ public class ExtrasTest {
 				g_msg.initializeExtras(1);
 				g_msg.extras[0] = new ExtraMessage();
 				//fill Extra info:
-				//test_fillExtra(g_msg, t_set, i_num);
 				g_msg.extras[0].extraID = h_msg.extras[0].extraID;
-				g_msg.extras[0].price = (float)199.99;
+				g_msg.extras[0].price = (float)200;
 				//g_msg.response = h_msg.extras[0].validateParam(h_msg);
 				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = Extra.editExtra(g_msg);
@@ -146,7 +145,7 @@ public class ExtrasTest {
 				g_msg.initializeExtras(1);
 				g_msg.extras[0] = new ExtraMessage();
 				//fill Extra info:
-				h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
+				g_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
 				g_msg.extras[0].extraID = h_msg.extras[0].extraID;
 				g_msg = Extra.deleteExtra(g_msg);
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
