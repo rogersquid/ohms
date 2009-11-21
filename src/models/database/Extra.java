@@ -66,11 +66,8 @@ public class Extra {
 			int returnedRows = dbcon.modify("UPDATE " + i_msg.header.nameHotel 
 					+ "_extras SET extraID='" 
 					+ i_msg.extras[0].extraID
-					+ "', bookingID='" +i_msg.extras[0].bookingID
 					+ "', extraName='" + i_msg.extras[0].extraName
-					+ "', price='" + i_msg.extras[0].price 
-					+ "', date='" + i_msg.extras[0].date
-					+ "', creationDate='" + i_msg.extras[0].creationDate + "'");
+					+ "', price='" + i_msg.extras[0].price + "'");
 			if (returnedRows != 1) {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Extra failed." +
 						" StartDate: " + i_msg.extras[0].date);
