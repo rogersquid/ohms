@@ -15,9 +15,9 @@ public class Booking {
 		replyMessage.bookings=i_msg.bookings;
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			dbcon = new databaseHelper();
 			// insert the booking in to appropriate hotel booking
-			int returnedRows 	= dbcon.insert("INSERT INTO " + i_msg.header.nameHotel + "_bookings (creationDate, startDate, ownerID, endDate, roomID, status) " +
+			int returnedRows 	= dbcon.insert("INSERT INTO " + i_msg.header.nameHotel + "_bookings (startDate, bookingOwnerID, endDate, roomID, status) " +
 					"VALUES ('" + i_msg.bookings[0].startDate + "', '" 
 					+ i_msg.bookings[0].ownerID + "', '" + i_msg.bookings[0].endDate + "', '" 
 					+ i_msg.bookings[0].roomID + "', '" + i_msg.bookings[0].status + "')");
@@ -60,7 +60,7 @@ public class Booking {
 		replyMessage.bookings=i_msg.bookings;
 		try {
 			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			int returnedRows = dbcon.modify("UPDATE "+ i_msg.header.nameHotel + "_bookings SET ownerID='" + i_msg.bookings[0].ownerID
+			int returnedRows = dbcon.modify("UPDATE "+ i_msg.header.nameHotel + "_bookings SET bookingOwnerID='" + i_msg.bookings[0].ownerID
 					+ "', creationDate='" +i_msg.bookings[0].creationDate + "', startDate='" + i_msg.bookings[0].startDate
 					+ "', endDate='" + i_msg.bookings[0].endDate + "', roomID='" + i_msg.bookings[0].roomID
 					+ "', status='" + i_msg.bookings[0].status + "'");
@@ -142,7 +142,7 @@ public class Booking {
 			int i=rs.getInt(1);
 			if(i!=1){
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
-						" StartDate: " + i_msg.bookings[0].startDate);
+						" bookingID: " + i_msg.bookings[0].bookingID);
 				return replyMessage;
 			}
 			rs=dbcon.select("Select * FROM test_bookings WHERE bookingID='" 
@@ -161,7 +161,7 @@ public class Booking {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
 			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
-					" StartDate: " + i_msg.bookings[0].startDate);
+					" SQLException BookingID: " + i_msg.bookings[0].bookingID);
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
