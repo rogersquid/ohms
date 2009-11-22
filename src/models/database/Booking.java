@@ -440,7 +440,7 @@ public class Booking {
 		//creationTime is not changeable
 		replyMessage.bookings=i_msg.bookings;
 		try {
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			dbcon = new databaseHelper();
 			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='1'" + 
 						" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			if (returnedRows != 1) {
