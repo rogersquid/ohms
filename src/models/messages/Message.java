@@ -20,6 +20,9 @@ public class Message {
 	}
 	public void initializeAccounts(int arraysize){
 		accounts=new AccountMessage[arraysize];
+		for(int i=0; i<arraysize; i++){
+			accounts[i]=new AccountMessage();
+		}
 	}
 	public void initializeBookings(int arraysize){
 		bookings=new BookingMessage[arraysize];
@@ -29,6 +32,9 @@ public class Message {
 	}
 	public void initializeRooms(int arraysize){
 		rooms=new RoomMessage[arraysize];
+		for(int i=0; i<arraysize; i++){
+			rooms[i]=new RoomMessage();
+		}
 	}
 	public void initializeExtras(int arraysize){
 		extras=new ExtraMessage[arraysize];
