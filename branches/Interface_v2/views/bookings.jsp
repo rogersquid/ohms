@@ -54,7 +54,7 @@
 						</tr>
 
 						<%
-						data = (Message)request.getAttribute("data");
+						Message data = (Message)request.getAttribute("data");
 
 						// Print the values into the table
 						for(int i=0; i < data.bookings.length; i++) {
