@@ -145,21 +145,23 @@ public class Booking {
 			rs.next();
 			int i=rs.getInt(1);
 			if(i!=1){
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed. Number of Rows Problem" +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Booking does not exist." +
 						" bookingID: " + i_msg.bookings[0].bookingID);
 				return replyMessage;
 			}
-			rs=dbcon.select("Select * FROM test_bookings WHERE bookingID='"
+			rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE bookingID='"
 					+ i_msg.bookings[0].bookingID +"'");
 			while (rs.next()) {
-	            int cbookingID = rs.getInt("bookingID");
-	            int cownerID = rs.getInt("bookingOwnerID");
-	            java.sql.Timestamp creationDate= new java.sql.Timestamp(rs.getTimestamp("creationTime").getTime());
-	            java.sql.Date cstartDate = rs.getDate("startDate");
-	            java.sql.Date endDate = rs.getDate("endDate");
-	            int croomID = rs.getInt("roomID");
-	            int cstatus = rs.getInt("status");
-	            replyMessage.bookings[0].fillAll(cbookingID, cownerID, creationDate, cstartDate, endDate, croomID, cstatus);
+				replyMessage.bookings[i].bookingID=rs.getInt("bookingID");
+				replyMessage.bookings[i].ownerID= rs.getInt("bookingOwnerID");
+				replyMessage.bookings[i].creationDate= new java.sql.Timestamp(rs.getDate("creationTime").getTime());
+				replyMessage.bookings[i].startDate= rs.getDate("startDate");
+				replyMessage.bookings[i].endDate= rs.getDate("endDate");
+				replyMessage.bookings[i].roomID= rs.getInt("roomID");
+				replyMessage.bookings[i].status = rs.getInt("status");
+				replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
+				replyMessage.accounts[i].firstName = rs.getString("firstName");
+				replyMessage.accounts[i].lastName = rs.getString("lastName");
 	        }
 		} catch (SQLException e) {
 			System.err.println("Error in 'get_booking'.  SQLException was thrown:");
@@ -218,7 +220,7 @@ public class Booking {
 				replyMessage.bookings[i].roomID= rs.getInt("roomID");
 				replyMessage.bookings[i].status = rs.getInt("status");
 				replyMessage.accounts[i].firstName = rs.getString("firstName");
-				replyMessage.accounts[i].firstName = rs.getString("lastName");
+				replyMessage.accounts[i].lastName = rs.getString("lastName");
 				replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
 				i++;
 	        }
@@ -276,9 +278,12 @@ public class Booking {
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
-				rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel +
-										"_bookings WHERE bookingOwnerID='" + i_msg.bookings[0].ownerID + "'");
+				//rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel + "_bookings WHERE bookingOwnerID='" + i_msg.bookings[0].ownerID + "'");
+				rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE b.bookingOwnerID='" + i_msg.bookings[0].ownerID + "'");
 				replyMessage.initializeBookings(numberofrows);
+				replyMessage.initializeAccounts(numberofrows);
+				replyMessage.initializeRooms(numberofrows);
+				
 				int i=0;
 				while (rs.next()) {
 					replyMessage.bookings[i].bookingID=rs.getInt("bookingID");
@@ -288,6 +293,9 @@ public class Booking {
 					replyMessage.bookings[i].endDate= rs.getDate("endDate");
 					replyMessage.bookings[i].roomID= rs.getInt("roomID");
 					replyMessage.bookings[i].status = rs.getInt("status");
+					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
+					replyMessage.accounts[i].firstName = rs.getString("firstName");
+					replyMessage.accounts[i].lastName = rs.getString("lastName");
 					i++;
 		        }
 			} catch (SQLException e) {
