@@ -225,14 +225,12 @@ public class Booking {
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
-					" StartDate: " + i_msg.bookings[0].startDate);
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed.");
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
-					" StartDate: " + i_msg.bookings[0].startDate);
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed.");
 			return replyMessage;
 		}
 		finally {
@@ -240,8 +238,7 @@ public class Booking {
 				dbcon.close();
 			}
 		}
-		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "ViewAll one Booking as Requested." +
-				" StartDate: " + i_msg.bookings[0].startDate);
+		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "ViewAll one Booking as Requested.");
 		return replyMessage;
 	}
 	public Message getFilteredBooking(Message i_msg){
