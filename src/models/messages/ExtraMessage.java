@@ -11,7 +11,7 @@ public class ExtraMessage{
 	public String				extraName;
 	public float				price;
 	public java.sql.Date		date;
-	public java.sql.Timestamp	creationDate;
+	public java.sql.Timestamp	creationTime;
 	
 	public void fillAll(int eID, int bID, String eName, float ePrice, java.sql.Date eDate, java.sql.Timestamp cDate ){
 		extraID=eID;
@@ -19,7 +19,7 @@ public class ExtraMessage{
 		extraName=eName;
 		price=ePrice;
 		date=eDate;
-		creationDate=cDate;		
+		creationTime=cDate;		
 	}
 	
 	public void print_All(){
@@ -29,7 +29,7 @@ public class ExtraMessage{
 		System.out.println(extraName);
 		System.out.println(price);
 		System.out.println(date);
-		System.out.println(creationDate);
+		System.out.println(creationTime);
 		System.out.println("*******************");
 	}
 	
