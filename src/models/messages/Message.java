@@ -8,8 +8,8 @@ public class Message {
 	public BillMessage[] bills;
 	public ExtraMessage[] extras;
 	public ResponseMessage response;
-	
-	public Message(int i_authlevel, int i_mOID, String i_hotelname){ 
+
+	public Message(int i_authlevel, int i_mOID, String i_hotelname){
 		header= new HeaderMessage(i_authlevel, i_mOID, i_hotelname);
 		accounts=null;
 		rooms=null;
@@ -41,6 +41,23 @@ public class Message {
 	}
 	public void initializeBills(int arraysize){
 		bills=new BillMessage[arraysize];
+	}
+
+	public boolean validate() {
+		if(accounts[0]!=null) {
+			response = accounts[0].validateParams();
+		} else if(rooms[0]!=null) {
+			//response = rooms[0].validateParams();
+		} else if(bookings[0]!=null) {
+			//response = bookings[0].validateParams();
+		} else if(bills[0]!=null) {
+			//response = bills[0].validateParams();
+		} else if(extras[0]!=null) {
+			//response = extras[0].validateParams();
+		} else {
+			return false;
+		}
+		return true;
 	}
 }
 
