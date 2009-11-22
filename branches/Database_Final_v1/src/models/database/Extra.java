@@ -178,8 +178,10 @@ public class Extra {
 	public Message getAllExtras(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		replyMessage.extras=i_msg.extras;
-
+		replyMessage.initializeExtras(1);
+		replyMessage.initializeAccounts(1);
+		replyMessage.initializeRooms(1);
+		
 		try {
 			// create connection
 			dbcon = new databaseHelper();
