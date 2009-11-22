@@ -240,16 +240,29 @@ public class Booking {
 		return replyMessage;
 	}
 	public Message getFilteredBooking(Message i_msg){
+	/*
+	 * This function is admin and staff only(require their auth levels)
+	 * This function is able to filter
+	 * 		CustomerID
+	 * 		Date
+	 * 		All Rooms available in a given date range
+	 * These functions are exclusive
+	 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-
+		System.out.println("I am in the Filter Get");
 		if(i_msg.bookings[0].ownerID>0){
-			// Bookings of a specific owner
+			/*
+			 *  This is the CustomerID filter.
+			 *  Returns all bookings of a specific owner
+			 */
+			System.err.println("I am in the CustomerID search");
 			try {
 				dbcon = new databaseHelper(i_msg.header.nameHotel);
 				ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + 
-										"_bookings WHERE ownerID='" + i_msg.bookings[0].ownerID +"'");
+										"_bookings WHERE bookingOwnerID='" + i_msg.bookings[0].ownerID +"'");
+				rs.next();
 				int numberofrows=rs.getInt(1);
 				if(numberofrows<0){
 					replyMessage.response.fillResponse(ResponseCode.FAIL, "viewAll Booking failed." +
@@ -257,16 +270,18 @@ public class Booking {
 					return replyMessage;
 				}
 				else if (numberofrows==0){
-					replyMessage.response.fillResponse(ResponseCode.SUCCESS, "There is no booking." +
+					replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Customer has no Bookings" +
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
-				rs=dbcon.select("Select * FROM booking WHERE ownerID='" + i_msg.bookings[0].ownerID + "'");
+				rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel + 
+										"_bookings WHERE bookingOwnerID='" + i_msg.bookings[0].ownerID + "'");
+				replyMessage.initializeBookings(numberofrows);
 				int i=0;
 				while (rs.next()) {
 					replyMessage.bookings[i].bookingID=rs.getInt("bookingID");
-					replyMessage.bookings[i].ownerID= rs.getInt("ownerId");
-					replyMessage.bookings[i].creationDate= new java.sql.Timestamp(rs.getDate("bookingDate").getTime());
+					replyMessage.bookings[i].ownerID= rs.getInt("bookingOwnerID");
+					replyMessage.bookings[i].creationDate= new java.sql.Timestamp(rs.getDate("creationTime").getTime());
 					replyMessage.bookings[i].startDate= rs.getDate("startDate");
 					replyMessage.bookings[i].endDate= rs.getDate("endDate");
 					replyMessage.bookings[i].roomID= rs.getInt("roomID");
@@ -274,13 +289,11 @@ public class Booking {
 					i++;
 		        }
 			} catch (SQLException e) {
-				System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 				e.printStackTrace(System.err);
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
 				return replyMessage;
 			} catch (ClassNotFoundException e) {
-				System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 				e.printStackTrace(System.err);
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
@@ -294,18 +307,14 @@ public class Booking {
 		}
 		else if(i_msg.bookings[0].startDate!=null && i_msg.bookings[0].endDate!=null){
 			// ROOM ID that are available in a given range of dates
+			System.err.println("I am in the Date range search");
 			try {
 				dbcon 	= new databaseHelper(i_msg.header.nameHotel);
-				// for a given day range what rooms are free?  -- QUESTION FOR MURAT 
-				/*
-				 * ' ve " serpistirmek gerekio mu
-				 * what about the extra joins?
-				 */
-				ResultSet rs=dbcon.select("SELECT count(*) FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN " +
-						"(SELECT roomID FROM "+ i_msg.header.nameHotel +"_bookings WHERE " +
-						"(endDate > "+ i_msg.bookings[0].startDate +" AND endDate < "+ i_msg.bookings[0].endDate +") "+
-						"OR "+
-						"(endDate> "+ i_msg.bookings[0].startDate +" AND startDate <= "+ i_msg.bookings[0].endDate +"))");
+				ResultSet rs=dbcon.select("SELECT count(*) FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN (SELECT roomID FROM "+ 
+						i_msg.header.nameHotel +"_bookings WHERE " +
+						"(endDate >'"+ i_msg.bookings[0].startDate +"' AND endDate < '"+ i_msg.bookings[0].endDate +"') "+
+						"OR (endDate> '"+ i_msg.bookings[0].startDate +"' AND startDate <='"+ i_msg.bookings[0].endDate +"'))");
+				rs.next();
 				int numberofrows=rs.getInt(1);
 				if(numberofrows<0){
 					replyMessage.response.fillResponse(ResponseCode.FAIL, "viewAll Booking failed." +
@@ -317,25 +326,25 @@ public class Booking {
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
-				replyMessage.initializeBookings(numberofrows);
-				rs=dbcon.select("SELECT roomID FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN " +
-						"(SELECT roomID FROM "+ i_msg.header.nameHotel +"_bookings WHERE " +
-						"(endDate > "+ i_msg.bookings[0].startDate +" AND endDate < "+ i_msg.bookings[0].endDate +") "+
-						"OR "+
-						"(endDate> "+ i_msg.bookings[0].startDate +" AND startDate <= "+ i_msg.bookings[0].endDate +"))");
+				rs=dbcon.select("SELECT roomID FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN (SELECT roomID FROM "+ 
+						i_msg.header.nameHotel +"_bookings WHERE " +
+						"(endDate >'"+ i_msg.bookings[0].startDate +"' AND endDate < '"+ i_msg.bookings[0].endDate +"') "+
+						"OR (endDate> '"+ i_msg.bookings[0].startDate +"' AND startDate <='"+ i_msg.bookings[0].endDate +"'))");
 				int i=0;
+				replyMessage.initializeRooms(numberofrows);
+				System.out.println("Rooms ready " + replyMessage.rooms.length);
 				while (rs.next()) {
-					replyMessage.bookings[i].roomID=rs.getInt("roomID");
+					replyMessage.rooms[i].roomID=rs.getInt("roomID");
 					i++;
 		        }
 			} catch (SQLException e) {
-				System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+				System.err.println("Error in Filter Date Booking.  SQLException was thrown:");
 				e.printStackTrace(System.err);
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
 				return replyMessage;
 			} catch (ClassNotFoundException e) {
-				System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+				System.err.println("Error in Filter Date Booking.  ClassNotFoundException was thrown:");
 				e.printStackTrace(System.err);
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Booking failed." +
 						" StartDate: " + i_msg.bookings[0].startDate);
@@ -347,8 +356,7 @@ public class Booking {
 				}
 			}
 		}
-		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "ViewAll one Booking as Requested." +
-				" StartDate: " + i_msg.bookings[0].startDate);
+		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "get Filter Booking was successful.");
 		return replyMessage;
 	}
 	public Message checkIn (Message i_msg){

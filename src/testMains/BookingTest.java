@@ -75,7 +75,6 @@ public class BookingTest {
 			e.printStackTrace();
 		}
 		
-		
 		System.out.println("Try Check in Booking ******************");
 		input= new Message(1, 99, "test");
 		input.initializeBookings(1);
@@ -106,7 +105,44 @@ public class BookingTest {
 		System.out.println(reply.response.responseString);
 		System.out.println(reply.bookings[reply.bookings.length-1].bookingID);
 		System.out.println(reply.bookings.length);
-		System.out.println("Testing Done ******************");
+		
+		System.out.println("Try Get Filtered Booking-- Filter is Date Range******************");
+		input= new Message(1, 99, "test");
+		input.initializeBookings(1);
+		try {
+			endDate = new java.sql.Date(df.parse("30/11/2010").getTime());
+			input.bookings[0].ownerID=99;
+			reply=mybooking.getFilteredBooking(input);
+			System.out.println(reply.response.responseCode);
+			System.out.println(reply.response.responseString);
+			System.out.println(reply.bookings[(reply.bookings.length)-1].bookingID);
+			System.out.println(reply.bookings.length);
+			System.out.println("Testing Done ******************");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("Try Get Filtered Booking-- Filter is Date Range******************");
+		input= new Message(1, 99, "test");
+		input.initializeBookings(1);
+		try {
+			endDate = new java.sql.Date(df.parse("30/11/2010").getTime());
+			input.bookings[0].startDate=date;
+			input.bookings[0].endDate=endDate;
+			reply=mybooking.getFilteredBooking(input);
+			
+			System.out.println(reply.response.responseCode);
+			System.out.println(reply.response.responseString);
+			System.err.println("------------------------" +(reply.rooms));
+			System.out.println(reply.rooms[(reply.rooms.length)-1].roomID);
+			System.out.println(reply.rooms.length);
+			System.out.println("Testing Done ******************");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	/*
 	private static void testCheckIn(){
