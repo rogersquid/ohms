@@ -1,12 +1,10 @@
 package models.database;
 
 import java.sql.*;
+
 import models.messages.*;
 import models.messages.ResponseMessage.ResponseCode;
 import models.misc.*;
-import java.text.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Account {
 	java.util.Date date;
@@ -20,7 +18,7 @@ public class Account {
 	 * another thing is to use SQL date rather tan java.util.date
 	 * in booking I have a conversion example if you need it
 	 */
-	public Message viewAllAccount(Message i_msg){
+	public Message getAllAccounts(Message i_msg){
 		// needs to be implemented
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
 		ResponseMessage response = new ResponseMessage();
@@ -69,14 +67,6 @@ public class Account {
 			System.err.println("Error in 'viewAllAccount'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
 			response.fillResponse(ResponseCode.FAIL, "View All failed.");
-//		} catch (ParseException e)
-//		{
-//			reply = new AccountMessage[1];
-//			System.err.println("Error in 'viewAllAccount'.  ParseException was thrown from parsing the date:");
-//			e.printStackTrace(System.err);
-//			i_msg.fillHeaderResponse(Header.Response.FAIL, "View All failed." +
-//					" Account ID: " + i_msg.accountID);
-//			reply[0] = i_msg;
 		}
 		finally {
 			if (dbcon != null) {
@@ -256,7 +246,7 @@ public class Account {
 	}
 	// Fetch Variable data from the database
 	// If user does not exist, return false
-	public Message viewAccount(Message i_msg) {
+	public Message getAccount(Message i_msg) {
 		// Verify parameters are valid.
 		// No date error checking implemented
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -265,8 +255,7 @@ public class Account {
 		databaseHelper dbcon 	= null;
 		try {
 			dbcon = new databaseHelper();
-			ResultSet returnedSet = dbcon.select("SELECT * FROM accounts WHERE accountID='" + i_msg.accounts[0].accountID
-					+ "')");
+			ResultSet returnedSet = dbcon.select("SELECT * FROM accounts WHERE accountID=" + i_msg.accounts[0].accountID);
 			if (returnedSet.first())
 			{
 				int r_account_id = returnedSet.getInt("accountID");
@@ -336,18 +325,18 @@ public class Account {
 			if (returnedSet.next())
 			{
 				int r_account_id = returnedSet.getInt("accountID");
-				String r_account_type = returnedSet.getString("accountType");
-				String r_first_name = returnedSet.getString("firstName");
-				String r_surname = returnedSet.getString("lastName");
-				boolean r_gender = returnedSet.getBoolean("gender");
-				String r_phone = returnedSet.getString("phone"); ;
-				String r_mail = returnedSet.getString("email");
-				String r_add = returnedSet.getString("address");
-				String r_date = returnedSet.getString("date");
+				String r_account_type = returnedSet.getString("accountType"); 
+				String r_first_name = returnedSet.getString("firstName");  
+				String r_surname = returnedSet.getString("lastName");  
+				boolean r_gender = returnedSet.getBoolean("gender");  
+				String r_phone = returnedSet.getString("phone"); ; 
+				String r_mail = returnedSet.getString("email"); 
+				String r_add = returnedSet.getString("address"); 
+				Timestamp r_date = returnedSet.getTimestamp("creationTime"); 
+				
 
 				accountInfo.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
-				//DateFormat formatter = DateFormat.getDateInstance();
-				//reply.date = formatter.parse(r_date);
+				accountInfo.creationTime = r_date;
 				response.fillResponse(ResponseCode.SUCCESS, "Login successful." +
 						" Account email: " + i_msg.accounts[0].email);
 			}
@@ -389,4 +378,103 @@ public class Account {
 		return reply;
 	}
 
+	public Message getFilteredAccount(Message i_msg) {
+		databaseHelper dbcon = null;
+		Message reply = new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		ResponseMessage response = new ResponseMessage();
+		
+		try {
+			// create connection
+			dbcon = new databaseHelper();
+			
+			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE ";
+			
+			// Prepare the query string based on what was in the message
+			boolean nonFirst = false;
+			if (i_msg.accounts[0].accountID != 0) {
+				queryString = queryString + "accountID=" + i_msg.accounts[0].accountID;
+				nonFirst = true;
+			}
+			if (!i_msg.accounts[0].accountType.isEmpty()) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "accountType='" + i_msg.accounts[0].accountType + "'";
+				nonFirst = true;
+			}
+			if (!i_msg.accounts[0].firstName.isEmpty()) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "firstName='" + i_msg.accounts[0].firstName + "'";
+				nonFirst = true;
+			}
+			if (!i_msg.accounts[0].lastName.isEmpty()) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "lastName='" + i_msg.accounts[0].lastName + "'";
+				nonFirst = true;
+			}
+			if (i_msg.accounts[0].phone.isEmpty()) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "phone='" + i_msg.accounts[0].phone + "'";
+				nonFirst = true;
+			}
+			if (i_msg.accounts[0].email.isEmpty()) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "email='" + i_msg.accounts[0].email + "'";
+				nonFirst = true;
+			}
+			if (i_msg.accounts[0].address.isEmpty()) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "address='" + i_msg.accounts[0].address + "'";
+				nonFirst = true;
+			}
+			
+			// query the database for all rooms
+			ResultSet rs = dbcon.select(queryString);
+			if (!rs.next()) {
+				response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				response.responseString = "No Accounts in database matching your search.";
+			} else {
+				int i = 0;
+				rs.beforeFirst();
+				// Count the number of entries in the result set
+				while (rs.next()) {
+					i++;
+				}
+				rs.beforeFirst();
+				reply.accounts = new AccountMessage[i];
+				
+				i = 0;
+				
+				while (rs.next()) {
+					reply.accounts[i] = new AccountMessage();
+					reply.accounts[i].accountID = rs.getInt("accountID");
+					reply.accounts[i].accountType = rs.getString("accountType"); 
+					reply.accounts[i].firstName = rs.getString("firstName");  
+					reply.accounts[i].lastName = rs.getString("lastName");  
+					reply.accounts[i].gender = rs.getBoolean("gender");  
+					reply.accounts[i].phone = rs.getString("phone"); ; 
+					reply.accounts[i].email = rs.getString("email"); 
+					reply.accounts[i].address = rs.getString("address");
+					reply.accounts[i].creationTime = rs.getTimestamp("creationTime"); 
+					i++;
+				}
+				response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				response.responseString = "Query succeeded.";
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'getAllAccount'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			reply.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			reply.response.responseString = "Query failed.";
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'getAllAccount'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			reply.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			reply.response.responseString = "Query failed.";
+		}
+		finally {
+			if (dbcon != null) dbcon.close();
+		}
+		reply.response = response;
+		
+		return reply;
+	}
 }
