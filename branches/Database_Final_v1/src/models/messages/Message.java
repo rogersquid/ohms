@@ -44,15 +44,15 @@ public class Message {
 	}
 
 	public boolean validate() {
-		if(accounts[0]!=null) {
+		if(accounts!=null) {
 			response = accounts[0].validateParams();
-		} else if(rooms[0]!=null) {
+		} else if(rooms!=null) {
 			//response = rooms[0].validateParams();
-		} else if(bookings[0]!=null) {
+		} else if(bookings!=null) {
 			//response = bookings[0].validateParams();
-		} else if(bills[0]!=null) {
+		} else if(bills!=null) {
 			//response = bills[0].validateParams();
-		} else if(extras[0]!=null) {
+		} else if(extras!=null) {
 			//response = extras[0].validateParams();
 		} else {
 			return false;
