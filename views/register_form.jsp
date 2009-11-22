@@ -5,7 +5,7 @@
 					<%
 						if(request.getAttribute("status")=="register_failed") {
 							%>
-							<div class='error'>Register failed: <%=request.getAttribute("message") %></div>
+							<div class='error'><strong>Register failed:</strong> <%=request.getAttribute("message") %></div>
 							<%
 						}
 					%>
