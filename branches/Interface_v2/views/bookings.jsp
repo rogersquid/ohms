@@ -8,7 +8,7 @@
 					<%
 						if(request.getAttribute("status")=="booking_failed") {
 							%>
-							<div class='error'>Booking failed: <%=request.getAttribute("message") %></div>
+							<div class='error'><strong>Booking failed:</strong> <%=request.getAttribute("message") %></div>
 							<%
 						}
 
@@ -46,47 +46,35 @@
 					<table class='bookings'>
 						<tr>
 							<th></th>
-							<th>Owner ID</th>
-							<th>Room ID</th>
+							<th>Customer</th>
+							<th>Room #</th>
 							<th>Start Date</th>
 							<th>End Date</th>
 							<th>Status</th>
 						</tr>
 
 						<%
-						BookingMessage bookingsArray[] = (BookingMessage[])request.getAttribute("bookingsArray");
-						// These string arrays hold the data from the array of RoomMessages
-						int arraySize = bookingsArray.length;
-						int owner[] = new int[arraySize];
-						int room[] = new int[arraySize];
-						Date start[] = new Date[arraySize];
-						Date end[] = new Date[arraySize];
-						String status[] = new String[arraySize];
-
-						// Populate the string arrays
-						for (int i=0; i<bookingsArray.length; i++){
-							owner[i] 	= bookingsArray[i].ownerID;
-							room[i]		= bookingsArray[i].roomID;
-							start[i] 	= bookingsArray[i].startDate;
-							end[i]		= bookingsArray[i].endDate;
-							switch (bookingsArray[i].status){
-								case 0:	status[i] = "Not checked in"; break;
-								case 1: status[i] = "Checked in"; break;
-								case 2: status[i] = "Checked out"; break;
-								default: status[i] = "ERROR: Status int has unsupported value!";
-							}
-						}
+						data = request.getAttribute("data");
 
 						// Print the values into the table
-						for(int i=0; i < bookingsArray.length; i++) {
+						for(int i=0; i < data.bookings.length; i++) {
 							%>
 							<tr>
 								<td><span class='index'><%=i+1 %></span></td>
-								<td><%=owner[i]%></td>
-								<td><%=room[i]%></td>
-								<td><%=start[i]%></td>
-								<td><%=end[i] %></td>
-								<td><%=status[i] %></td>
+								<td><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></td>
+								<td><%=data.rooms[i].roomNumber %></td>
+								<td><%=data.bookings[i].startDate %></td>
+								<td><%=data.bookings[i].endDate %></td>
+								<%
+									String status;
+									switch (data.bookings[i].status){
+										case 0:	status = "Not checked in"; break;
+										case 1: status = "Checked in"; break;
+										case 2: status = "Checked out"; break;
+										default: status = "ERROR: Status int has unsupported value!";
+									}
+								%>
+								<td><%=status %></td>
 							</tr>
 							<%
 						}
