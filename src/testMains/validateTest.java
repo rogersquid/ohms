@@ -2,7 +2,7 @@ package testMains;
 import models.database.*;
 import models.messages.*;
 
-public class ValidateTest {
+public class validateTest {
 
 	public static void main(String[] args) {
 			AccountMessage am1 = new AccountMessage();
