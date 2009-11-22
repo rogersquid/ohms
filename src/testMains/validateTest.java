@@ -14,7 +14,7 @@ public class ValidateTest {
 			am1.fill_All(0, "maid", "a1aa", "bbb", "fff", false, "345678", "222 hhh ggg", "hello@hloo.com");
 			m1.initializeAccounts(1);
 			m1.accounts[0] = am1;
-			m1.validateParams();
+			m1.validate();
 			System.out.println("\n\nTest 1\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -27,7 +27,7 @@ public class ValidateTest {
 			
 			//Test first name empty
 			am1.fill_All(0, "maid", "", "bbb", "fff", false, "345678", "222 hhh ggg", "hello@hloo.com");
-			m1.validateParams();
+			m1.validate();
 			System.out.println("\n\nTest 2\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -41,7 +41,7 @@ public class ValidateTest {
 			
 			//Test account type invalid
 			am1.fill_All(0, "id", "aaa", "bbb", "fff", false, "345678", "222 hhh ggg", "hello@hloo.com");
-			m1.validateParams();
+			m1.validate();
 			System.out.println("\n\nTest 3\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -54,7 +54,7 @@ public class ValidateTest {
 			
 			//Test account type empty
 			am1.fill_All(0, "", "aaa", "bbb", "fff", false, "345678", "222 hhh ggg", "hello@hloo.com");
-			m1.validateParams();
+			m1.validate();
 			System.out.println("\n\nTest 4\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -68,7 +68,7 @@ public class ValidateTest {
 			
 			//Test last name invalid
 			am1.fill_All(0, "maid", "aaa", "b2bb", "f@ff", false, "345678", "222 hhh ggg", "hello@hloo.com");
-			m1.validateParams();
+			m1.validate();
 			System.out.println("\n\nTest 5\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -82,7 +82,7 @@ public class ValidateTest {
 			
 			//Test last name empty
 			am1.fill_All(0, "maid", "aaa", "bbb", "", false, "345678", "222 hhh ggg", "hello@hloo.com");
-			m1.validateParams();
+			m1.validate();
 			System.out.println("\n\nTest 6\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -95,7 +95,7 @@ public class ValidateTest {
 			
 			//Test Phone number invalid -1
 			am1.fill_All(0, "maid", "aaa", "bbb", "fff", false, "3@45678", "222 hhh ggg", "hello@hloo.com");
-			m1.validateParams();
+			m1.validate();
 			System.out.println("\n\nTest 7\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -109,7 +109,7 @@ public class ValidateTest {
 			
 			//Test phone number invalid -2
 			am1.fill_All(0, "maid", "aaa", "bbb", "fff", false, "3sss", "222 hhh ggg", "hello@hloo.com");
-			m1.validateParams();
+			m1.validate();
 			System.out.println("\n\nTest 8\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -122,7 +122,7 @@ public class ValidateTest {
 			
 			//Test phone number empty
 			am1.fill_All(0, "maid", "aaa", "bbb", "fff", false, "", "222 hhh ggg", "hello@hloo.com");
-			m1.validateParams();
+			m1.validate();
 			System.out.println("\n\nTest 9\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -136,7 +136,7 @@ public class ValidateTest {
 			
 			//Test invalid address
 			am1.fill_All(0, "maid", "aaa", "bbb", "fff", false, "345678", "21g", "hello@hloo.com");
-			m1.validateParams();			
+			m1.validate();			
 			System.out.println("\n\nTest 10\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -151,7 +151,7 @@ public class ValidateTest {
 			
 			//Test empty address
 			am1.fill_All(0, "maid", "aaa", "bbb", "fff", false, "345678", "", "hello@hloo.com");
-			m1.validateParams();			
+			m1.validate();			
 			System.out.println("\n\nTest 11\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -165,7 +165,7 @@ public class ValidateTest {
 			
 			//Test email invalid -1
 			am1.fill_All(0, "maid", "aaa", "bbb", "fff", false, "345678", "222 hhh ggg", "hello@@hloo.com");
-			m1.validateParams();			
+			m1.validate();			
 			System.out.println("\n\nTest 12\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -180,7 +180,7 @@ public class ValidateTest {
 			
 			//Test email invalid -2
 			am1.fill_All(0, "maid", "aaa", "bbb", "fff", false, "345678", "222 hhh ggg", "@hloo.com");
-			m1.validateParams();	
+			m1.validate();	
 			System.out.println("\n\nTest 13\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -194,7 +194,7 @@ public class ValidateTest {
 
 			//Test email invalid -3
 			am1.fill_All(0, "maid", "aaa", "bbb", "fff", false, "345678", "222 hhh ggg", "hello@.com");
-			m1.validateParams();			
+			m1.validate();			
 			System.out.println("\n\nTest 14\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -208,7 +208,7 @@ public class ValidateTest {
 			
 			//Test email empty
 			am1.fill_All(0, "maid", "aaa", "bbb", "fff", false, "345678", "222 hhh ggg", "");
-			m1.validateParams();			
+			m1.validate();			
 			System.out.println("\n\nTest 15\n");
 			if (m1.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -232,7 +232,7 @@ public class ValidateTest {
 
 			//Test payment type empty
 			bm1.fillAll(0, 1, "", true);
-			m2.validateParams();
+			m2.validate();
 			System.out.println("\n\nTest 16\n");
 			if (m2.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -246,7 +246,7 @@ public class ValidateTest {
 			
 			//Test payment type is invalid
 			bm1.fillAll(0, 1, "visas2asddd", true);
-			m2.validateParams();
+			m2.validate();
 			System.out.println("\n\nTest 17\n");			
 			if (m2.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -265,7 +265,7 @@ public class ValidateTest {
 			ExtraMessage em1 = new ExtraMessage();
 			m3.extras[0] = em1;
 			em1.fillAll(0, 0, "", 5, null, null);
-			m3.validateParams();
+			m3.validate();
 			System.out.println("\n\nTest 18\n");			
 			if (m3.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
@@ -280,7 +280,7 @@ public class ValidateTest {
 			
 			//Test invalid extra services name
 			em1.fillAll(0, 0, "jjj1", 5, null, null);
-			m3.validateParams();
+			m3.validate();
 			System.out.println("\n\nTest 19\n");			
 			if (m3.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("PASS: ");
