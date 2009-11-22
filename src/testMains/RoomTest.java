@@ -45,7 +45,7 @@ public class RoomTest {
 			h_msg.rooms[0] = new RoomMessage();
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Room room = new Room();
 				h_msg = room.addRoom(h_msg);
