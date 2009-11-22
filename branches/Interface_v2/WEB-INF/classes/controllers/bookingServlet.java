@@ -18,11 +18,11 @@ public class bookingServlet extends HttpServlet {
 		int authlevel 			= 3;
 		String hotelname 		= "test";
 
-		BookingMessage message 	= new BookingMessage(userid, authlevel, hotelname, Header.Action.VIEWALL);
-		Hotel hotel 			= new Hotel(hotelname);
-		BookingMessage reply[] 	= (BookingMessage[])hotel.processMessageReturnBunch(message);
-		if(reply.length > 0) {
-			request.setAttribute("bookingsArray", reply);
+		Message message = new Message(authlevel, userid, hotelname);
+		Message reply = booking.getAllBooking(message);
+		
+		if(reply.bookings.length > 0) {
+			request.setAttribute("data", reply);
 			getServletContext().getRequestDispatcher("/views/bookings.jsp").include(request, response);
 		} else {
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -39,20 +39,19 @@ public class bookingServlet extends HttpServlet {
 			int ownerID 	= Integer.parseInt(request.getParameter("ownerID"));
 			int roomID 		= Integer.parseInt(request.getParameter("roomID"));
 
-			int userID 				= ownerID;
-			int authLevel 			= 0;
-			String hotelname 		= "test";
-			BookingMessage message 	= new BookingMessage(userID, authLevel, hotelname, Header.Action.ADD);
-			message.startDate 		= startDate;
-			message.endDate 		= endDate;
-			message.ownerID 		= ownerID;
-			message.roomID 			= roomID;
+			int userID = ownerID;
+			int authLevel = 0;
+			String hotelname = "test";
+			Message message = new Message(authLevel, userID, hotelname);
+			message.initializeBookings(1);
+			message.bookings[0].startDate = startDate;
+			message.bookings[0].endDate = endDate;
+			message.bookings[0].ownerID = ownerID;
+			message.bookings[0].roomID = roomID;
 
-			Hotel hotel 			= new Hotel(hotelname);
-			BookingMessage reply 	= (BookingMessage)hotel.processMessage(message);
-			Header replyHeader 		= reply.returnHeader();
+			Message reply = booking.addBooking(message);
 
-			if(replyHeader.responseCode == Header.Response.SUCCESS) {
+			if(reply.response.responseCode == ResonseMessage.ResponseCode.SUCCESS) {
 				request.setAttribute("status", "booking_success");
 				request.setAttribute("message", "Your booking has been made.");
 				doGet(request, response);
@@ -60,7 +59,7 @@ public class bookingServlet extends HttpServlet {
 				//getServletContext().getRequestDispatcher("/views/bookings.jsp").include(request, response);
 			} else {
 				request.setAttribute("status", "booking_failed");
-				request.setAttribute("message", replyHeader.responseString);
+				request.setAttribute("message", reply.response.responseString);
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 			}
 		} catch(Exception e) {
