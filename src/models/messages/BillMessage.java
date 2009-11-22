@@ -1,4 +1,7 @@
 package models.messages;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class BillMessage{
 	// attributes
@@ -22,4 +25,25 @@ public class BillMessage{
 		System.out.println(status);
 		System.out.println("*******************");
 	}	
+	
+	public ResponseMessage validateParams(){
+		Matcher m;
+		ResponseMessage response = new ResponseMessage();
+		
+		response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, new String(""));
+		if (paymentType.length() == 0){
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			response.responseString = response.responseString + "Payment Type description cannot be empty\n";
+		}
+		else{
+			Pattern validPaymentType = Pattern.compile("(^[A-Za-z]+$)");	
+			m = validPaymentType.matcher(paymentType);
+			if (!m.matches()){
+				response.responseCode = ResponseMessage.ResponseCode.FAIL;
+				response.responseString = response.responseString + "Payment type must be letters only.\n";
+			}
+		}
+		
+		return response;
+	}
 }
