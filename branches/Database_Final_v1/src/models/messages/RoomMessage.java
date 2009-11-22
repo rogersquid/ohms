@@ -43,7 +43,7 @@ public class RoomMessage {
 		elevator=i_elevator;
 	}
 	
-	public ResponseMessage validateParam(Message i_msg){
+	public ResponseMessage validateParams(Message i_msg){
 		ResponseMessage validity = new ResponseMessage();
 
 		
