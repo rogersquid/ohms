@@ -41,6 +41,9 @@ public class Message {
 	}
 	public void initializeBills(int arraysize){
 		bills=new BillMessage[arraysize];
+		for(int i=0; i<arraysize; i++){
+			bills[i]=new BillMessage();
+		}
 	}
 
 	public boolean validate() {

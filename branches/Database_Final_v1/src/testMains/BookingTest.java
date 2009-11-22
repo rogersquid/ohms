@@ -74,14 +74,14 @@ public class BookingTest {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Try Check in Booking ******************");
+		/*System.out.println("Try Check in Booking ******************");
 		input= new Message(1, 99, "test");
 		input.initializeBookings(1);
 		input.bookings[0].bookingID=reply.bookings[0].bookingID;
 		reply=mybooking.checkIn(input);
 		System.out.println(reply.response.responseCode);
 		System.out.println(reply.response.responseString);
-		
+		*/
 	    try {
 	    	System.out.println("SHALL I DELETE ???");
 	    	br.readLine();
@@ -123,6 +123,11 @@ public class BookingTest {
 		System.out.println(reply.response.responseString);
 		System.out.println(reply.bookings[reply.bookings.length-1].bookingID);
 		System.out.println(reply.bookings.length);
+		for (int k=0; k< reply.rooms.length; k++){
+			System.out.println(reply.rooms[k].roomNumber);
+			System.out.println(reply.accounts[k].firstName);
+			System.out.println(reply.accounts[k].lastName);
+		}
 		
 		System.out.println("Try Get Filtered Booking-- Filter is Date Range******************");
 		input= new Message(1, 99, "test");
