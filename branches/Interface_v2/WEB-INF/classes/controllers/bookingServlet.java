@@ -19,6 +19,7 @@ public class bookingServlet extends HttpServlet {
 		String hotelname 		= "test";
 
 		Message message = new Message(authlevel, userid, hotelname);
+		Booking booking = new Booking();
 		Message reply = booking.getAllBooking(message);
 		
 		if(reply.bookings.length > 0) {
@@ -52,7 +53,7 @@ public class bookingServlet extends HttpServlet {
 			Booking booking = new Booking();
 			Message reply = booking.addBooking(message);
 
-			if(reply.response.responseCode == ResonseMessage.ResponseCode.SUCCESS) {
+			if(reply.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				request.setAttribute("status", "booking_success");
 				request.setAttribute("message", "Your booking has been made.");
 				doGet(request, response);
