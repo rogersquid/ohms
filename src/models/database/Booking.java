@@ -405,6 +405,8 @@ public class Booking {
 			            if (output.response.responseCode == ResponseCode.SUCCESS) {
 			            	output.response.fillResponse(ResponseCode.SUCCESS, "Check-in request succceed");
 			            	Bill mybill=new Bill();
+			            	output.initializeBills(1);
+			            	output.bills[0].bookingID=output.bookings[0].bookingID;
 			            	mybill.addBill(output);
 			            } else {
 			            	output.response.fillResponse(ResponseCode.FAIL, "Check-in request failed during update");
