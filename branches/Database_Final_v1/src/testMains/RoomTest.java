@@ -77,7 +77,7 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			h_msg.rooms[0].roomType = "INVALID";
 
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Room room = new Room();
 				h_msg = room.addRoom(h_msg);
@@ -109,7 +109,7 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			h_msg.rooms[0].roomType = "";
 
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Room room = new Room();
 				h_msg = room.addRoom(h_msg);
@@ -139,7 +139,7 @@ public class RoomTest {
 			h_msg.rooms[0] = new RoomMessage();
 			//fill room info:
 			test_fillRoom(h_msg, t_set, 0);
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Room room = new Room();
 				h_msg = room.addRoom(h_msg);
@@ -175,7 +175,7 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
 			}
@@ -188,7 +188,7 @@ public class RoomTest {
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
 				g_msg.rooms[0].price = (float)199.99;
-				g_msg.response = h_msg.rooms[0].validateParam(h_msg);
+				g_msg.response = h_msg.rooms[0].validateParams(h_msg);
 				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = room.editRoom(g_msg);
 				}
@@ -226,7 +226,7 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
 			} 
@@ -242,7 +242,7 @@ public class RoomTest {
 				g_msg.rooms[0].roomNumber = h_msg.rooms[0].roomNumber;
 				*/
 				Message g_msg = h_msg;
-				g_msg.response = h_msg.rooms[0].validateParam(h_msg);
+				g_msg.response = h_msg.rooms[0].validateParams(h_msg);
 				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = room.addRoom(g_msg);
 				} 
@@ -278,7 +278,7 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
 			} 
@@ -291,7 +291,7 @@ public class RoomTest {
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomNumber = -211;
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
-				g_msg.response = h_msg.rooms[0].validateParam(h_msg);
+				g_msg.response = h_msg.rooms[0].validateParams(h_msg);
 				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = room.addRoom(g_msg);
 				} 
@@ -327,7 +327,7 @@ public class RoomTest {
 			test_fillRoom(h_msg, t_set, i_num);
 			
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
 			} 
@@ -340,7 +340,7 @@ public class RoomTest {
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
 				g_msg.rooms[0].roomType = null;
-				g_msg.response = h_msg.rooms[0].validateParam(h_msg);
+				g_msg.response = h_msg.rooms[0].validateParams(h_msg);
 				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = room.addRoom(g_msg);
 				} 
@@ -378,7 +378,7 @@ public class RoomTest {
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
 			} 
@@ -422,7 +422,7 @@ public class RoomTest {
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
 			} 
@@ -467,7 +467,7 @@ public class RoomTest {
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.addRoom(h_msg);
 			} 
@@ -678,7 +678,7 @@ public class RoomTest {
 			h_msg.rooms[1].kingBeds = 0;
 			
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.getFilteredRooms(h_msg);
 			} 
@@ -749,7 +749,7 @@ public class RoomTest {
 			h_msg.rooms[1].kingBeds = 0;
 			
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParam(h_msg);
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.getFilteredRooms(h_msg);
 			} 
