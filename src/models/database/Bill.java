@@ -5,7 +5,7 @@ import models.messages.ResponseMessage.ResponseCode;
 import java.sql.*;
 
 public class Bill {
-	
+
 	public Message addBill(Message i_msg){
 		// All the information is filled in. This puts all the information into the database.
 		// Creating database handle and create return message
@@ -14,14 +14,14 @@ public class Bill {
 		replyMessage.bills=i_msg.bills;
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			dbcon = new databaseHelper();
 			// insert the bill in to appropriate hotel
-			int returnedRows 	= dbcon.insert("INSERT INTO " 
-					+ i_msg.header.nameHotel 
-					+ "_bills (billID, bookingID, paymentType, status) " 
-					+ "VALUES ('" + i_msg.bills[0].billID + "', '" 
-					+ i_msg.bills[0].bookingID + "', '" 
-					+ i_msg.bills[0].paymentType + "', '" 
+			int returnedRows 	= dbcon.insert("INSERT INTO "
+					+ i_msg.header.nameHotel
+					+ "_bills (billID, bookingID, paymentType, status) "
+					+ "VALUES ('" + i_msg.bills[0].billID + "', '"
+					+ i_msg.bills[0].bookingID + "', '"
+					+ i_msg.bills[0].paymentType + "', '"
 					+ i_msg.bills[0].status + "')");
 			// check the number of rows changed to see whether response is as expected
 			if (returnedRows > 0) {
@@ -51,15 +51,15 @@ public class Bill {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message editBill(Message i_msg){
-		
+
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.bills=i_msg.bills;
 		try {
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			int returnedRows = dbcon.modify("UPDATE " + i_msg.header.nameHotel 
+			dbcon = new databaseHelper();
+			int returnedRows = dbcon.modify("UPDATE " + i_msg.header.nameHotel
 					+ "_bills SET billID='" + i_msg.bills[0].billID
 					+ "', bookingID='" +i_msg.bills[0].bookingID
 					+ "', paymentType='" + i_msg.bills[0].paymentType
@@ -88,13 +88,13 @@ public class Bill {
 		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Edited one Bill as Requested.");
 		return replyMessage;
 	}
-	
+
 	public Message deleteBill(Message i_msg){
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			// Bill id or owner + sDate
 			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_bills WHERE billID='" + i_msg.bills[0].billID
 					+ "'");
@@ -124,7 +124,7 @@ public class Bill {
 		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Edited one bill as Requested.");
 		return replyMessage;
 	}
-	
+
 	public Message getBill(Message i_msg){
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -132,10 +132,10 @@ public class Bill {
 		// Not the best way to do it but should be a deep Copy - I will investigate
 		replyMessage.initializeBills(1);
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			// Bill id
 			ResultSet rs=dbcon.select("Select count(*) FROM  "
-					+ i_msg.header.nameHotel + "_bills WHERE billID='" 
+					+ i_msg.header.nameHotel + "_bills WHERE billID='"
 					+ i_msg.bills[0].billID +"'");
 			rs.next();
 			int i=rs.getInt(1);
@@ -143,7 +143,7 @@ public class Bill {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view bill failed.");
 				return replyMessage;
 			}
-			rs=dbcon.select("Select * FROM test_bills WHERE billID='" 
+			rs=dbcon.select("Select * FROM test_bills WHERE billID='"
 					+ i_msg.bills[0].billID +"'");
 			while (rs.next()) {
 	            int cbillID = rs.getInt("billID");
@@ -171,14 +171,14 @@ public class Bill {
 		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "View one Bill as Requested.");
 		return replyMessage;
 	}
-	
+
 	public Message getAllBill(Message i_msg){
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		
+
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + "_bills");
 			rs.next();
 			int numberofrows=rs.getInt(1);
@@ -222,17 +222,17 @@ public class Bill {
 		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "ViewAll one bill as Requested.");
 		return replyMessage;
 	}
-	
+
 	public Message getFilteredBill(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.bills=i_msg.bills;
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			
+			dbcon = new databaseHelper();
+
 			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE ";
-			
+
 			boolean nonFirst = false;
 			if (i_msg.bills[0].status) {
 				queryString = queryString + "status='" + i_msg.bills[0].status + "'";
@@ -243,7 +243,7 @@ public class Bill {
 				queryString = queryString + "paymentType='" + i_msg.bills[0].paymentType + "'";
 				nonFirst = true;
 			}
-						
+
 			// query the database for all rooms
 			ResultSet rs = dbcon.select(queryString);
 			if (!rs.next()) {
@@ -258,12 +258,12 @@ public class Bill {
 				rs = dbcon.select(queryString);
 				replyMessage.bills = new BillMessage[i];
 				i = 0;
-				
+
 				while (rs.next()) {
 					replyMessage.bills[i].billID = rs.getInt("billID");
 					replyMessage.bills[i].bookingID = rs.getInt("bookingID");
 					replyMessage.bills[i].paymentType = rs.getString("paymentType");
-					replyMessage.bills[i].status = rs.getBoolean("status");		
+					replyMessage.bills[i].status = rs.getBoolean("status");
 					i++;
 				}
 			}
