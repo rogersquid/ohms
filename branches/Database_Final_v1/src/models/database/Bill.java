@@ -18,11 +18,14 @@ public class Bill {
 			// insert the bill in to appropriate hotel
 			int returnedRows 	= dbcon.insert("INSERT INTO "
 					+ i_msg.header.nameHotel
-					+ "_bills (billID, bookingID, paymentType, status) "
-					+ "VALUES ('" + i_msg.bills[0].billID + "', '"
+					+ "_bills (bookingID, paymentType, status) "
+					+ "VALUES ('" 
+					//+ i_msg.bills[0].billID + "', '"
 					+ i_msg.bills[0].bookingID + "', '"
-					+ i_msg.bills[0].paymentType + "', '"
-					+ i_msg.bills[0].status + "')");
+					//+ i_msg.bills[0].paymentType + "', '"
+					+ "none" + "', '"
+					//+ i_msg.bills[0].status + "')");
+					+ false + "')");
 			// check the number of rows changed to see whether response is as expected
 			if (returnedRows > 0) {
 				System.out.println("Success");
