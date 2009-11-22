@@ -18,8 +18,9 @@ public class Extra {
 			// insert the Extra in to appropriate hotel
 			int returnedRows 	= dbcon.insert("INSERT INTO "
 					+ i_msg.header.nameHotel
-					+ "_extras (extraID, bookingID, extraName, price, date, creationDate) "
-					+ "VALUES ('" + i_msg.extras[0].extraID + "', '"
+					+ "_extras (bookingID, extraName, price, date, creationDate) "
+					+ "VALUES ('" 
+					//+ i_msg.extras[0].extraID + "', '"
 					+ i_msg.extras[0].bookingID + "', '"
 					+ i_msg.extras[0].extraName + "', '"
 					+ i_msg.extras[0].date + "', '"
