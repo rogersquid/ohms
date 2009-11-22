@@ -219,7 +219,7 @@ public class Booking {
 				replyMessage.bookings[i].status = rs.getInt("status");
 				replyMessage.accounts[i].firstName = rs.getString("firstName");
 				replyMessage.accounts[i].firstName = rs.getString("lastName");
-				replyMessage.rooms[i].roomNumber = rs.getString("roomNumber");
+				replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
 				i++;
 	        }
 		} catch (SQLException e) {
