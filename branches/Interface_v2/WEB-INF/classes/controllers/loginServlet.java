@@ -30,9 +30,8 @@ public class loginServlet extends HttpServlet {
 		message.password = password;
 
 		Hotel hotel = new Hotel(hotelname);
-		AccountMessage reply = (AccountMessage)hotel.processMessage(message);
-		Header replyHeader = reply.returnHeader();
-		
+		Message reply = account.login();
+
 
 		if(replyHeader.responseCode == Header.Response.SUCCESS) {
 			Cookie userCookie = new Cookie("accountID", Integer.toString(reply.accountID));
