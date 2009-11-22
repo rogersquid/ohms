@@ -19,11 +19,7 @@
 						}
 						if(request.getAttribute("status")=="register_failed") {
 							%>
-<<<<<<< .mine
-							<div class='error'>Register failed. <%=request.getAttribute("message") %></div>
-=======
 							<div class='error'><strong>Register failed:</strong> <%=request.getAttribute("message") %></div>
->>>>>>> .r432
 							<%
 						}
 					%>
