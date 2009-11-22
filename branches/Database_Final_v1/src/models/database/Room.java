@@ -10,10 +10,10 @@ public class Room {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
-		
+
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			dbcon = new databaseHelper();
 			// query the database to see if the room number exist already
 			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
 			// check query result
@@ -24,19 +24,19 @@ public class Room {
 			} else {
 				// insert room into the database
 				int insertID = dbcon.insert("INSERT INTO " + i_msg.header.nameHotel + "_rooms (roomNumber, floor, roomType, price, onsuite, " +
-						"tv, disabilityAccess, elevator, available, phone, internet, kitchen, cleaned, singleBeds, queenBeds, kingBeds ) VALUES (" + 
-						i_msg.rooms[0].roomNumber + ", " + 
-						i_msg.rooms[0].floor + ", '" + 
-						i_msg.rooms[0].roomType + "', " + 
-						i_msg.rooms[0].price + ", " + 
-						((i_msg.rooms[0].onsuite)?1:0) + ", " + 
-						((i_msg.rooms[0].tv)?1:0) + ", " + 
-						((i_msg.rooms[0].disabilityAccess)?1:0) + ", " + 
-						((i_msg.rooms[0].elevator)?1:0) + ", " + 
-						((i_msg.rooms[0].available)?1:0) + ", " + 
-						((i_msg.rooms[0].phone)?1:0) + ", " + 
-						((i_msg.rooms[0].internet)?1:0) + ", " + 
-						((i_msg.rooms[0].kitchen)?1:0) + ", " + 
+						"tv, disabilityAccess, elevator, available, phone, internet, kitchen, cleaned, singleBeds, queenBeds, kingBeds ) VALUES (" +
+						i_msg.rooms[0].roomNumber + ", " +
+						i_msg.rooms[0].floor + ", '" +
+						i_msg.rooms[0].roomType + "', " +
+						i_msg.rooms[0].price + ", " +
+						((i_msg.rooms[0].onsuite)?1:0) + ", " +
+						((i_msg.rooms[0].tv)?1:0) + ", " +
+						((i_msg.rooms[0].disabilityAccess)?1:0) + ", " +
+						((i_msg.rooms[0].elevator)?1:0) + ", " +
+						((i_msg.rooms[0].available)?1:0) + ", " +
+						((i_msg.rooms[0].phone)?1:0) + ", " +
+						((i_msg.rooms[0].internet)?1:0) + ", " +
+						((i_msg.rooms[0].kitchen)?1:0) + ", " +
 						((i_msg.rooms[0].cleaned)?1:0) + ", " +
 						i_msg.rooms[0].singleBeds + ", " +
 						i_msg.rooms[0].queenBeds + ", " +
@@ -45,7 +45,7 @@ public class Room {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Room created.";
 			}
-		
+
 		} catch (SQLException e) {
 			System.err.println("Error in 'addRoom'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
@@ -60,10 +60,10 @@ public class Room {
 		finally {
 			if (dbcon != null) dbcon.close();
 		}
-		
+
 		return replyMessage;
 	}
-	
+
 	public Message editRoom(Message i_msg){
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -72,13 +72,13 @@ public class Room {
 		int updateStatus;
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			
+			dbcon = new databaseHelper();
+
 			//assume that the maid has the authorization level of 3
 			if (i_msg.header.authLevel != 3) {
 				// query the database for the room that matches roomID
 				ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = " + i_msg.rooms[0].roomID);
-				rs.next();	
+				rs.next();
 				// see if request want to edit roomNumber
 				if (rs.getInt("roomNumber") != i_msg.rooms[0].roomNumber) {
 					// query database for room that matches roomNumber
@@ -89,7 +89,7 @@ public class Room {
 						replyMessage.response.responseString = "Room number already in database.";
 						if (dbcon != null) dbcon.close();
 						return replyMessage;
-					} 
+					}
 				}
 				// update room in database that match roomID
 				updateStatus = dbcon.modify("UPDATE " + i_msg.header.nameHotel + "_rooms SET " +
@@ -111,7 +111,7 @@ public class Room {
 						"kingBeds="		+ i_msg.rooms[0].kingBeds + " " +
 						"WHERE roomID=" + i_msg.rooms[0].roomID);
 			} else {
-				updateStatus = dbcon.modify("UPDATE " + i_msg.header.nameHotel + "_rooms SET cleaned=1 WHERE roomNumber=" + 
+				updateStatus = dbcon.modify("UPDATE " + i_msg.header.nameHotel + "_rooms SET cleaned=1 WHERE roomNumber=" +
 						i_msg.rooms[0].roomNumber);
 			}
 			if (updateStatus == 1) {
@@ -137,17 +137,17 @@ public class Room {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message deleteRoom(Message i_msg) {
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
-		
+
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			// query the database for 
+			dbcon = new databaseHelper();
+			// query the database for
 			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
 			rs.next();
 			int deleteStatus = dbcon.modify("DELETE FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
@@ -174,15 +174,15 @@ public class Room {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message getAllRooms(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
-		
+
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			dbcon = new databaseHelper();
 			// query the database for all rooms
 			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms");
 			if (!rs.next()) {
@@ -197,7 +197,7 @@ public class Room {
 				rs.beforeFirst();
 				replyMessage.initializeRooms(i);
 				i = 0;
-				
+
 				while (rs.next()) {
 					replyMessage.rooms[i] = new RoomMessage();
 					replyMessage.rooms[i].roomID = rs.getInt("roomID");
@@ -238,15 +238,15 @@ public class Room {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message getRoom(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
-		
+
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			dbcon = new databaseHelper();
 			// query the database for all rooms
 			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
 			while (rs.next()) {
@@ -286,18 +286,18 @@ public class Room {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message getFilteredRooms(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
-		
+
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			
+			dbcon = new databaseHelper();
+
 			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE ";
-			
+
 			//first RoomMessage holds the filter toggles, and the second message hold the filter values
 			boolean nonFirst = false;
 			if (i_msg.rooms[0].floor != 0) {
@@ -379,7 +379,7 @@ public class Room {
 				queryString = queryString + "kingBeds=" + i_msg.rooms[1].kingBeds;
 				nonFirst = true;
 			}
-			
+
 			// query the database for all rooms
 			ResultSet rs = dbcon.select(queryString);
 			if (!rs.next()) {
@@ -393,9 +393,9 @@ public class Room {
 				}
 				rs.beforeFirst();
 				replyMessage.initializeRooms(i);
-				
+
 				i = 0;
-				
+
 				while (rs.next()) {
 					replyMessage.rooms[i] = new RoomMessage();
 					replyMessage.rooms[i].roomID = rs.getInt("roomID");

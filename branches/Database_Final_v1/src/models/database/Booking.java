@@ -18,8 +18,8 @@ public class Booking {
 			dbcon = new databaseHelper();
 			// insert the booking in to appropriate hotel booking
 			int returnedRows 	= dbcon.insert("INSERT INTO " + i_msg.header.nameHotel + "_bookings (startDate, bookingOwnerID, endDate, roomID, status) " +
-					"VALUES ('" + i_msg.bookings[0].startDate + "', '" 
-					+ i_msg.bookings[0].ownerID + "', '" + i_msg.bookings[0].endDate + "', '" 
+					"VALUES ('" + i_msg.bookings[0].startDate + "', '"
+					+ i_msg.bookings[0].ownerID + "', '" + i_msg.bookings[0].endDate + "', '"
 					+ i_msg.bookings[0].roomID + "', '" + i_msg.bookings[0].status + "')");
 			// check the number of rows changed to see whether response is as expected
 			if (returnedRows > 0) {
@@ -61,7 +61,7 @@ public class Booking {
 		//creationTime is not changeable
 		replyMessage.bookings=i_msg.bookings;
 		try {
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			dbcon = new databaseHelper();
 			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET bookingOwnerID='" + i_msg.bookings[0].ownerID
 					+ "', startDate='" + i_msg.bookings[0].startDate
 					+ "', endDate='" + i_msg.bookings[0].endDate + "', roomID='" + i_msg.bookings[0].roomID
@@ -99,7 +99,7 @@ public class Booking {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			// booking id or owner + sDate
 			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_bookings WHERE bookingID='" + i_msg.bookings[0].bookingID
 					+ "'");
@@ -138,9 +138,9 @@ public class Booking {
 		// Not the best way to do it but should be a deep Copy - I will investigate
 		replyMessage.initializeBookings(1);
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			// booking id
-			ResultSet rs=dbcon.select("Select count(*) FROM  "+ i_msg.header.nameHotel + "_bookings WHERE bookingID='" 
+			ResultSet rs=dbcon.select("Select count(*) FROM  "+ i_msg.header.nameHotel + "_bookings WHERE bookingID='"
 					+ i_msg.bookings[0].bookingID +"'");
 			rs.next();
 			int i=rs.getInt(1);
@@ -149,7 +149,7 @@ public class Booking {
 						" bookingID: " + i_msg.bookings[0].bookingID);
 				return replyMessage;
 			}
-			rs=dbcon.select("Select * FROM test_bookings WHERE bookingID='" 
+			rs=dbcon.select("Select * FROM test_bookings WHERE bookingID='"
 					+ i_msg.bookings[0].bookingID +"'");
 			while (rs.next()) {
 	            int cbookingID = rs.getInt("bookingID");
@@ -187,9 +187,9 @@ public class Booking {
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		
+
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + "_bookings");
 			rs.next();
 			int numberofrows=rs.getInt(1);
@@ -259,8 +259,8 @@ public class Booking {
 			 */
 			System.err.println("I am in the CustomerID search");
 			try {
-				dbcon = new databaseHelper(i_msg.header.nameHotel);
-				ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + 
+				dbcon = new databaseHelper();
+				ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel +
 										"_bookings WHERE bookingOwnerID='" + i_msg.bookings[0].ownerID +"'");
 				rs.next();
 				int numberofrows=rs.getInt(1);
@@ -274,7 +274,7 @@ public class Booking {
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
-				rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel + 
+				rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel +
 										"_bookings WHERE bookingOwnerID='" + i_msg.bookings[0].ownerID + "'");
 				replyMessage.initializeBookings(numberofrows);
 				int i=0;
@@ -309,8 +309,8 @@ public class Booking {
 			// ROOM ID that are available in a given range of dates
 			System.err.println("I am in the Date range search");
 			try {
-				dbcon 	= new databaseHelper(i_msg.header.nameHotel);
-				ResultSet rs=dbcon.select("SELECT count(*) FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN (SELECT roomID FROM "+ 
+				dbcon 	= new databaseHelper();
+				ResultSet rs=dbcon.select("SELECT count(*) FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN (SELECT roomID FROM "+
 						i_msg.header.nameHotel +"_bookings WHERE " +
 						"(endDate >'"+ i_msg.bookings[0].startDate +"' AND endDate < '"+ i_msg.bookings[0].endDate +"') "+
 						"OR (endDate> '"+ i_msg.bookings[0].startDate +"' AND startDate <='"+ i_msg.bookings[0].endDate +"'))");
@@ -326,7 +326,7 @@ public class Booking {
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
-				rs=dbcon.select("SELECT roomID FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN (SELECT roomID FROM "+ 
+				rs=dbcon.select("SELECT roomID FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN (SELECT roomID FROM "+
 						i_msg.header.nameHotel +"_bookings WHERE " +
 						"(endDate >'"+ i_msg.bookings[0].startDate +"' AND endDate < '"+ i_msg.bookings[0].endDate +"') "+
 						"OR (endDate> '"+ i_msg.bookings[0].startDate +"' AND startDate <='"+ i_msg.bookings[0].endDate +"'))");
@@ -363,13 +363,13 @@ public class Booking {
 		Message output=i_msg;
 		databaseHelper dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			// booking id or owner + sDate
 			if (i_msg.bookings[0].bookingID < 0) {
 				output.response.fillResponse(ResponseCode.FAIL, "Checkin Failed: invalid Booking ID");
 				return output;
 			} else {
-				ResultSet rs=dbcon.select("Select count(*) FROM test_bookings WHERE bookingID='" 
+				ResultSet rs=dbcon.select("Select count(*) FROM test_bookings WHERE bookingID='"
 						+ i_msg.bookings[0].bookingID +"'");
 				rs.next();
 				int i=rs.getInt(1);
@@ -377,7 +377,7 @@ public class Booking {
 					output.response.fillResponse(ResponseCode.FAIL, "Checkin Failed: Booking ID do not exist");
 					return output;
 				}
-				rs=dbcon.select("Select * FROM test_bookings WHERE bookingID='" 
+				rs=dbcon.select("Select * FROM test_bookings WHERE bookingID='"
 						+ i_msg.bookings[0].bookingID +"'");
 				while (rs.next()) {
 					java.util.Date today 	= new java.util.Date();
@@ -410,9 +410,9 @@ public class Booking {
 		            } else {
 		            	output.response.fillResponse(ResponseCode.FAIL, "Checkin Failed: Checkin Time does not match");
 						return output;
-		            } 
+		            }
 		        }
-				
+
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Checkin'.  SQLException was thrown:");

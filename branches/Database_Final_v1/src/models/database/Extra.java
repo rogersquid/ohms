@@ -5,7 +5,7 @@ import models.messages.ResponseMessage.ResponseCode;
 import java.sql.*;
 
 public class Extra {
-	
+
 	public Message addExtra(Message i_msg){
 		// All the information is filled in. This puts all the information into the database.
 		// Creating database handle and create return message
@@ -14,15 +14,15 @@ public class Extra {
 		replyMessage.extras=i_msg.extras;
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			dbcon = new databaseHelper();
 			// insert the Extra in to appropriate hotel
-			int returnedRows 	= dbcon.insert("INSERT INTO " 
-					+ i_msg.header.nameHotel 
-					+ "_extras (extraID, bookingID, extraName, price, date, creationDate) " 
-					+ "VALUES ('" + i_msg.extras[0].extraID + "', '" 
-					+ i_msg.extras[0].bookingID + "', '" 
-					+ i_msg.extras[0].extraName + "', '" 
-					+ i_msg.extras[0].date + "', '" 
+			int returnedRows 	= dbcon.insert("INSERT INTO "
+					+ i_msg.header.nameHotel
+					+ "_extras (extraID, bookingID, extraName, price, date, creationDate) "
+					+ "VALUES ('" + i_msg.extras[0].extraID + "', '"
+					+ i_msg.extras[0].bookingID + "', '"
+					+ i_msg.extras[0].extraName + "', '"
+					+ i_msg.extras[0].date + "', '"
 					+ i_msg.extras[0].creationDate + "')");
 			// check the number of rows changed to see whether response is as expected
 			if (returnedRows > 0) {
@@ -55,16 +55,16 @@ public class Extra {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message editExtra(Message i_msg){
-		
+
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.extras=i_msg.extras;
 		try {
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			int returnedRows = dbcon.modify("UPDATE " + i_msg.header.nameHotel 
-					+ "_extras SET extraID='" 
+			dbcon = new databaseHelper();
+			int returnedRows = dbcon.modify("UPDATE " + i_msg.header.nameHotel
+					+ "_extras SET extraID='"
 					+ i_msg.extras[0].extraID
 					+ "', extraName='" + i_msg.extras[0].extraName
 					+ "', price='" + i_msg.extras[0].price + "'");
@@ -95,13 +95,13 @@ public class Extra {
 				" StartDate: " + i_msg.extras[0].date);
 		return replyMessage;
 	}
-	
+
 	public Message deleteExtra(Message i_msg){
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			// Extra id or owner + sDate
 			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_extras WHERE extraID='" + i_msg.extras[0].extraID
 					+ "'");
@@ -132,7 +132,7 @@ public class Extra {
 				" StartDate: " + i_msg.extras[0].date);
 		return replyMessage;
 	}
-	
+
 	public Message getExtra(Message i_msg){
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -140,10 +140,10 @@ public class Extra {
 		// Not the best way to do it but should be a deep Copy - I will investigate
 		replyMessage.initializeExtras(1);
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			// Extra id
 			ResultSet rs=dbcon.select("Select count(*) FROM  "
-					+ i_msg.header.nameHotel + "_extras WHERE extraID='" 
+					+ i_msg.header.nameHotel + "_extras WHERE extraID='"
 					+ i_msg.extras[0].extraID +"'");
 			rs.next();
 			int i=rs.getInt(1);
@@ -152,7 +152,7 @@ public class Extra {
 						" StartDate: " + i_msg.extras[0].date);
 				return replyMessage;
 			}
-			rs=dbcon.select("Select * FROM test_extras WHERE extraID='" 
+			rs=dbcon.select("Select * FROM test_extras WHERE extraID='"
 					+ i_msg.extras[0].extraID +"'");
 			while (rs.next()) {
 	            int cbookingID = rs.getInt("bookingID");
@@ -160,7 +160,7 @@ public class Extra {
 	            String cextraName = rs.getString("extraName");
 	            int cprice = rs.getInt("price");
 	            java.sql.Timestamp creationDate= new java.sql.Timestamp(rs.getDate("creationDate").getTime());
-	            java.sql.Date cdate = rs.getDate("startDate");	            
+	            java.sql.Date cdate = rs.getDate("startDate");
 	            replyMessage.extras[0].fillAll(cextraID, cbookingID, cextraName, cprice, cdate, creationDate);
 	        }
 		} catch (SQLException e) {
@@ -185,14 +185,14 @@ public class Extra {
 				" StartDate: " + i_msg.extras[0].date);
 		return replyMessage;
 	}
-	
+
 	public Message getAllExtra(Message i_msg){
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		
+
 		try {
-			dbcon 				= new databaseHelper(i_msg.header.nameHotel);
+			dbcon 				= new databaseHelper();
 			ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + "_extras");
 			rs.next();
 			int numberofrows=rs.getInt(1);
@@ -241,17 +241,17 @@ public class Extra {
 				" StartDate: " + i_msg.extras[0].date);
 		return replyMessage;
 	}
-	
+
 	public Message getFilteredExtra(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.extras=i_msg.extras;
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
-			
+			dbcon = new databaseHelper();
+
 			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_extras WHERE ";
-			
+
 			boolean nonFirst = false;
 			if (i_msg.extras[0].bookingID !=0) {
 				queryString = queryString + "bookingID='" + i_msg.extras[0].bookingID + "'";
@@ -262,7 +262,7 @@ public class Extra {
 				queryString = queryString + "date='" + i_msg.extras[0].date + "'";
 				nonFirst = true;
 			}
-						
+
 			// query the database for all rooms
 			ResultSet rs = dbcon.select(queryString);
 			if (!rs.next()) {
@@ -277,7 +277,7 @@ public class Extra {
 				rs = dbcon.select(queryString);
 				replyMessage.extras = new ExtraMessage[i];
 				i = 0;
-				
+
 				while (rs.next()) {
 					replyMessage.extras[i].extraID = rs.getInt("extraID");
 					replyMessage.extras[i].bookingID = rs.getInt("bookingID");
@@ -285,7 +285,7 @@ public class Extra {
 					replyMessage.extras[i].price = rs.getFloat("price");
 					replyMessage.extras[i].date = rs.getDate("date");
 					replyMessage.extras[i].creationDate = rs.getTimestamp("creationDate");
-					
+
 					i++;
 				}
 			}
@@ -305,7 +305,7 @@ public class Extra {
 		}
 		return replyMessage;
 	}
-	
+
 	/*
 	public Message getFilteredExtra(Message i_msg){
 		// Creating database handle and create return message
@@ -315,8 +315,8 @@ public class Extra {
 		if(i_msg.extras[0].extraID>0){
 			// Extras of a specific owner
 			try {
-				dbcon = new databaseHelper(i_msg.header.nameHotel);
-				ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + 
+				dbcon = new databaseHelper();
+				ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel +
 										"_extras WHERE extraID='" + i_msg.extras[0].extraID +"'");
 				int numberofrows=rs.getInt(1);
 				if(numberofrows<0){
@@ -359,16 +359,16 @@ public class Extra {
 				}
 			}
 		}
-		
+
 		else if(i_msg.extras[0].date!=null && i_msg.extras[0].bookingID!=0){
 			// ROOM ID that are available in a given range of dates
 			try {
-				dbcon 	= new databaseHelper(i_msg.header.nameHotel);
-				
+				dbcon 	= new databaseHelper();
+
 				ResultSet rs=dbcon.select("SELECT count(*) FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN " +
-						"(SELECT roomID FROM "+ i_msg.header.nameHotel 
-						+"_extras WHERE " 
-						+"(creationDate = "+ i_msg.extras[0].date 
+						"(SELECT roomID FROM "+ i_msg.header.nameHotel
+						+"_extras WHERE "
+						+"(creationDate = "+ i_msg.extras[0].date
 						+"))");
 				int numberofrows=rs.getInt(1);
 				if(numberofrows<0){
@@ -382,14 +382,14 @@ public class Extra {
 					return replyMessage;
 				}
 				replyMessage.initializeExtras(numberofrows);
-				rs=dbcon.select("SELECT extraID FROM "+ i_msg.header.nameHotel 
-						+"_extras WHERE extraID NOT IN " 
-						+"(SELECT extraID FROM "+ i_msg.header.nameHotel 
-						+"_extras WHERE " 
-						+"(date > "+ i_msg.extras[0].date 
+				rs=dbcon.select("SELECT extraID FROM "+ i_msg.header.nameHotel
+						+"_extras WHERE extraID NOT IN "
+						+"(SELECT extraID FROM "+ i_msg.header.nameHotel
+						+"_extras WHERE "
+						+"(date > "+ i_msg.extras[0].date
 						+" AND endDate < "+ i_msg.extras[0].date +") "
 						+"OR "
-						+"(endDate> "+ i_msg.extras[0].date 
+						+"(endDate> "+ i_msg.extras[0].date
 						+" AND startDate <= "+ i_msg.extras[0].date +"))");
 				int i=0;
 				while (rs.next()) {
