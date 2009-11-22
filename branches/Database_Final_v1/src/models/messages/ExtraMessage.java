@@ -1,5 +1,9 @@
 package models.messages;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 public class ExtraMessage{
 	// attributes
 	public int 					extraID;
@@ -28,4 +32,32 @@ public class ExtraMessage{
 		System.out.println(creationDate);
 		System.out.println("*******************");
 	}
+	
+	public ResponseMessage validateParams(){
+		Matcher m;
+		ResponseMessage response = new ResponseMessage();
+		response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, new String(""));
+		if (extraName.length() == 0)
+		{
+			response.responseString = response.responseString + ("Extra services name must not be empty\n");
+			//CHANGE RESPONSE CODE
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;			
+		}
+		else{
+			Pattern validExtraName = Pattern.compile("(^[A-Za-z]+$)");	
+			m = validExtraName.matcher(extraName);
+			if (!m.matches()){
+				response.responseCode = ResponseMessage.ResponseCode.FAIL;
+				response.responseString = response.responseString + "Extra service name must not contain numbers";
+			}
+		}
+		if (price < 0){
+			response.responseString = response.responseString + ("Extra services price cannot be less than 0\n");
+			//CHANGE RESPONSE CODE
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;			
+			
+		}
+		return response;
+	}
+
 }
