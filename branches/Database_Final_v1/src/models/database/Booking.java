@@ -137,6 +137,8 @@ public class Booking {
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		// Not the best way to do it but should be a deep Copy - I will investigate
 		replyMessage.initializeBookings(1);
+		replyMessage.initializeAccounts(1);
+		replyMessage.initializeRooms(1);
 		try {
 			dbcon 				= new databaseHelper();
 			// booking id
@@ -152,16 +154,16 @@ public class Booking {
 			rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE bookingID='"
 					+ i_msg.bookings[0].bookingID +"'");
 			while (rs.next()) {
-				replyMessage.bookings[i].bookingID=rs.getInt("bookingID");
-				replyMessage.bookings[i].ownerID= rs.getInt("bookingOwnerID");
-				replyMessage.bookings[i].creationDate= new java.sql.Timestamp(rs.getDate("creationTime").getTime());
-				replyMessage.bookings[i].startDate= rs.getDate("startDate");
-				replyMessage.bookings[i].endDate= rs.getDate("endDate");
-				replyMessage.bookings[i].roomID= rs.getInt("roomID");
-				replyMessage.bookings[i].status = rs.getInt("status");
-				replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
-				replyMessage.accounts[i].firstName = rs.getString("firstName");
-				replyMessage.accounts[i].lastName = rs.getString("lastName");
+				replyMessage.bookings[0].bookingID=rs.getInt("bookingID");
+				replyMessage.bookings[0].ownerID= rs.getInt("bookingOwnerID");
+				replyMessage.bookings[0].creationDate= new java.sql.Timestamp(rs.getDate("creationTime").getTime());
+				replyMessage.bookings[0].startDate= rs.getDate("startDate");
+				replyMessage.bookings[0].endDate= rs.getDate("endDate");
+				replyMessage.bookings[0].roomID= rs.getInt("roomID");
+				replyMessage.bookings[0].status = rs.getInt("status");
+				replyMessage.rooms[0].roomNumber = rs.getInt("roomNumber");
+				replyMessage.accounts[0].firstName = rs.getString("firstName");
+				replyMessage.accounts[0].lastName = rs.getString("lastName");
 	        }
 		} catch (SQLException e) {
 			System.err.println("Error in 'get_booking'.  SQLException was thrown:");
@@ -336,7 +338,7 @@ public class Booking {
 							" OwnerID: " + i_msg.bookings[0].ownerID);
 					return replyMessage;
 				}
-				rs=dbcon.select("SELECT roomID FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN (SELECT roomID FROM "+
+				rs=dbcon.select("SELECT * FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN (SELECT roomID FROM "+
 						i_msg.header.nameHotel +"_bookings WHERE " +
 						"(endDate >'"+ i_msg.bookings[0].startDate +"' AND endDate < '"+ i_msg.bookings[0].endDate +"') "+
 						"OR (endDate> '"+ i_msg.bookings[0].startDate +"' AND startDate <='"+ i_msg.bookings[0].endDate +"'))");
@@ -344,7 +346,23 @@ public class Booking {
 				replyMessage.initializeRooms(numberofrows);
 				System.out.println("Rooms ready " + replyMessage.rooms.length);
 				while (rs.next()) {
-					replyMessage.rooms[i].roomID=rs.getInt("roomID");
+					replyMessage.rooms[i].roomID = rs.getInt("roomID");
+					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
+					replyMessage.rooms[i].floor = rs.getInt("floor");
+					replyMessage.rooms[i].roomType = rs.getString("roomType");
+					replyMessage.rooms[i].price = rs.getFloat("price");
+					replyMessage.rooms[i].onsuite = rs.getBoolean("onsuite");
+					replyMessage.rooms[i].tv = rs.getBoolean("tv");
+					replyMessage.rooms[i].disabilityAccess = rs.getBoolean("disabilityAccess");
+					replyMessage.rooms[i].elevator = rs.getBoolean("elevator");
+					replyMessage.rooms[i].available = rs.getBoolean("available");
+					replyMessage.rooms[i].phone = rs.getBoolean("phone");
+					replyMessage.rooms[i].internet = rs.getBoolean("internet");
+					replyMessage.rooms[i].kitchen = rs.getBoolean("kitchen");
+					replyMessage.rooms[i].cleaned = rs.getBoolean("cleaned");
+					replyMessage.rooms[i].singleBeds = rs.getInt("singleBeds");
+					replyMessage.rooms[i].queenBeds = rs.getInt("queenBeds");
+					replyMessage.rooms[i].kingBeds = rs.getInt("kingBeds");
 					i++;
 		        }
 			} catch (SQLException e) {
