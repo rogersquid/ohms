@@ -6,29 +6,13 @@ import models.messages.*;
 
 public class ExtrasTest {
 	public static void main(String [ ] args){
+		System.out.println("Start Test Extras \r");
 		System.out.println("\r");
-		test_allExtra();
+		test_addExtra(0);
+		System.out.println("Finish Test Extras \r");
 	}
 	
 	public static void test_allExtra(){
-		System.out.println("Start Test Extras \r");
-		for (int i=0; i<1; i++){
-			test_addExtra(i);
-		}
-		for (int j=0; j<1; j++){
-			test_editExtra(j);
-		}
-		for (int k=0; k<1; k++){
-			test_deleteExtra(k);
-		}
-		for (int l=0; l<1; l++){
-			test_viewExtra(l);
-		}
-		for (int m=0; m<1; m++){
-			test_viewAllExtra(m);
-		}
-		
-		System.out.println("Finish Test Extras \r");
 	}
 	
 	private static void test_addExtra (int i_num){
@@ -46,8 +30,8 @@ public class ExtrasTest {
 			//fill Extra info:
 			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
 			java.sql.Timestamp creationDate=new java.sql.Timestamp(new java.util.Date().getTime());
-			h_msg.extras[0].fillAll(1, 2, "Beer", 10, date, creationDate);
-			//h_msg.response = h_msg.Extras[0].validateParam(h_msg);
+			h_msg.extras[0].fillAll(5, 6, "Beer", 10, date, creationDate);
+			h_msg.response = h_msg.extras[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Extra Extra = new Extra();
 				h_msg = Extra.addExtra(h_msg);
@@ -73,7 +57,7 @@ public class ExtrasTest {
 		java.sql.Timestamp creationDate=new java.sql.Timestamp(new java.util.Date().getTime());
 		//=====================Edit Extra Tests==========================
 		if(i_num==0){
-			System.out.println("Test ID 1");
+			System.out.println("Test ID 2");
 			System.out.println("Description: Success Edit Extra: Price");
 			//Filling Header information
 			Message h_msg= new Message(0, 0, "test");
@@ -95,18 +79,18 @@ public class ExtrasTest {
 				//fill Extra info:
 				g_msg.extras[0].extraID = h_msg.extras[0].extraID;
 				g_msg.extras[0].price = (float)200;
-				//g_msg.response = h_msg.extras[0].validateParam(h_msg);
+				g_msg.response = h_msg.extras[0].validateParams();
 				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 					g_msg = Extra.editExtra(g_msg);
 				}
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
-					System.out.println("Passed Test ID 1");
+					System.out.println("Passed Test ID 2");
 					System.out.println("Input:");
 					System.out.println("Output: " + g_msg.response.responseString);
 					System.out.println("\r");
 				}
 				else{
-					System.out.println("Failed Test ID 1");
+					System.out.println("Failed Test ID 2");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
 					System.out.println("Error Message: " + g_msg.response.responseString);
@@ -114,7 +98,7 @@ public class ExtrasTest {
 					}
 				}
 			else{
-				System.out.println("Failed Test ID 1 at verify");
+				System.out.println("Failed Test ID 2 at verify");
 				System.out.println("Error Message: " + h_msg.response.responseString);
 				System.out.println("\r");
 			}
@@ -126,7 +110,7 @@ public class ExtrasTest {
 		java.sql.Timestamp creationDate=new java.sql.Timestamp(new java.util.Date().getTime());
 		//=====================Delete Tests==========================
 		if(i_num==0){
-			System.out.println("Test ID 1");
+			System.out.println("Test ID 3");
 			System.out.println("Description: Success Delete Extra");
 			//create message
 			Message h_msg= new Message(0, 0, "test");
@@ -135,7 +119,7 @@ public class ExtrasTest {
 			//fill Extra info:
 			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
 			Extra Extra = new Extra();
-			//h_msg.response = h_msg.extras[0].validateParam(h_msg);
+			h_msg.response = h_msg.extras[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = Extra.addExtra(h_msg);
 			} 
@@ -149,20 +133,20 @@ public class ExtrasTest {
 				g_msg.extras[0].extraID = h_msg.extras[0].extraID;
 				g_msg = Extra.deleteExtra(g_msg);
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
-					System.out.println("Passed Test ID 1");
+					System.out.println("Passed Test ID 3");
 					System.out.println("Input:");
 					System.out.println("Output: " + g_msg.response.responseString);
 					System.out.println("\r");
 				}
 				else{
-					System.out.println("Failed Test ID 1");
+					System.out.println("Failed Test ID 3");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
 					System.out.println("Error Message: " + g_msg.response.responseString);
 					System.out.println("\r");
 					}
 			} else{
-				System.out.println("Failed Test ID 1 at verify");
+				System.out.println("Failed Test ID 3 at verify");
 				System.out.println("Error Message: " + h_msg.response.responseString);
 				System.out.println("\r");
 			}
@@ -186,7 +170,7 @@ public class ExtrasTest {
 			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
 			Extra Extra = new Extra();
 			h_msg = Extra.getExtra(h_msg);
-			
+			h_msg.response = h_msg.extras[0].validateParams();
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 1");
 				System.out.println("Input: " + h_msg.extras[0].extraID);
@@ -222,7 +206,7 @@ public class ExtrasTest {
 			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
 			Extra Extra = new Extra();
 			h_msg = Extra.getAllExtra(h_msg);
-			
+			h_msg.response = h_msg.extras[0].validateParams();
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 1");
 				System.out.println("Input: " + h_msg.extras[0].extraID);
@@ -268,7 +252,7 @@ public class ExtrasTest {
 			h_msg.extras[1].creationDate = creationDate;
 			
 			Extra Extra = new Extra();
-			//h_msg.response = h_msg.extras[0].validateParam(h_msg);
+			h_msg.response = h_msg.extras[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = Extra.getFilteredExtra(h_msg);
 			} 
@@ -319,7 +303,7 @@ public class ExtrasTest {
 			h_msg.extras[1].creationDate = creationDate;
 			
 			Extra Extra = new Extra();
-			//h_msg.response = h_msg.extras[0].validateParam(h_msg);
+			h_msg.response = h_msg.extras[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = Extra.getFilteredExtra(h_msg);
 			} 
