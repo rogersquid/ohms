@@ -403,7 +403,7 @@ public class Booking {
 			            if (output.response.responseCode == ResponseCode.SUCCESS) {
 			            	output.response.fillResponse(ResponseCode.SUCCESS, "Check-in request succceed");
 			            	Bill mybill=new Bill();
-			            	//mybill.addBill(output);
+			            	mybill.addBill(output);
 			            } else {
 			            	output.response.fillResponse(ResponseCode.FAIL, "Check-in request failed during update");
 			            }
@@ -412,7 +412,6 @@ public class Booking {
 						return output;
 		            }
 		        }
-
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Checkin'.  SQLException was thrown:");
@@ -431,5 +430,47 @@ public class Booking {
 			}
 		}
 		return output;
+	}
+	public Message checkOut (Message i_msg){
+		// MUST INCLUDE BILL ID, PAYMENT TYPE, BOOKING ID
+		// Creating database handle and create return message
+		databaseHelper dbcon = null;
+		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		// Not the best way to do it but should be a deep Copy - I will investigate
+		//creationTime is not changeable
+		replyMessage.bookings=i_msg.bookings;
+		try {
+			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='1'" + 
+						" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
+			if (returnedRows != 1) {
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the updated is not = 1" +
+						" BookingID: " + i_msg.bookings[0].bookingID);
+				System.err.println(returnedRows);
+				return replyMessage;
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed." +
+					" StartDate: " + i_msg.bookings[0].startDate);
+			return replyMessage;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed." +
+					" StartDate: " + i_msg.bookings[0].startDate);
+			return replyMessage;
+		}
+		finally {
+			if (dbcon != null) {
+				dbcon.close();
+			}
+		}
+		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Edited one Booking as Requested." +
+				" StartDate: " + i_msg.bookings[0].startDate);
+		Bill mybill=new Bill();
+		mybill.editBill(i_msg);
+		return replyMessage;
 	}
 }
