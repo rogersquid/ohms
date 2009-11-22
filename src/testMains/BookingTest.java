@@ -158,10 +158,10 @@ public class BookingTest {
 			
 			System.out.println(reply.response.responseCode);
 			System.out.println(reply.response.responseString);
-			System.err.println("------------------------" +(reply.rooms));
 			System.out.println(reply.rooms.length);
 			for (int k=0; k< reply.rooms.length; k++){
 				System.out.println(reply.rooms[k].roomID);
+				System.out.println(reply.rooms[k].roomNumber);
 			}
 			System.out.println("Testing Done ******************");
 		} catch (ParseException e) {
