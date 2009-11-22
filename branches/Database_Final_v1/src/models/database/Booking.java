@@ -204,8 +204,10 @@ public class Booking {
 				return replyMessage;
 			}else{
 				replyMessage.initializeBookings(numberofrows);
+				replyMessage.initializeRooms(numberofrows);
+				replyMessage.initializeAccounts(numberofrows);
 			}
-			rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel + "_bookings");
+			rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID");
 			int i=0;
 			while (rs.next()) {
 				replyMessage.bookings[i].bookingID=rs.getInt("bookingID");
@@ -215,6 +217,9 @@ public class Booking {
 				replyMessage.bookings[i].endDate= rs.getDate("endDate");
 				replyMessage.bookings[i].roomID= rs.getInt("roomID");
 				replyMessage.bookings[i].status = rs.getInt("status");
+				replyMessage.accounts[i].firstName = rs.getString("firstName");
+				replyMessage.accounts[i].firstName = rs.getString("lastName");
+				replyMessage.rooms[i].roomNumber = rs.getString("roomNumber");
 				i++;
 	        }
 		} catch (SQLException e) {
