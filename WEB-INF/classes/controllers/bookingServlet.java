@@ -49,6 +49,7 @@ public class bookingServlet extends HttpServlet {
 			message.bookings[0].ownerID = ownerID;
 			message.bookings[0].roomID = roomID;
 
+			Booking booking = new Booking();
 			Message reply = booking.addBooking(message);
 
 			if(reply.response.responseCode == ResonseMessage.ResponseCode.SUCCESS) {
