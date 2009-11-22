@@ -134,20 +134,27 @@ public class Extra {
 	public Message getExtra(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		replyMessage.extras=i_msg.extras;
+		replyMessage.initializeExtras(1);
+		replyMessage.initializeRooms(1);
+		replyMessage.initializeAccounts(1);
 
 		try {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all rooms
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_extras WHERE extraID = " + i_msg.extras[0].extraID);
+			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE e.extraID = " + i_msg.extras[0].extraID);
 			while (rs.next()) {
 				replyMessage.extras[0].extraID = rs.getInt("extraID");
 				replyMessage.extras[0].bookingID = rs.getInt("bookingID");
 				replyMessage.extras[0].extraName = rs.getString("extraName");
 				replyMessage.extras[0].price = rs.getFloat("price");
 				replyMessage.extras[0].date = rs.getDate("date");
-				replyMessage.extras[0].creationTime = rs.getTimestamp("creationTime");			
+				replyMessage.extras[0].creationTime = rs.getTimestamp("creationTime");
+				replyMessage.rooms[0].roomID = rs.getInt("roomID");
+				replyMessage.rooms[0].roomNumber = rs.getInt("roomNumber");
+				replyMessage.accounts[0].accountID = rs.getInt("accountID");
+				replyMessage.accounts[0].firstName = rs.getString("firstName");
+				replyMessage.accounts[0].lastName = rs.getString("lastName");
 			}
 			replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 			replyMessage.response.responseString = "Query succeeded.";
@@ -177,7 +184,7 @@ public class Extra {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all extras
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_extras");
+			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID");
 			if (!rs.next()) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "No extras in database.";
@@ -192,13 +199,17 @@ public class Extra {
 				i = 0;
 
 				while (rs.next()) {
-					replyMessage.extras[i] = new ExtraMessage();
 					replyMessage.extras[i].extraID = rs.getInt("extraID");
 					replyMessage.extras[i].bookingID = rs.getInt("bookingID");
 					replyMessage.extras[i].extraName = rs.getString("extraName");
 					replyMessage.extras[i].price = rs.getFloat("price");
 					replyMessage.extras[i].date = rs.getDate("date");
-					replyMessage.extras[i].creationTime = rs.getTimestamp("creationTime");	
+					replyMessage.extras[i].creationTime = rs.getTimestamp("creationTime");
+					replyMessage.rooms[i].roomID = rs.getInt("roomID");
+					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
+					replyMessage.accounts[i].accountID = rs.getInt("accountID");
+					replyMessage.accounts[i].firstName = rs.getString("firstName");
+					replyMessage.accounts[i].lastName = rs.getString("lastName");
 					i++;
 				}
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
