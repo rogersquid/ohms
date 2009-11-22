@@ -11,7 +11,7 @@ public class BookingTest {
 	public static void main(String [ ] args){
 		System.out.println("\r");
 		testBooking();
-		//testCheckIn();
+		testCheckIn();
 	}
 	private static void testBooking(){
 		System.out.println("Start Running Test for Add booking");
@@ -22,7 +22,6 @@ public class BookingTest {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-	    String userName = null;
 	      //  read the username from the command-line; need to use try/catch with the
 	      //  readLine() method
 	    DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
@@ -84,7 +83,8 @@ public class BookingTest {
 		System.out.println(reply.response.responseString);
 		
 	    try {
-	    	userName = br.readLine();
+	    	System.out.println("SHALL I DELETE ???");
+	    	br.readLine();
 	    	} catch (IOException ioe) {
 	    		System.out.println("IO error trying to read your name!");
 	    		System.exit(1);
@@ -96,6 +96,24 @@ public class BookingTest {
 		reply=mybooking.deleteBooking(input);
 		System.out.println(reply.response.responseCode);
 		System.out.println(reply.response.responseString);
+		
+		/*System.out.println("Trying ADD BOOKING *********************");
+		try {
+			endDate = new java.sql.Date(df.parse("22/02/2010").getTime());
+			input= new Message(1, 99, "test");
+			input.initializeBookings(1);
+			input.bookings[0].startDate=date;
+			input.bookings[0].endDate=endDate;
+			input.bookings[0].ownerID=99;
+			input.bookings[0].roomID=4;
+			input.bookings[0].status=0;
+			reply= mybooking.addBooking(input);
+			System.out.println(reply.response.responseCode);
+			System.out.println(reply.response.responseString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		*/
 		
 		System.out.println("Try Get ALL Booking ******************");
 		input= new Message(1, 99, "test");
@@ -127,7 +145,8 @@ public class BookingTest {
 		input= new Message(1, 99, "test");
 		input.initializeBookings(1);
 		try {
-			endDate = new java.sql.Date(df.parse("30/11/2010").getTime());
+			endDate = new java.sql.Date(df.parse("30/11/2009").getTime());
+			date = new java.sql.Date(df.parse("01/11/2009").getTime());
 			input.bookings[0].startDate=date;
 			input.bookings[0].endDate=endDate;
 			reply=mybooking.getFilteredBooking(input);
@@ -135,8 +154,10 @@ public class BookingTest {
 			System.out.println(reply.response.responseCode);
 			System.out.println(reply.response.responseString);
 			System.err.println("------------------------" +(reply.rooms));
-			System.out.println(reply.rooms[(reply.rooms.length)-1].roomID);
 			System.out.println(reply.rooms.length);
+			for (int k=0; k< reply.rooms.length; k++){
+				System.out.println(reply.rooms[k].roomID);
+			}
 			System.out.println("Testing Done ******************");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -144,55 +165,54 @@ public class BookingTest {
 		}
 		
 	}
-	/*
+	
 	private static void testCheckIn(){
 		System.out.println("Running Test for Checkin");
 	
-		Hotel myHotel= new Hotel("test");
+		Booking mybooking = new Booking();
 		Message input= null;
 		Message reply=null;
-		Header myHeader=null;
 
-		input= new Message(0, 0, "test", Header.Action.CHECKIN);
+		input= new Message(0, 0, "test");
+		input.initializeBookings(1);
 		
 		System.out.println("Test ID 1");
 		System.out.println("Description: Success Checkin room");
-		input.bookingID = 41;
-		reply = (Message) myHotel.processMessage(input);
-		myHeader=reply.returnHeader();
-		System.out.println(myHeader.responseCode);
-		System.out.println(myHeader.responseString);
+		input.bookings[0].bookingID = 143;
+		reply = mybooking.checkIn(input);
+		System.out.println(reply.response.responseCode);
+		System.out.println(reply.response.responseString);
 		System.out.println("\r");
 		
 		System.out.println("Test ID 2");
 		System.out.println("Description: Failed Checkin room due to invalid Booking Id");
-		input.bookingID = -42;
-		reply = (Message) myHotel.processMessage(input);
-		myHeader=reply.returnHeader();
-		System.out.println(myHeader.responseCode);
-		System.out.println(myHeader.responseString);
+		input.bookings[0].bookingID = -42;
+		reply = mybooking.checkIn(input);
+		reply = mybooking.checkIn(input);
+		System.out.println(reply.response.responseCode);
+		System.out.println(reply.response.responseString);
 		System.out.println("\r");
 		
 		System.out.println("Test ID 3");
 		System.out.println("Description: Failed Checkin room due to checkin being too late");
-		input.bookingID = 43;
-		reply = (Message) myHotel.processMessage(input);
-		myHeader=reply.returnHeader();
-		System.out.println(myHeader.responseCode);
-		System.out.println(myHeader.responseString);
+		input.bookings[0].bookingID = 43;
+		reply = mybooking.checkIn(input);
+		reply = mybooking.checkIn(input);
+		System.out.println(reply.response.responseCode);
+		System.out.println(reply.response.responseString);
 		System.out.println("\r");
 		
 		System.out.println("Test ID 4");
 		System.out.println("Description: Failed Checkin room due to checkin being too early");
-		input.bookingID = 44;
-		reply = (Message) myHotel.processMessage(input);
-		myHeader=reply.returnHeader();
-		System.out.println(myHeader.responseCode);
-		System.out.println(myHeader.responseString);	
+		input.bookings[0].bookingID = 44;
+		reply = mybooking.checkIn(input);
+		reply = mybooking.checkIn(input);
+		System.out.println(reply.response.responseCode);
+		System.out.println(reply.response.responseString);	
 		System.out.println("\r");
 		
 		
 		
 	
-	}*/
+	}
 }
