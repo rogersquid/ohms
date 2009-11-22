@@ -22,10 +22,11 @@ public class bookingServlet extends HttpServlet {
 		Booking booking = new Booking();
 		Message reply = booking.getAllBooking(message);
 		
-		if(reply.bookings.length > 0) {
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
 			request.setAttribute("data", reply);
 			getServletContext().getRequestDispatcher("/views/bookings.jsp").include(request, response);
 		} else {
+			request.setAttribute("message", reply.response.responseString);
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}
