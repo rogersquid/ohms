@@ -38,6 +38,9 @@ public class Message {
 	}
 	public void initializeExtras(int arraysize){
 		extras=new ExtraMessage[arraysize];
+		for(int i=0; i<arraysize; i++){
+			extras[i]=new ExtraMessage();
+		}
 	}
 	public void initializeBills(int arraysize){
 		bills=new BillMessage[arraysize];
