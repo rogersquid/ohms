@@ -45,7 +45,7 @@ public class BillTest {
 			h_msg.bills[0] = new BillMessage();
 			//fill Bill info:
 			h_msg.bills[0].fillAll(1, 3, "Cash", false);
-			//h_msg.response = h_msg.Bills[0].validateParam(h_msg);
+			h_msg.response = h_msg.bills[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Bill Bill = new Bill();
 				h_msg = Bill.addBill(h_msg);
@@ -78,7 +78,7 @@ public class BillTest {
 			//fill Bill info:
 			h_msg.bills[0].fillAll(1, 3, "Cash", false);
 			Bill Bill = new Bill();
-			//h_msg.response = h_msg.Bills[0].validateParam(h_msg);
+			h_msg.response = h_msg.bills[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = Bill.addBill(h_msg);
 			}
@@ -130,7 +130,7 @@ public class BillTest {
 			//fill Bill info:
 			h_msg.bills[0].fillAll(1, 3, "Cash", false);
 			Bill Bill = new Bill();
-			//h_msg.response = h_msg.Bills[0].validateParam(h_msg);
+			h_msg.response = h_msg.bills[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = Bill.addBill(h_msg);
 			} 
@@ -179,6 +179,7 @@ public class BillTest {
 			h_msg.bills[0].fillAll(1, 3, "Cash", false);
 			Bill Bill = new Bill();
 			h_msg = Bill.getBill(h_msg);
+			h_msg.response = h_msg.bills[0].validateParams();
 			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 1");
@@ -213,7 +214,7 @@ public class BillTest {
 			h_msg.bills[0].fillAll(1, 3, "Cash", false);
 			Bill Bill = new Bill();
 			h_msg = Bill.getAllBill(h_msg);
-			
+			h_msg.response = h_msg.bills[0].validateParams();
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 1");
 				System.out.println("Input: " + h_msg.bills[0].billID);
@@ -255,7 +256,7 @@ public class BillTest {
 			h_msg.bills[0].status = false;
 			
 			Bill Bill = new Bill();
-			//h_msg.response = h_msg.Bills[0].validateParam(h_msg);
+			h_msg.response = h_msg.bills[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = Bill.getFilteredBill(h_msg);
 			} 
@@ -302,7 +303,7 @@ public class BillTest {
 			h_msg.bills[0].status = false;
 			
 			Bill Bill = new Bill();
-			//h_msg.response = h_msg.Bills[0].validateParam(h_msg);
+			h_msg.response = h_msg.bills[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = Bill.getFilteredBill(h_msg);
 			} 

@@ -16,15 +16,13 @@ public class Extra {
 			// create connection
 			dbcon = new databaseHelper();
 			// insert the Extra in to appropriate hotel
-			int returnedRows 	= dbcon.insert("INSERT INTO "
-					+ i_msg.header.nameHotel
-					+ "_extras (bookingID, extraName, price, date, creationDate) "
+			int returnedRows 	= dbcon.insert("INSERT INTO " + i_msg.header.nameHotel + "_extras (bookingID, extraName, price, date, creationTime) "
 					+ "VALUES ('" 
-					//+ i_msg.extras[0].extraID + "', '"
 					+ i_msg.extras[0].bookingID + "', '"
 					+ i_msg.extras[0].extraName + "', '"
+					+ i_msg.extras[0].price +"', '"
 					+ i_msg.extras[0].date + "', '"
-					+ i_msg.extras[0].creationDate + "')");
+					+ i_msg.extras[0].creationTime + "')");
 			// check the number of rows changed to see whether response is as expected
 			if (returnedRows > 0) {
 				System.out.println("Success");
@@ -64,64 +62,26 @@ public class Extra {
 		replyMessage.extras=i_msg.extras;
 		try {
 			dbcon = new databaseHelper();
-			int returnedRows = dbcon.modify("UPDATE " + i_msg.header.nameHotel
-					+ "_extras SET extraID='"
-					+ i_msg.extras[0].extraID
-					+ "', extraName='" + i_msg.extras[0].extraName
-					+ "', price='" + i_msg.extras[0].price + "'");
-			if (returnedRows != 1) {
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Extra failed." +
-						" StartDate: " + i_msg.extras[0].date);
-				return replyMessage;
-			}
-		} catch (SQLException e) {
-			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
-			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Extra failed." +
-					" StartDate: " + i_msg.extras[0].date);
-			return replyMessage;
-		} catch (ClassNotFoundException e) {
-			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
-			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Extra failed." +
-					" StartDate: " + i_msg.extras[0].date);
-			return replyMessage;
-		}
-		finally {
-			if (dbcon != null) {
-				dbcon.close();
-			}
-		}
-		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Edited one Extra as Requested." +
-				" StartDate: " + i_msg.extras[0].date);
-		return replyMessage;
-	}
-
-	public Message deleteExtra(Message i_msg){
-		// Creating database handle and create return message
-		databaseHelper dbcon = null;
-		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		try {
-			dbcon 				= new databaseHelper();
-			// Extra id or owner + sDate
-			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_extras WHERE extraID='" + i_msg.extras[0].extraID
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_extras WHERE extraID = " + i_msg.extras[0].extraID);
+			rs.next();
+			int returnedRows = dbcon.modify("UPDATE test_extras SET extraName='"
+					+ i_msg.extras[0].extraName + "', price='"
+					+ i_msg.extras[0].price + "' "
+					+ "WHERE extraID='" + i_msg.extras[0].extraID
 					+ "'");
-			if (returnedRows != 1){
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "Deleting Extra failed." +
-						" extraID: " + i_msg.extras[0].extraID);
+			if (returnedRows != 1) {
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Extra failed.");
 				return replyMessage;
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "Deleting Extra failed." +
-					" extraID: " + i_msg.extras[0].extraID);
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Extra failed.");
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "Deleting Extra failed." +
-					" extraID: " + i_msg.extras[0].extraID);
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Extra failed.");
 			return replyMessage;
 		}
 		finally {
@@ -129,117 +89,135 @@ public class Extra {
 				dbcon.close();
 			}
 		}
-		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Edited one Extra as Requested." +
-				" StartDate: " + i_msg.extras[0].date);
+		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Edited one Extra as Requested.");
 		return replyMessage;
 	}
 
-	public Message getExtra(Message i_msg){
-		// Creating database handle and create return message
-		databaseHelper dbcon = null;
-		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		// Not the best way to do it but should be a deep Copy - I will investigate
-		replyMessage.initializeExtras(1);
+	public Message deleteExtra(Message i_msg) {
+		// No date error checking implemented
+		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
+		ResponseMessage response = new ResponseMessage();
+		databaseHelper dbcon 	= null;
 		try {
-			dbcon 				= new databaseHelper();
-			// Extra id
-			ResultSet rs=dbcon.select("Select count(*) FROM  "
-					+ i_msg.header.nameHotel + "_extras WHERE extraID='"
-					+ i_msg.extras[0].extraID +"'");
-			rs.next();
-			int i=rs.getInt(1);
-			if(i!=1){
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "view Extra failed." +
-						" StartDate: " + i_msg.extras[0].date);
-				return replyMessage;
+			dbcon = new databaseHelper();
+			int returnedRows = dbcon.modify("DELETE FROM test_extras WHERE extraID=" + i_msg.extras[0].extraID );
+			if (returnedRows == 1)
+			{
+				response.fillResponse(ResponseCode.SUCCESS, "Deleted extra as Requested." +
+						" extra ID: " + i_msg.extras[0].extraID);
 			}
-			rs=dbcon.select("Select * FROM test_extras WHERE extraID='"
-					+ i_msg.extras[0].extraID +"'");
-			while (rs.next()) {
-	            int cbookingID = rs.getInt("bookingID");
-	            int cextraID = rs.getInt("extraID");
-	            String cextraName = rs.getString("extraName");
-	            int cprice = rs.getInt("price");
-	            java.sql.Timestamp creationDate= new java.sql.Timestamp(rs.getDate("creationDate").getTime());
-	            java.sql.Date cdate = rs.getDate("startDate");
-	            replyMessage.extras[0].fillAll(cextraID, cbookingID, cextraName, cprice, cdate, creationDate);
-	        }
+			else
+			{
+				response.fillResponse(ResponseCode.FAIL, "Delete failed." +
+						" extra ID: " + i_msg.extras[0].extraID);
+			}
 		} catch (SQLException e) {
-			System.err.println("Error.  SQLException was thrown:");
+			System.err.println("Error in 'deleteextra'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Extra failed." +
-					" StartDate: " + i_msg.extras[0].date);
-			return replyMessage;
+			response.fillResponse(ResponseCode.FAIL, "Update failed." +
+					" extra ID: " + i_msg.extras[0].extraID);
 		} catch (ClassNotFoundException e) {
-			System.err.println("Error.  ClassNotFoundException was thrown:");
+			System.err.println("Error in 'deleteextra'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Extra failed." +
-					" StartDate: " + i_msg.extras[0].date);
-			return replyMessage;
+			response.fillResponse(ResponseCode.FAIL, "Update failed." +
+					" extra ID: " + i_msg.extras[0].extraID);
 		}
 		finally {
 			if (dbcon != null) {
 				dbcon.close();
 			}
 		}
-		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "View one Extra as Requested." +
-				" StartDate: " + i_msg.extras[0].date);
-		return replyMessage;
+		reply.response = response;
+		return reply;
 	}
 
-	public Message getAllExtra(Message i_msg){
-		// Creating database handle and create return message
+	public Message getExtra(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		replyMessage.extras=i_msg.extras;
 
 		try {
-			dbcon 				= new databaseHelper();
-			ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + "_extras");
-			rs.next();
-			int numberofrows=rs.getInt(1);
-			if(numberofrows<0){
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "get All Extra failed." +
-						" extraID: " + i_msg.extras[0].extraID);
-				return replyMessage;
-			}
-			else if (numberofrows==0){
-				replyMessage.response.fillResponse(ResponseCode.SUCCESS, "There is no Extra." +
-						" extraID: " + i_msg.extras[0].extraID);
-				return replyMessage;
-			}else{
-				replyMessage.initializeBookings(numberofrows);
-			}
-			rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel + "_extras");
-			int i=0;
+			// create connection
+			dbcon = new databaseHelper();
+			// query the database for all rooms
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_extras WHERE extraID = " + i_msg.extras[0].extraID);
 			while (rs.next()) {
-				replyMessage.extras[i].extraID=rs.getInt("extraID");
-				replyMessage.extras[i].bookingID= rs.getInt("bookingID");
-				replyMessage.extras[i].extraName= rs.getString("extraName");
-				replyMessage.extras[i].price= rs.getFloat("price");
-				replyMessage.extras[i].date= rs.getDate("date");
-				replyMessage.extras[i].creationDate= new java.sql.Timestamp(rs.getDate("creationDate").getTime());
-				i++;
-	        }
+				replyMessage.extras[0].extraID = rs.getInt("extraID");
+				replyMessage.extras[0].bookingID = rs.getInt("bookingID");
+				replyMessage.extras[0].extraName = rs.getString("extraName");
+				replyMessage.extras[0].price = rs.getFloat("price");
+				replyMessage.extras[0].date = rs.getDate("date");
+				replyMessage.extras[0].creationTime = rs.getTimestamp("creationTime");			
+			}
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+			replyMessage.response.responseString = "Query succeeded.";
 		} catch (SQLException e) {
-			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+			System.err.println("Error in 'getRoom'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Extra failed." +
-					" StartDate: " + i_msg.extras[0].date);
-			return replyMessage;
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
 		} catch (ClassNotFoundException e) {
-			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			System.err.println("Error in 'getRoom'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Extra failed." +
-					" StartDate: " + i_msg.extras[0].date);
-			return replyMessage;
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
 		}
 		finally {
-			if (dbcon != null) {
-				dbcon.close();
-			}
+			if (dbcon != null) dbcon.close();
 		}
-		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "ViewAll one Extra as Requested." +
-				" StartDate: " + i_msg.extras[0].date);
+		return replyMessage;
+	}
+	
+	public Message getAllExtras(Message i_msg) {
+		databaseHelper dbcon = null;
+		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		replyMessage.extras=i_msg.extras;
+
+		try {
+			// create connection
+			dbcon = new databaseHelper();
+			// query the database for all extras
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_extras");
+			if (!rs.next()) {
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "No extras in database.";
+			} else {
+				int i = 0;
+				rs.beforeFirst();
+				while (rs.next()) {
+					i++;
+				}
+				rs.beforeFirst();
+				replyMessage.initializeExtras(i);
+				i = 0;
+
+				while (rs.next()) {
+					replyMessage.extras[i] = new ExtraMessage();
+					replyMessage.extras[i].extraID = rs.getInt("extraID");
+					replyMessage.extras[i].bookingID = rs.getInt("bookingID");
+					replyMessage.extras[i].extraName = rs.getString("extraName");
+					replyMessage.extras[i].price = rs.getFloat("price");
+					replyMessage.extras[i].date = rs.getDate("date");
+					replyMessage.extras[i].creationTime = rs.getTimestamp("creationTime");	
+					i++;
+				}
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Query succeeded.";
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'getAllRoom'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'getAllRoom'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
+		}
+		finally {
+			if (dbcon != null) dbcon.close();
+		}
 		return replyMessage;
 	}
 
@@ -255,15 +233,24 @@ public class Extra {
 
 			boolean nonFirst = false;
 			if (i_msg.extras[0].bookingID !=0) {
-				queryString = queryString + "bookingID='" + i_msg.extras[0].bookingID + "'";
+				queryString = queryString + "bookingID='" + i_msg.extras[1].bookingID + "'";
+				nonFirst = true;
+			}
+			if (i_msg.extras[0].extraName == "CHECK") {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "extraName='" + i_msg.extras[1].extraName + "'";
+				nonFirst = true;
+			}
+			if (i_msg.extras[0].price != 0) {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "price=" + i_msg.extras[1].price;
 				nonFirst = true;
 			}
 			if (i_msg.extras[0].date != null) {
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "date='" + i_msg.extras[0].date + "'";
+				queryString = queryString + "date='" + i_msg.extras[1].date + "'";
 				nonFirst = true;
 			}
-
 			// query the database for all rooms
 			ResultSet rs = dbcon.select(queryString);
 			if (!rs.next()) {
@@ -285,7 +272,7 @@ public class Extra {
 					replyMessage.extras[i].extraName = rs.getString("extraName");
 					replyMessage.extras[i].price = rs.getFloat("price");
 					replyMessage.extras[i].date = rs.getDate("date");
-					replyMessage.extras[i].creationDate = rs.getTimestamp("creationDate");
+					replyMessage.extras[i].creationTime = rs.getTimestamp("creationTime");
 
 					i++;
 				}
@@ -338,7 +325,7 @@ public class Extra {
 					replyMessage.extras[i].extraName= rs.getString("extraName");
 					replyMessage.extras[i].price = rs.getFloat("price");
 					replyMessage.extras[i].date= rs.getDate("date");
-					replyMessage.extras[i].creationDate= new java.sql.Timestamp(rs.getDate("creationDate").getTime());
+					replyMessage.extras[i].creationTime= new java.sql.Timestamp(rs.getDate("creationTime").getTime());
 					i++;
 		        }
 			} catch (SQLException e) {
@@ -369,7 +356,7 @@ public class Extra {
 				ResultSet rs=dbcon.select("SELECT count(*) FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN " +
 						"(SELECT roomID FROM "+ i_msg.header.nameHotel
 						+"_extras WHERE "
-						+"(creationDate = "+ i_msg.extras[0].date
+						+"(creationTime = "+ i_msg.extras[0].date
 						+"))");
 				int numberofrows=rs.getInt(1);
 				if(numberofrows<0){

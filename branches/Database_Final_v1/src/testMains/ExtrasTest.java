@@ -8,16 +8,19 @@ public class ExtrasTest {
 	public static void main(String [ ] args){
 		System.out.println("Start Test Extras \r");
 		System.out.println("\r");
-		test_addExtra(0);
+		//test_addExtra(0);
+		//test_editExtra(0);
+		//test_deleteExtra(0);
+		//test_viewExtra(0);
+		//test_viewAllExtra(0);
+		test_viewAllExtra(2);
 		System.out.println("Finish Test Extras \r");
 	}
-	
-	public static void test_allExtra(){
-	}
+
 	
 	private static void test_addExtra (int i_num){
 		
-		//=====================Extras Tests==========================
+		//=====================add Extras Tests==========================
 		
 		if(i_num==0){
 			System.out.println("Test ID 1");
@@ -29,8 +32,12 @@ public class ExtrasTest {
 			h_msg.extras[0] = new ExtraMessage();
 			//fill Extra info:
 			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
-			java.sql.Timestamp creationDate=new java.sql.Timestamp(new java.util.Date().getTime());
-			h_msg.extras[0].fillAll(5, 6, "Beer", 10, date, creationDate);
+			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
+			h_msg.extras[0].bookingID = 17;
+			h_msg.extras[0].extraName = "Beer";
+			h_msg.extras[0].price = (float)5;
+			h_msg.extras[0].date = date;
+			h_msg.extras[0].creationTime = creationTime; 
 			h_msg.response = h_msg.extras[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Extra Extra = new Extra();
@@ -53,8 +60,7 @@ public class ExtrasTest {
 
 
 	private static void test_editExtra(int i_num){
-		java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
-		java.sql.Timestamp creationDate=new java.sql.Timestamp(new java.util.Date().getTime());
+	
 		//=====================Edit Extra Tests==========================
 		if(i_num==0){
 			System.out.println("Test ID 2");
@@ -64,36 +70,31 @@ public class ExtrasTest {
 			h_msg.initializeExtras(1);
 			h_msg.extras[0] = new ExtraMessage();
 			//fill Extra info:
-			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
+			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
+			h_msg.extras[0].extraID = 19;
+			h_msg.extras[0].extraName = "LCDTV";
+			h_msg.extras[0].price = (float)499.99;
+			h_msg.extras[0].date = date;
+			h_msg.extras[0].creationTime = creationTime;
 			
 			Extra Extra = new Extra();
-			//h_msg.response = h_msg.extras[0].validateParam(h_msg);
-			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
-				h_msg = Extra.addExtra(h_msg);
-			}
-			
+			h_msg.response = h_msg.extras[0].validateParams();
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
-				Message g_msg= new Message(0, 0, "test");
-				g_msg.initializeExtras(1);
-				g_msg.extras[0] = new ExtraMessage();
 				//fill Extra info:
-				g_msg.extras[0].extraID = h_msg.extras[0].extraID;
-				g_msg.extras[0].price = (float)200;
-				g_msg.response = h_msg.extras[0].validateParams();
-				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
-					g_msg = Extra.editExtra(g_msg);
-				}
-				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
+				h_msg.response = h_msg.extras[0].validateParams();
+				h_msg = Extra.editExtra(h_msg);
+				if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 					System.out.println("Passed Test ID 2");
 					System.out.println("Input:");
-					System.out.println("Output: " + g_msg.response.responseString);
+					System.out.println("Output: " + h_msg.response.responseString);
 					System.out.println("\r");
 				}
 				else{
 					System.out.println("Failed Test ID 2");
 					System.out.println("Expected Output:");
 					System.out.println("Expected Change:");
-					System.out.println("Error Message: " + g_msg.response.responseString);
+					System.out.println("Error Message: " + h_msg.response.responseString);
 					System.out.println("\r");
 					}
 				}
@@ -106,8 +107,7 @@ public class ExtrasTest {
 	}
 
 	private static void test_deleteExtra (int i_num){
-		java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
-		java.sql.Timestamp creationDate=new java.sql.Timestamp(new java.util.Date().getTime());
+		
 		//=====================Delete Tests==========================
 		if(i_num==0){
 			System.out.println("Test ID 3");
@@ -117,19 +117,21 @@ public class ExtrasTest {
 			h_msg.initializeExtras(1);
 			h_msg.extras[0] = new ExtraMessage();
 			//fill Extra info:
-			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
+			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
+			h_msg.extras[0].extraID = 18;
+			h_msg.extras[0].bookingID = 13;
+			h_msg.extras[0].extraName = "Pool";
+			h_msg.extras[0].price = (float)299.99;
+			h_msg.extras[0].date = date;
+			h_msg.extras[0].creationTime = creationTime; 
 			Extra Extra = new Extra();
 			h_msg.response = h_msg.extras[0].validateParams();
-			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
-				h_msg = Extra.addExtra(h_msg);
-			} 
-			
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
 				g_msg.initializeExtras(1);
 				g_msg.extras[0] = new ExtraMessage();
 				//fill Extra info:
-				g_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
 				g_msg.extras[0].extraID = h_msg.extras[0].extraID;
 				g_msg = Extra.deleteExtra(g_msg);
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
@@ -155,7 +157,7 @@ public class ExtrasTest {
 
 	private static void test_viewExtra (int i_num){
 		java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
-		java.sql.Timestamp creationDate=new java.sql.Timestamp(new java.util.Date().getTime());
+		java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
 		//=====================View Tests==========================
 		if(i_num==0){
 			System.out.println("Test ID 1");
@@ -167,7 +169,12 @@ public class ExtrasTest {
 			h_msg.initializeExtras(1);
 			h_msg.extras[0] = new ExtraMessage();
 			//fill Extra info:
-			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
+			h_msg.extras[0].extraID = 19;
+			h_msg.extras[0].bookingID = 13;
+			h_msg.extras[0].extraName = "Pool";
+			h_msg.extras[0].price = (float)299.99;
+			h_msg.extras[0].date = date;
+			h_msg.extras[0].creationTime = creationTime;
 			Extra Extra = new Extra();
 			h_msg = Extra.getExtra(h_msg);
 			h_msg.response = h_msg.extras[0].validateParams();
@@ -191,7 +198,7 @@ public class ExtrasTest {
 
 	private static void test_viewAllExtra (int i_num){
 		java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
-		java.sql.Timestamp creationDate=new java.sql.Timestamp(new java.util.Date().getTime());
+		java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
 		//=====================View All Tests==========================
 		if(i_num==0){
 			System.out.println("Test ID 1");
@@ -203,9 +210,9 @@ public class ExtrasTest {
 			h_msg.initializeExtras(1);
 			h_msg.extras[0] = new ExtraMessage();
 			//fill Extra info:
-			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationDate);
+			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationTime);
 			Extra Extra = new Extra();
-			h_msg = Extra.getAllExtra(h_msg);
+			h_msg = Extra.getAllExtras(h_msg);
 			h_msg.response = h_msg.extras[0].validateParams();
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 1");
@@ -240,7 +247,7 @@ public class ExtrasTest {
 			h_msg.extras[0].extraName = "Beer";
 			h_msg.extras[0].price = 10;
 			h_msg.extras[0].date = date;
-			h_msg.extras[0].creationDate = creationDate;
+			h_msg.extras[0].creationTime = creationTime;
 			
 			//fill filter value extra Message
 			h_msg.extras[1] = new ExtraMessage();
@@ -249,7 +256,7 @@ public class ExtrasTest {
 			h_msg.extras[1].extraName = "Wine";
 			h_msg.extras[1].price = 100;
 			h_msg.extras[1].date = date;
-			h_msg.extras[1].creationDate = creationDate;
+			h_msg.extras[1].creationTime = creationTime;
 			
 			Extra Extra = new Extra();
 			h_msg.response = h_msg.extras[0].validateParams();
@@ -279,7 +286,7 @@ public class ExtrasTest {
 
 		if(i_num==2){
 			System.out.println("Test ID 3");
-			System.out.println("Description: Success View all Single extra on the 1st floor");
+			System.out.println("Description: Success View all extras with same extraName");
 			
 			//create message
 			Message h_msg= new Message(0, 0, "test");
@@ -291,16 +298,16 @@ public class ExtrasTest {
 			h_msg.extras[0].extraName = "Beer";
 			h_msg.extras[0].price = 10;
 			h_msg.extras[0].date = date;
-			h_msg.extras[0].creationDate = creationDate;
+			h_msg.extras[0].creationTime = creationTime;
 			
 			//fill filter value extra Message
 			h_msg.extras[1] = new ExtraMessage();
 			h_msg.extras[1].extraID = 3;
-			h_msg.extras[1].bookingID = 40;
-			h_msg.extras[1].extraName = "Wine";
+			h_msg.extras[1].bookingID = 0;
+			h_msg.extras[1].extraName = "CHECK";
 			h_msg.extras[1].price = 100;
 			h_msg.extras[1].date = date;
-			h_msg.extras[1].creationDate = creationDate;
+			h_msg.extras[1].creationTime = creationTime;
 			
 			Extra Extra = new Extra();
 			h_msg.response = h_msg.extras[0].validateParams();
@@ -326,7 +333,6 @@ public class ExtrasTest {
 				System.out.println("\r");
 			}
 		}
-		
 	}
 	
 	private static void test_printExtra (ExtraMessage h_msg){
@@ -335,7 +341,7 @@ public class ExtrasTest {
 		System.out.println("   Extra Name: " + h_msg.extraName);
 		System.out.println("   Price: " + h_msg.price);
 		System.out.println("   Date: " + h_msg.date);
-		System.out.println("   Creation Date: " + h_msg.creationDate);
+		System.out.println("   Creation Date: " + h_msg.creationTime);
 
 		System.out.println("\r");
 	}
