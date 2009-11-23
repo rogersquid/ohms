@@ -23,7 +23,7 @@ public class CookieHelper {
 		}
 	}
 	
-	public static int getAccountCookie(HttpServletRequest request) {
+	public static Cookie getAccountCookie(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			// Print a list of all cookies sent by browser
