@@ -20,6 +20,8 @@ public class bookingServlet extends HttpServlet {
 		
 		Message userMessage = new Message(0, userid, hotelname);
 		Account userAccount = new Account();
+		userAccount.initializeAccounts(1);
+		userAccount.accounts[0].accountID = userid;
 		Message userInfo = userAccount.getAccount(userMessage);
 		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
 			request.setAttribute("logged_in", true);
