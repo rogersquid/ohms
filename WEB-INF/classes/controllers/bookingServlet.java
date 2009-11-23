@@ -14,54 +14,134 @@ public class bookingServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int userid 				= 6;
-		int authlevel 			= 3;
-		String hotelname 		= "test";
+		request.setAttribute("userID", 6);
+		request.setAttribute("authLevel", 3);
+		request.setAttribute("hotelName") = "test";
 		
 		String action = request.getParameter("action");
 		
 		if(action.equals("all_bookings")) {
+			allBookings(request, response);
+		} else if(action.equals("view")) {
+			viewBooking(request, response);
+		} else if(action.equals("delete")) {
+			deleteBooking(request, response);
+		} else { // defaults
 			if(authlevel < 3) {
-				request.setAttribute("message", "Only staff has access to the list of all bookings.");
-				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+				// my bookings
+				myBookings(request, response);
 			} else {
-				Message message = new Message(authlevel, userid, hotelname);
-				Booking booking = new Booking();
-				Message reply = booking.getAllBooking(message);
-				
-				if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
-					request.setAttribute("data", reply);
-					getServletContext().getRequestDispatcher("/views/bookings.jsp").include(request, response);
-				} else {
-					request.setAttribute("message", reply.response.responseString);
-					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-				}
+				// all bookings
+				allBookings(request, response);
 			}
 		}
-		if(action.equals("view")) {
-			int bookingID = Integer.parseInt(request.getParameter("id"));
+		
+	}
+	
+	public void viewBooking(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = (int)request.getAttribute("authLevel");
+		int userid = (int)request.getAttribute("userID")
+		String hotelname = (String)request.getAttribute("hotelName");
+		
+		int bookingID = Integer.parseInt(request.getParameter("id"));
+		Message message = new Message(authlevel, userid, hotelname);
+		message.initializeBookings(1);
+		message.bookings[0].bookingID = bookingID;
+		Booking booking = new Booking();
+		Message reply = booking.getBooking(message);
+		
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
+			if(authlevel >= 3 || reply.bookings[0].ownerID==userid) {
+				request.setAttribute("data", reply);
+				getServletContext().getRequestDispatcher("/views/view_booking.jsp").include(request, response);
+			} else {
+				request.setAttribute("message", "You are not authorized to view this booking.");
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
+		} else {
+			request.setAttribute("message", reply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+	
+	public void deleteBooking(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = (int)request.getAttribute("authLevel");
+		int userid = (int)request.getAttribute("userID")
+		String hotelname = (String)request.getAttribute("hotelName");
+		
+		int bookingID = Integer.parseInt(request.getParameter("id"));
+		Message message = new Message(authlevel, userid, hotelname);
+		message.initializeBookings(1);
+		message.bookings[0].bookingID = bookingID;
+		Booking booking = new Booking();
+		Message reply = booking.deleteBooking(message);
+		
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
+			if(authlevel >= 3 || reply.bookings[0].ownerID==userid) {
+				request.setAttribute("status", "booking_success");
+				request.setAttribute("message", "Booking successfully deleted.");
+				myBookings(request, response);
+			} else {
+				request.setAttribute("message", "You are not authorized to delete this booking.");
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
+		} else {
+			request.setAttribute("message", reply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+	
+	public void allBookings(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = (int)request.getAttribute("authLevel");
+		int userid = (int)request.getAttribute("userID")
+		String hotelname = (String)request.getAttribute("hotelName");
+		
+		if(authlevel < 3) {
+			request.setAttribute("message", "Only staff has access to the list of all bookings.");
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		} else {
 			Message message = new Message(authlevel, userid, hotelname);
-			message.initializeBookings(1);
-			message.bookings[0].bookingID = bookingID;
 			Booking booking = new Booking();
-			Message reply = booking.getBooking(message);
+			Message reply = booking.getAllBooking(message);
 			
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
-				if(authlevel >= 3 || reply.bookings[0].ownerID==userid) {
-					request.setAttribute("data", reply);
-					getServletContext().getRequestDispatcher("/views/view_booking.jsp").include(request, response);
-				} else {
-					request.setAttribute("message", "You are not authorized to view this booking.");
-					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-				}
+				request.setAttribute("data", reply);
+				getServletContext().getRequestDispatcher("/views/bookings.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", reply.response.responseString);
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 			}
 		}
-		
 	}
-
+	
+	public void myBookings(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = (int)request.getAttribute("authLevel");
+		int userid = (int)request.getAttribute("userID")
+		String hotelname = (String)request.getAttribute("hotelName");
+		
+		Message message = new Message(authlevel, userid, hotelname);
+		message.initializeBookings(1);
+		message.bookings[0].ownerID = userid;
+		Booking booking = new Booking();
+		Message reply = booking.getFilteredBooking(message);
+		
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
+			request.setAttribute("data", reply);
+			getServletContext().getRequestDispatcher("/views/my_bookings.jsp").include(request, response);
+		} else {
+			request.setAttribute("message", reply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
