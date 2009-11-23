@@ -223,6 +223,7 @@ public class bookingServlet extends HttpServlet {
 			int roomID = Integer.parseInt(request.getParameter("roomID"));
 			
 			Message message = new Message(authlevel, userid, hotelname);
+			message.initializeBookings(1);
 			message.bookings[0].startDate = startDate;
 			message.bookings[0].endDate = endDate;
 			message.bookings[0].ownerID = bookingOwnerID;
