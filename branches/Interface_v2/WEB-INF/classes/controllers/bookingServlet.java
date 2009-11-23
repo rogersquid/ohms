@@ -18,13 +18,13 @@ public class bookingServlet extends HttpServlet {
 		String hotelname = "test";
 		
 		Message userMessage = new Message(0, userid, hotelname);
-		Account account = new Account();
-		Message userInfo = account.getAccount(userMessage);
-		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) {
+		Account userAccount = new Account();
+		Message userInfo = userAccount.getAccount(userMessage);
+		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
 			request.setAttribute("logged_in", true);
 			request.setAttribute("userInfo", userInfo.accounts[0]);
 		} else {
-			request.setAttribute("logged_in", true);
+			request.setAttribute("logged_in", false);
 		}
 		
 		int authlevel = 3;
