@@ -18,7 +18,7 @@ public class Bill {
 			// insert the bill in to appropriate hotel
 			int returnedRows 	= dbcon.insert("INSERT INTO "
 					+ i_msg.header.nameHotel
-					+ "_bill (bookingID, paymentType, status) "
+					+ "_bills (bookingID, paymentType, status) "
 					+ "VALUES ('" 
 					+ i_msg.bills[0].bookingID + "', '"
 					+ "none" + "', '"
@@ -60,9 +60,9 @@ public class Bill {
 		replyMessage.bills=i_msg.bills;
 		try {
 			dbcon = new databaseHelper();
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_bill WHERE billID = " + i_msg.bills[0].billID);
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE billID = " + i_msg.bills[0].billID);
 			rs.next();
-			int returnedRows = dbcon.modify("UPDATE test_bill SET bookingID='"
+			int returnedRows = dbcon.modify("UPDATE test_bills SET bookingID='"
 					+ i_msg.bills[0].bookingID 
 					+ "', paymentType='" + i_msg.bills[0].paymentType 
 					+ "', status='" +((i_msg.bills[0].status)?1:0) + "' "
@@ -99,7 +99,7 @@ public class Bill {
 		try {
 			dbcon 				= new databaseHelper();
 			// Bill id or owner + sDate
-			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_bill WHERE billID='" + i_msg.bills[0].billID
+			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_bills WHERE billID='" + i_msg.bills[0].billID
 					+ "'");
 			if (returnedRows != 1){
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Deleting Bill failed." +
@@ -140,7 +140,7 @@ public class Bill {
 			dbcon 				= new databaseHelper();
 			// Bill id
 			ResultSet rs=dbcon.select("Select count(*) FROM  "
-					+ i_msg.header.nameHotel + "_bill WHERE billID='"
+					+ i_msg.header.nameHotel + "_bills WHERE billID='"
 					+ i_msg.bills[0].billID +"'");
 			rs.next();
 			int i=rs.getInt(1);
@@ -245,7 +245,7 @@ public class Bill {
 			// create connection
 			dbcon = new databaseHelper();
 
-			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bill WHERE ";
+			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE ";
 
 			boolean nonFirst = false;
 			if (i_msg.bills[0].status) {
