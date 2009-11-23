@@ -48,7 +48,7 @@ public class bookingServlet extends HttpServlet {
 			
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
 				if(authlevel >= 3 || reply.bookings[0].ownerID==userid) {
-					request.setAttribute("booking", reply.bookings[0]);
+					request.setAttribute("data", reply);
 					getServletContext().getRequestDispatcher("/views/view_booking.jsp").include(request, response);
 				} else {
 					request.setAttribute("message", "You are not authorized to view this booking.");
