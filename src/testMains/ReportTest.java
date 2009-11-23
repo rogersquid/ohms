@@ -20,7 +20,6 @@ public class ReportTest {
 		//create message
 		Message h_msg= new Message(0, 0, "test");
 		h_msg.initializeReports(1);
-		h_msg.reports[0] = new ReportMessage();
 		//fill room info:
 		Report report = new Report();
 		h_msg = report.statusReport(h_msg);

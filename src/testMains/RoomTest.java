@@ -42,7 +42,7 @@ public class RoomTest {
 			//Filling Header information
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
@@ -72,7 +72,7 @@ public class RoomTest {
 			//Filling Header information
 			Message h_msg = new Message(0,0,"test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			h_msg.rooms[0].roomType = "INVALID";
@@ -104,7 +104,7 @@ public class RoomTest {
 			//Filling Header information
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			h_msg.rooms[0].roomType = "";
@@ -136,7 +136,7 @@ public class RoomTest {
 			//Filling Header information
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, 0);
 			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
@@ -170,7 +170,7 @@ public class RoomTest {
 			//Filling Header information
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			
@@ -183,7 +183,7 @@ public class RoomTest {
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
 				g_msg.initializeRooms(1);
-				g_msg.rooms[0] = new RoomMessage();
+				 
 				//fill room info:
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
@@ -221,7 +221,7 @@ public class RoomTest {
 			//Filling Header information
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			
@@ -235,7 +235,7 @@ public class RoomTest {
 				/*
 				Message g_msg= new Message(0, 0, "test");
 				g_msg.initializeRooms(1);
-				g_msg.rooms[0] = new RoomMessage();
+				 
 				//fill room info:
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
@@ -273,7 +273,7 @@ public class RoomTest {
 			//Filling Header information
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			
@@ -286,7 +286,7 @@ public class RoomTest {
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
 				g_msg.initializeRooms(1);
-				g_msg.rooms[0] = new RoomMessage();
+				 
 				//fill room info:
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomNumber = -211;
@@ -322,7 +322,7 @@ public class RoomTest {
 			System.out.println("NOT FULLY IMPLEMENTED: check for all inputs types?");
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			
@@ -335,7 +335,7 @@ public class RoomTest {
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
 				g_msg.initializeRooms(1);
-				g_msg.rooms[0] = new RoomMessage();
+				 
 				//fill room info:
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
@@ -370,7 +370,7 @@ public class RoomTest {
 			System.out.println("Description: Successful Maid cleanup edit");
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			h_msg.rooms[0].cleaned = false;
@@ -384,7 +384,7 @@ public class RoomTest {
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(3, 0, "test");
 				g_msg.initializeRooms(1);
-				g_msg.rooms[0] = new RoomMessage();
+				 
 				//fill room info:
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
@@ -423,7 +423,7 @@ public class RoomTest {
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
@@ -435,7 +435,7 @@ public class RoomTest {
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
 				g_msg.initializeRooms(1);
-				g_msg.rooms[0] = new RoomMessage();
+				 
 				//fill room info:
 				test_fillRoom(g_msg, t_set, i_num);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
@@ -467,7 +467,7 @@ public class RoomTest {
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
@@ -479,7 +479,7 @@ public class RoomTest {
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
 				g_msg.initializeRooms(1);
-				g_msg.rooms[0] = new RoomMessage();
+				 
 				//fill room info:
 				test_fillRoom(g_msg, t_set, 999);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
@@ -512,7 +512,7 @@ public class RoomTest {
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
@@ -524,7 +524,7 @@ public class RoomTest {
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				Message g_msg= new Message(0, 0, "test");
 				g_msg.initializeRooms(1);
-				g_msg.rooms[0] = new RoomMessage();
+				 
 				//fill room info:
 				test_fillRoom(g_msg, t_set, -302);
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
@@ -560,7 +560,7 @@ public class RoomTest {
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, 101);
 			Room room = new Room();
@@ -590,7 +590,7 @@ public class RoomTest {
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			//test_fillRoom(h_msg, t_set, 999);
 			test_fillRoom(h_msg, t_set, 101);
@@ -621,7 +621,7 @@ public class RoomTest {
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, -101);
 			Room room = new Room();
@@ -656,7 +656,7 @@ public class RoomTest {
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(1);
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			//fill room info:
 			test_fillRoom(h_msg, t_set, i_num);
 			Room room = new Room();
@@ -689,7 +689,7 @@ public class RoomTest {
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(2);
 			//fill filter toggle Room Message
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			h_msg.rooms[0].roomNumber = 0;
 			h_msg.rooms[0].floor = 0;
 			h_msg.rooms[0].roomType = "INVALID";
@@ -760,7 +760,7 @@ public class RoomTest {
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeRooms(2);
 			//fill filter toggle Room Message
-			h_msg.rooms[0] = new RoomMessage();
+			 
 			h_msg.rooms[0].roomNumber = 0;
 			h_msg.rooms[0].floor = 1;
 			h_msg.rooms[0].roomType = "CHECK";

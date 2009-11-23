@@ -44,9 +44,8 @@ public class Report {
 		
 		try {
 			// create connection
-			dbcon = new databaseHelper(i_msg.header.nameHotel);
+			dbcon = new databaseHelper();
 			replyMessage.initializeReports(1);
-			replyMessage.reports[0] = new ReportMessage();
 			String queryString = availRoomCountQuery;
 			// query the database for all rooms
 			ResultSet rs = dbcon.select(queryString);

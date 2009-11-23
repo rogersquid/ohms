@@ -199,7 +199,6 @@ public class Room {
 				i = 0;
 
 				while (rs.next()) {
-					replyMessage.rooms[i] = new RoomMessage();
 					replyMessage.rooms[i].roomID = rs.getInt("roomID");
 					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
 					replyMessage.rooms[i].floor = rs.getInt("floor");
@@ -397,7 +396,6 @@ public class Room {
 				i = 0;
 
 				while (rs.next()) {
-					replyMessage.rooms[i] = new RoomMessage();
 					replyMessage.rooms[i].roomID = rs.getInt("roomID");
 					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
 					replyMessage.rooms[i].floor = rs.getInt("floor");
