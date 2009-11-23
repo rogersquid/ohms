@@ -56,6 +56,9 @@ public class loginServlet extends HttpServlet {
 		String hotelname = "test";
 		
 		Message userMessage = new Message(0, userid, hotelname);
+		userMessage.initializeAccounts(1);
+		userMessage.accounts[0].email = email;
+		userMessage.accounts[0].password = password;
 		Account userAccount = new Account();
 		Message userInfo = userAccount.getAccount(userMessage);
 		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
