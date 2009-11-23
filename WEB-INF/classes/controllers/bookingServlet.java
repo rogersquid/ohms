@@ -132,7 +132,7 @@ public class bookingServlet extends HttpServlet {
 			Booking booking = new Booking();
 			Message reply = booking.getAllBooking(message);
 			
-			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
+			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings!=null) {
 				request.setAttribute("data", reply);
 				getServletContext().getRequestDispatcher("/views/bookings.jsp").include(request, response);
 			} else {
@@ -155,7 +155,7 @@ public class bookingServlet extends HttpServlet {
 		Booking booking = new Booking();
 		Message reply = booking.getFilteredBooking(message);
 		
-		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings!=null) {
 			request.setAttribute("data", reply);
 			getServletContext().getRequestDispatcher("/views/my_bookings.jsp").include(request, response);
 		} else {
