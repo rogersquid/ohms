@@ -15,7 +15,7 @@ public class loginServlet extends HttpServlet {
 	{
 		String action = (String)request.getAttribute("action");
 		if(action!=null && action.equals("logout")) {
-			Cookie c = request.getCookies()[i];
+			Cookie c = CookieHelper.getAccountCookie(request);
 			c.setMaxAge(0);
 			response.addCookie(c);
 			request.setAttribute("status", "logout_successful");
