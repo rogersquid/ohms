@@ -14,9 +14,13 @@ public class bookingServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		request.setAttribute("userID", 6);
-		request.setAttribute("authLevel", 3);
-		request.setAttribute("hotelName", "test");
+		int userid = 6;
+		int authlevel = 3;
+		String hotelname = "test";
+		
+		request.setAttribute("userID", userid);
+		request.setAttribute("authLevel", authlevel);
+		request.setAttribute("hotelName", hotelname);
 		
 		String action = request.getParameter("action");
 		
@@ -41,8 +45,8 @@ public class bookingServlet extends HttpServlet {
 	public void viewBooking(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int authlevel = (Integer)request.getAttribute("authLevel").intValue();
-		int userid = (Integer)request.getAttribute("userID").intValue();
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 		
 		int bookingID = Integer.parseInt(request.getParameter("id"));
@@ -69,8 +73,8 @@ public class bookingServlet extends HttpServlet {
 	public void deleteBooking(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int authlevel = (Integer)request.getAttribute("authLevel").intValue();
-		int userid = (Integer)request.getAttribute("userID").intValue();
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 		
 		int bookingID = Integer.parseInt(request.getParameter("id"));
@@ -98,8 +102,8 @@ public class bookingServlet extends HttpServlet {
 	public void allBookings(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int authlevel = (Integer)request.getAttribute("authLevel").intValue();
-		int userid = (Integer)request.getAttribute("userID").intValue();
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 		
 		if(authlevel < 3) {
@@ -123,8 +127,8 @@ public class bookingServlet extends HttpServlet {
 	public void myBookings(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int authlevel = (Integer)request.getAttribute("authLevel").intValue();
-		int userid = (Integer)request.getAttribute("userID").intValue();
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 		
 		Message message = new Message(authlevel, userid, hotelname);
