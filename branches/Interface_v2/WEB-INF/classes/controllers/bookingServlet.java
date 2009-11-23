@@ -190,7 +190,7 @@ public class bookingServlet extends HttpServlet {
 			Message reply = booking.getFilteredBooking(message);
 			
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
-				if(reply.bookings==null) {
+				if(reply.rooms==null) {
 					request.setAttribute("status", "search_failed");
 					request.setAttribute("message", "No available rooms found. Please try different dates.");
 					getServletContext().getRequestDispatcher("/views/search_rooms.jsp").include(request, response);
