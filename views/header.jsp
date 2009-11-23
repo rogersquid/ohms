@@ -18,7 +18,7 @@
 			<div id='header'>
 				<!-- <a href='' id='header-image'></a> -->
 				<%
-					if(request.getAttribute("logged_in")==true) {
+					if((boolean)request.getAttribute("logged_in")==true) {
 						AccountMessage account = (AccountMessage)request.getAttribute("userInfo");
 						%>
 						User: <strong><%=account.firstName %> <%=account.lastName %></strong>
