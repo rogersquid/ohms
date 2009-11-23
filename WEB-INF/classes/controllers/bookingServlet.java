@@ -22,7 +22,7 @@ public class bookingServlet extends HttpServlet {
 		request.setAttribute("authLevel", authlevel);
 		request.setAttribute("hotelName", hotelname);
 		
-		String action = request.getParameter("action");
+		String action = (request.getParameter("action")==null) ? "" : request.getParameter("action");
 		
 		if(action.equals("all_bookings")) {
 			allBookings(request, response);
