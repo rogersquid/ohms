@@ -211,7 +211,7 @@ public class Booking {
 				replyMessage.initializeRooms(numberofrows);
 				replyMessage.initializeAccounts(numberofrows);
 			}
-			rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID");
+			rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID ORDER BY b.creationTime DESC");
 			int i=0;
 			while (rs.next()) {
 				replyMessage.bookings[i].bookingID=rs.getInt("bookingID");
@@ -281,7 +281,7 @@ public class Booking {
 					return replyMessage;
 				}
 				//rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel + "_bookings WHERE bookingOwnerID='" + i_msg.bookings[0].ownerID + "'");
-				rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE b.bookingOwnerID='" + i_msg.bookings[0].ownerID + "'");
+				rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE b.bookingOwnerID='" + i_msg.bookings[0].ownerID + "' ORDER BY b.creationTime DESC");
 				replyMessage.initializeBookings(numberofrows);
 				replyMessage.initializeAccounts(numberofrows);
 				replyMessage.initializeRooms(numberofrows);
@@ -341,7 +341,7 @@ public class Booking {
 				rs=dbcon.select("SELECT * FROM "+ i_msg.header.nameHotel +"_rooms WHERE roomID NOT IN (SELECT roomID FROM "+
 						i_msg.header.nameHotel +"_bookings WHERE " +
 						"(endDate >'"+ i_msg.bookings[0].startDate +"' AND endDate < '"+ i_msg.bookings[0].endDate +"') "+
-						"OR (endDate> '"+ i_msg.bookings[0].startDate +"' AND startDate <='"+ i_msg.bookings[0].endDate +"'))");
+						"OR (endDate> '"+ i_msg.bookings[0].startDate +"' AND startDate <='"+ i_msg.bookings[0].endDate +"')) ORDER BY roomNumber ASC");
 				int i=0;
 				replyMessage.initializeRooms(numberofrows);
 				System.out.println("Rooms ready " + replyMessage.rooms.length);
@@ -363,6 +363,7 @@ public class Booking {
 					replyMessage.rooms[i].singleBeds = rs.getInt("singleBeds");
 					replyMessage.rooms[i].queenBeds = rs.getInt("queenBeds");
 					replyMessage.rooms[i].kingBeds = rs.getInt("kingBeds");
+					replyMessage.rooms[i].roomNumber=rs.getInt("roomNumber");
 					i++;
 		        }
 			} catch (SQLException e) {
