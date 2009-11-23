@@ -18,14 +18,12 @@ public class Bill {
 			// insert the bill in to appropriate hotel
 			int returnedRows 	= dbcon.insert("INSERT INTO "
 					+ i_msg.header.nameHotel
-					+ "_bills (bookingID, paymentType, status) "
+					+ "_bill (bookingID, paymentType, status) "
 					+ "VALUES ('" 
-					//+ i_msg.bills[0].billID + "', '"
 					+ i_msg.bills[0].bookingID + "', '"
-					//+ i_msg.bills[0].paymentType + "', '"
 					+ "none" + "', '"
-					//+ i_msg.bills[0].status + "')");
-					+ false + "')");
+					+ 0 + "')");
+
 			// check the number of rows changed to see whether response is as expected
 			if (returnedRows > 0) {
 				System.out.println("Success");
@@ -62,13 +60,15 @@ public class Bill {
 		replyMessage.bills=i_msg.bills;
 		try {
 			dbcon = new databaseHelper();
-			int returnedRows = dbcon.modify("UPDATE " + i_msg.header.nameHotel
-					+ "_bills SET billID='" + i_msg.bills[0].billID
-					+ "', bookingID='" +i_msg.bills[0].bookingID
-					+ "', paymentType='" + i_msg.bills[0].paymentType
-					+ "', status='" + i_msg.bills[0].status
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_bill WHERE billID = " + i_msg.bills[0].billID);
+			rs.next();
+			int returnedRows = dbcon.modify("UPDATE test_bill SET bookingID='"
+					+ i_msg.bills[0].bookingID 
+					+ "', paymentType='" + i_msg.bills[0].paymentType 
+					+ "', status='" +((i_msg.bills[0].status)?1:0) + "' "
+					+ "WHERE billID='" + i_msg.bills[0].billID
 					+ "'");
-			if (returnedRows != 1) {
+		if (returnedRows != 1) {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Bill failed.");
 				return replyMessage;
 			}
@@ -99,7 +99,7 @@ public class Bill {
 		try {
 			dbcon 				= new databaseHelper();
 			// Bill id or owner + sDate
-			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_bills WHERE billID='" + i_msg.bills[0].billID
+			int returnedRows = dbcon.modify("DELETE FROM  "+ i_msg.header.nameHotel + "_bill WHERE billID='" + i_msg.bills[0].billID
 					+ "'");
 			if (returnedRows != 1){
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Deleting Bill failed." +
@@ -132,13 +132,15 @@ public class Bill {
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		// Not the best way to do it but should be a deep Copy - I will investigate
 		replyMessage.initializeBills(1);
+		replyMessage.initializeRooms(1);
+		replyMessage.initializeAccounts(1);
+
 		try {
 			dbcon 				= new databaseHelper();
 			// Bill id
 			ResultSet rs=dbcon.select("Select count(*) FROM  "
-					+ i_msg.header.nameHotel + "_bills WHERE billID='"
+					+ i_msg.header.nameHotel + "_bill WHERE billID='"
 					+ i_msg.bills[0].billID +"'");
 			rs.next();
 			int i=rs.getInt(1);
@@ -146,7 +148,7 @@ public class Bill {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view bill failed.");
 				return replyMessage;
 			}
-			rs=dbcon.select("Select * FROM test_bills WHERE billID='"
+			rs=dbcon.select("Select * FROM test_bill WHERE billID='"
 					+ i_msg.bills[0].billID +"'");
 			while (rs.next()) {
 	            int cbillID = rs.getInt("billID");
@@ -175,54 +177,54 @@ public class Bill {
 		return replyMessage;
 	}
 
-	public Message getAllBill(Message i_msg){
-		// Creating database handle and create return message
+	public Message getAllBill(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		replyMessage.bills=i_msg.bills;
 
 		try {
-			dbcon 				= new databaseHelper();
-			ResultSet rs=dbcon.select("Select count(*) FROM " + i_msg.header.nameHotel + "_bills");
-			rs.next();
-			int numberofrows=rs.getInt(1);
-			if(numberofrows<0){
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "get All Bill failed." +
-						" billID: " + i_msg.bills[0].billID);
-				return replyMessage;
+			// create connection
+			dbcon = new databaseHelper();
+			// query the database for all rooms
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_bill");
+			rs.last();
+			int numRows = rs.getRow();
+			
+			replyMessage.initializeBills(numRows);
+			//replyMessage.initializeAccounts(numRows);
+			//replyMessage.initializeRooms(numRows);
+			rs.beforeFirst();
+			
+			if (!rs.next()) {
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "No extras in database.";
+			} else {
+				int i = 0;
+
+				while (rs.next()) {
+					replyMessage.bills[i].billID = rs.getInt("billID");
+					replyMessage.bills[i].bookingID = rs.getInt("bookingID");
+					replyMessage.bills[i].paymentType = rs.getString("paymentType");
+					replyMessage.bills[i].status = rs.getBoolean("status");					
+					i++;
+				}
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Query succeeded.";
 			}
-			else if (numberofrows==0){
-				replyMessage.response.fillResponse(ResponseCode.SUCCESS, "There is no Bill." +
-						" billID: " + i_msg.bills[0].billID);
-				return replyMessage;
-			}else{
-				replyMessage.initializeBookings(numberofrows);
-			}
-			rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel + "_bills");
-			int i=0;
-			while (rs.next()) {
-				replyMessage.bills[i].billID=rs.getInt("billID");
-				replyMessage.bills[i].bookingID= rs.getInt("bookingID");
-				replyMessage.bills[i].paymentType= rs.getString("paymentType");
-				replyMessage.bills[i].status=rs.getBoolean("status");
-				i++;
-	        }
 		} catch (SQLException e) {
-			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
+			System.err.println("Error in 'getAllBill'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view bill failed.");
-			return replyMessage;
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
 		} catch (ClassNotFoundException e) {
-			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			System.err.println("Error in 'getAllBill'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view bill failed.");
-			return replyMessage;
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
 		}
 		finally {
-			if (dbcon != null) {
-				dbcon.close();
-			}
+			if (dbcon != null) dbcon.close();
 		}
-		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "ViewAll one bill as Requested.");
 		return replyMessage;
 	}
 
@@ -234,7 +236,7 @@ public class Bill {
 			// create connection
 			dbcon = new databaseHelper();
 
-			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE ";
+			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bill WHERE ";
 
 			boolean nonFirst = false;
 			if (i_msg.bills[0].status) {
