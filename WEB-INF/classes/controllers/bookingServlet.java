@@ -166,6 +166,8 @@ public class bookingServlet extends HttpServlet {
 			searchRooms(request, response);
 		} else if(action.equals("confirm_booking")) {
 			confirmBooking(request, response);
+		} else if(action.equals("add_booking")) {
+			addBooking(request, response);
 		}
 	}
 	
@@ -209,6 +211,16 @@ public class bookingServlet extends HttpServlet {
 	}
 	
 	public void confirmBooking(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+		
+		getServletContext().getRequestDispatcher("/views/confirm_booking.jsp").include(request, response);
+	}
+	
+	public void addBooking(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
 		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
