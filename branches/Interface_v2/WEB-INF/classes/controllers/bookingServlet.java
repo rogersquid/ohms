@@ -20,7 +20,7 @@ public class bookingServlet extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		
-		if(action=="all_bookings") {
+		if(action.equals("all_bookings")) {
 			if(authlevel < 3) {
 				request.setAttribute("message", "Only staff has access to the list of all bookings.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -38,7 +38,7 @@ public class bookingServlet extends HttpServlet {
 				}
 			}
 		}
-		if(action=="view") {
+		if(action.equals("view")) {
 			int bookingID = Integer.parseInt(request.getParameter("id"));
 			Message message = new Message(authlevel, userid, hotelname);
 			message.initializeBookings(1);
