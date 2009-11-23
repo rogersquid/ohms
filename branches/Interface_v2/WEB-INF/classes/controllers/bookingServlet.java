@@ -14,9 +14,20 @@ public class bookingServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int userid = 125;
-		int authlevel = 3;
+		int userid = Integer.parseInt(request.getParameter("accountID"));
 		String hotelname = "test";
+		
+		Message userMessage = new Message(0, userid, hotelname);
+		Account account = new Account();
+		Message userInfo = account.getAccount(userMessage);
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) {
+			request.setAttribute("logged_in", true);
+			request.setAttribute("userInfo", userInfo.accounts[0]);
+		} else {
+			request.setAttribute("logged_in", true);
+		}
+		
+		int authlevel = 3;
 		
 		request.setAttribute("userID", userid);
 		request.setAttribute("authLevel", authlevel);
@@ -153,7 +164,7 @@ public class bookingServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int userid = 125;
+		int userid = Integer.parseInt(request.getParameter("accountID"));
 		int authlevel = 3;
 		String hotelname = "test";
 		

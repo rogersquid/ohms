@@ -17,13 +17,24 @@
 		<div id='wrapper'>
 			<div id='header'>
 				<!-- <a href='' id='header-image'></a> -->
+				<%
+					if(request.getAttribute("logged_in")==true) {
+						AccountMessage account = (AccountMessage)request.getAttribute("userInfo");
+						%>
+						User: <strong><%=account.firstName %> <%=account.lastName %></strong>
+						<%
+					} else {
+						%>
+						Not logged in.
+						<%
+					}
+				%>
 			</div>
 			<div id='main-nav'>
 				<ul>
-					<li><a href='register.html'>Register</a></li>
+					<li><a href='#'>Home</a></li>
 					<li><a href='login.html'>Login</a></li>
-					<li><a href='bookings.html'>My bookings</a></li>
-					<li><a href=''>Etc</a></li>
+					<li><a href='bookings.html?action=search'>Rooms</a></li>
 				</ul>
 			</div>
 			<div id='content-wrapper'>
