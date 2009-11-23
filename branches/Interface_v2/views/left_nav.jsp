@@ -1,6 +1,6 @@
 				<div id='left-nav'>
 					<%
-						if(request.getAttribute("logged_in")==false) {
+						if((boolean)request.getAttribute("logged_in")==false) {
 							%>
 							<li><a href='register.html'>Register</a></li>
 							<li><a href='login.html'>Login</a></li>
