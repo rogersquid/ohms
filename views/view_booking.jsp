@@ -18,24 +18,24 @@
 							<%
 						}
 						
-						BookingMessage booking = (BookingMessage)getAttribute("booking");
+						Message data = (Message)getAttribute("data");
 					%>
 					<table>
 						<tr>
 							<td>Customer: </td>
-							<td><%=booking.firstName %> <%=booking.lastName %></td>
+							<td><%=data.accounts[0].firstName %> <%=data.accounts[0].lastName %></td>
 						</tr>
 						<tr>
 							<td>Room #: </td>
-							<td><a href='rooms.html?action=view&amp;id=<%=booking.roomID %>'><%=booking.roomNumber %></a></td>
+							<td><a href='rooms.html?action=view&amp;id=<%=data.rooms[0].roomID %>'><%=data.rooms[0].roomNumber %></a></td>
 						</tr>
 						<tr>
 							<td>Start date: </td>
-							<td><%=booking.startDate %></td>
+							<td><%=data.bookings[0].startDate %></td>
 						</tr>
 						<tr>
 							<td>End date: </td>
-							<td><%=booking.endDate %></td>
+							<td><%=data.bookings[0].endDate %></td>
 						</tr>
 					</table>
 				</div>
