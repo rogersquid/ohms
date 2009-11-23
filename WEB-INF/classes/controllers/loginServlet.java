@@ -13,7 +13,7 @@ public class loginServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		String action = (String)request.getAttribute("action");
+		String action = request.getParameter("action");
 		if(action!=null && action.equals("logout")) {
 			Cookie c = CookieHelper.getAccountCookie(request);
 			c.setMaxAge(0);
