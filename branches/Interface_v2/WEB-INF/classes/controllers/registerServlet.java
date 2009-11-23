@@ -6,12 +6,34 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import models.database.*;
 import models.messages.*;
+import models.misc.*;
 
 public class registerServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
+		int userid = CookieHelper.getAccountID(request);
+		String hotelname = "test";
+		
+		Message userMessage = new Message(0, userid, hotelname);
+		Account userAccount = new Account();
+		userMessage.initializeAccounts(1);
+		userMessage.accounts[0].accountID = userid;
+		Message userInfo = userAccount.getAccount(userMessage);
+		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
+			request.setAttribute("logged_in", true);
+			request.setAttribute("userInfo", userInfo.accounts[0]);
+		} else {
+			request.setAttribute("logged_in", false);
+		}
+		
+		int authlevel = 3;
+		
+		request.setAttribute("userID", userid);
+		request.setAttribute("authLevel", authlevel);
+		request.setAttribute("hotelName", hotelname);
+		
 		getServletContext().getRequestDispatcher("/views/register_form.jsp").include(request, response);
 	}
 
@@ -27,9 +49,28 @@ public class registerServlet extends HttpServlet {
 		String address = request.getParameter("address");
 		boolean gender = (request.getParameter("gender").equals("0")) ? false : true;
 
-		int userid = 6;
-		int authlevel = 3;
+		int userid = CookieHelper.getAccountID(request);
 		String hotelname = "test";
+		
+		Message userMessage = new Message(0, userid, hotelname);
+		Account userAccount = new Account();
+		userMessage.initializeAccounts(1);
+		userMessage.accounts[0].accountID = userid;
+		Message userInfo = userAccount.getAccount(userMessage);
+		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
+			request.setAttribute("logged_in", true);
+			request.setAttribute("userInfo", userInfo.accounts[0]);
+		} else {
+			request.setAttribute("logged_in", false);
+		}
+		
+		int authlevel = 3;
+		
+		request.setAttribute("userID", userid);
+		request.setAttribute("authLevel", authlevel);
+		request.setAttribute("hotelName", hotelname);
+		
+		
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeAccounts(1);
 		message.accounts[0].email = email;
