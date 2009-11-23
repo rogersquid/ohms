@@ -21,27 +21,10 @@ public class loginServlet extends HttpServlet {
 			request.setAttribute("status", "logout_successful");
 		}
 		
-		
-		int userid = CookieHelper.getAccountID(request);
-		String hotelname = "test";
-		
-		Message userMessage = new Message(0, userid, hotelname);
-		Account userAccount = new Account();
-		userMessage.initializeAccounts(1);
-		userMessage.accounts[0].accountID = userid;
-		Message userInfo = userAccount.getAccount(userMessage);
-		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
-			request.setAttribute("logged_in", true);
-			request.setAttribute("userInfo", userInfo.accounts[0]);
-		} else {
-			request.setAttribute("logged_in", false);
-		}
-		
-		int authlevel = 3;
-		
-		request.setAttribute("userID", userid);
-		request.setAttribute("authLevel", authlevel);
-		request.setAttribute("hotelName", hotelname);
+		request = InterfaceHelper.initialize(request, response);
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
 		
 		getServletContext().getRequestDispatcher("/views/login_form.jsp").include(request, response);
 	}
@@ -52,27 +35,10 @@ public class loginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
-		int userid = CookieHelper.getAccountID(request);
-		String hotelname = "test";
-		
-		Message userMessage = new Message(0, userid, hotelname);
-		userMessage.initializeAccounts(1);
-		userMessage.accounts[0].email = email;
-		userMessage.accounts[0].password = password;
-		Account userAccount = new Account();
-		Message userInfo = userAccount.getAccount(userMessage);
-		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
-			request.setAttribute("logged_in", true);
-			request.setAttribute("userInfo", userInfo.accounts[0]);
-		} else {
-			request.setAttribute("logged_in", false);
-		}
-		
-		int authlevel = 3;
-		
-		request.setAttribute("userID", userid);
-		request.setAttribute("authLevel", authlevel);
-		request.setAttribute("hotelName", hotelname);
+		request = InterfaceHelper.initialize(request, response);
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
 		
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeAccounts(1);

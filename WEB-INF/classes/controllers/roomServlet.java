@@ -6,22 +6,28 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import models.database.*;
 import models.messages.*;
+import models.misc.*;
 
-public class registerServlet extends HttpServlet {
+public class roomServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
+		request = InterfaceHelper.initialize(request, response);
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
 		getServletContext().getRequestDispatcher("/views/room_form.jsp").include(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
+		request = InterfaceHelper.initialize(request, response);
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
 		
-		int userid = 6;
-		int authlevel = 3;
-		String hotelname = "test";
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeRooms(1);
 		message.rooms[0].roomID = request.getParameter("roomID");

@@ -15,26 +15,10 @@ public class bookingServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int userid = CookieHelper.getAccountID(request);
-		String hotelname = "test";
-		
-		Message userMessage = new Message(0, userid, hotelname);
-		Account userAccount = new Account();
-		userMessage.initializeAccounts(1);
-		userMessage.accounts[0].accountID = userid;
-		Message userInfo = userAccount.getAccount(userMessage);
-		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
-			request.setAttribute("logged_in", true);
-			request.setAttribute("userInfo", userInfo.accounts[0]);
-		} else {
-			request.setAttribute("logged_in", false);
-		}
-		
-		int authlevel = 3;
-		
-		request.setAttribute("userID", userid);
-		request.setAttribute("authLevel", authlevel);
-		request.setAttribute("hotelName", hotelname);
+		request = InterfaceHelper.initialize(request, response);
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
 		
 		String action = (request.getParameter("action")==null) ? "" : request.getParameter("action");
 		
@@ -167,26 +151,10 @@ public class bookingServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int userid = CookieHelper.getAccountID(request);
-		String hotelname = "test";
-		
-		Message userMessage = new Message(0, userid, hotelname);
-		Account userAccount = new Account();
-		userMessage.initializeAccounts(1);
-		userMessage.accounts[0].accountID = userid;
-		Message userInfo = userAccount.getAccount(userMessage);
-		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
-			request.setAttribute("logged_in", true);
-			request.setAttribute("userInfo", userInfo.accounts[0]);
-		} else {
-			request.setAttribute("logged_in", false);
-		}
-		
-		int authlevel = 3;
-		
-		request.setAttribute("userID", userid);
-		request.setAttribute("authLevel", authlevel);
-		request.setAttribute("hotelName", hotelname);
+		request = InterfaceHelper.initialize(request, response);
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
 		
 		String action = request.getParameter("action");
 		if(action.equals("search")) {
