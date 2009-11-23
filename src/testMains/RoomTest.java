@@ -244,7 +244,7 @@ public class RoomTest {
 				Message g_msg = h_msg;
 				g_msg.response = h_msg.rooms[0].validateParams(h_msg);
 				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
-					g_msg = room.addRoom(g_msg);
+					g_msg = room.editRoom(g_msg);
 				} 
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
 					System.out.println("Passed Test ID 2");
@@ -293,7 +293,7 @@ public class RoomTest {
 				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
 				g_msg.response = h_msg.rooms[0].validateParams(h_msg);
 				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
-					g_msg = room.addRoom(g_msg);
+					g_msg = room.editRoom(g_msg);
 				} 
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
 					System.out.println("Passed Test ID 3");
@@ -342,7 +342,56 @@ public class RoomTest {
 				g_msg.rooms[0].roomType = null;
 				g_msg.response = h_msg.rooms[0].validateParams(h_msg);
 				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
-					g_msg = room.addRoom(g_msg);
+					g_msg = room.editRoom(g_msg);
+				} 
+				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
+					System.out.println("Passed Test ID 4");
+					System.out.println("Input:");
+					System.out.println("Output: " + g_msg.response.responseString);
+					System.out.println("\r");
+				}
+				else{
+					System.out.println("Failed Test ID 4");
+					System.out.println("Expected Output:");
+					System.out.println("Expected Change:");
+					System.out.println("Error Message: " + g_msg.response.responseString);
+					System.out.println("\r");
+					}
+				}
+			else{
+				System.out.println("Failed Test ID 4 at verify");
+				System.out.println("Error Message: " + h_msg.response.responseString);
+				System.out.println("\r");
+			}
+		}
+		
+		if(i_num==4){
+			System.out.println("Test ID 5");
+			System.out.println("Description: Successful Maid cleanup edit");
+			Message h_msg= new Message(0, 0, "test");
+			h_msg.initializeRooms(1);
+			h_msg.rooms[0] = new RoomMessage();
+			//fill room info:
+			test_fillRoom(h_msg, t_set, i_num);
+			h_msg.rooms[0].cleaned = false;
+			
+			Room room = new Room();
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
+				h_msg = room.addRoom(h_msg);
+			} 
+			
+			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
+				Message g_msg= new Message(3, 0, "test");
+				g_msg.initializeRooms(1);
+				g_msg.rooms[0] = new RoomMessage();
+				//fill room info:
+				test_fillRoom(g_msg, t_set, i_num);
+				g_msg.rooms[0].roomID = h_msg.rooms[0].roomID;
+				g_msg.rooms[0].cleaned = true;
+				g_msg.response = h_msg.rooms[0].validateParams(h_msg);
+				if (g_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
+					g_msg = room.editRoom(g_msg);
 				} 
 				if(g_msg.response.responseCode == ResponseMessage.ResponseCode.FAIL){
 					System.out.println("Passed Test ID 4");

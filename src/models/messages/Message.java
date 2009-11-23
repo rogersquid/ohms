@@ -8,6 +8,7 @@ public class Message {
 	public BillMessage[] bills;
 	public ExtraMessage[] extras;
 	public ResponseMessage response;
+	public ReportMessage[] reports;
 
 	public Message(int i_authlevel, int i_mOID, String i_hotelname){
 		header= new HeaderMessage(i_authlevel, i_mOID, i_hotelname);
@@ -48,7 +49,13 @@ public class Message {
 			bills[i]=new BillMessage();
 		}
 	}
-
+	public void initializeReports(int arraysize){
+		reports=new ReportMessage[arraysize];
+		for(int i=0; i<arraysize; i++){
+			reports[i]=new ReportMessage();
+		}
+	}
+	
 	public boolean validate() {
 		if(accounts!=null) {
 			response = accounts[0].validateParams();
