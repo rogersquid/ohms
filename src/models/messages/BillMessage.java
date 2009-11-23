@@ -31,7 +31,8 @@ public class BillMessage{
 		ResponseMessage response = new ResponseMessage();
 		
 		response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, new String(""));
-		if (paymentType.length() == 0){
+		if (paymentType==null || paymentType.length() == 0){
+	
 			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 			response.responseString = response.responseString + "Payment Type description cannot be empty\n";
 		}

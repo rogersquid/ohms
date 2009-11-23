@@ -12,8 +12,8 @@ public class ExtrasTest {
 		//test_editExtra(0);
 		//test_deleteExtra(0);
 		//test_viewExtra(0);
-		//test_viewAllExtra(0);
-		test_viewAllExtra(2);
+		test_viewAllExtra(0);
+		//test_viewAllExtra(2);
 		System.out.println("Finish Test Extras \r");
 	}
 
@@ -35,7 +35,7 @@ public class ExtrasTest {
 			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
 			h_msg.extras[0].bookingID = 17;
 			h_msg.extras[0].extraName = "Beer";
-			h_msg.extras[0].price = (float)5;
+			h_msg.extras[0].price = (float)50000;
 			h_msg.extras[0].date = date;
 			h_msg.extras[0].creationTime = creationTime; 
 			h_msg.response = h_msg.extras[0].validateParams();
@@ -72,9 +72,9 @@ public class ExtrasTest {
 			//fill Extra info:
 			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
 			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
-			h_msg.extras[0].extraID = 19;
-			h_msg.extras[0].extraName = "LCDTV";
-			h_msg.extras[0].price = (float)499.99;
+			h_msg.extras[0].extraID = 25;
+			h_msg.extras[0].extraName = "Beer";
+			h_msg.extras[0].price = (float)512345;
 			h_msg.extras[0].date = date;
 			h_msg.extras[0].creationTime = creationTime;
 			
@@ -119,7 +119,7 @@ public class ExtrasTest {
 			//fill Extra info:
 			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
 			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
-			h_msg.extras[0].extraID = 18;
+			h_msg.extras[0].extraID = 25;
 			h_msg.extras[0].bookingID = 13;
 			h_msg.extras[0].extraName = "Pool";
 			h_msg.extras[0].price = (float)299.99;
