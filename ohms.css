@@ -39,4 +39,7 @@ input[type=text], input[type=password], textarea { border-style: inset; padding:
 table.bookings, table.rooms { width: 100%; }
 table.bookings td, table.rooms td { border: 1px solid #ccc; padding: 3px 5px;  }
 
+h3 { margin: 15px 0 5px 0; color: #666; font: 1.2em "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; }
+
 .index { color: #aaa; }
+.delete { color: #a00; }
