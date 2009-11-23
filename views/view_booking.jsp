@@ -18,7 +18,7 @@
 							<%
 						}
 						
-						Message data = (Message)getAttribute("data");
+						Message data = (Message)request.getAttribute("data");
 					%>
 					<table>
 						<tr>
