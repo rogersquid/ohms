@@ -32,7 +32,7 @@ public class BillTest {
 			h_msg.bills[0] = new BillMessage();
 			//fill Bill info:
 			h_msg.bills[0].billID = 1;
-			h_msg.bills[0].bookingID = 21;
+			h_msg.bills[0].bookingID = 35;
 			h_msg.bills[0].paymentType = "none";
 			h_msg.bills[0].status = false;
 			h_msg.response = h_msg.bills[0].validateParams();
@@ -67,8 +67,8 @@ public class BillTest {
 			h_msg.initializeBills(1);
 			h_msg.bills[0] = new BillMessage();
 			//fill Bill info:
-			h_msg.bills[0].billID = 2;
-			h_msg.bills[0].bookingID = 19;
+			h_msg.bills[0].billID = 4;
+			h_msg.bills[0].bookingID = 88;
 			h_msg.bills[0].paymentType = "Cash";
 			h_msg.bills[0].status = true;
 			
@@ -111,7 +111,7 @@ public class BillTest {
 			h_msg.initializeBills(1);
 			h_msg.bills[0] = new BillMessage();
 			//fill Bill info:
-			h_msg.bills[0].billID = 2;
+			h_msg.bills[0].billID = 0;
 			h_msg.bills[0].bookingID = 13;
 			h_msg.bills[0].paymentType = "Debit";
 			h_msg.bills[0].status = false;
@@ -159,7 +159,7 @@ public class BillTest {
 			h_msg.initializeBills(1);
 			h_msg.bills[0] = new BillMessage();
 			//fill Bill info:
-			h_msg.bills[0].billID = 3;
+			h_msg.bills[0].billID = 4;
 			h_msg.bills[0].bookingID = 13;
 			h_msg.bills[0].paymentType = "Pool";
 			h_msg.bills[0].status = false;
