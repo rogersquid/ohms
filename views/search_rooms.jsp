@@ -6,6 +6,13 @@
 				<div id='content'>
 					<DIV id="title">Search Rooms</DIV> 
 					<form method='post' action=''>
+						<%
+						if(request.getAttribute("status")=="search_failed") {
+							%>
+							<div class='error'><strong>Search failed:</strong> <%=request.getAttribute("message") %></div>
+							<%
+						}
+						%>
 						<h3>Pick dates</h3>
 						<table> 
 							<tr> 

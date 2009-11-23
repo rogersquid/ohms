@@ -162,63 +162,87 @@ public class bookingServlet extends HttpServlet {
 		request.setAttribute("hotelName", hotelname);
 		
 		String action = request.getParameter("action");
-		if(action.equals("search") {
-			try {
-				DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
-				java.sql.Date startDate = new java.sql.Date(df.parse(request.getParameter("startDate")).getTime());
-				java.sql.Date endDate = new java.sql.Date(df.parse(request.getParameter("endDate")).getTime());
-				
-				Message message = new Message(authlevel, userid, hotelname);
-				message.initializeBookings(1);
-				message.bookings[0].startDate = startDate;
-				message.bookings[0].endDate = endDate;
-				
-				Booking booking = new Booking();
-				Message reply = booking.getFilteredBooking(message);
-				
-				if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
-					request.setAttribute("data", reply);
-					getServletContext().getRequestDispatcher("/views/available_rooms.jsp").include(request, response);
-				} else {
-					request.setAttribute("message", reply.response.responseString);
-					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-				}
-			} catch(Exception e) {
-				request.setAttribute("message", "Exception: "+e.toString());
-				e.printStackTrace();
-				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-			}
+		if(action.equals("search")) {
+			searchRooms(request, response);
 		} else if(action.equals("confirm_booking")) {
-			try {
-				DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
-				java.sql.Date startDate = new java.sql.Date(df.parse(request.getParameter("startDate")).getTime());
-				java.sql.Date endDate = new java.sql.Date(df.parse(request.getParameter("endDate")).getTime());
-				int bookingOwnerID = userid;
-				int roomID = Integer.parseInt(request.getParameter("roomID"));
-				
-				Message message = new Message(authlevel, userid, hotelname);
-				message.bookings[0].startDate = startDate;
-				message.bookings[0].endDate = endDate;
-				message.bookings[0].ownerID = bookingOwnerID;
-				message.bookings[0].roomID = roomID;
-				
-				Booking booking = new Booking();
-				Message reply = booking.addBooking(message);
-				
-				if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
-					request.setAttribute("status", "booking_success");
-					request.setAttribute("message", "Your booking has been made.");
-					myBookings(request, response);
-				} else {
-					request.setAttribute("message", reply.response.responseString);
-					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-				}
-			} catch(Exception e) {
-				request.setAttribute("message", "Exception: "+e.toString());
-				e.printStackTrace();
-				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-			}
+			confirmBooking(request, response);
 		}
 	}
-
+	
+	public void searchRooms(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+		
+		try {
+			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
+			java.sql.Date startDate = new java.sql.Date(df.parse(request.getParameter("startDate")).getTime());
+			java.sql.Date endDate = new java.sql.Date(df.parse(request.getParameter("endDate")).getTime());
+			
+			Message message = new Message(authlevel, userid, hotelname);
+			message.initializeBookings(1);
+			message.bookings[0].startDate = startDate;
+			message.bookings[0].endDate = endDate;
+			
+			Booking booking = new Booking();
+			Message reply = booking.getFilteredBooking(message);
+			
+			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
+				if(reply.bookings==null) {
+					request.setAttribute("status", "search_failed");
+					request.setAttribute("message", "No available rooms found. Please try different dates.");
+					searchRooms(request, response);
+				} else {
+					request.setAttribute("data", reply);
+					getServletContext().getRequestDispatcher("/views/available_rooms.jsp").include(request, response);		}
+			} else {
+				request.setAttribute("message", reply.response.responseString);
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
+		} catch(Exception e) {
+			request.setAttribute("message", "Exception: "+e.toString());
+			e.printStackTrace();
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+	
+	public void confirmBooking(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+		
+		try {
+			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
+			java.sql.Date startDate = new java.sql.Date(df.parse(request.getParameter("startDate")).getTime());
+			java.sql.Date endDate = new java.sql.Date(df.parse(request.getParameter("endDate")).getTime());
+			int bookingOwnerID = userid;
+			int roomID = Integer.parseInt(request.getParameter("roomID"));
+			
+			Message message = new Message(authlevel, userid, hotelname);
+			message.bookings[0].startDate = startDate;
+			message.bookings[0].endDate = endDate;
+			message.bookings[0].ownerID = bookingOwnerID;
+			message.bookings[0].roomID = roomID;
+			
+			Booking booking = new Booking();
+			Message reply = booking.addBooking(message);
+			
+			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
+				request.setAttribute("status", "booking_success");
+				request.setAttribute("message", "Your booking has been made.");
+				myBookings(request, response);
+			} else {
+				request.setAttribute("message", reply.response.responseString);
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
+		} catch(Exception e) {
+			request.setAttribute("message", "Exception: "+e.toString());
+			e.printStackTrace();
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
 }
