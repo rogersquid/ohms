@@ -148,14 +148,18 @@ public class Bill {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "view bill failed.");
 				return replyMessage;
 			}
-			rs=dbcon.select("Select * FROM test_bill WHERE billID='"
+			rs=dbcon.select("SELECT bills.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_bills AS bills LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID WHERE billID='"
 					+ i_msg.bills[0].billID +"'");
 			while (rs.next()) {
-	            int cbillID = rs.getInt("billID");
-				int cbookingID = rs.getInt("bookingID");
-	            String cpaymentType = rs.getString("paymentType");
-	            boolean cstatus = rs.getBoolean("status");
-	            replyMessage.bills[0].fillAll(cbillID, cbookingID, cpaymentType, cstatus);
+	            replyMessage.bills[0].billID = rs.getInt("billID");
+				replyMessage.bills[0].bookingID = rs.getInt("bookingID");
+	            replyMessage.bills[0].paymentType = rs.getString("paymentType");
+	            replyMessage.bills[0].status = rs.getBoolean("status");
+				replyMessage.rooms[0].roomID = rs.getInt("roomID");
+				replyMessage.rooms[0].roomNumber = rs.getInt("roomNumber");
+				replyMessage.accounts[0].accountID = rs.getInt("accountID");
+				replyMessage.accounts[0].firstName = rs.getString("firstName");
+				replyMessage.accounts[0].lastName = rs.getString("lastName");
 	        }
 		} catch (SQLException e) {
 			System.err.println("Error.  SQLException was thrown:");
@@ -186,13 +190,13 @@ public class Bill {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all rooms
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_bill");
+			ResultSet rs = dbcon.select("SELECT bills.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_bills AS bills LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID");
 			rs.last();
 			int numRows = rs.getRow();
 			
 			replyMessage.initializeBills(numRows);
-			//replyMessage.initializeAccounts(numRows);
-			//replyMessage.initializeRooms(numRows);
+			replyMessage.initializeAccounts(numRows);
+			replyMessage.initializeRooms(numRows);
 			rs.beforeFirst();
 			
 			if (!rs.next()) {
@@ -205,7 +209,12 @@ public class Bill {
 					replyMessage.bills[i].billID = rs.getInt("billID");
 					replyMessage.bills[i].bookingID = rs.getInt("bookingID");
 					replyMessage.bills[i].paymentType = rs.getString("paymentType");
-					replyMessage.bills[i].status = rs.getBoolean("status");					
+					replyMessage.bills[i].status = rs.getBoolean("status");		
+					replyMessage.rooms[i].roomID = rs.getInt("roomID");
+					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
+					replyMessage.accounts[i].accountID = rs.getInt("accountID");
+					replyMessage.accounts[i].firstName = rs.getString("firstName");
+					replyMessage.accounts[i].lastName = rs.getString("lastName");			
 					i++;
 				}
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
