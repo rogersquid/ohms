@@ -14,7 +14,7 @@ public class bookingServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int userid = Integer.parseInt(request.getParameter("accountID"));
+		int userid = CookieHelper.getAccountID(request);
 		String hotelname = "test";
 		
 		Message userMessage = new Message(0, userid, hotelname);
@@ -164,7 +164,7 @@ public class bookingServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
-		int userid = Integer.parseInt(request.getParameter("accountID"));
+		int userid = CookieHelper.getAccountID(request);
 		int authlevel = 3;
 		String hotelname = "test";
 		
