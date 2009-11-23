@@ -22,9 +22,25 @@ public class loginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
-		int userid = 0;
-		int authlevel = 0;
+		int userid = Integer.parseInt(request.getParameter("accountID"));
 		String hotelname = "test";
+		
+		Message userMessage = new Message(0, userid, hotelname);
+		Account account = new Account();
+		Message userInfo = account.getAccount(userMessage);
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) {
+			request.setAttribute("logged_in", true);
+			request.setAttribute("userInfo", userInfo.accounts[0]);
+		} else {
+			request.setAttribute("logged_in", true);
+		}
+		
+		int authlevel = 3;
+		
+		request.setAttribute("userID", userid);
+		request.setAttribute("authLevel", authlevel);
+		request.setAttribute("hotelName", hotelname);
+		
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeAccounts(1);
 		message.accounts[0].email = email;
