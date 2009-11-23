@@ -26,6 +26,8 @@ public class bookingServlet extends HttpServlet {
 		
 		if(action.equals("all_bookings")) {
 			allBookings(request, response);
+		} else if(action.equals("my_bookings")) {
+			myBookings(request, response);
 		} else if(action.equals("view")) {
 			viewBooking(request, response);
 		} else if(action.equals("delete")) {
