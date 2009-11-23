@@ -28,6 +28,8 @@ public class InterfaceHelper {
 		request.setAttribute("userID", userid);
 		request.setAttribute("authLevel", authlevel);
 		request.setAttribute("hotelName", hotelname);
+		
+		return request;
 	}
 
 }
