@@ -26,13 +26,13 @@ public class loginServlet extends HttpServlet {
 		String hotelname = "test";
 		
 		Message userMessage = new Message(0, userid, hotelname);
-		Account account = new Account();
+		Account userAccount = new Account();
 		Message userInfo = account.getAccount(userMessage);
-		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) {
+		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
 			request.setAttribute("logged_in", true);
 			request.setAttribute("userInfo", userInfo.accounts[0]);
 		} else {
-			request.setAttribute("logged_in", true);
+			request.setAttribute("logged_in", false);
 		}
 		
 		int authlevel = 3;
