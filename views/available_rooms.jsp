@@ -41,6 +41,7 @@
 								<!--<td><a href='rooms.html?action=view&amp;id=<%=data.rooms[i].roomID %>'><%=data.rooms[i].roomNumber %></a></span></td>-->
 								<td>
 									<form action='' method='post'>
+										<input type='hidden' name='action' value='confirm_booking' />
 										<input type='hidden' name='startDate' value='<%=request.getParameter("startDate") %>' />
 										<input type='hidden' name='endDate' value='<%=request.getParameter("endDate") %>' />
 										<input type='hidden' name='roomID' value='<%=data.rooms[i].roomID %>' />
