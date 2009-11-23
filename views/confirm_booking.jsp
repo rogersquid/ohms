@@ -5,8 +5,8 @@
 <%@ include file="left_nav.jsp" %>
 				<div id='content'>
 					<DIV id="title">Confirm Booking</DIV> 
-					<form method='post' action=''>
-						<input type='hidden' name='action' value='confirm_booking' />
+					<form method='post' action='bookings.html'>
+						<input type='hidden' name='action' value='add_booking' />
 						<table> 
 							<tr> 
 								<th>Room number: </th> 
