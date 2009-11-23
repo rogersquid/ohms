@@ -8,6 +8,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import models.database.*;
 import models.messages.*;
+import models.misc.*;
 
 public class bookingServlet extends HttpServlet {
 
