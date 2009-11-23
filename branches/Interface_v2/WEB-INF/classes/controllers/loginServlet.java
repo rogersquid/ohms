@@ -31,7 +31,7 @@ public class loginServlet extends HttpServlet {
 		message.accounts[0].password = password;
 
 		Account account = new Account();
-		Message reply = account.login();
+		Message reply = account.login(message);
 
 
 		if(reply.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
