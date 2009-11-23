@@ -34,9 +34,9 @@ public class loginServlet extends HttpServlet {
 		Message reply = account.login();
 
 
-		if(reply.response.responseCode == Response.ResponseCode.SUCCESS) {
+		if(reply.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 			Cookie userCookie = new Cookie("accountID", Integer.toString(reply.accounts[0].accountID));
-			String md5_password = MD5.hashString(reply.password);
+			String md5_password = MD5.hashString(reply.accounts[0].password);
 			Cookie passwordCookie = new Cookie("md5_password", md5_password);
 			response.addCookie(userCookie);
 			request.setAttribute("name", reply.accounts[0].firstName+" "+reply.accounts[0].lastName);
