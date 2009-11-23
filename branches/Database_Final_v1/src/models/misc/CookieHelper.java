@@ -22,4 +22,21 @@ public class CookieHelper {
 			return 0;
 		}
 	}
+	
+	public static int getAccountCookie(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			// Print a list of all cookies sent by browser
+			for (int i =0; i< cookies.length; i++) {
+				Cookie c = cookies[i];
+				if(c.getName().equals("accountID")) {
+					return c;
+				}
+			}
+			return null;
+		} else {
+			return null;
+		}
+	}
+
 }
