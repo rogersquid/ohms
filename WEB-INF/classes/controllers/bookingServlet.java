@@ -18,7 +18,7 @@ public class bookingServlet extends HttpServlet {
 		int authlevel 			= 3;
 		String hotelname 		= "test";
 		
-		String action = getParameter("action");
+		String action = request.getParameter("action");
 		
 		if(action=="all_bookings") {
 			if(authlevel < 3) {
@@ -47,7 +47,7 @@ public class bookingServlet extends HttpServlet {
 			Message reply = booking.getBooking(message);
 			
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
-				if(authlevel >= 3 || reply.bookings.ownerID==userid) {
+				if(authlevel >= 3 || reply.bookings[0].ownerID==userid) {
 					request.setAttribute("booking", reply.bookings[0]);
 					getServletContext().getRequestDispatcher("/views/view_booking.jsp").include(request, response);
 				} else {
