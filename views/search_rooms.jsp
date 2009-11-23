@@ -17,6 +17,7 @@
 								<TD><INPUT type="text" name="endDate" class="date-pick"></TD> 
 							</TR>
 						</table>
+						<!--
 						<h3>Select beds</h3>
 						<table>
 							<tr>
@@ -67,6 +68,8 @@
 								<td><input type='checkbox' name='elevator' value='1' /></td>
 							</tr>
 						</table>
+						-->
+						<input type='hidden' name='action' value='search' />
 						<INPUT type="submit" name="Search" style='margin-left: 50px;'>
 					</form>
 				</div>
