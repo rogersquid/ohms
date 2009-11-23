@@ -25,24 +25,25 @@ public class loginServlet extends HttpServlet {
 		int userid = 0;
 		int authlevel = 0;
 		String hotelname = "test";
-		AccountMessage message = new AccountMessage(userid, authlevel, hotelname, Header.Action.LOGIN);
-		message.email = email;
-		message.password = password;
+		Message message = new Message(authlevel, userid, hotelname);
+		message.initializeAccounts(1);
+		message.accounts[0].email = email;
+		message.accounts[0].password = password;
 
-		Hotel hotel = new Hotel(hotelname);
+		Account account = new Account();
 		Message reply = account.login();
 
 
-		if(replyHeader.responseCode == Header.Response.SUCCESS) {
-			Cookie userCookie = new Cookie("accountID", Integer.toString(reply.accountID));
+		if(reply.response.responseCode == Response.ResponseCode.SUCCESS) {
+			Cookie userCookie = new Cookie("accountID", Integer.toString(reply.accounts[0].accountID));
 			String md5_password = MD5.hashString(reply.password);
 			Cookie passwordCookie = new Cookie("md5_password", md5_password);
 			response.addCookie(userCookie);
-			request.setAttribute("name", reply.firstname+" "+reply.lastname);
+			request.setAttribute("name", reply.accounts[0].firstName+" "+reply.accounts[0].lastName);
 			getServletContext().getRequestDispatcher("/views/login_success.jsp").include(request, response);
 		} else {
 			request.setAttribute("status", "login_failed");
-			request.setAttribute("message", replyHeader.responseString);
+			request.setAttribute("message", reply.response.responseString);
 			getServletContext().getRequestDispatcher("/views/login_form.jsp").include(request, response);
 		}
 	}
