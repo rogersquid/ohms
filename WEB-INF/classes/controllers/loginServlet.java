@@ -13,6 +13,25 @@ public class loginServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
+		int userid = CookieHelper.getAccountID(request);
+		String hotelname = "test";
+		
+		Message userMessage = new Message(0, userid, hotelname);
+		Account userAccount = new Account();
+		Message userInfo = userAccount.getAccount(userMessage);
+		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
+			request.setAttribute("logged_in", true);
+			request.setAttribute("userInfo", userInfo.accounts[0]);
+		} else {
+			request.setAttribute("logged_in", false);
+		}
+		
+		int authlevel = 3;
+		
+		request.setAttribute("userID", userid);
+		request.setAttribute("authLevel", authlevel);
+		request.setAttribute("hotelName", hotelname);
+		
 		getServletContext().getRequestDispatcher("/views/login_form.jsp").include(request, response);
 	}
 
@@ -22,7 +41,7 @@ public class loginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
-		int userid = Integer.parseInt(request.getParameter("accountID"));
+		int userid = CookieHelper.getAccountID(request);
 		String hotelname = "test";
 		
 		Message userMessage = new Message(0, userid, hotelname);
