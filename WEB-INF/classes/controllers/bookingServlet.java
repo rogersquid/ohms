@@ -88,7 +88,7 @@ public class bookingServlet extends HttpServlet {
 		Booking booking = new Booking();
 		Message reply = booking.deleteBooking(message);
 		
-		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings.length > 0) {
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 			if(authlevel >= 3 || reply.bookings[0].ownerID==userid) {
 				request.setAttribute("status", "booking_success");
 				request.setAttribute("message", "Booking successfully deleted.");
