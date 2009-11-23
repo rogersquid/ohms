@@ -4,7 +4,7 @@
 <%@ include file="header.jsp" %>
 <%@ include file="left_nav.jsp" %>
 				<div id='content'>
-					<div id='title'>Bookings</div>
+					<div id='title'>All Bookings</div>
 					<%
 						if(request.getAttribute("status")=="booking_failed") {
 							%>
@@ -18,30 +18,6 @@
 							<%
 						}
 					%>
-					<form action='' method='post'>
-						<table>
-							<tr>
-								<td>Owner ID (testing only): </td>
-								<td><input type='text' name='ownerID' /></td>
-							</tr>
-							<tr>
-								<td>Room ID: </td>
-								<td><input type='text' name='roomID' /></td>
-							</tr>
-							<tr>
-								<td>Start date: </td>
-								<td><input type='text' name='startDate' class='date-pick' /></td>
-							</tr>
-							<tr>
-								<td>End date: </td>
-								<td><input type='text' name='endDate' class='date-pick' /></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><input type='submit' name='Submit' /></td>
-							</tr>
-						</table>
-					</form>
 
 					<table class='bookings'>
 						<tr>
@@ -51,6 +27,7 @@
 							<th>Start Date</th>
 							<th>End Date</th>
 							<th>Status</th>
+							<th></th>
 						</tr>
 
 						<%
@@ -75,6 +52,7 @@
 									}
 								%>
 								<td><%=status %></td>
+								<td><a href='bookings.html?action=delete&amp;id=<%=data.bookings[i].bookingID %>' title='Delete booking' class='delete'>[ X ]</a></td>
 							</tr>
 							<%
 						}
