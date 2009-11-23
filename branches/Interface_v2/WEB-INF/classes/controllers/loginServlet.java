@@ -13,6 +13,15 @@ public class loginServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
+		String action = (String)request.getAttribute("action");
+		if(action!=null && action.equals("logout")) {
+			Cookie c = request.getCookies()[i];
+			c.setMaxAge(0);
+			response.addCookie(c);
+			request.setAttribute("status", "logout_successful");
+		}
+		
+		
 		int userid = CookieHelper.getAccountID(request);
 		String hotelname = "test";
 		

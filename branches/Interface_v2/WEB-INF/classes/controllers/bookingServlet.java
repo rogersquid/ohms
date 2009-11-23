@@ -168,8 +168,21 @@ public class bookingServlet extends HttpServlet {
 	throws IOException, ServletException
 	{
 		int userid = CookieHelper.getAccountID(request);
-		int authlevel = 3;
 		String hotelname = "test";
+		
+		Message userMessage = new Message(0, userid, hotelname);
+		Account userAccount = new Account();
+		userMessage.initializeAccounts(1);
+		userMessage.accounts[0].accountID = userid;
+		Message userInfo = userAccount.getAccount(userMessage);
+		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
+			request.setAttribute("logged_in", true);
+			request.setAttribute("userInfo", userInfo.accounts[0]);
+		} else {
+			request.setAttribute("logged_in", false);
+		}
+		
+		int authlevel = 3;
 		
 		request.setAttribute("userID", userid);
 		request.setAttribute("authLevel", authlevel);
