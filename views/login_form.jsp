@@ -5,7 +5,12 @@
 					<%
 						if(request.getAttribute("status")=="login_failed") {
 							%>
-							<div class='error'>Login failed.</div>
+							<div class='error'><strong>Login failed.</strong></div>
+							<%
+						}
+						if(request.getAttribute("status")=="logout_successful") {
+							%>
+							<div class='success'><strong>You have logged out.</strong></div>
 							<%
 						}
 					%>
