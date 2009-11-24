@@ -54,8 +54,10 @@ public class loginServlet extends HttpServlet {
 			String md5_password = MD5.hashString(reply.accounts[0].password);
 			Cookie passwordCookie = new Cookie("md5_password", md5_password);
 			response.addCookie(userCookie);
-			request.setAttribute("name", reply.accounts[0].firstName+" "+reply.accounts[0].lastName);
-			getServletContext().getRequestDispatcher("/views/login_success.jsp").include(request, response);
+			request.setAttribute("account", reply.accounts[0]);
+			request.setAttribute("status", "login_success");
+			response.sendRedirect(response.encodeRedirectURL("account.html"));
+			//getServletContext().getRequestDispatcher("/views/login_success.jsp").include(request, response);
 		} else {
 			request.setAttribute("status", "login_failed");
 			request.setAttribute("message", reply.response.responseString);
