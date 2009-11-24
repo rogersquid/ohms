@@ -7,7 +7,7 @@
 					<div id='title'>Account</div>
 					<%
 						AccountMessage account = (AccountMessage)request.getAttribute("account");
-						if((String)request.getAttribute("login_successful")) {
+						if(request.getAttribute("status")=="login_successful") {
 							%>
 							<div class='success'>Login successful.</div>
 							<%
