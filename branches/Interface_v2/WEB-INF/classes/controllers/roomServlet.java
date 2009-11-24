@@ -91,19 +91,19 @@ public class roomServlet extends HttpServlet {
 		message.rooms[0].roomType = request.getParameter("roomType");
 		message.rooms[0].roomNumber = request.getParameter("roomNumber");
 		message.rooms[0].price = request.getParameter("price");
-		message.rooms[0].available = (request.getParameter("available")).equals("0")) ? false : true;
-		message.rooms[0].cleaned = (request.getParameter("cleaned")).equals("0")) ? false : true;
+		message.rooms[0].available = (request.getParameter("available").equals("0")) ? false : true;
+		message.rooms[0].cleaned = (request.getParameter("cleaned").equals("0")) ? false : true;
 		message.rooms[0].floor = request.getParameter("floor");
-		message.rooms[0].tv = (request.getParameter("tv")).equals("0")) ? false : true;
+		message.rooms[0].tv = (request.getParameter("tv").equals("0")) ? false : true;
 		message.rooms[0].singleBeds = request.getParameter("singleBeds");
 		message.rooms[0].queenBeds = request.getParameter("queenBeds");
 		message.rooms[0].kingBeds = request.getParameter("kingBeds");
-		message.rooms[0].disabilityAccess = (request.getParameter("disabilityAccess")).equals("0")) ? false : true;
-		message.rooms[0].phone = (request.getParameter("phone")).equals("0")) ? false : true;
-		message.rooms[0].internet = (request.getParameter("internet")).equals("0")) ? false : true;
-		message.rooms[0].kitchen = (request.getParameter("kitchen")).equals("0")) ? false : true;
-		message.rooms[0].onsuite = (request.getParameter("onsuite")).equals("0")) ? false : true;
-		message.rooms[0].elevator = (request.getParameter("elevator")).equals("0")) ? false : true;
+		message.rooms[0].disabilityAccess = (request.getParameter("disabilityAccess").equals("0")) ? false : true;
+		message.rooms[0].phone = (request.getParameter("phone").equals("0")) ? false : true;
+		message.rooms[0].internet = (request.getParameter("internet").equals("0")) ? false : true;
+		message.rooms[0].kitchen = (request.getParameter("kitchen").equals("0")) ? false : true;
+		message.rooms[0].onsuite = (request.getParameter("onsuite").equals("0")) ? false : true;
+		message.rooms[0].elevator = (request.getParameter("elevator").equals("0")) ? false : true;
 		
 		request.setAttribute("room", message.rooms[0]);
 
