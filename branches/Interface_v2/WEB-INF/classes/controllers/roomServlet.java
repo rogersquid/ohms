@@ -70,7 +70,7 @@ public class roomServlet extends HttpServlet {
 		
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.rooms.length > 0) {
 			request.setAttribute("room", reply.rooms[0]);
-			getServletContext().getRequestDispatcher("/views/rooms.jsp").include(request, response);
+			getServletContext().getRequestDispatcher("/views/room.jsp").include(request, response);
 		} else {
 			request.setAttribute("message", reply.response.responseString);
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -111,7 +111,7 @@ public class roomServlet extends HttpServlet {
 		if(message.validate()) {
 			if(message.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				Room room = new Room();
-				Message reply = account.addRoom(message);
+				Message reply = room.addRoom(message);
 
 				if(reply.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 					viewRoom(request, response);

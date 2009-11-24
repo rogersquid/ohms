@@ -18,7 +18,8 @@ public class accountServlet extends HttpServlet {
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 		
-		if(action.equals("view")) {
+		String action = request.getParameter("action");	
+		if(action!=null && action.equals("view")) {
 			viewAccount(request, response);
 		} else {
 			viewCurrentAccount(request, response);
