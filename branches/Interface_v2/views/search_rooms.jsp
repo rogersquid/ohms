@@ -4,80 +4,68 @@
 <%@ include file="header.jsp" %>
 <%@ include file="left_nav.jsp" %>
 				<div id='content'>
-					<DIV id="title">Search Rooms</DIV> 
-					<form method='post' action=''>
-						<%
-						if(request.getAttribute("status")=="search_failed") {
+					<div id='title'>Available rooms</div>
+					Available between <%=request.getParameter("startDate") %> and <%=request.getParameter("endDate") %>
+					<%
+						if(request.getAttribute("status")=="booking_failed") {
 							%>
-							<div class='error'><strong>Search failed:</strong> <%=request.getAttribute("message") %></div>
+							<div class='error'><strong>Booking failed:</strong> <%=request.getAttribute("message") %></div>
+							<%
+						}
+					%>
+					<table class='rooms'>
+						<tr>
+							<th>Room #</th>
+							<th>Floor</th>
+							<th>Type</th>
+							<th>Price</th>
+							<th>Single<br />beds</th>
+							<th>Queen<br />beds</th>
+							<th>King<br />beds</th>
+							<th>TV</th>
+							<th>Internet</th>
+							<th>Phone</th>
+							<th>Kitchen</th>
+							<th>Elevator</th>
+							<th>Disability<br />access</th>
+							<th></th>
+						</tr>
+
+						<%
+						Message data = (Message)request.getAttribute("data");
+
+						// Print the values into the table
+						for(int i=0; i < data.rooms.length; i++) {
+							%>
+							<tr>
+								<!--<td><a href='rooms.html?action=view&amp;id=<%=data.rooms[i].roomID %>'><%=data.rooms[i].roomNumber %></a></span></td>-->
+								<td>
+									<form action='bookings.html' method='post'>
+										<input type='hidden' name='action' value='confirm_booking' />
+										<input type='hidden' name='startDate' value='<%=request.getParameter("startDate") %>' />
+										<input type='hidden' name='endDate' value='<%=request.getParameter("endDate") %>' />
+										<input type='hidden' name='roomID' value='<%=data.rooms[i].roomID %>' />
+										<input type='hidden' name='roomNumber' value='<%=data.rooms[i].roomNumber %>' />
+										<input type='submit' value='<%=data.rooms[i].roomNumber %>'>
+									</form>
+								</td>
+								<td><%=data.rooms[i].floor %></td>
+								<td><%=data.rooms[i].roomType %></td>
+								<td><%=data.rooms[i].price %></td>
+								<td><%=data.rooms[i].singleBeds %></td>
+								<td><%=data.rooms[i].queenBeds %></td>
+								<td><%=data.rooms[i].kingBeds %></td>
+								<td><%=data.rooms[i].tv %></td>
+								<td><%=data.rooms[i].internet %></td>
+								<td><%=data.rooms[i].phone %></td>
+								<td><%=data.rooms[i].kitchen %></td>
+								<td><%=data.rooms[i].elevator %></td>
+								<td><%=data.rooms[i].disabilityAccess %></td>
+							</tr>
 							<%
 						}
 						%>
-						<h3>Pick dates</h3>
-						<table> 
-							<tr> 
-								<th>Start date: </th> 
-								<td><input type="text" name="startDate" class="date-pick"></td> 
-							</tr> 
-							<TR> 
-								<th>End date: </th> 
-								<TD><INPUT type="text" name="endDate" class="date-pick"></TD> 
-							</TR>
-						</table>
-						<!--
-						<h3>Select beds</h3>
-						<table>
-							<tr>
-								<th>Number of single beds:</th>
-								<td><input type='text' name='singleBeds' value='' /></td>
-							</tr>
-							<tr>
-								<th>Number of queen size beds:</th>
-								<td><input type='text' name='queenBeds' value='' /></td>
-							</tr>
-							<tr>
-								<th>Number of king size beds:</th>
-								<td><input type='checkbox' name='kingBeds' value='' /></td>
-							</tr>
-						</table>
-						<h3>Customize room</h3>
-						<table>
-							<tr>
-								<th>TV:</th>
-								<td><input type='checkbox' name='tv' value='1' /></td>
-							</tr>
-							<tr>
-								<th>Internet:</th>
-								<td><input type='checkbox' name='internet' value='1' /></td>
-							</tr>
-							<tr>
-								<th>Restroom on suite:</th>
-								<td><input type='checkbox' name='onsuite' value='1' /></td>
-							</tr>
-							<tr>
-								<th>Phone:</th>
-								<td><input type='checkbox' name='phone' value='1' /></td>
-							</tr>
-							<tr>
-								<th>Kitchen:</th>
-								<td><input type='checkbox' name='kitchen' value='1' /></td>
-							</tr>
-						</table>
-						
-						<h3>Accessibility</h3>
-						<table>
-							<tr>
-								<th>Disability access:</th>
-								<td><input type='checkbox' name='disabilityAccess' value='1' /></td>
-							</tr>
-							<tr>
-								<th>Elevator access:</th>
-								<td><input type='checkbox' name='elevator' value='1' /></td>
-							</tr>
-						</table>
-						-->
-						<input type='hidden' name='action' value='search' />
-						<INPUT type="submit" name="Search" style='margin-left: 50px;'>
+					</table>
 					</form>
 				</div>
 <%@ include file="footer.jsp" %>
