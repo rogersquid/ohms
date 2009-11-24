@@ -87,6 +87,7 @@ public class roomServlet extends HttpServlet {
 		
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeRooms(1);
+		/*
 		message.rooms[0].roomID = request.getParameter("roomID");
 		message.rooms[0].roomType = request.getParameter("roomType");
 		message.rooms[0].roomNumber = request.getParameter("roomNumber");
@@ -104,7 +105,7 @@ public class roomServlet extends HttpServlet {
 		message.rooms[0].kitchen = (request.getParameter("kitchen").equals("0")) ? false : true;
 		message.rooms[0].onsuite = (request.getParameter("onsuite").equals("0")) ? false : true;
 		message.rooms[0].elevator = (request.getParameter("elevator").equals("0")) ? false : true;
-		
+		*/
 		request.setAttribute("room", message.rooms[0]);
 
 		if(message.validate()) {
