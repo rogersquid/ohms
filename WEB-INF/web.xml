@@ -38,6 +38,10 @@
 		<servlet-name>bookingServlet</servlet-name>
 		<servlet-class>controllers.bookingServlet</servlet-class>
     </servlet>
+	<servlet>
+		<servlet-name>accountServlet</servlet-name>
+		<servlet-class>controllers.accountServlet</servlet-class>
+    </servlet>
 
 
 	<!-- servlet URL mapping -->
@@ -57,6 +61,10 @@
     <servlet-mapping>
         <servlet-name>registerServlet</servlet-name>
         <url-pattern>/register.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>accountServlet</servlet-name>
+        <url-pattern>/account.html</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
