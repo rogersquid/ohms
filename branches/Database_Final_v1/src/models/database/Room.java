@@ -247,7 +247,7 @@ public class Room {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all rooms
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = " + i_msg.rooms[0].roomID);
 			while (rs.next()) {
 				replyMessage.rooms[0].roomID = rs.getInt("roomID");
 				replyMessage.rooms[0].roomNumber = rs.getInt("roomNumber");
