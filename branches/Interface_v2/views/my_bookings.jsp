@@ -39,7 +39,7 @@
 							<tr>
 								<td><span class='index'><a href='bookings.html?action=view&amp;id=<%=data.bookings[i].bookingID %>'><%=i+1 %></a></span></td>
 								<td><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></td>
-								<td><a href='rooms.html?action=view&amp;id=<%=data.rooms[i].roomID %>'><%=data.rooms[i].roomNumber %></a></td>
+								<td><a href='rooms.html?action=view&amp;id=<%=data.bookings[i].roomID %>'><%=data.rooms[i].roomNumber %></a></td>
 								<td><%=data.bookings[i].startDate %></td>
 								<td><%=data.bookings[i].endDate %></td>
 								<%
