@@ -28,22 +28,10 @@
       <servlet-name>registerServlet</servlet-name>
       <servlet-class>controllers.registerServlet</servlet-class>
     </servlet>
-	<servlet>
-      <servlet-name>editAccountServlet</servlet-name>
-      <servlet-class>controllers.editAccountServlet</servlet-class>
-    </servlet>
 
 	<servlet>
-      <servlet-name>createRoomServlet</servlet-name>
-      <servlet-class>controllers.createRoomServlet</servlet-class>
-    </servlet>
-	<servlet>
-      <servlet-name>editRoomServlet</servlet-name>
-      <servlet-class>controllers.editRoomServlet</servlet-class>
-    </servlet>
-	<servlet>
-      <servlet-name>viewallRoomServlet</servlet-name>
-      <servlet-class>controllers.viewallRoomServlet</servlet-class>
+      <servlet-name>roomServlet</servlet-name>
+      <servlet-class>controllers.roomServlet</servlet-class>
     </servlet>
 
 	<servlet>
@@ -70,22 +58,10 @@
         <servlet-name>registerServlet</servlet-name>
         <url-pattern>/register.html</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>editAccountServlet</servlet-name>
-        <url-pattern>/editaccount.html</url-pattern>
-    </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>createRoomServlet</servlet-name>
-        <url-pattern>/createroom.html</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>editRoomServlet</servlet-name>
-        <url-pattern>/editroom.html</url-pattern>
-    </servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>viewallRoomServlet</servlet-name>
-		<url-pattern>/rooms.html</url-pattern>
+        <servlet-name>roomServlet</servlet-name>
+        <url-pattern>/rooms.html</url-pattern>
     </servlet-mapping>
 
 	<servlet-mapping>
