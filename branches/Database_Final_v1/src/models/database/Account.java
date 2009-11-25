@@ -100,7 +100,7 @@ public class Account {
 					+ "', '"
 					+ inputAccount.lastName
 					+ "', '"
-					+ "customer"
+					+ inputAccount.accountType
 					+ "', '"
 					+ pwmd
 					+ "', '"
