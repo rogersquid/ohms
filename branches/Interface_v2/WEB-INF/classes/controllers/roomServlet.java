@@ -122,12 +122,12 @@ public class roomServlet extends HttpServlet {
 					response.sendRedirect(response.encodeRedirectURL("room.html?action=view&id="+reply.rooms[0].roomID+"&status=add_success"));
 				} else {
 					request.setAttribute("status", "room_failed");
-					request.setAttribute("message", reply.response.responseString);
+					request.setAttribute("message", "Cannot insert into DB. "+reply.response.responseString);
 					getServletContext().getRequestDispatcher("/views/create_room_form.jsp").include(request, response);
 				}
 			} else {
 				request.setAttribute("status", "room_failed");
-				request.setAttribute("message", message.response.responseString);
+				request.setAttribute("message", "Validation failed. " + message.response.responseString);
 				getServletContext().getRequestDispatcher("/views/create_room_form.jsp").include(request, response);
 			}
 		} else {
