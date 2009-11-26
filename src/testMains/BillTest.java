@@ -13,7 +13,7 @@ public class BillTest {
 		//test_deleteBill(0);
 		//test_viewBill(0);
 		//test_viewAllBill(0);
-		test_viewAllBill(2);
+		test_viewAllBill(3);
 		System.out.println("Finish Test Bills \r");
 	}
 
@@ -271,7 +271,7 @@ public class BillTest {
 
 		if(i_num==2){
 			System.out.println("Test ID 3");
-			System.out.println("Description: Success View all Bills with same bookingID");
+			System.out.println("Description: Success View all Bills with same paymentType");
 			
 			//create message
 			Message h_msg= new Message(0, 0, "test");
@@ -285,7 +285,7 @@ public class BillTest {
 			//fill filter value Bill Message
 			h_msg.bills[1].billID = 18;
 			h_msg.bills[1].bookingID = 88;
-			h_msg.bills[1].paymentType = "none";
+			h_msg.bills[1].paymentType = "None";
 			h_msg.bills[1].status = false;
 			
 			Bill Bill = new Bill();
@@ -312,6 +312,51 @@ public class BillTest {
 				System.out.println("\r");
 			}
 		}
+		
+		if(i_num==3){
+			System.out.println("Test ID 3");
+			System.out.println("Description: Success View all Bills with same bookingID");
+			
+			//create message
+			Message h_msg= new Message(0, 0, "test");
+			h_msg.initializeBills(2);
+			//fill filter toggle Bill Message
+			h_msg.bills[0].billID = 0;
+			h_msg.bills[0].bookingID = 1;
+			h_msg.bills[0].paymentType = "None";
+			h_msg.bills[0].status = false;
+			
+			//fill filter value Bill Message
+			h_msg.bills[1].billID = 1;
+			h_msg.bills[1].bookingID = 88;
+			h_msg.bills[1].paymentType = "None";
+			h_msg.bills[1].status = false;
+			
+			Bill Bill = new Bill();
+			h_msg.response = h_msg.bills[0].validateParams();
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
+				h_msg = Bill.getFilteredBill(h_msg);
+			} 
+			
+			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
+				System.out.println("Passed Test ID 3");
+				System.out.println("Input: " + h_msg.bills[0].billID);
+				System.out.println("Output: # of Bills: " + h_msg.bills.length);
+				for (int i = 0; i < h_msg.bills.length; i ++) {
+					test_printBill(h_msg.bills[i]);
+				}
+				
+				System.out.println("\r");
+			}
+			else{
+				System.out.println("Failed Test ID 3");
+				System.out.println("Expected Output:");
+				System.out.println("Expected Change:");
+				System.out.println("Error Message: " + h_msg.response.responseString);
+				System.out.println("\r");
+			}
+		}
+		
 	}
 	
 	private static void test_printBill (BillMessage h_msg){
