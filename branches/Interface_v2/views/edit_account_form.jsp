@@ -13,15 +13,22 @@
 						}
 						if(request.getAttribute("status")=="edit_account_failed") {
 							%>
-							<div class='error'><strong>Edit Account failed:</strong> <%=request.getAttribute("message") %></div>
+							<div class='error'><strong>Edit Account failed. Please fix the errors listed below.</strong><br /> <%=request.getAttribute("message") %></div>
+							<%
+						}
+						if(request.getAttribute("status")=="edit_account_success") {
+							%>
+							<div class='success'><strong>Account updated.</strong></div>
 							<%
 						}
 					%>
 					<form action='' method='post'>
+						<input type='hidden' name='action' value='edit' />
+						<input type='hidden' name='id' value='<%=account.accountID %>' />
 						<table>
 							<tr>
 								<td>E-mail address: </td>
-								<td><input type='text' name='email' value='<%=account.email %>' /></td>
+								<td><%=account.email %></td>
 							</tr>
 							<tr>
 								<td>Password: </td>
@@ -31,8 +38,8 @@
 								<td>Re-type password: </td>
 								<td><input type='password' name='re_password' /></td>
 							</tr>
-						<% 
-							if(Integer.getInt(request.getAttribute("authLevel")) >= 3)
+						<%
+							if((Integer)(request.getAttribute("authLevel")) > 3)
 							{
 							%>
 							<tr>
@@ -45,7 +52,7 @@
 										selected="selected"
 										<%
 									}
-									%> 
+									%>
 									> Customer </option>
 									<option value='maid'
 									<%
@@ -76,34 +83,34 @@
 								</select></td>
 							</tr>
 						<% } %>
-							
+
 							<tr>
 								<td>First name: </td>
-								<td><input type='text' name='firstname' value='<%=account.firstName %>' /></td>
+								<td><input type='text' name='firstName' value='<%=account.firstName %>' /></td>
 							</tr>
 							<tr>
 								<td>Last name: </td>
-								<td><input type='text' name='lastname' value='<%=account.lastName %>' /></td>
+								<td><input type='text' name='lastName' value='<%=account.lastName %>' /></td>
 							</tr>
 							<tr>
 								<td>Gender: </td>
-								<td><input type='radio' name='gender' value='1' 
+								<td><input type='radio' name='gender' value='1'
 								<%
-									if(account.gender == 1) {
+									if(account.gender == true) {
 										%>
 										checked='checked'
 										<%
 									}
-									%> 
-									/>Male &nbsp; 
-									<input type='radio' name='gender' value='0' 
+									%>
+									/>Male &nbsp;
+									<input type='radio' name='gender' value='0'
 									<%
-									if(account.gender == 0) {
+									if(account.gender == false) {
 										%>
 										checked='checked'
 										<%
 									}
-									%> 
+									%>
 									/>Female</td>
 							</tr>
 							<tr>

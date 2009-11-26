@@ -8,7 +8,7 @@
 					<%
 						RoomMessage room = (RoomMessage)request.getAttribute("room");
 					%>
-					<table class='rooms'>
+					<table class='room'>
 						<tr>
 							<th>Room #</th>
 							<td><%=room.roomNumber %></td>
