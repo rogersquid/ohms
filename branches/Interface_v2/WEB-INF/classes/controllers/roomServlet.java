@@ -35,7 +35,7 @@ public class roomServlet extends HttpServlet {
 			//getServletContext().getRequestDispatcher("/views/search_rooms.jsp").include(request, response);
 		} else { // defaults
 			if(authlevel >= 3) {
-				allRooms(request, response);
+				//allRooms(request, response);
 			} else {
 				request.setAttribute("message", "Invalid page");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
