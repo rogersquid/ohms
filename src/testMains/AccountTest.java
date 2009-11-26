@@ -407,7 +407,7 @@ public class AccountTest {
 					Message g_msg = new Message(4,1,"OHMS");
 					g_msg.accounts = new AccountMessage[1];
 					g_msg.accounts[0] = new AccountMessage();
-					g_msg.accounts[0].fill_All(1, "Staff", "Will", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong.edit@gmail.com");
+					g_msg.accounts[0].fill_All(returnMessage.accounts[0].accountID, "Staff", "Will", "Wong", "passwd", true, "6047738298", "123 Fake Street", "wwong.edit@gmail.com");
 					if(g_msg.validate())
 					{
 						Message returnInnerMessage = testAccount.editAccount(g_msg);
