@@ -27,6 +27,10 @@
 								<td>Password: </td>
 								<td><input type='password' name='password' /></td>
 							</tr>
+							<tr>
+								<td>Re-type password: </td>
+								<td><input type='password' name='re_password' /></td>
+							</tr>
 						<% 
 							if(Integer.getInt(request.getAttribute("authLevel")) >= 3)
 							{
@@ -72,10 +76,7 @@
 								</select></td>
 							</tr>
 						<% } %>
-							<tr>
-								<td>Re-type password: </td>
-								<td><input type='password' name='re_password' /></td>
-							</tr>
+							
 							<tr>
 								<td>First name: </td>
 								<td><input type='text' name='firstname' value='<%=account.firstName %>' /></td>
@@ -86,7 +87,24 @@
 							</tr>
 							<tr>
 								<td>Gender: </td>
-								<td><input type='radio' name='gender' value='1' checked='checked' />Male &nbsp; <input type='radio' name='gender' value='0' />Female</td>
+								<td><input type='radio' name='gender' value='1' 
+								<%
+									if(account.gender == 1) {
+										%>
+										checked='checked'
+										<%
+									}
+									%> 
+									/>Male &nbsp; 
+									<input type='radio' name='gender' value='0' 
+									<%
+									if(account.gender == 0) {
+										%>
+										checked='checked'
+										<%
+									}
+									%> 
+									/>Female</td>
 							</tr>
 							<tr>
 								<td>Phone number: </td>
