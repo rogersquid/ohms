@@ -9,8 +9,9 @@ import models.misc.*;
 public class InterfaceHelper {
 	public static HttpServletRequest initialize(HttpServletRequest request, HttpServletResponse response) {
 		int userid = CookieHelper.getAccountID(request);
+		int authlevel;
 		String hotelname = "test";
-		
+
 		Message userMessage = new Message(0, userid, hotelname);
 		Account userAccount = new Account();
 		userMessage.initializeAccounts(1);
@@ -19,16 +20,22 @@ public class InterfaceHelper {
 		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
 			request.setAttribute("logged_in", true);
 			request.setAttribute("userInfo", userInfo.accounts[0]);
+			//authlevel = userInfo.accounts[0].authLevel;
+			authlevel = 3;
 		} else {
 			request.setAttribute("logged_in", false);
+			authlevel = 0;
 		}
-		
-		int authlevel = 3;
-		
+
+		String urlToParse = request.getRequestURI();
+		String[] parsedURL = urlToParse.split("/");
+		String test = parsedURL[1];
+
 		request.setAttribute("userID", userid);
 		request.setAttribute("authLevel", authlevel);
 		request.setAttribute("hotelName", hotelname);
-		
+		request.setAttribute("test", test);
+
 		return request;
 	}
 
