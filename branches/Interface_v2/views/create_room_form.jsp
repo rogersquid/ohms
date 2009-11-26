@@ -99,6 +99,14 @@
 								<th>Kitchen:</th>
 								<td><input type='checkbox' name='kitchen' value='1' /></td>
 							</tr>
+							<tr>
+								<th>Available:</th>
+								<td><input type='checkbox' name='available' value='1' /></td>
+							</tr>
+							<tr>
+								<th>Cleaned:</th>
+								<td><input type='checkbox' name='cleaned' value='1' /></td>
+							</tr>
 						</table>
 						
 						<h3>Accessibility</h3>
