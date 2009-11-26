@@ -38,15 +38,39 @@
 						<table>
 							<tr>
 								<th>Number of single beds:</th>
-								<td><input type='text' name='singleBeds' value='' /></td>
+								<td>
+									<select name='singleBeds'>
+										<option>0</option>
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+									</select>
+								</td>
 							</tr>
 							<tr>
 								<th>Number of queen size beds:</th>
-								<td><input type='text' name='queenBeds' value='' /></td>
+								<td>
+									<select name='queenBeds'>
+										<option>0</option>
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+									</select>
+								</td>
 							</tr>
 							<tr>
 								<th>Number of king size beds:</th>
-								<td><input type='checkbox' name='kingBeds' value='' /></td>
+								<td>
+									<select name='kingBeds'>
+										<option>0</option>
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+									</select>
+								</td>
 							</tr>
 						</table>
 						<h3>Customize room</h3>
@@ -84,8 +108,8 @@
 								<td><input type='checkbox' name='elevator' value='1' /></td>
 							</tr>
 						</table>
-						<input type='hidden' name='action' value='search' />
-						<INPUT type="submit" name="Search" style='margin-left: 50px;'>
+						<br />
+						<input type="submit" value="Add room" />
 					</form>
 				</div>
 <%@ include file="footer.jsp" %>
