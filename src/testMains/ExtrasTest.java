@@ -1,5 +1,9 @@
 package testMains;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import models.database.*;
 import models.messages.*;
 
@@ -12,8 +16,8 @@ public class ExtrasTest {
 		//test_editExtra(0);
 		//test_deleteExtra(0);
 		//test_viewExtra(0);
-		test_viewAllExtra(0);
-		//test_viewAllExtra(2);
+		//test_viewAllExtra(0);
+		test_viewAllExtra(2);
 		System.out.println("Finish Test Extras \r");
 	}
 
@@ -33,9 +37,9 @@ public class ExtrasTest {
 			//fill Extra info:
 			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
 			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
-			h_msg.extras[0].bookingID = 17;
-			h_msg.extras[0].extraName = "Beer";
-			h_msg.extras[0].price = (float)50000;
+			h_msg.extras[0].bookingID = 10;
+			h_msg.extras[0].extraName = "MorningPaper";
+			h_msg.extras[0].price = (float)0;
 			h_msg.extras[0].date = date;
 			h_msg.extras[0].creationTime = creationTime; 
 			h_msg.response = h_msg.extras[0].validateParams();
@@ -197,10 +201,11 @@ public class ExtrasTest {
 	}
 
 	private static void test_viewAllExtra (int i_num){
-		java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
-		java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
+		
 		//=====================View All Tests==========================
 		if(i_num==0){
+			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
 			System.out.println("Test ID 1");
 			System.out.println("Description: Success View All Extra");
 			System.out.println("   Test case depends on success addition of Extra 101");
@@ -235,102 +240,107 @@ public class ExtrasTest {
 
 		if(i_num==1){
 			System.out.println("Test ID 2");
-			System.out.println("Description: Success View all Extra available");
-			
-			//create message
-			Message h_msg= new Message(0, 0, "test");
-			h_msg.initializeExtras(2);
-			//fill filter toggle Extra Message
-			h_msg.extras[0] = new ExtraMessage();
-			h_msg.extras[0].extraID = 2;
-			h_msg.extras[0].bookingID = 3;
-			h_msg.extras[0].extraName = "Beer";
-			h_msg.extras[0].price = 10;
-			h_msg.extras[0].date = date;
-			h_msg.extras[0].creationTime = creationTime;
-			
-			//fill filter value extra Message
-			h_msg.extras[1] = new ExtraMessage();
-			h_msg.extras[1].extraID = 3;
-			h_msg.extras[1].bookingID = 40;
-			h_msg.extras[1].extraName = "Wine";
-			h_msg.extras[1].price = 100;
-			h_msg.extras[1].date = date;
-			h_msg.extras[1].creationTime = creationTime;
-			
-			Extra Extra = new Extra();
-			h_msg.response = h_msg.extras[0].validateParams();
-			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
-				h_msg = Extra.getFilteredExtra(h_msg);
-			} 
-			
-			
-			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
-				System.out.println("Passed Test ID 2");
-				System.out.println("Input: " + h_msg.extras[0].extraID);
-				System.out.println("Output: # of extras: " + h_msg.extras.length);
-				for (int i = 0; i < h_msg.extras.length; i ++) {
-					test_printExtra(h_msg.extras[i]);
-				}
+			System.out.println("Description: Success View all Extras with same extraName");
+			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+			DateFormat df= new SimpleDateFormat("yyyy/mm/dd");
+			try {
+				date = new java.sql.Date(df.parse("2009/01/21").getTime());
+				//create message
+				Message h_msg= new Message(0, 0, "test");
+				h_msg.initializeExtras(2);
+				//fill filter toggle Extra Message
+				h_msg.extras[0].extraID = 0;
+				h_msg.extras[0].bookingID = 0;
+				h_msg.extras[0].extraName = "CHECK";
+				h_msg.extras[0].price = 0;
+				h_msg.extras[0].date = date;
 				
-				System.out.println("\r");
-			}
-			else{
-				System.out.println("Failed Test ID 2");
-				System.out.println("Expected Output:");
-				System.out.println("Expected Change:");
-				System.out.println("Error Message: " + h_msg.response.responseString);
-				System.out.println("\r");
+				//fill filter value extra Message
+				h_msg.extras[1].extraID = 23;
+				h_msg.extras[1].bookingID = 15;
+				h_msg.extras[1].extraName = "Beer";
+				h_msg.extras[1].price = 100;
+				h_msg.extras[1].date = date;
+				
+				Extra Extra = new Extra();
+				h_msg.response = h_msg.extras[0].validateParams();
+				if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
+					h_msg = Extra.getFilteredExtra(h_msg);
+				} 
+				
+				if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
+					System.out.println("Passed Test ID 2");
+					System.out.println("Input: " + h_msg.extras[0].extraID);
+					System.out.println("Output: # of extras: " + h_msg.extras.length);
+					for (int i = 0; i < h_msg.extras.length; i++) {
+						test_printExtra(h_msg.extras[i]);
+					}
+					
+					System.out.println("\r");
+				}
+				else{
+					System.out.println("Failed Test ID 2");
+					System.out.println("Expected Output:");
+					System.out.println("Expected Change:");
+					System.out.println("Error Message: " + h_msg.response.responseString);
+					System.out.println("\r");
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-
+		
 		if(i_num==2){
 			System.out.println("Test ID 3");
-			System.out.println("Description: Success View all extras with same extraName");
-			
-			//create message
-			Message h_msg= new Message(0, 0, "test");
-			h_msg.initializeExtras(2);
-			//fill filter toggle extra Message
-			h_msg.extras[0] = new ExtraMessage();
-			h_msg.extras[0].extraID = 2;
-			h_msg.extras[0].bookingID = 3;
-			h_msg.extras[0].extraName = "Beer";
-			h_msg.extras[0].price = 10;
-			h_msg.extras[0].date = date;
-			h_msg.extras[0].creationTime = creationTime;
-			
-			//fill filter value extra Message
-			h_msg.extras[1] = new ExtraMessage();
-			h_msg.extras[1].extraID = 3;
-			h_msg.extras[1].bookingID = 0;
-			h_msg.extras[1].extraName = "CHECK";
-			h_msg.extras[1].price = 100;
-			h_msg.extras[1].date = date;
-			h_msg.extras[1].creationTime = creationTime;
-			
-			Extra Extra = new Extra();
-			h_msg.response = h_msg.extras[0].validateParams();
-			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
-				h_msg = Extra.getFilteredExtra(h_msg);
-			} 
-			
-			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
-				System.out.println("Passed Test ID 3");
-				System.out.println("Input: " + h_msg.extras[0].extraID);
-				System.out.println("Output: # of extras: " + h_msg.extras.length);
-				for (int i = 0; i < h_msg.extras.length; i ++) {
-					test_printExtra(h_msg.extras[i]);
-				}
+			System.out.println("Description: Success View all Extras with same date");
+			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
+			DateFormat df= new SimpleDateFormat("yyyy/mm/dd");
+			try {
+				date = new java.sql.Date(df.parse("2009/11/22").getTime());
+				//create message
+				Message h_msg= new Message(0, 0, "test");
+				h_msg.initializeExtras(2);
+				//fill filter toggle Extra Message
+				h_msg.extras[0].extraID = 0;
+				h_msg.extras[0].bookingID = 0;
+				h_msg.extras[0].extraName = "none";
+				h_msg.extras[0].price = 0;
+				h_msg.extras[0].date = null;
 				
-				System.out.println("\r");
-			}
-			else{
-				System.out.println("Failed Test ID 3");
-				System.out.println("Expected Output:");
-				System.out.println("Expected Change:");
-				System.out.println("Error Message: " + h_msg.response.responseString);
-				System.out.println("\r");
+				//fill filter value extra Message
+				h_msg.extras[1].extraID = 23;
+				h_msg.extras[1].bookingID = 15;
+				h_msg.extras[1].extraName = "Beer";
+				h_msg.extras[1].price = 10;
+				h_msg.extras[1].date = date;
+				
+				Extra Extra = new Extra();
+				h_msg.response = h_msg.extras[0].validateParams();
+				if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
+					h_msg = Extra.getFilteredExtra(h_msg);
+				} 
+				
+				if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
+					System.out.println("Passed Test ID 2");
+					System.out.println("Input: " + h_msg.extras[0].extraID);
+					System.out.println("Output: # of extras: " + h_msg.extras.length);
+					for (int i = 0; i < h_msg.extras.length; i++) {
+						test_printExtra(h_msg.extras[i]);
+					}
+					
+					System.out.println("\r");
+				}
+				else{
+					System.out.println("Failed Test ID 2");
+					System.out.println("Expected Output:");
+					System.out.println("Expected Change:");
+					System.out.println("Error Message: " + h_msg.response.responseString);
+					System.out.println("\r");
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
