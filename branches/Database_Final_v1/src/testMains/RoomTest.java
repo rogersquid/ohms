@@ -2,7 +2,10 @@ package testMains;
 
 import models.database.*;
 import models.messages.*;
-
+import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class RoomTest {
 	public static void main(String [ ] args){
@@ -822,6 +825,87 @@ public class RoomTest {
 			}
 		}
 		
+		
+		
+		if(i_num==3){
+			System.out.println("Test ID 4");
+			System.out.println("Description: Success View all Single Room in specified date");
+			
+			//create message
+			Message h_msg= new Message(0, 0, "test");
+			DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
+			h_msg.initializeRooms(2);
+			h_msg.initializeBookings(1);
+			//fill filter toggle Room Message
+			 
+			h_msg.rooms[0].roomNumber = 0;
+			h_msg.rooms[0].floor = 0;
+			h_msg.rooms[0].roomType = "CHECK";
+			h_msg.rooms[0].price = 0;
+			h_msg.rooms[0].onsuite = false;
+			h_msg.rooms[0].tv = false;
+			h_msg.rooms[0].disabilityAccess = false; 
+			h_msg.rooms[0].elevator = false;
+			h_msg.rooms[0].available = false;
+			h_msg.rooms[0].phone = false;
+			h_msg.rooms[0].internet = false;
+			h_msg.rooms[0].kitchen = false;
+			h_msg.rooms[0].cleaned = false;
+			h_msg.rooms[0].singleBeds = 0;
+			h_msg.rooms[0].queenBeds = 0;
+			h_msg.rooms[0].kingBeds = 0;
+			
+			//fill filter value Room Message
+			h_msg.rooms[1] = new RoomMessage();
+			h_msg.rooms[1].roomNumber = 0;
+			h_msg.rooms[1].floor = 100;
+			h_msg.rooms[1].roomType = "SINGLE";
+			h_msg.rooms[1].price = (float)299.99;
+			h_msg.rooms[1].onsuite = true;
+			h_msg.rooms[1].tv = true;
+			h_msg.rooms[1].disabilityAccess = true; 
+			h_msg.rooms[1].elevator = true;
+			h_msg.rooms[1].available = true;
+			h_msg.rooms[1].phone = true;
+			h_msg.rooms[1].internet = true;
+			h_msg.rooms[1].kitchen = true;
+			h_msg.rooms[1].cleaned = true;
+			h_msg.rooms[1].singleBeds = 0;
+			h_msg.rooms[1].queenBeds = 1;
+			h_msg.rooms[1].kingBeds = 0;
+			
+			try {
+				h_msg.bookings[0].startDate =  new java.sql.Date(df.parse("20/11/2009").getTime());
+				h_msg.bookings[0].endDate = new java.sql.Date(df.parse("25/11/2009").getTime());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+			
+			Room room = new Room();
+			h_msg.response = h_msg.rooms[0].validateParams(h_msg);
+			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
+				h_msg = room.getFilteredRooms(h_msg);
+			} 
+			
+			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
+				System.out.println("Passed Test ID 3");
+				System.out.println("Input: " + h_msg.rooms[0].roomNumber);
+				System.out.println("Output: # of Rooms: " + h_msg.rooms.length);
+				for (int i = 0; i < h_msg.rooms.length; i ++) {
+					test_printRoom(h_msg.rooms[i]);
+				}
+				
+				System.out.println("\r");
+			}
+			else{
+				System.out.println("Failed Test ID 3");
+				System.out.println("Expected Output:");
+				System.out.println("Expected Change:");
+				System.out.println("Error Message: " + h_msg.response.responseString);
+				System.out.println("\r");
+			}
+		}
 	}
 	
 	private static void test_printRoom (RoomMessage h_msg){

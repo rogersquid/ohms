@@ -247,7 +247,7 @@ public class Room {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all rooms
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = " + i_msg.rooms[0].roomID);
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
 			while (rs.next()) {
 				replyMessage.rooms[0].roomID = rs.getInt("roomID");
 				replyMessage.rooms[0].roomNumber = rs.getInt("roomNumber");
@@ -289,8 +289,9 @@ public class Room {
 	public Message getFilteredRooms(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		replyMessage.rooms=i_msg.rooms;
-
+		replyMessage.rooms = i_msg.rooms;
+		replyMessage.bookings = i_msg.bookings;
+		
 		try {
 			// create connection
 			dbcon = new databaseHelper();
@@ -378,7 +379,19 @@ public class Room {
 				queryString = queryString + "kingBeds=" + i_msg.rooms[1].kingBeds;
 				nonFirst = true;
 			}
-
+			
+			if (i_msg.bookings != null) {
+				if(i_msg.bookings[0].startDate!=null && i_msg.bookings[0].endDate!=null) {
+					queryString = queryString + " AND roomID NOT IN ( SELECT roomID FROM " 
+						+ i_msg.header.nameHotel + "_bookings WHERE " +
+						"(endDate > '" + i_msg.bookings[0].endDate + "' AND startDate < '" + i_msg.bookings[0].endDate + "') OR " +
+						"(endDate > '" + i_msg.bookings[0].startDate + "' AND startDate < '" + i_msg.bookings[0].startDate + "') OR " +
+						"(endDate < '" + i_msg.bookings[0].endDate + "' AND startDate > '" + i_msg.bookings[0].startDate + "'))";
+				}
+			}
+			
+			System.out.println(queryString);
+			
 			// query the database for all rooms
 			ResultSet rs = dbcon.select(queryString);
 			if (!rs.next()) {
