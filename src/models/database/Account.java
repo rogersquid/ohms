@@ -101,7 +101,7 @@ public class Account {
 			userAuthLevel = 3;
 		if (inputAccount.accountType.compareToIgnoreCase("admin") == 0)
 			userAuthLevel = 4;
-		
+
 		databaseHelper dbcon = null;
 		try {
 			dbcon = new databaseHelper();
@@ -175,47 +175,56 @@ public class Account {
 		}
 		// Decode the user's authorization level
 		int userAuthLevel = 0;
-		if (inputAccount.accountType.compareToIgnoreCase("customer") == 0)
-			userAuthLevel = 1;
-		if (inputAccount.accountType.compareToIgnoreCase("maid") == 0)
-			userAuthLevel = 2;
-		if (inputAccount.accountType.compareToIgnoreCase("staff") == 0)
-			userAuthLevel = 3;
-		if (inputAccount.accountType.compareToIgnoreCase("admin") == 0)
-			userAuthLevel = 4;
-		
+		if(inputAccount.accountType != null) {
+			if (inputAccount.accountType.compareToIgnoreCase("customer") == 0)
+				userAuthLevel = 1;
+			if (inputAccount.accountType.compareToIgnoreCase("maid") == 0)
+				userAuthLevel = 2;
+			if (inputAccount.accountType.compareToIgnoreCase("staff") == 0)
+				userAuthLevel = 3;
+			if (inputAccount.accountType.compareToIgnoreCase("admin") == 0)
+				userAuthLevel = 4;
+		}
+
 		databaseHelper dbcon = null;
 		try {
 			dbcon = new databaseHelper();
-			
+
 			String updateStmt = "";
-			
+
 			updateStmt = updateStmt.concat("gender='" + genderInt);
-			updateStmt = updateStmt.concat("', authLevel='" + userAuthLevel);
-			if(!inputAccount.firstName.isEmpty())
+			if(userAuthLevel > 0)
+			{
+				updateStmt = updateStmt.concat("', authLevel='" + userAuthLevel);
+			}
+			if(inputAccount.accountType != null && !inputAccount.accountType.isEmpty())
+			{
+				updateStmt = updateStmt.concat("', accountType='" + inputAccount.accountType);
+			}
+			if(inputAccount.firstName != null && !inputAccount.firstName.isEmpty())
 			{
 				updateStmt = updateStmt.concat("', firstName='" + inputAccount.firstName);
 			}
-			if(!inputAccount.lastName.isEmpty())
+			if(inputAccount.lastName != null && !inputAccount.lastName.isEmpty())
 			{
 				updateStmt = updateStmt.concat("', lastName='" + inputAccount.lastName);
 			}
-			if(!inputAccount.password.isEmpty())
+			if(inputAccount.password != null && !inputAccount.password.isEmpty())
 			{
 				updateStmt = updateStmt.concat("', password='" + inputAccount.password);
 			}
-			if(!inputAccount.phone.isEmpty())
+			if(inputAccount.phone != null && !inputAccount.phone.isEmpty())
 			{
 				updateStmt = updateStmt.concat("', phone='" + inputAccount.phone);
 			}
-			if(!inputAccount.address.isEmpty())
+			if(inputAccount.address != null && !inputAccount.address.isEmpty())
 			{
 				updateStmt = updateStmt.concat("', address='" + inputAccount.address);
 			}
 			updateStmt = updateStmt.concat("' ");
-			
+
 			int returnedRows = dbcon.modify("UPDATE accounts SET " + updateStmt + "WHERE accountID=" + inputAccount.accountID);
-			
+
 			if (returnedRows == 1) {
 				response.fillResponse(ResponseCode.SUCCESS,
 						"Updated One Account as Requested."
@@ -233,10 +242,12 @@ public class Account {
 		} catch (SQLException e) {
 			System.err
 			.println("Error in 'Add_Account'.  SQLException was thrown:");
+			response.fillResponse(ResponseCode.FAIL, "Update Failed. SQLException.");
 			e.printStackTrace(System.err);
 		} catch (ClassNotFoundException e) {
 			System.err
 			.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
+			response.fillResponse(ResponseCode.FAIL, "Update Failed. ClassNotFoundException.");
 			e.printStackTrace(System.err);
 		} finally {
 			if (dbcon != null) {
@@ -370,15 +381,15 @@ public class Account {
 			if (returnedSet.next())
 			{
 				int r_account_id = returnedSet.getInt("accountID");
-				String r_account_type = returnedSet.getString("accountType"); 
-				String r_first_name = returnedSet.getString("firstName");  
-				String r_surname = returnedSet.getString("lastName");  
-				boolean r_gender = returnedSet.getBoolean("gender");  
-				String r_phone = returnedSet.getString("phone"); ; 
-				String r_mail = returnedSet.getString("email"); 
-				String r_add = returnedSet.getString("address"); 
-				Timestamp r_date = returnedSet.getTimestamp("creationTime"); 
-				
+				String r_account_type = returnedSet.getString("accountType");
+				String r_first_name = returnedSet.getString("firstName");
+				String r_surname = returnedSet.getString("lastName");
+				boolean r_gender = returnedSet.getBoolean("gender");
+				String r_phone = returnedSet.getString("phone"); ;
+				String r_mail = returnedSet.getString("email");
+				String r_add = returnedSet.getString("address");
+				Timestamp r_date = returnedSet.getTimestamp("creationTime");
+
 
 				accountInfo.fill_All(r_account_id, r_account_type, r_first_name, r_surname, "", r_gender, r_phone, r_add, r_mail);
 				accountInfo.creationTime = r_date;
@@ -427,10 +438,10 @@ public class Account {
 	{
 		databaseHelper dbcon = null;
 		int authLevel = 0;
-		try 
+		try
 		{
 			dbcon = new databaseHelper();
-			
+
 			String queryString = "SELECT authLevel, password FROM accounts WHERE accountID=" + i_accountID;
 			ResultSet rs = dbcon.select(queryString);
 			if (rs.next())
@@ -455,21 +466,21 @@ public class Account {
 		finally {
 			if (dbcon != null) dbcon.close();
 		}
-		
+
 		return authLevel;
 	}
-	
+
 	public Message getFilteredAccount(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message reply = new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		ResponseMessage response = new ResponseMessage();
-		
+
 		try {
 			// create connection
 			dbcon = new databaseHelper();
-			
+
 			String queryString = "SELECT * FROM accounts WHERE ";
-			
+
 			// Prepare the query string based on what was in the message
 			boolean nonFirst = false;
 			if (i_msg.accounts[0].accountID != 0) {
@@ -506,7 +517,7 @@ public class Account {
 				queryString = queryString + "address='" + i_msg.accounts[0].address + "'";
 				nonFirst = true;
 			}
-			
+
 			// query the database for all rooms
 			ResultSet rs = dbcon.select(queryString);
 			if (!rs.next()) {
@@ -521,20 +532,20 @@ public class Account {
 				}
 				rs.beforeFirst();
 				reply.accounts = new AccountMessage[i];
-				
+
 				i = 0;
-				
+
 				while (rs.next()) {
 					reply.accounts[i] = new AccountMessage();
 					reply.accounts[i].accountID = rs.getInt("accountID");
-					reply.accounts[i].accountType = rs.getString("accountType"); 
-					reply.accounts[i].firstName = rs.getString("firstName");  
-					reply.accounts[i].lastName = rs.getString("lastName");  
-					reply.accounts[i].gender = rs.getBoolean("gender");  
-					reply.accounts[i].phone = rs.getString("phone"); ; 
-					reply.accounts[i].email = rs.getString("email"); 
+					reply.accounts[i].accountType = rs.getString("accountType");
+					reply.accounts[i].firstName = rs.getString("firstName");
+					reply.accounts[i].lastName = rs.getString("lastName");
+					reply.accounts[i].gender = rs.getBoolean("gender");
+					reply.accounts[i].phone = rs.getString("phone"); ;
+					reply.accounts[i].email = rs.getString("email");
 					reply.accounts[i].address = rs.getString("address");
-					reply.accounts[i].creationTime = rs.getTimestamp("creationTime"); 
+					reply.accounts[i].creationTime = rs.getTimestamp("creationTime");
 					i++;
 				}
 				response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
@@ -555,7 +566,7 @@ public class Account {
 			if (dbcon != null) dbcon.close();
 		}
 		reply.response = response;
-		
+
 		return reply;
 	}
 }

@@ -153,9 +153,10 @@ public class AccountMessage{
 
 		return response;
 	}
-	
+
 	public ResponseMessage validateEditParams(){
 		ResponseMessage response = new ResponseMessage();
+			response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 		response.responseString = "";
 		Matcher m;
 		// Verify accountType
@@ -173,7 +174,7 @@ public class AccountMessage{
 
 
 		// Verify password
-		
+
 		if(password!=null && !password.isEmpty())
 		{
 			Pattern validPwd = Pattern.compile("[\\da-zA-Z-!@#\\$%\\^&\\*\\?,\\.\\|;:]+");
@@ -191,7 +192,7 @@ public class AccountMessage{
 		}
 
 		// Verify First Name
-		
+
 		if(firstName!=null && !firstName.isEmpty()){
 			Pattern validName = Pattern.compile("[a-zA-Z-]+");
 			m = validName.matcher(firstName);
@@ -202,7 +203,7 @@ public class AccountMessage{
 		}
 
 		// Verify Last Name
-		
+
 		if(lastName!=null && !lastName.isEmpty()){
 			Pattern validName = Pattern.compile("[a-zA-Z-]+");
 			m = validName.matcher(lastName);
@@ -213,7 +214,7 @@ public class AccountMessage{
 		}
 
 		// Verify Phone
-		
+
 		if(phone!=null && !phone.isEmpty()){
 			Pattern validPhone = Pattern.compile("\\+?[\\d-\\s]+");
 			m = validPhone.matcher(phone);

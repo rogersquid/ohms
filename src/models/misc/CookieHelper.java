@@ -22,7 +22,7 @@ public class CookieHelper {
 			return 0;
 		}
 	}
-	
+
 	public static String getMD5Password(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
@@ -38,14 +38,14 @@ public class CookieHelper {
 			return "";
 		}
 	}
-	
+
 	public static Cookie getAccountCookie(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			// Print a list of all cookies sent by browser
 			for (int i =0; i< cookies.length; i++) {
 				Cookie c = cookies[i];
-				if(c.getName().equals("accountID")) {
+				if(c.getName().equals("ohms_accountID")) {
 					return c;
 				}
 			}
