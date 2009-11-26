@@ -189,8 +189,6 @@ public class Extra {
 			int numRows = rs.getRow();
 			
 			replyMessage.initializeExtras(numRows);
-			replyMessage.initializeAccounts(numRows);
-			replyMessage.initializeRooms(numRows);
 			rs.beforeFirst();
 			
 			if (!rs.next()) {
@@ -206,11 +204,6 @@ public class Extra {
 					replyMessage.extras[i].price = rs.getFloat("price");
 					replyMessage.extras[i].date = rs.getDate("date");
 					replyMessage.extras[i].creationTime = rs.getTimestamp("creationTime");
-					replyMessage.rooms[i].roomID = rs.getInt("roomID");
-					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
-					replyMessage.accounts[i].accountID = rs.getInt("accountID");
-					replyMessage.accounts[i].firstName = rs.getString("firstName");
-					replyMessage.accounts[i].lastName = rs.getString("lastName");
 					i++;
 				}
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
@@ -246,11 +239,11 @@ public class Extra {
 
 			//first ExtraMessage holds the filter toggles, and the second message hold the filter values
 			boolean nonFirst = false;
-			if (i_msg.extras[0].extraID != 0) {
+			if (i_msg.extras[0].extraID == 0) {
 				queryString = queryString + "billID=" + i_msg.extras[1].extraID;
 				nonFirst = true;
 			}
-			if (i_msg.extras[0].bookingID != 0) {
+			if (i_msg.extras[0].bookingID == 0) {
 				if (nonFirst) queryString = queryString + " AND ";
 				queryString = queryString + "bookingID=" + i_msg.extras[1].bookingID;
 				nonFirst = true;
@@ -260,14 +253,14 @@ public class Extra {
 				queryString = queryString + "extraName='" + i_msg.extras[1].extraName + "'";
 				nonFirst = true;
 			}
-			if (i_msg.extras[0].price!=0){
+			if (i_msg.extras[0].price==0){
 				if (nonFirst) queryString = queryString + " AND ";
 				queryString = queryString + "price=" + i_msg.extras[1].price;
 				nonFirst = true;
 			}
-			if (i_msg.extras[0].date== null){
+			if (i_msg.extras[0].date==null){
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "date=" + i_msg.extras[1].date;
+				queryString = queryString + "date='" + i_msg.extras[1].date+ "'";
 				nonFirst = true;
 			}
 
