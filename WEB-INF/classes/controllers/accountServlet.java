@@ -139,17 +139,34 @@ public class accountServlet extends HttpServlet {
 		Account account = new Account();
 		if(authlevel >= 3 || message.accounts[0].accountID==userid) 
 		{	
-			Message reply = account.editAccount(message);
-			
-			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) 
+			if(message.accounts.validateEditParams())
 			{
-				request.setAttribute("account", reply.accounts[0]);
-				request.setAttribute("status", "edit_account_success");
-				getServletContext().getRequestDispatcher("/views/edit_account_success.jsp").include(request, response);
+				if(message.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+
+					Message reply = account.editAccount(message);
+
+					if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) 
+					{
+						request.setAttribute("account", reply.accounts[0]);
+						request.setAttribute("status", "edit_account_success");
+						getServletContext().getRequestDispatcher("/views/edit_account_success.jsp").include(request, response);
+					}
+					else 
+					{
+						request.setAttribute("message", reply.response.responseString);
+						getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+					}
+				}
+				else 
+				{
+					request.setAttribute("status", "edit_failed");
+					request.setAttribute("message", message.response.responseString);
+					getServletContext().getRequestDispatcher("/views/edit_account_form.jsp").include(request, response);
+				}
 			}
 			else 
 			{
-				request.setAttribute("message", reply.response.responseString);
+				request.setAttribute("message", "Message validation failed, all message objects are null.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 			}
 		}
@@ -157,7 +174,7 @@ public class accountServlet extends HttpServlet {
 		{
 			request.setAttribute("message", "You are not authorized to edit this account.");
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-		} 
+		}
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
