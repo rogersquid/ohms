@@ -1,75 +1,102 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-strict.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs"> 
-	<head> 
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-		<title>OHMS &raquo; Edit Account</title>
-		<link rel='stylesheet' type='text/css' href='/ohms/ohms.css' />
-	</head> 
-	<body>
-		<div id='wrapper'>
-			<div id='header'>
-				<!-- <a href='' id='header-image'></a> -->
-			</div>
-			<div id='main-nav'>
-				<ul>
-					<li><a href=''>Home</a></li>
-					<li><a href=''>Login</a></li>
-					<li><a href=''>Room availability</a></li>
-					<li><a href=''>Etc</a></li>
-				</ul>
-			</div>
-			<div id='content-wrapper'>
-				<div id='left-nav'>
-					<ul>
-						<li><a href='login.html'>Login</a></li>
-						<li><a href='register.html'>Register</a></li>
-						<li class='current'>Edit Account</li>
-						<li><a href='password.html'>Forgot password</a></li>
-						<li><a href='createroom.html'>Create Room</a></li>
-						<li><a href='editroom.html'>Edit Rooms</a></li>
-						<li><a href='deleteroom.html'>Delete Rooms</a></li>
-					</ul>
-				</div>
+<%@ page import="models.database.*" %>
+<%@ page import="models.messages.*" %>
+<%@ include file="header.jsp" %>
+<%@ include file="left_nav.jsp" %>
 				<div id='content'>
 					<div id='title'>Edit Account</div>
 					<%
+						AccountMessage account = (AccountMessage)request.getAttribute("account");
+						if(account==null) {
+							%>
+							<div class='error'><strong>Edit Account failed:</strong> No account data</div>
+							<%
+						}
 						if(request.getAttribute("status")=="edit_account_failed") {
 							%>
-							<div class='error'>Attempt to edit the account failed.</div>
+							<div class='error'><strong>Edit Account failed:</strong> <%=request.getAttribute("message") %></div>
 							<%
 						}
 					%>
 					<form action='' method='post'>
 						<table>
 							<tr>
-								<td>Username: </td>
-								<td><input type='text' name='username' /></td>
+								<td>E-mail address: </td>
+								<td><input type='text' name='email' value='<%=account.email %>' /></td>
 							</tr>
 							<tr>
 								<td>Password: </td>
 								<td><input type='password' name='password' /></td>
 							</tr>
+						<% 
+							if(Integer.getInt(request.getAttribute("authLevel")) >= 3)
+							{
+							%>
+							<tr>
+								<td>Account Type: </td>
+								<td><select name='accountType' >
+									<option value='customer'
+									<%
+									if(account.accountType.compareToIgnoreCase("customer") == 0) {
+										%>
+										selected="selected"
+										<%
+									}
+									%> 
+									> Customer </option>
+									<option value='maid'
+									<%
+									if(account.accountType.compareToIgnoreCase("maid") == 0) {
+										%>
+										selected="selected"
+										<%
+									}
+									%>
+									> Maid </option>
+									<option value='staff'
+									<%
+									if(account.accountType.compareToIgnoreCase("staff") == 0) {
+										%>
+										selected="selected"
+										<%
+									}
+									%>> Staff </option>
+									<option value='admin'
+									<%
+									if(account.accountType.compareToIgnoreCase("admin") == 0) {
+										%>
+										selected="selected"
+										<%
+									}
+									%>
+									> Admin </option>
+								</select></td>
+							</tr>
+						<% } %>
+							<tr>
+								<td>Re-type password: </td>
+								<td><input type='password' name='re_password' /></td>
+							</tr>
 							<tr>
 								<td>First name: </td>
-								<td><input type='text' name='firstname' /></td>
+								<td><input type='text' name='firstname' value='<%=account.firstName %>' /></td>
 							</tr>
 							<tr>
 								<td>Last name: </td>
-								<td><input type='text' name='lastname' /></td>
+								<td><input type='text' name='lastname' value='<%=account.lastName %>' /></td>
 							</tr>
 							<tr>
-								<td>E-mail address: </td>
-								<td><input type='text' name='email' /></td>
+								<td>Gender: </td>
+								<td><input type='radio' name='gender' value='1' checked='checked' />Male &nbsp; <input type='radio' name='gender' value='0' />Female</td>
 							</tr>
 							<tr>
 								<td>Phone number: </td>
-								<td><input type='text' name='phone' /></td>
+								<td><input type='text' name='phone' value='<%=account.phone %>' /></td>
 							</tr>
 							<tr>
 								<td>Address: </td>
-								<td><textarea name='address'></textarea></td>
+								<td><textarea name='address'><%=account.address %></textarea></td>
 							</tr>
-							
+
 							<tr>
 								<td></td>
 								<td><input type='submit' value='Continue' /></td>
@@ -77,11 +104,4 @@
 						</table>
 					</form>
 				</div>
-				<div class='clear'><!-- --></div>
-			</div>
-			<div id='footer'>
-				Online Hotel Management Service &copy; 2009<br /> by 419 Software
-			</div>
-		</div>
-	</body>
-</html>
+<%@ include file="footer.jsp" %>
