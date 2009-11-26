@@ -51,7 +51,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>testServlet</servlet-name>
-        <url-pattern>/test.html</url-pattern>
+        <url-pattern>/hotel/test.html</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -75,5 +75,8 @@
 	<servlet-mapping>
 		<servlet-name>bookingServlet</servlet-name>
 		<url-pattern>/bookings.html</url-pattern>
+	</servlet-mapping><servlet-mapping>
+		<servlet-name>bookingServlet</servlet-name>
+		<url-pattern>/*/bookings.html</url-pattern>
     </servlet-mapping>
 </web-app>
