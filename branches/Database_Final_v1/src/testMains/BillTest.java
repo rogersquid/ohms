@@ -34,7 +34,7 @@ public class BillTest {
 			h_msg.bills[0].billID = 1;
 			h_msg.bills[0].bookingID = 88;
 			h_msg.bills[0].paymentType = "none";
-			h_msg.bills[0].status = false;
+			h_msg.bills[0].status = true;
 			h_msg.response = h_msg.bills[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				Bill Bill = new Bill();
@@ -67,9 +67,9 @@ public class BillTest {
 			h_msg.initializeBills(1);
 			h_msg.bills[0] = new BillMessage();
 			//fill Bill info:
-			h_msg.bills[0].billID = 4;
+			h_msg.bills[0].billID = 8;
 			h_msg.bills[0].bookingID = 88;
-			h_msg.bills[0].paymentType = "Cash";
+			h_msg.bills[0].paymentType = "CreditCard";
 			h_msg.bills[0].status = true;
 			
 			Bill Bill = new Bill();
@@ -198,10 +198,6 @@ public class BillTest {
 			h_msg.bills[0] = new BillMessage();
 			//fill Bill info:
 			h_msg.bills[0].fillAll(1, 3, "Cash", false);
-			h_msg.bills[0].billID = 3;
-			h_msg.bills[0].bookingID = 13;
-			h_msg.bills[0].paymentType = "Beer";
-			h_msg.bills[0].status = false;
 			Bill Bill = new Bill();
 			h_msg = Bill.getAllBill(h_msg);
 			h_msg.response = h_msg.bills[0].validateParams();
@@ -223,7 +219,7 @@ public class BillTest {
 				System.out.println("\r");
 			}
 		}
-
+/*
 		if(i_num==1){
 			System.out.println("Test ID 2");
 			System.out.println("Description: Success View all Bill available");
@@ -268,7 +264,7 @@ public class BillTest {
 				System.out.println("\r");
 			}
 		}
-
+*/
 		if(i_num==2){
 			System.out.println("Test ID 3");
 			System.out.println("Description: Success View all Bills with same paymentType");

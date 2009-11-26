@@ -62,7 +62,7 @@ public class Bill {
 			dbcon = new databaseHelper();
 			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE billID = " + i_msg.bills[0].billID);
 			rs.next();
-			int returnedRows = dbcon.modify("UPDATE test_bills SET bookingID='"
+			int returnedRows = dbcon.modify("UPDATE " + i_msg.header.nameHotel + "_bills SET bookingID='"
 					+ i_msg.bills[0].bookingID 
 					+ "', paymentType='" + i_msg.bills[0].paymentType 
 					+ "', status='" +((i_msg.bills[0].status)?1:0) + "' "
