@@ -91,11 +91,22 @@ public class Account {
 		} else {
 			genderInt = 0;
 		}
+		// Decode the user's authorization level
+		int userAuthLevel = 0;
+		if (inputAccount.accountType.compareToIgnoreCase("customer") == 0)
+			userAuthLevel = 1;
+		if (inputAccount.accountType.compareToIgnoreCase("maid") == 0)
+			userAuthLevel = 2;
+		if (inputAccount.accountType.compareToIgnoreCase("staff") == 0)
+			userAuthLevel = 3;
+		if (inputAccount.accountType.compareToIgnoreCase("admin") == 0)
+			userAuthLevel = 4;
+		
 		databaseHelper dbcon = null;
 		try {
 			dbcon = new databaseHelper();
 			int returnedID = dbcon
-			.insert("INSERT INTO accounts (firstName, lastName, accountType, password, gender, phone, email, address) VALUES ('"
+			.insert("INSERT INTO accounts (firstName, lastName, accountType, password, gender, phone, email, address, authLevel) VALUES ('"
 					+ inputAccount.firstName
 					+ "', '"
 					+ inputAccount.lastName
@@ -111,6 +122,8 @@ public class Account {
 					+ inputAccount.email
 					+ "', '"
 					+ inputAccount.address
+					+ "', '"
+					+ userAuthLevel
 					+ "')");
 			if (returnedID <= 0) {
 				// If returnedID is 0, then
@@ -160,6 +173,17 @@ public class Account {
 		} else {
 			genderInt = 0;
 		}
+		// Decode the user's authorization level
+		int userAuthLevel = 0;
+		if (inputAccount.accountType.compareToIgnoreCase("customer") == 0)
+			userAuthLevel = 1;
+		if (inputAccount.accountType.compareToIgnoreCase("maid") == 0)
+			userAuthLevel = 2;
+		if (inputAccount.accountType.compareToIgnoreCase("staff") == 0)
+			userAuthLevel = 3;
+		if (inputAccount.accountType.compareToIgnoreCase("admin") == 0)
+			userAuthLevel = 4;
+		
 		databaseHelper dbcon = null;
 		try {
 			dbcon = new databaseHelper();
@@ -169,6 +193,7 @@ public class Account {
 					+ inputAccount.lastName + "', gender='" + genderInt
 					+ "', phone='" + inputAccount.phone + "', email='"
 					+ inputAccount.email + "', address='" + inputAccount.address
+					+ "', authLevel='" + userAuthLevel
 					+ "' " + "WHERE accountID='" + inputAccount.accountID
 					+ "'");
 			if (returnedRows == 1) {
@@ -378,6 +403,42 @@ public class Account {
 		return reply;
 	}
 
+	public int getAuthLevel(int i_accountID, String i_md5)
+	{
+		databaseHelper dbcon = null;
+		int authLevel = 0;
+		try 
+		{
+			dbcon = new databaseHelper();
+			
+			String queryString = "SELECT authLevel, password FROM accounts WHERE accountID=" + i_accountID;
+			ResultSet rs = dbcon.select(queryString);
+			if (rs.next())
+			{
+				// Get the database's password string for this accountID
+				String dbMD5 = rs.getString("password");
+				// Compare to the password string passed by parameter
+				if(dbMD5.compareTo(i_md5) == 0)
+				{
+					// Password is good
+					authLevel = rs.getInt("authLevel");
+				}
+				// else, password is bad, so leave the default authLevel = 0
+			}
+		}catch (SQLException e) {
+			System.err.println("Error in 'getAuthLevel'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'getAuthLevel'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+		}
+		finally {
+			if (dbcon != null) dbcon.close();
+		}
+		
+		return authLevel;
+	}
+	
 	public Message getFilteredAccount(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message reply = new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -387,7 +448,7 @@ public class Account {
 			// create connection
 			dbcon = new databaseHelper();
 			
-			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE ";
+			String queryString = "SELECT * FROM accounts WHERE ";
 			
 			// Prepare the query string based on what was in the message
 			boolean nonFirst = false;
