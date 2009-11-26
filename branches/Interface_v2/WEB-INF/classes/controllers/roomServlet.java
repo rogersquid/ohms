@@ -101,7 +101,7 @@ public class roomServlet extends HttpServlet {
 		message.rooms[0].queenBeds = Integer.parseInt(request.getParameter("queenBeds"));
 		message.rooms[0].kingBeds = Integer.parseInt(request.getParameter("kingBeds"));
 		message.rooms[0].tv = (request.getParameter("tv")!=null && request.getParameter("tv").equals("1")) ? true : false;
-		message.rooms[0].available = (request.getParameter("tv")!=null && request.getParameter("available").equals("1")) ? true : false;
+		message.rooms[0].available = (request.getParameter("available")!=null && request.getParameter("available").equals("1")) ? true : false;
 		message.rooms[0].cleaned = (request.getParameter("cleaned")!=null && request.getParameter("cleaned").equals("1")) ? true : false;
 		message.rooms[0].disabilityAccess = (request.getParameter("disabilityAccess")!=null && request.getParameter("disabilityAccess").equals("1")) ? true : false;
 		message.rooms[0].phone = (request.getParameter("phone")!=null && request.getParameter("phone").equals("1")) ? true : false;
@@ -123,12 +123,12 @@ public class roomServlet extends HttpServlet {
 				} else {
 					request.setAttribute("status", "room_failed");
 					request.setAttribute("message", reply.response.responseString);
-					getServletContext().getRequestDispatcher("/views/room_form.jsp").include(request, response);
+					getServletContext().getRequestDispatcher("/views/create_room_form.jsp").include(request, response);
 				}
 			} else {
 				request.setAttribute("status", "room_failed");
 				request.setAttribute("message", message.response.responseString);
-				getServletContext().getRequestDispatcher("/views/room_form.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/create_room_form.jsp").include(request, response);
 			}
 		} else {
 			request.setAttribute("message", "Message validation failed, all message objects are null.");
