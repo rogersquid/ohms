@@ -99,7 +99,7 @@ public class roomServlet extends HttpServlet {
 		message.rooms[0].price = Float.parseFloat(request.getParameter("price"));
 		message.rooms[0].available = (request.getParameter("available").equals("1")) ? true : false;
 		message.rooms[0].cleaned = (request.getParameter("cleaned").equals("1")) ? true : false;
-		message.rooms[0].floor = request.getParameter("floor");
+		message.rooms[0].floor = Integer.parseInt(request.getParameter("floor"));
 		message.rooms[0].tv = (request.getParameter("tv").equals("1")) ? true : false;
 		message.rooms[0].singleBeds = Integer.parseInt(request.getParameter("singleBeds"));
 		message.rooms[0].queenBeds = Integer.parseInt(request.getParameter("queenBeds"));
@@ -120,7 +120,7 @@ public class roomServlet extends HttpServlet {
 
 				if(reply.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 					//viewRoom(request, response);
-					response.sendRedirect(response.encodeRedirectURL("room.html?action=all_rooms&id="+accountID+"&status=add_success"));
+					response.sendRedirect(response.encodeRedirectURL("room.html?action=all_rooms&status=add_success"));
 				} else {
 					request.setAttribute("status", "room_failed");
 					request.setAttribute("message", reply.response.responseString);
