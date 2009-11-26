@@ -13,6 +13,11 @@
 							<div class='error'><strong>Add room failed:</strong> <%=request.getAttribute("message") %></div>
 							<%
 						}
+						if(request.getAttribute("status")=="add_success") {
+							%>
+							<div class='success'><strong>Room successfully added.</strong> </div>
+							<%
+						}
 						%>
 						<h3>Room information</h3>
 						<table>
