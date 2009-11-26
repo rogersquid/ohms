@@ -241,20 +241,32 @@ public class Bill {
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.bills=i_msg.bills;
+
 		try {
 			// create connection
 			dbcon = new databaseHelper();
 
 			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE ";
 
+			//first RoomMessage holds the filter toggles, and the second message hold the filter values
 			boolean nonFirst = false;
-			if (i_msg.bills[0].status) {
-				queryString = queryString + "status='" + i_msg.bills[0].status + "'";
+			if (i_msg.bills[0].billID != 0) {
+				queryString = queryString + "billID=" + i_msg.bills[1].billID;
 				nonFirst = true;
 			}
-			if (i_msg.bills[0].paymentType != "") {
+			if (i_msg.bills[0].bookingID != 0) {
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "paymentType='" + i_msg.bills[0].paymentType + "'";
+				queryString = queryString + "bookingID=" + i_msg.bills[1].bookingID + "'";;
+				nonFirst = true;
+			}
+			if (i_msg.bills[0].paymentType=="CHECK") {
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "paymentType='" + i_msg.bills[1].paymentType + "'";
+				nonFirst = true;
+			}
+			if (i_msg.bills[0].status){
+				if (nonFirst) queryString = queryString + " AND ";
+				queryString = queryString + "status=" + ((i_msg.bills[1].status)?1:0) + "'";;
 				nonFirst = true;
 			}
 
@@ -265,12 +277,13 @@ public class Bill {
 				replyMessage.response.responseString = "No Bills in database.";
 			} else {
 				int i = 0;
-				rs = dbcon.select(queryString);
+				rs.beforeFirst();
 				while (rs.next()) {
 					i++;
 				}
-				rs = dbcon.select(queryString);
-				replyMessage.bills = new BillMessage[i];
+				rs.beforeFirst();
+				replyMessage.initializeBills(i);
+
 				i = 0;
 
 				while (rs.next()) {
@@ -280,6 +293,8 @@ public class Bill {
 					replyMessage.bills[i].status = rs.getBoolean("status");
 					i++;
 				}
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Query succeeded.";
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'getAllBill'.  SQLException was thrown:");

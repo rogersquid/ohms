@@ -12,8 +12,8 @@ public class BillTest {
 		//test_editBill(0);
 		//test_deleteBill(0);
 		//test_viewBill(0);
-		test_viewAllBill(0);
-		//test_viewAllBill(2);
+		//test_viewAllBill(0);
+		test_viewAllBill(2);
 		System.out.println("Finish Test Bills \r");
 	}
 
@@ -32,7 +32,7 @@ public class BillTest {
 			h_msg.bills[0] = new BillMessage();
 			//fill Bill info:
 			h_msg.bills[0].billID = 1;
-			h_msg.bills[0].bookingID = 35;
+			h_msg.bills[0].bookingID = 88;
 			h_msg.bills[0].paymentType = "none";
 			h_msg.bills[0].status = false;
 			h_msg.response = h_msg.bills[0].validateParams();
@@ -271,21 +271,21 @@ public class BillTest {
 
 		if(i_num==2){
 			System.out.println("Test ID 3");
-			System.out.println("Description: Success View all Bills with same BillName");
+			System.out.println("Description: Success View all Bills with same bookingID");
 			
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeBills(2);
 			//fill filter toggle Bill Message
-			h_msg.bills[0].billID = 18;
-			h_msg.bills[0].bookingID = 13;
-			h_msg.bills[0].paymentType = "Pool";
+			h_msg.bills[0].billID = 0;
+			h_msg.bills[0].bookingID = 0;
+			h_msg.bills[0].paymentType = "CHECK";
 			h_msg.bills[0].status = false;
 			
 			//fill filter value Bill Message
 			h_msg.bills[1].billID = 18;
-			h_msg.bills[1].bookingID = 13;
-			h_msg.bills[1].paymentType = "Pool";
+			h_msg.bills[1].bookingID = 88;
+			h_msg.bills[1].paymentType = "none";
 			h_msg.bills[1].status = false;
 			
 			Bill Bill = new Bill();
