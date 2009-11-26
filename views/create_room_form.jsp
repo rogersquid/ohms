@@ -33,6 +33,10 @@
 									</select>
 								</td>
 							</tr>
+							<tr>
+								<th>Price:</th>
+								<td>$<input type='text' name='price' />
+							</tr>
 						</table>
 						<h3>Select beds</h3>
 						<table>
