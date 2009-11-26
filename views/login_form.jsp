@@ -8,7 +8,7 @@
 							<div class='error'><strong>Login failed.</strong></div>
 							<%
 						}
-						if(request.getAttribute("status")=="logout_successful") {
+						if(request.getParameter("status")=="logout") {
 							%>
 							<div class='success'><strong>You have logged out.</strong></div>
 							<%
