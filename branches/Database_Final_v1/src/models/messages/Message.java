@@ -80,13 +80,13 @@ public class Message {
 		if(accounts!=null) {
 			response = accounts[0].validateParams();
 		} else if(rooms!=null) {
-			//response = rooms[0].validateParams();
+			response = rooms[0].validateParams();
 		} else if(bookings!=null) {
-			//response = bookings[0].validateParams();
+			response = bookings[0].validateParams();
 		} else if(bills!=null) {
-			//response = bills[0].validateParams();
+			response = bills[0].validateParams();
 		} else if(extras!=null) {
-			//response = extras[0].validateParams();
+			response = extras[0].validateParams();
 		} else {
 			return false;
 		}
