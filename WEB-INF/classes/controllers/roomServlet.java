@@ -93,7 +93,6 @@ public class roomServlet extends HttpServlet {
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeRooms(1);
 
-		message.rooms[0].roomID = Integer.parseInt(request.getParameter("roomID"));
 		message.rooms[0].roomType = request.getParameter("roomType");
 		message.rooms[0].roomNumber = Integer.parseInt(request.getParameter("roomNumber"));
 		message.rooms[0].price = Float.parseFloat(request.getParameter("price"));
@@ -120,7 +119,7 @@ public class roomServlet extends HttpServlet {
 
 				if(reply.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 					//viewRoom(request, response);
-					response.sendRedirect(response.encodeRedirectURL("room.html?action=all_rooms&status=add_success"));
+					response.sendRedirect(response.encodeRedirectURL("room.html?action=view&id="+reply.rooms[0].roomID+"&status=add_success"));
 				} else {
 					request.setAttribute("status", "room_failed");
 					request.setAttribute("message", reply.response.responseString);
