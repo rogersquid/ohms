@@ -82,7 +82,7 @@ public class Message {
 		} else if(rooms!=null) {
 			response = rooms[0].validateParams();
 		} else if(bookings!=null) {
-			response = bookings[0].validateParams();
+			//response = bookings[0].validateParams();
 		} else if(bills!=null) {
 			response = bills[0].validateParams();
 		} else if(extras!=null) {

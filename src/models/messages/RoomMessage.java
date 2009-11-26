@@ -43,16 +43,16 @@ public class RoomMessage {
 		elevator=i_elevator;
 	}
 	
-	public ResponseMessage validateParams(Message i_msg){
+	public ResponseMessage validateParams(){
 		ResponseMessage validity = new ResponseMessage();
 		validity.responseString = "";
 		validity.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 		
-		if (i_msg.rooms[0].roomID < 0 || i_msg.rooms[0].roomNumber < 0 || i_msg.rooms[0].floor < 0 || i_msg.rooms[0].price < 0 ||
-				i_msg.rooms[0].singleBeds < 0 || i_msg.rooms[0].queenBeds < 0 || i_msg.rooms[0].kingBeds < 0) {
+		if (roomID < 0 || roomNumber < 0 || floor < 0 || price < 0 ||
+				singleBeds < 0 || queenBeds < 0 || kingBeds < 0) {
 			validity.responseCode = ResponseMessage.ResponseCode.FAIL;
 			validity.responseString = "- Input cannot be negative <br />";
-		} if (i_msg.rooms[0].roomType == "" || i_msg.rooms[0].roomType == null) {
+		} if (roomType == "" || roomType == null) {
 			validity.responseCode = ResponseMessage.ResponseCode.FAIL;
 			validity.responseString = "- Input cannot be blank <br />";
 		}
