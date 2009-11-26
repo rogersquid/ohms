@@ -200,6 +200,10 @@ public class Account {
 			{
 				updateStmt = updateStmt.concat("', lastName='" + inputAccount.lastName);
 			}
+			if(!inputAccount.password.isEmpty())
+			{
+				updateStmt = updateStmt.concat("', password='" + inputAccount.password);
+			}
 			if(!inputAccount.phone.isEmpty())
 			{
 				updateStmt = updateStmt.concat("', phone='" + inputAccount.phone);
