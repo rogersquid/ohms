@@ -23,9 +23,10 @@ public class roomServlet extends HttpServlet {
 		if(action.equals("all_rooms")) {
 			//allRooms(request, response);
 		} else if(action.equals("add")) {
-			addRoom(request, response);
+			//addRoom(request, response);
+			getServletContext().getRequestDispatcher("/views/create_room_form.jsp").include(request, response);
 		} else if(action.equals("edit")) {
-			editRoom(request, response);
+			//editRoom(request, response);
 		} else if(action.equals("view")) {
 			viewRoom(request, response);
 		} else if(action.equals("delete")) {
@@ -33,8 +34,8 @@ public class roomServlet extends HttpServlet {
 		} else if(action.equals("search")) {
 			//getServletContext().getRequestDispatcher("/views/search_rooms.jsp").include(request, response);
 		} else { // defaults
-			if(authlevel < 3) {
-				//allRooms(request, response);
+			if(authlevel >= 3) {
+				allRooms(request, response);
 			} else {
 				request.setAttribute("message", "Invalid page");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -54,7 +55,7 @@ public class roomServlet extends HttpServlet {
 		if(action.equals("add")) {
 			addRoom(request, response);
 		} else if(action.equals("edit")) {
-			editRoom(request, response);
+			//editRoom(request, response);
 		}
 	}
 
@@ -118,7 +119,8 @@ public class roomServlet extends HttpServlet {
 				Message reply = room.addRoom(message);
 
 				if(reply.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
-					viewRoom(request, response);
+					//viewRoom(request, response);
+					response.sendRedirect(response.encodeRedirectURL("room.html?action=all_rooms&id="+accountID+"&status=add_success"));
 				} else {
 					request.setAttribute("status", "room_failed");
 					request.setAttribute("message", reply.response.responseString);
