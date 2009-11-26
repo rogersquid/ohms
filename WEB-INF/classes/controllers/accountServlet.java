@@ -139,10 +139,9 @@ public class accountServlet extends HttpServlet {
 		Account account = new Account();
 		if(authlevel >= 3 || message.accounts[0].accountID==userid) 
 		{	
-			if(message.accounts.validateEditParams())
+			ResponseMessage resp = message.accounts.validateEditParams()
+			if(resp.responseCode == ResponseMessage.ResponseCode.SUCCESS)
 			{
-				if(message.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
-
 					Message reply = account.editAccount(message);
 
 					if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) 
@@ -156,13 +155,6 @@ public class accountServlet extends HttpServlet {
 						request.setAttribute("message", reply.response.responseString);
 						getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 					}
-				}
-				else 
-				{
-					request.setAttribute("status", "edit_failed");
-					request.setAttribute("message", message.response.responseString);
-					getServletContext().getRequestDispatcher("/views/edit_account_form.jsp").include(request, response);
-				}
 			}
 			else 
 			{
