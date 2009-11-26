@@ -153,5 +153,76 @@ public class AccountMessage{
 
 		return response;
 	}
+	
+	public ResponseMessage validateEditParams(){
+		ResponseMessage response = new ResponseMessage();
+		response.responseString = "";
+		Matcher m;
+		// Verify accountType
+		// guest, maid, customer, staff, or admin
+		if(accountType!=null && !(accountType.equalsIgnoreCase("guest") ||
+				accountType.equalsIgnoreCase("customer") ||
+				accountType.equalsIgnoreCase("maid") ||
+				accountType.equalsIgnoreCase("staff") ||
+				accountType.equalsIgnoreCase("admin")))
+		{
+			response.responseString = response.responseString + ("- Invalid account type: " + accountType + ". Account id: " + accountID + "<br />");
+			//CHANGE RESPONSE CODE
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
+		}
 
+
+		// Verify password
+		
+		if(!password.isEmpty())
+		{
+			Pattern validPwd = Pattern.compile("[\\da-zA-Z-!@#\\$%\\^&\\*\\?,\\.\\|;:]+");
+			m = validPwd.matcher(password);
+				if(!m.matches() || (m.groupCount() > 1))
+			{
+					response.responseString = response.responseString +  ("- Password string is not vaild <br />");
+					response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			}
+			if(!password.equals(re_password))
+			{
+				response.responseString = response.responseString +  ("- Passwords do not match<br />");
+				response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			}
+		}
+
+		// Verify First Name
+		
+		if(!firstName.isEmpty()){
+			Pattern validName = Pattern.compile("[a-zA-Z-]+");
+			m = validName.matcher(firstName);
+			if (!m.matches() || (m.groupCount() > 1)) {
+				response.responseString = response.responseString + ("- First Name is not valid.<br />");
+				response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			}
+		}
+
+		// Verify Last Name
+		
+		if(!lastName.isEmpty()){
+			Pattern validName = Pattern.compile("[a-zA-Z-]+");
+			m = validName.matcher(lastName);
+			if (!m.matches() || (m.groupCount() > 1)) {
+				response.responseString = response.responseString + ("- Last Name is not valid. <br />");
+				response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			}
+		}
+
+		// Verify Phone
+		
+		if(!phone.isEmpty()){
+			Pattern validPhone = Pattern.compile("\\+?[\\d-\\s]+");
+			m = validPhone.matcher(phone);
+			if (!m.matches() || (m.groupCount() > 1)) {
+				response.responseString = response.responseString + ("- Phone number is not valid. <br />");
+				response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			}
+		}
+
+		return response;
+	}
 }
