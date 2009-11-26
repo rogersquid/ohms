@@ -174,7 +174,7 @@ public class AccountMessage{
 
 		// Verify password
 		
-		if(!password.isEmpty())
+		if(password!=null && !password.isEmpty())
 		{
 			Pattern validPwd = Pattern.compile("[\\da-zA-Z-!@#\\$%\\^&\\*\\?,\\.\\|;:]+");
 			m = validPwd.matcher(password);
@@ -192,7 +192,7 @@ public class AccountMessage{
 
 		// Verify First Name
 		
-		if(!firstName.isEmpty()){
+		if(firstName!=null && !firstName.isEmpty()){
 			Pattern validName = Pattern.compile("[a-zA-Z-]+");
 			m = validName.matcher(firstName);
 			if (!m.matches() || (m.groupCount() > 1)) {
@@ -203,7 +203,7 @@ public class AccountMessage{
 
 		// Verify Last Name
 		
-		if(!lastName.isEmpty()){
+		if(lastName!=null && !lastName.isEmpty()){
 			Pattern validName = Pattern.compile("[a-zA-Z-]+");
 			m = validName.matcher(lastName);
 			if (!m.matches() || (m.groupCount() > 1)) {
@@ -214,7 +214,7 @@ public class AccountMessage{
 
 		// Verify Phone
 		
-		if(!phone.isEmpty()){
+		if(phone!=null && !phone.isEmpty()){
 			Pattern validPhone = Pattern.compile("\\+?[\\d-\\s]+");
 			m = validPhone.matcher(phone);
 			if (!m.matches() || (m.groupCount() > 1)) {
