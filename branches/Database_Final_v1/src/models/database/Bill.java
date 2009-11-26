@@ -256,7 +256,7 @@ public class Bill {
 			}
 			if (i_msg.bills[0].bookingID != 0) {
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "bookingID=" + i_msg.bills[1].bookingID + "'";;
+				queryString = queryString + "bookingID=" + i_msg.bills[1].bookingID;
 				nonFirst = true;
 			}
 			if (i_msg.bills[0].paymentType=="CHECK") {
@@ -266,7 +266,7 @@ public class Bill {
 			}
 			if (i_msg.bills[0].status){
 				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "status=" + ((i_msg.bills[1].status)?1:0) + "'";;
+				queryString = queryString + "status=" + i_msg.bills[1].status;
 				nonFirst = true;
 			}
 
