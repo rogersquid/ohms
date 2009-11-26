@@ -18,7 +18,7 @@ public class loginServlet extends HttpServlet {
 			Cookie c = CookieHelper.getAccountCookie(request);
 			c.setMaxAge(0);
 			response.addCookie(c);
-			request.setAttribute("status", "logout_successful");
+			response.sendRedirect(response.encodeRedirectURL("login.html?status=logout"));
 		}
 		
 		request = InterfaceHelper.initialize(request, response);
@@ -48,15 +48,13 @@ public class loginServlet extends HttpServlet {
 		Account account = new Account();
 		Message reply = account.login(message);
 
-
 		if(reply.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
-			Cookie userCookie = new Cookie("accountID", Integer.toString(reply.accounts[0].accountID));
-			String md5_password = MD5.hashString(reply.accounts[0].password);
-			Cookie passwordCookie = new Cookie("md5_password", md5_password);
+			String md5_password = MD5.hashString(password);
+			Cookie userCookie = new Cookie("ohms_accountID", Integer.toString(reply.accounts[0].accountID));
+			Cookie passwordCookie = new Cookie("ohms_password", md5_password);
 			response.addCookie(userCookie);
-			request.setAttribute("account", reply.accounts[0]);
-			request.setAttribute("status", "login_success");
-			response.sendRedirect(response.encodeRedirectURL("account.html"));
+			response.addCookie(passwordCookie);
+			response.sendRedirect(response.encodeRedirectURL("account.html?status=login"));
 			//getServletContext().getRequestDispatcher("/views/login_success.jsp").include(request, response);
 		} else {
 			request.setAttribute("status", "login_failed");
