@@ -187,15 +187,31 @@ public class Account {
 		databaseHelper dbcon = null;
 		try {
 			dbcon = new databaseHelper();
-			int returnedRows = dbcon
-			.modify("UPDATE accounts SET firstName='"
-					+ inputAccount.firstName + "', lastName='"
-					+ inputAccount.lastName + "', gender='" + genderInt
-					+ "', phone='" + inputAccount.phone + "', email='"
-					+ inputAccount.email + "', address='" + inputAccount.address
-					+ "', authLevel='" + userAuthLevel
-					+ "' " + "WHERE accountID='" + inputAccount.accountID
-					+ "'");
+			
+			String updateStmt = "";
+			
+			updateStmt = updateStmt.concat("gender='" + genderInt);
+			updateStmt = updateStmt.concat("', authLevel='" + userAuthLevel);
+			if(!inputAccount.firstName.isEmpty())
+			{
+				updateStmt = updateStmt.concat("', firstName='" + inputAccount.firstName);
+			}
+			if(!inputAccount.lastName.isEmpty())
+			{
+				updateStmt = updateStmt.concat("', lastName='" + inputAccount.lastName);
+			}
+			if(!inputAccount.phone.isEmpty())
+			{
+				updateStmt = updateStmt.concat("', phone='" + inputAccount.phone);
+			}
+			if(!inputAccount.address.isEmpty())
+			{
+				updateStmt = updateStmt.concat("', address='" + inputAccount.address);
+			}
+			updateStmt = updateStmt.concat("' ");
+			
+			int returnedRows = dbcon.modify("UPDATE accounts SET " + updateStmt + "WHERE accountID=" + inputAccount.accountID);
+			
 			if (returnedRows == 1) {
 				response.fillResponse(ResponseCode.SUCCESS,
 						"Updated One Account as Requested."
