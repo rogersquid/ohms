@@ -249,10 +249,10 @@ public class ExtrasTest {
 				Message h_msg= new Message(0, 0, "test");
 				h_msg.initializeExtras(2);
 				//fill filter toggle Extra Message
-				h_msg.extras[0].extraID = 0;
-				h_msg.extras[0].bookingID = 0;
+				h_msg.extras[0].extraID = 1;
+				h_msg.extras[0].bookingID = 1;
 				h_msg.extras[0].extraName = "CHECK";
-				h_msg.extras[0].price = 0;
+				h_msg.extras[0].price = 1;
 				h_msg.extras[0].date = date;
 				
 				//fill filter value extra Message
@@ -295,24 +295,25 @@ public class ExtrasTest {
 			System.out.println("Test ID 3");
 			System.out.println("Description: Success View all Extras with same date");
 			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
-			DateFormat df= new SimpleDateFormat("yyyy/mm/dd");
+			DateFormat df= new SimpleDateFormat("yyyy/MM/dd");
 			try {
 				date = new java.sql.Date(df.parse("2009/11/22").getTime());
+				System.out.println(date);
 				//create message
 				Message h_msg= new Message(0, 0, "test");
 				h_msg.initializeExtras(2);
 				//fill filter toggle Extra Message
-				h_msg.extras[0].extraID = 0;
-				h_msg.extras[0].bookingID = 0;
+				h_msg.extras[0].extraID = 1;
+				h_msg.extras[0].bookingID = 1;
 				h_msg.extras[0].extraName = "none";
-				h_msg.extras[0].price = 0;
+				h_msg.extras[0].price = 1;
 				h_msg.extras[0].date = null;
 				
 				//fill filter value extra Message
-				h_msg.extras[1].extraID = 23;
-				h_msg.extras[1].bookingID = 15;
-				h_msg.extras[1].extraName = "Beer";
-				h_msg.extras[1].price = 10;
+				h_msg.extras[1].extraID = 1;
+				h_msg.extras[1].bookingID = 1;
+				h_msg.extras[1].extraName = "none";
+				h_msg.extras[1].price = 1;
 				h_msg.extras[1].date = date;
 				
 				Extra Extra = new Extra();
