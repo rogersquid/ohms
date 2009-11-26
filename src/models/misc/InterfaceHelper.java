@@ -9,19 +9,20 @@ import models.misc.*;
 public class InterfaceHelper {
 	public static HttpServletRequest initialize(HttpServletRequest request, HttpServletResponse response) {
 		int userid = CookieHelper.getAccountID(request);
+		String md5_password = CookieHelper.getMD5Password(request);
 		int authlevel;
 		String hotelname = "test";
 
-		Message userMessage = new Message(0, userid, hotelname);
 		Account userAccount = new Account();
-		userMessage.initializeAccounts(1);
-		userMessage.accounts[0].accountID = userid;
-		Message userInfo = userAccount.getAccount(userMessage);
-		if(userInfo.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && userInfo.accounts.length > 0) {
+		authlevel = userAccount.getAuthLevel(userid, md5_password);
+		if(authlevel > 0) {
+			Message userMessage = new Message(0, userid, hotelname);
+			userMessage.initializeAccounts(1);
+			userMessage.accounts[0].accountID = userid;
+			Message userInfo = userAccount.getAccount(userMessage);
+			
 			request.setAttribute("logged_in", true);
 			request.setAttribute("userInfo", userInfo.accounts[0]);
-			//authlevel = userInfo.accounts[0].authLevel;
-			authlevel = 3;
 		} else {
 			request.setAttribute("logged_in", false);
 			authlevel = 0;
