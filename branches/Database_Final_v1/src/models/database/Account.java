@@ -1,3 +1,10 @@
+/*
+ * Account.java
+ * 
+ * This class does the account keeping functions and talks directly to the database. It can add, delete, retrieve, and edit
+ * account(s) information
+ * 
+ */
 package models.database;
 
 import java.sql.*;
