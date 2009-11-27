@@ -18,6 +18,16 @@ public class Account {
 	 * another thing is to use SQL date rather tan java.util.date
 	 * in booking I have a conversion example if you need it
 	 */
+	
+	/*
+	 * PRE: None
+	 * POST: Message contains an array of AccountMessage objects that represent the list of accounts
+	 * viewable by this user
+	 * 
+	 * Returns the list of all accounts that this user has authority to view. Returns a Message class wiht an array 
+	 * AccountMessage objects.
+	 * 
+	 */
 	public Message getAllAccounts(Message i_msg){
 		// needs to be implemented
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -77,6 +87,17 @@ public class Account {
 
 		return reply;
 	}
+	
+	
+	
+	/*
+	 * PRE: Parameters have been validated
+	 * POST: Database contains the new account
+	 * 
+	 * 
+	 * Adds an account to the database
+	 * 
+	 */
 	public Message addAccount(Message i_msg) {
 		// No date error checking implemented
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -161,6 +182,15 @@ public class Account {
 		return reply;
 	}
 
+	
+	/*
+	 * PRE: Parameters have been validated
+	 * POST: Database contains the edited account
+	 * 
+	 * 
+	 * Edits an account that is already in the database
+	 * 
+	 */
 	public Message editAccount(Message i_msg){
 		// No date error checking implemented
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -261,8 +291,16 @@ public class Account {
 
 		return reply;
 	}
-	// Deletes the account selected by the email or the id
-	// Returns true if successful
+	
+	
+	/*
+	 * PRE: Parameters have been validated
+	 * POST: Specified account is deleted from the database 
+	 * 
+	 * 
+	 * Deletes an account from the database that is identified by the email address 
+	 * 
+	 */
 	public Message deleteAccount(Message i_msg) {
 		// No date error checking implemented
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -300,8 +338,20 @@ public class Account {
 		reply.response = response;
 		return reply;
 	}
-	// Fetch Variable data from the database
-	// If user does not exist, return false
+	
+	
+	
+	/*
+	 * PRE: The specified account is selected from the list of accounts returned by getAllAccounts. Parameters
+	 * have been validated
+	 * POST: The specified account is returned, if found; placed in accounts[0] of returned Message
+	 * 
+	 * 
+	 * Retrieves a specific account. Used to select an account to view
+	 * from the list of accounts returned by getAllAccounts function
+	 * 
+	 */
+
 	public Message getAccount(Message i_msg) {
 		// Verify parameters are valid.
 		// No date error checking implemented
@@ -366,6 +416,15 @@ public class Account {
 	}
 	// authentication is job of authenticator he will  use view.
 
+	
+	
+	/*
+	 * PRE: None
+	 * POST: <Can you fill this in Michael?>
+	 * 
+	 * 	
+	 * Logs in the specified user
+	 */
 	public Message login(Message i_msg) {
 		// Verify parameters are valid.
 		// No date error checking implemented
@@ -434,6 +493,14 @@ public class Account {
 		return reply;
 	}
 
+	
+	/*
+	 * PRE: None
+	 * POST: Integer indicating authorization level of the user is returned
+	 * 
+	 * 	
+	 * Gets the aithorization level of the user
+	 */
 	public int getAuthLevel(int i_accountID, String i_md5)
 	{
 		databaseHelper dbcon = null;
@@ -470,6 +537,15 @@ public class Account {
 		return authLevel;
 	}
 
+	
+	
+	/*
+	 * PRE: <Michael can you fill this in?>
+	 * POST: <This too>
+	 * 
+	 * 	
+	 * Returns a list of Accounts matching the specified parameters 
+	 */
 	public Message getFilteredAccount(Message i_msg) {
 		databaseHelper dbcon = null;
 		Message reply = new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
