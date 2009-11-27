@@ -34,6 +34,13 @@ public class Message {
 		response=new ResponseMessage();
 	}
 	
+	
+	//REQUIRES:	ENOUGH HEAP SPACE
+	//MODIFIES: ALLOCATES THE CORRESPONDING SPECIFIC MESSAGE ARRAY ENOUGH SPACE TO HOLD SPECIFIED
+	//AMOUNT OF SPECIFIC MESSAGE TYPE
+	//STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
+	//EFFECTS: THE SPECIFIC MESSAGE ARRAY NOW CONTAINS ENOUGH SPACE TO HOLD THE SPECIFIED NUMBER
+	//OF THE SPECIFIC MESSAGE TYPE
 	//Interface and any other class that wishes to use one of the specific message types 
 	//will have to initialize the array with the desired number of message elements to store
 	public void initializeAccounts(int arraysize){
@@ -73,6 +80,10 @@ public class Message {
 		}
 	}
 	
+	//REQUIRES:	NONE (IF THERE IS NO MESSAGE TO CHECK THEN TRUE IS RETURNED.
+	//MODIFIES: FILLS RESPONSE MESSAGE WITH VALIDATION CHECK; T OR F AND RESPONSE
+	//STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
+	//EFFECTS: NONE
 	//This function validates the parameters in a specific message type.
 	//Which specific message type is used is determined by which of the message type arrays
 	//is not empty. If not empty (i.e. not null), it contains one of the specific message.
