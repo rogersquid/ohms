@@ -1,3 +1,10 @@
+/*
+ * RoomMessage.java
+ * Objects of this class are instantiated to pass Room specific information from Interface through 
+ * to Database and everywhere in between. Is always harbored in a Message.java object
+ *  
+ */
+
 package models.messages;
 
 public class RoomMessage {
@@ -20,6 +27,14 @@ public class RoomMessage {
 	public boolean			onsuite;
 	public boolean			elevator;
 	
+	
+	
+	/*
+	 * PRE: None
+	 * POST: RoomMessage object's parameters are initialized
+	 * 
+	 *  Fills in the Room details. Subject to verification if not validated
+	 */
 	public void fill_All(int i_room_id, String i_room_type, int i_room_number, 
 			int i_floor, float i_price, boolean i_available, boolean i_clean,
 			boolean i_tv, int i_sB, int i_qB, int i_kB, boolean i_dA, boolean i_phone, 
@@ -43,6 +58,14 @@ public class RoomMessage {
 		elevator=i_elevator;
 	}
 	
+	/*
+	 * PRE: None
+	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
+	 * and the ResponseCode is set accordingly 
+	 * 
+	 * Checks to see if the parameters entered are valid.  
+	 * 
+	 */
 	public ResponseMessage validateParams(){
 		ResponseMessage validity = new ResponseMessage();
 		validity.responseString = "";
