@@ -26,7 +26,7 @@ public class AccountMessage{
 	 * PRE: None
 	 * POST: An object of type AccountMessage is created with specified parameters
 	 * 
-	 *  The default constructor
+	 *  Fills in the account details. Subject to verification if not validated
 	 */
 	public boolean fill_All(int i_account_id, String i_account_type, String i_first_name, String i_surname, String i_pw, boolean i_gender, String i_phone, String i_add, String i_mail){
 		accountID		= i_account_id;
