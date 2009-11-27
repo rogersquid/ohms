@@ -24,7 +24,7 @@ public class AccountMessage{
 
 	/*
 	 * PRE: None
-	 * POST: An object of type AccountMessage is created with specified parameters
+	 * POST: The AccountMessage has its account details filled in 
 	 * 
 	 *  Fills in the account details. Subject to verification if not validated
 	 */
