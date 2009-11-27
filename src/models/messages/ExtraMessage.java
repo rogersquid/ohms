@@ -1,3 +1,11 @@
+/*
+ * ExtraMessage.java
+ * Objects of this class are instantiated to pass Extra service specific information from Interface through 
+ * to Database and everywhere in between. Is always harbored in a Message.java object
+ *  
+ */
+
+
 package models.messages;
 
 import java.util.regex.Matcher;
@@ -13,6 +21,13 @@ public class ExtraMessage{
 	public java.sql.Date		date;
 	public java.sql.Timestamp	creationTime;
 	
+	
+	/*
+	 * PRE: None
+	 * POST: ExtraMessage object's parameters are initialized
+	 * 
+	 *  Fills in the Extra details. Subject to verification if not validated
+	 */
 	public void fillAll(int eID, int bID, String eName, float ePrice, java.sql.Date eDate, java.sql.Timestamp cDate ){
 		extraID=eID;
 		bookingID=bID;
@@ -22,6 +37,12 @@ public class ExtraMessage{
 		creationTime=cDate;		
 	}
 	
+	/*
+	 * PRE: None
+	 * POST: The details of the ExtraMessage are printed out
+	 * 
+	 * Spills out fields of this ExtraMessage
+	 */
 	public void print_All(){
 		System.out.println("Extras Message is printing out");
 		System.out.println(extraID);
@@ -33,6 +54,15 @@ public class ExtraMessage{
 		System.out.println("*******************");
 	}
 	
+	
+	/* 
+	 * PRE: None
+	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
+	 * and the ResponseCode is set accordingly 
+	 * 
+	 * Checks to see if the parameters entered are valid.  
+	 * 
+	 */
 	public ResponseMessage validateParams(){
 		Matcher m;
 		ResponseMessage response = new ResponseMessage();
