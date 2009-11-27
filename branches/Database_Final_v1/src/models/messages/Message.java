@@ -87,6 +87,7 @@ public class Message {
 	//This function validates the parameters in a specific message type.
 	//Which specific message type is used is determined by which of the message type arrays
 	//is not empty. If not empty (i.e. not null), it contains one of the specific message.
+	//Makes heavy use of regular expressions
 	public boolean validate() {
 		if(accounts!=null) {
 			response = accounts[0].validateParams();
