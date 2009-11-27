@@ -26,7 +26,7 @@ public class ExtraMessage{
 	 * PRE: None
 	 * POST: ExtraMessage object's parameters are initialized
 	 * 
-	 *  Fills in the Extra details. Subject to verification if not validated
+	 *  Fills in the Extra service details. Subject to verification if not validated
 	 */
 	public void fillAll(int eID, int bID, String eName, float ePrice, java.sql.Date eDate, java.sql.Timestamp cDate ){
 		extraID=eID;
