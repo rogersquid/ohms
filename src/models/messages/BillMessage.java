@@ -1,3 +1,11 @@
+/*
+ * BillMessage.java
+ * Objects of this class are instantiated to pass Bill specific information from Interface through 
+ * to Database and everywhere in between. Is always harbored in a Message.java object
+ *  
+ */
+
+
 package models.messages;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +18,13 @@ public class BillMessage{
 	public String			paymentType;
 	public boolean			status; // 0 = not paid , 1 = paid
 	
+	
+	/*
+	 * PRE: None
+	 * POST: BillMessage object's parameters are initialized
+	 * 
+	 *  Fills in the Bill details. Subject to verification if not validated
+	 */
 	public void fillAll(int bID, int bookID, String pType, boolean bStatus ){
 		billID=bID;
 		bookingID=bookID;
@@ -17,6 +32,13 @@ public class BillMessage{
 		status=bStatus;
 	}
 	
+	
+	/*
+	 * PRE: None
+	 * POST: The details of the BillMessage are printed out
+	 * 
+	 * Spills out fields of this BillMessage
+	 */
 	public void print_All(){
 		System.out.println("Bill_message is printing out");
 		System.out.println(billID);
@@ -26,6 +48,15 @@ public class BillMessage{
 		System.out.println("*******************");
 	}	
 	
+	
+	/* 
+	 * PRE: None
+	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
+	 * and the ResponseCode is set accordingly 
+	 * 
+	 * Checks to see if the parameters entered are valid.  
+	 * 
+	 */
 	public ResponseMessage validateParams(){
 		Matcher m;
 		ResponseMessage response = new ResponseMessage();
