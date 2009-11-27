@@ -99,7 +99,7 @@ public class Account {
 	
 	/*
 	 * PRE: Parameters have been validated
-	 * POST: Database contains the new account
+	 * POST: If addition was successful, Database contains the new account
 	 * 
 	 * 
 	 * Adds an account to the database
