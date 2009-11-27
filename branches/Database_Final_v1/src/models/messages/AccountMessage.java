@@ -1,3 +1,9 @@
+/*
+ * AccountMessage.java
+ * Objects of this class are instantiated to pass Account specific information from Interface through 
+ * to Database and everywhere in between. Is always harboured in a Message.java object
+ */
+
 package models.messages;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +22,12 @@ public class AccountMessage{
 	public boolean gender;
 	public java.sql.Timestamp creationTime;
 
+	/*
+	 * PRE: None
+	 * POST: An object of type AccountMessage is created with specified parameters
+	 * 
+	 *  The default constructor
+	 */
 	public boolean fill_All(int i_account_id, String i_account_type, String i_first_name, String i_surname, String i_pw, boolean i_gender, String i_phone, String i_add, String i_mail){
 		accountID		= i_account_id;
 		accountType		= i_account_type;
@@ -29,6 +41,12 @@ public class AccountMessage{
 		return true;
 	}
 
+	/*
+	 * PRE: None
+	 * POST: The details of the AccountMessage are printed out
+	 * 
+	 * Spills out fields of this AccountMessage
+	 */
 	public void print_Middle(){
 		System.out.println(accountID);
 		System.out.println(accountType);
@@ -41,6 +59,14 @@ public class AccountMessage{
 		System.out.println(email);
 	}
 
+	/* 
+	 * PRE: None
+	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
+	 * and the ResponseCode is set accordingly 
+	 * 
+	 * Checks to see if the parameters entered are valid.  
+	 * 
+	 */
 	public ResponseMessage validateParams(){
 		ResponseMessage response = new ResponseMessage();
 		response.responseString = "";
@@ -154,6 +180,15 @@ public class AccountMessage{
 		return response;
 	}
 
+	
+	/* 
+	 * PRE: None
+	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
+	 * and the ResponseCode is set accordingly 
+	 * 
+	 * This is similar to the validateParams() but this is tailored for the case of edit accounts  
+	 * 
+	 */
 	public ResponseMessage validateEditParams(){
 		ResponseMessage response = new ResponseMessage();
 			response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
