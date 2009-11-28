@@ -37,7 +37,7 @@ public class billServlet extends HttpServlet {
 			viewBill(request, response);
 		} else if(action!=null && action.equals("edit")) {
 			editBill(request, response);
-		} else if(action!=null && action.equals("all_accounts")) {
+		} else if(action!=null && action.equals("all_bills")) {
 			allBills(request, response);
 		} else if(action!=null && action.equals("delete")) {
 			deleteBill(request, response);
@@ -60,7 +60,7 @@ public class billServlet extends HttpServlet {
 		Bill bill = new Bill();
 		Message reply = bill.getBill(message);
 
-		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) {
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bills.length > 0) {
 			if(authlevel >= 3 || reply.accounts[0].accountID==userid) {
 				request.setAttribute("bill", reply.bills[0]);
 				getServletContext().getRequestDispatcher("/views/bill/view_bill.jsp").include(request, response);
@@ -83,7 +83,7 @@ public class billServlet extends HttpServlet {
 
 		Message message = new Message(authlevel, userid, hotelname);
 		Bill bill = new Bill();
-		Message reply = account.getAllBills(message);
+		Message reply = bill.getAllBills(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bills != null) {
 			if(authlevel >= 3) {
