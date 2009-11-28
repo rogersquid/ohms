@@ -17,8 +17,8 @@ public class registerServlet extends HttpServlet {
 		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
-		
-		getServletContext().getRequestDispatcher("/views/register_form.jsp").include(request, response);
+
+		getServletContext().getRequestDispatcher("/views/register/register_form.jsp").include(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -37,8 +37,8 @@ public class registerServlet extends HttpServlet {
 		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
-		
-		
+
+
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeAccounts(1);
 		message.accounts[0].email = email;
@@ -58,16 +58,16 @@ public class registerServlet extends HttpServlet {
 				Message reply = account.addAccount(message);
 
 				if(reply.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
-					getServletContext().getRequestDispatcher("/views/register_success.jsp").include(request, response);
+					getServletContext().getRequestDispatcher("/views/register/register_success.jsp").include(request, response);
 				} else {
 					request.setAttribute("status", "register_failed");
 					request.setAttribute("message", reply.response.responseString);
-					getServletContext().getRequestDispatcher("/views/register_form.jsp").include(request, response);
+					getServletContext().getRequestDispatcher("/views/register/register_form.jsp").include(request, response);
 				}
 			} else {
 				request.setAttribute("status", "register_failed");
 				request.setAttribute("message", message.response.responseString);
-				getServletContext().getRequestDispatcher("/views/register_form.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/register/register_form.jsp").include(request, response);
 			}
 		} else {
 			request.setAttribute("message", "Message validation failed, all message objects are null.");

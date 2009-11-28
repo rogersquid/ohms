@@ -20,13 +20,13 @@ public class loginServlet extends HttpServlet {
 			response.addCookie(c);
 			response.sendRedirect(response.encodeRedirectURL("login.html?status=logout"));
 		}
-		
+
 		request = InterfaceHelper.initialize(request, response);
 		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
-		
-		getServletContext().getRequestDispatcher("/views/login_form.jsp").include(request, response);
+
+		getServletContext().getRequestDispatcher("/views/login/login_form.jsp").include(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -39,7 +39,7 @@ public class loginServlet extends HttpServlet {
 		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
-		
+
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeAccounts(1);
 		message.accounts[0].email = email;
@@ -59,7 +59,7 @@ public class loginServlet extends HttpServlet {
 		} else {
 			request.setAttribute("status", "login_failed");
 			request.setAttribute("message", reply.response.responseString);
-			getServletContext().getRequestDispatcher("/views/login_form.jsp").include(request, response);
+			getServletContext().getRequestDispatcher("/views/login/login_form.jsp").include(request, response);
 		}
 	}
 

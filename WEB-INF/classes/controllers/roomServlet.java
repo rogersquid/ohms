@@ -21,10 +21,10 @@ public class roomServlet extends HttpServlet {
 		String action = (request.getParameter("action")==null) ? "" : request.getParameter("action");
 
 		if(action.equals("all_rooms")) {
-			//allRooms(request, response);
+			allRooms(request, response);
 		} else if(action.equals("add")) {
 			//addRoom(request, response);
-			getServletContext().getRequestDispatcher("/views/create_room_form.jsp").include(request, response);
+			getServletContext().getRequestDispatcher("/views/room/create_room_form.jsp").include(request, response);
 		} else if(action.equals("edit")) {
 			editRoom(request, response);
 		} else if(action.equals("view")) {
@@ -75,7 +75,32 @@ public class roomServlet extends HttpServlet {
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.rooms.length > 0) {
 			request.setAttribute("room", reply.rooms[0]);
-			getServletContext().getRequestDispatcher("/views/room.jsp").include(request, response);
+			getServletContext().getRequestDispatcher("/views/room/room.jsp").include(request, response);
+		} else {
+			request.setAttribute("message", reply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+
+	public void allRooms(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+
+		Message message = new Message(authlevel, userid, hotelname);
+		Room room = new Room();
+		Message reply = room.getAllRooms(message);
+
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.rooms != null) {
+			if(authlevel >= 3) {
+				request.setAttribute("data", reply);
+				getServletContext().getRequestDispatcher("/views/room/all_rooms.jsp").include(request, response);
+			} else {
+				request.setAttribute("message", "You are not authorized to view rooms.");
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
 		} else {
 			request.setAttribute("message", reply.response.responseString);
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -123,19 +148,19 @@ public class roomServlet extends HttpServlet {
 				} else {
 					request.setAttribute("status", "room_failed");
 					request.setAttribute("message", "Cannot insert into DB. "+reply.response.responseString);
-					getServletContext().getRequestDispatcher("/views/create_room_form.jsp").include(request, response);
+					getServletContext().getRequestDispatcher("/views/room/create_room_form.jsp").include(request, response);
 				}
 			} else {
-				request.setAttribute("status", "room_failed");
-				request.setAttribute("message", "Validation failed. " + message.response.responseString);
-				getServletContext().getRequestDispatcher("/views/create_room_form.jsp").include(request, response);
+				request.setAttribute("status", "validation_failed");
+				request.setAttribute("message", message.response.responseString);
+				getServletContext().getRequestDispatcher("/views/room/create_room_form.jsp").include(request, response);
 			}
 		} else {
 			request.setAttribute("message", "Message validation failed, all message objects are null.");
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}
-	
+
 	public void editRoom(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
@@ -155,7 +180,7 @@ public class roomServlet extends HttpServlet {
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.rooms.length > 0)
 			{
 				request.setAttribute("room", reply.rooms[0]);
-				getServletContext().getRequestDispatcher("/views/edit_room_form.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/room/edit_room_form.jsp").include(request, response);
 			}
 			else
 			{
@@ -221,7 +246,7 @@ public class roomServlet extends HttpServlet {
 				else
 				{
 					request.setAttribute("status", "edit_room_failed");
-					request.setAttribute("message", resp.responseString);
+					request.setAttribute("message", message.response.responseString);
 					editRoom(request, response);
 				}
 			}

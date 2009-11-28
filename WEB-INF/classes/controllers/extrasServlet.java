@@ -49,7 +49,7 @@ public class extrasServlet extends HttpServlet {
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras.length > 0) {
 			if(authlevel >= 3 || reply.extras[0].extrasID==userid) {
 				request.setAttribute("extras", reply.extras[0]);
-				getServletContext().getRequestDispatcher("/views/view_extras.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/extras/view_extra.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to view this extra.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -74,7 +74,7 @@ public class extrasServlet extends HttpServlet {
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
 			if(authlevel >= 3) {
 				request.setAttribute("data", reply);
-				getServletContext().getRequestDispatcher("/views/all_extras.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/extras/all_extras.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to view extras.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -133,7 +133,7 @@ public class extrasServlet extends HttpServlet {
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras.length > 0)
 			{
 				request.setAttribute("extras", reply.extras[0]);
-				getServletContext().getRequestDispatcher("/views/edit_extras_form.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/extras/edit_extra_form.jsp").include(request, response);
 			}
 			else
 			{
