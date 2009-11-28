@@ -49,7 +49,7 @@ public class accountServlet extends HttpServlet {
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) {
 			if(authlevel >= 3 || reply.accounts[0].accountID==userid) {
 				request.setAttribute("account", reply.accounts[0]);
-				getServletContext().getRequestDispatcher("/views/view_account.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/account/view_account.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to view this account.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -74,7 +74,7 @@ public class accountServlet extends HttpServlet {
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts != null) {
 			if(authlevel >= 3) {
 				request.setAttribute("data", reply);
-				getServletContext().getRequestDispatcher("/views/all_accounts.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/account/all_accounts.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to view accounts.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -131,7 +131,7 @@ public class accountServlet extends HttpServlet {
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0) {
 			if(authlevel >= 3 || reply.accounts[0].accountID==userid) {
 				request.setAttribute("account", reply.accounts[0]);
-				getServletContext().getRequestDispatcher("/views/view_account.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/account/view_account.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to view this account.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -161,7 +161,7 @@ public class accountServlet extends HttpServlet {
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.accounts.length > 0)
 			{
 				request.setAttribute("account", reply.accounts[0]);
-				getServletContext().getRequestDispatcher("/views/edit_account_form.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/account/edit_account_form.jsp").include(request, response);
 			}
 			else
 			{
