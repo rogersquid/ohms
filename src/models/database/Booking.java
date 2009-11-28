@@ -5,7 +5,7 @@ import models.messages.ResponseMessage.ResponseCode;
 import java.sql.*;
 
 public class Booking {
-	
+
 	public Message addBooking(Message i_msg){
 		/*
 		 * OVERVIEW: Adds a booking to the database
@@ -57,12 +57,12 @@ public class Booking {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message editBooking(Message i_msg){
 		/*
 		 * OVERVIEW: Edits an booking that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
-		 * POSTCONDITIONS: The specified booking will be edited with the given parameters in the preconditions 
+		 * POSTCONDITIONS: The specified booking will be edited with the given parameters in the preconditions
 		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -104,12 +104,12 @@ public class Booking {
 				" StartDate: " + i_msg.bookings[0].startDate);
 		return replyMessage;
 	}
-	
+
 	public Message deleteBooking(Message i_msg){
 		/*
-		 * OVERVIEW: Deletes a booking from the database that is identified by the booking ID 
+		 * OVERVIEW: Deletes a booking from the database that is identified by the booking ID
 		 * PRECONDITIONS: Parameters have been validated
-		 * POSTCONDITIONS: The specified booking will be deleted with the given booking ID from preconditions 
+		 * POSTCONDITIONS: The specified booking will be deleted with the given booking ID from preconditions
 		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -146,7 +146,7 @@ public class Booking {
 		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Deleted booking.");
 		return replyMessage;
 	}
-	
+
 	public Message getBooking(Message i_msg){
 		/*
 		 * OVERVIEW: Retrieves a specific booking. Used to select a booking to view from the list of booking returned by getAllBookings function
@@ -206,7 +206,7 @@ public class Booking {
 				" BookingID: " + i_msg.bookings[0].bookingID);
 		return replyMessage;
 	}
-	
+
 	public Message getAllBooking(Message i_msg){
 		/*
 		 * OVERVIEW: Returns the list of all bookings that this user has authority to view. Returns a Message class with an array BookingMessage objects.
@@ -272,7 +272,7 @@ public class Booking {
 	}
 	public Message getFilteredBooking(Message i_msg){
 		/*
-		 * OVERVIEW: Returns a list of bookings matching the specified parameters 
+		 * OVERVIEW: Returns a list of bookings matching the specified parameters
 		 * PRECONDITIONS: Desired filtered properties (OwnerID, Date, Date Range)
 		 * POSTCONDITIONS: Print out all bookings with given properties from preconditions
 		 */
@@ -300,6 +300,9 @@ public class Booking {
 				else if (numberofrows==0){
 					replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Customer has no Bookings" +
 							" OwnerID: " + i_msg.bookings[0].ownerID);
+					replyMessage.initializeBookings(numberofrows);
+					replyMessage.initializeAccounts(numberofrows);
+					replyMessage.initializeRooms(numberofrows);
 					return replyMessage;
 				}
 				//rs=dbcon.select("Select * FROM " + i_msg.header.nameHotel + "_bookings WHERE bookingOwnerID='" + i_msg.bookings[0].ownerID + "'");
@@ -307,7 +310,7 @@ public class Booking {
 				replyMessage.initializeBookings(numberofrows);
 				replyMessage.initializeAccounts(numberofrows);
 				replyMessage.initializeRooms(numberofrows);
-				
+
 				int i=0;
 				while (rs.next()) {
 					replyMessage.bookings[i].bookingID=rs.getInt("bookingID");
@@ -406,7 +409,7 @@ public class Booking {
 	}
 	public Message checkIn (Message i_msg){
 		/*
-		 * OVERVIEW: Checks in the user when given a specific booking 
+		 * OVERVIEW: Checks in the user when given a specific booking
 		 * PRECONDITIONS: Booking needs to exist and Booking has not been checked in
 		 * POSTCONDITIONS: Status for booking changed to "Checked in" and a bill is created with the given booking information
 		 */
@@ -485,7 +488,7 @@ public class Booking {
 		/*
 		 * OVERVIEW: Checks out the user given a specific booking
 		 * PRECONDITIONS: Booking exist and is checked in, Staff receives payment from customer
-		 * POSTCONDITIONS: Sets the booking status to "Checked out" and edits the bill status to paid 
+		 * POSTCONDITIONS: Sets the booking status to "Checked out" and edits the bill status to paid
 		 */
 		// MUST INCLUDE BILL ID, PAYMENT TYPE, BOOKING ID
 		// Creating database handle and create return message
@@ -496,7 +499,7 @@ public class Booking {
 		replyMessage.bookings=i_msg.bookings;
 		try {
 			dbcon = new databaseHelper();
-			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='1'" + 
+			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='1'" +
 						" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			if (returnedRows != 1) {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the updated is not = 1" +

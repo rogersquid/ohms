@@ -1,9 +1,9 @@
 /*
  * Account.java
- * 
+ *
  * This class does the account keeping functions and talks directly to the database. It can add, delete, retrieve, and edit
  * account(s) information
- * 
+ *
  */
 package models.database;
 
@@ -81,7 +81,7 @@ public class Account {
 
 		return reply;
 	}
-	
+
 	public Message addAccount(Message i_msg) {
 		/*
 		 * OVERVIEW: Adds a account to the database
@@ -102,15 +102,19 @@ public class Account {
 			genderInt = 0;
 		}
 		// Decode the user's authorization level
-		int userAuthLevel = 0;
-		if (inputAccount.accountType.compareToIgnoreCase("customer") == 0)
-			userAuthLevel = 1;
-		if (inputAccount.accountType.compareToIgnoreCase("maid") == 0)
-			userAuthLevel = 2;
-		if (inputAccount.accountType.compareToIgnoreCase("staff") == 0)
-			userAuthLevel = 3;
-		if (inputAccount.accountType.compareToIgnoreCase("admin") == 0)
-			userAuthLevel = 4;
+		int userAuthLevel = 1;
+		String accountType = "customer";
+		if(inputAccount.accountType != null) {
+			accountType = inputAccount.accountType;
+			if (inputAccount.accountType.compareToIgnoreCase("customer") == 0)
+				userAuthLevel = 1;
+			if (inputAccount.accountType.compareToIgnoreCase("maid") == 0)
+				userAuthLevel = 2;
+			if (inputAccount.accountType.compareToIgnoreCase("staff") == 0)
+				userAuthLevel = 3;
+			if (inputAccount.accountType.compareToIgnoreCase("admin") == 0)
+				userAuthLevel = 4;
+		}
 
 		databaseHelper dbcon = null;
 		try {
@@ -121,7 +125,7 @@ public class Account {
 					+ "', '"
 					+ inputAccount.lastName
 					+ "', '"
-					+ inputAccount.accountType
+					+ accountType
 					+ "', '"
 					+ pwmd
 					+ "', '"
@@ -170,12 +174,12 @@ public class Account {
 
 		return reply;
 	}
-	
+
 	public Message editAccount(Message i_msg){
 		/*
 		 * OVERVIEW: Edits an account that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
-		 * POSTCONDITIONS: The specified account will be edited with the given parameters in the preconditions 
+		 * POSTCONDITIONS: The specified account will be edited with the given parameters in the preconditions
 		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
 		ResponseMessage response = new ResponseMessage();
@@ -225,7 +229,7 @@ public class Account {
 			}
 			if(inputAccount.password != null && !inputAccount.password.isEmpty())
 			{
-				updateStmt = updateStmt.concat("', password='" + inputAccount.password);
+				updateStmt = updateStmt.concat("', password='" + MD5.hashString(inputAccount.password));
 			}
 			if(inputAccount.phone != null && !inputAccount.phone.isEmpty())
 			{
@@ -278,9 +282,9 @@ public class Account {
 
 	public Message deleteAccount(Message i_msg) {
 		/*
-		 * OVERVIEW: Deletes a account from the database that is identified by the account ID 
+		 * OVERVIEW: Deletes a account from the database that is identified by the account ID
 		 * PRECONDITIONS: Parameters have been validated
-		 * POSTCONDITIONS: The specified account will be deleted with the given account ID from preconditions 
+		 * POSTCONDITIONS: The specified account will be deleted with the given account ID from preconditions
 		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
 		ResponseMessage response = new ResponseMessage();
@@ -317,7 +321,7 @@ public class Account {
 		reply.response = response;
 		return reply;
 	}
-	
+
 	public Message getAccount(Message i_msg) {
 		/*
 		 * OVERVIEW: Retrieves a specific account. Used to select a account to view from the list of account returned by getAllAccounts function
@@ -455,8 +459,8 @@ public class Account {
 		return reply;
 	}
 
-	
-	
+
+
 	public int getAuthLevel(int i_accountID, String i_md5){
 		/*
 		 * OVERVIEW: Gets the authorization level of the user
@@ -496,10 +500,10 @@ public class Account {
 
 		return authLevel;
 	}
-	
+
 	public Message getFilteredAccount(Message i_msg){
 		/*
-		 * OVERVIEW: Returns a list of accounts matching the specified parameters 
+		 * OVERVIEW: Returns a list of accounts matching the specified parameters
 		 * PRECONDITIONS: Desired filtered properties (accountID, accountType, firstName, lastName, phone, email, address)
 		 * POSTCONDITIONS: Print out all accounts with given properties from preconditions
 		 */

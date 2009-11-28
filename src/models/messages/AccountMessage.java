@@ -1,6 +1,6 @@
 /*
  * AccountMessage.java
- * Objects of this class are instantiated to pass Account specific information from Interface through 
+ * Objects of this class are instantiated to pass Account specific information from Interface through
  * to Database and everywhere in between. Is always harboured in a Message.java object
  */
 
@@ -26,7 +26,7 @@ public class AccountMessage{
 		/*
 		 * OVERVIEW: Fills in the account details. Subject to verification if not validated
 		 * PRECONDITIONS: None
-		 * POSTCONDITIONS: The AccountMessage has its account details filled in 
+		 * POSTCONDITIONS: The AccountMessage has its account details filled in
 		 */
 		accountID		= i_account_id;
 		accountType		= i_account_type;
@@ -58,12 +58,13 @@ public class AccountMessage{
 	}
 
 	public ResponseMessage validateParams(){
-		/* 
-		 * OVERVIEW: Checks to see if the parameters entered are valid.  
+		/*
+		 * OVERVIEW: Checks to see if the parameters entered are valid.
 		 * PRECONDITIONS: None
-		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
+		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly
 		 */
 		ResponseMessage response = new ResponseMessage();
+		response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 		response.responseString = "";
 		Matcher m;
 		// Verify accountType
@@ -174,12 +175,12 @@ public class AccountMessage{
 
 		return response;
 	}
-	
+
 	public ResponseMessage validateEditParams(){
-		/* 
-		 * OVERVIEW: This is similar to the validateParams() but this is tailored for the case of edit accounts  
+		/*
+		 * OVERVIEW: This is similar to the validateParams() but this is tailored for the case of edit accounts
 		 * PRECONDITIONS: None
-		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
+		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly
 		 */
 		ResponseMessage response = new ResponseMessage();
 		response.responseCode = ResponseMessage.ResponseCode.SUCCESS;

@@ -73,7 +73,7 @@ public class Room {
 		/*
 		 * OVERVIEW: Edits an room that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
-		 * POSTCONDITIONS: The specified room will be edited with the given parameters in the preconditions 
+		 * POSTCONDITIONS: The specified room will be edited with the given parameters in the preconditions
 		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -150,9 +150,9 @@ public class Room {
 
 	public Message deleteRoom(Message i_msg) {
 		/*
-		 * OVERVIEW: Deletes a room from the database that is identified by the room ID 
+		 * OVERVIEW: Deletes a room from the database that is identified by the room ID
 		 * PRECONDITIONS: Parameters have been validated
-		 * POSTCONDITIONS: The specified room will be deleted with the given room ID from preconditions 
+		 * POSTCONDITIONS: The specified room will be deleted with the given room ID from preconditions
 		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -204,9 +204,10 @@ public class Room {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all rooms
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms");
+			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms ORDER BY roomNumber ASC");
 			if (!rs.next()) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.initializeRooms(0);
 				replyMessage.response.responseString = "No Rooms in database.";
 			} else {
 				int i = 0;
@@ -272,7 +273,16 @@ public class Room {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all rooms
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
+			ResultSet rs;
+			if(i_msg.rooms[0].roomID > 0) {
+				rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = " + i_msg.rooms[0].roomID);
+			} else if(i_msg.rooms[0].roomNumber > 0) {
+				rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
+			} else {
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+				replyMessage.response.responseString = "Both room ID and number are invalid.";
+				return replyMessage;
+			}
 			while (rs.next()) {
 				replyMessage.rooms[0].roomID = rs.getInt("roomID");
 				replyMessage.rooms[0].roomNumber = rs.getInt("roomNumber");
@@ -313,115 +323,83 @@ public class Room {
 
 	public Message getFilteredRooms(Message i_msg) {
 		/*
-		 * OVERVIEW: Returns a list of rooms matching the specified parameters 
-		 * PRECONDITIONS: Desired filtered properties (floor, roomNumber, roomType, price, onsuite, TV, disabilityAccess, elevator, available, phone, internet, kitchen, cleaned, singleBed, queenBed, kingBed) 
+		 * OVERVIEW: Returns a list of rooms matching the specified parameters
+		 * PRECONDITIONS: Desired filtered properties (floor, roomNumber, roomType, price, onsuite, TV, disabilityAccess, elevator, available, phone, internet, kitchen, cleaned, singleBed, queenBed, kingBed)
 		 * POSTCONDITIONS: Print out all rooms with given properties from preconditions
 		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms = i_msg.rooms;
 		replyMessage.bookings = i_msg.bookings;
-		
+
 		try {
 			// create connection
 			dbcon = new databaseHelper();
 
-			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE ";
+			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE 1 ";
 
 			//first RoomMessage holds the filter toggles, and the second message hold the filter values
-			boolean nonFirst = false;
 			if (i_msg.rooms[0].floor != 0) {
-				queryString = queryString + "floor=" + i_msg.rooms[1].floor;
-				nonFirst = true;
+				queryString = queryString + " AND floor=" + i_msg.rooms[1].floor;
 			}
 			if (i_msg.rooms[0].roomNumber != 0) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "roomNumber=" + i_msg.rooms[1].roomNumber;
-				nonFirst = true;
+				queryString = queryString + " AND roomNumber=" + i_msg.rooms[1].roomNumber;
 			}
-			if (i_msg.rooms[0].roomType == "CHECK") {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "roomType='" + i_msg.rooms[1].roomType + "'";
-				nonFirst = true;
+			if (i_msg.rooms[0].roomType == "CHECK") {;
+				queryString = queryString + " AND roomType='" + i_msg.rooms[1].roomType + "'";
 			}
 			if (i_msg.rooms[0].price != 0) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "price=" + i_msg.rooms[1].price;
-				nonFirst = true;
+				queryString = queryString + " AND price=" + i_msg.rooms[1].price;
 			}
 			if (i_msg.rooms[0].onsuite) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "onsuite=" + ((i_msg.rooms[1].onsuite)?1:0);
-				nonFirst = true;
+				queryString = queryString + " AND onsuite=" + ((i_msg.rooms[1].onsuite)?1:0);
 			}
 			if (i_msg.rooms[0].tv) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "tv=" + ((i_msg.rooms[1].tv)?1:0);
-				nonFirst = true;
+				queryString = queryString + " AND tv=" + ((i_msg.rooms[1].tv)?1:0);
 			}
 			if (i_msg.rooms[0].disabilityAccess) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "disabilityAccess=" + ((i_msg.rooms[1].disabilityAccess)?1:0);
-				nonFirst = true;
+				queryString = queryString + " AND disabilityAccess=" + ((i_msg.rooms[1].disabilityAccess)?1:0);
 			}
 			if (i_msg.rooms[0].elevator) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "elevator=" + ((i_msg.rooms[1].elevator)?1:0);
-				nonFirst = true;
+				queryString = queryString + " AND elevator=" + ((i_msg.rooms[1].elevator)?1:0);
 			}
 			if (i_msg.rooms[0].available) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "available=" + ((i_msg.rooms[1].available)?1:0);
-				nonFirst = true;
+				queryString = queryString + " AND available=" + ((i_msg.rooms[1].available)?1:0);
 			}
 			if (i_msg.rooms[0].phone) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "phone=" + ((i_msg.rooms[1].phone)?1:0);
-				nonFirst = true;
+				queryString = queryString + " AND phone=" + ((i_msg.rooms[1].phone)?1:0);
 			}
 			if (i_msg.rooms[0].internet) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "internet=" + ((i_msg.rooms[1].internet)?1:0);
-				nonFirst = true;
+				queryString = queryString + " AND internet=" + ((i_msg.rooms[1].internet)?1:0);
 			}
 			if (i_msg.rooms[0].kitchen) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "kitchen=" + ((i_msg.rooms[1].kitchen)?1:0);
-				nonFirst = true;
+				queryString = queryString + " AND kitchen=" + ((i_msg.rooms[1].kitchen)?1:0);
 			}
 			if (i_msg.rooms[0].cleaned) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "cleaned=" + ((i_msg.rooms[1].cleaned)?1:0);
-				nonFirst = true;
+				queryString = queryString + " AND cleaned=" + ((i_msg.rooms[1].cleaned)?1:0);
 			}
 			if (i_msg.rooms[0].singleBeds != 0) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "singleBeds=" + i_msg.rooms[1].singleBeds;
-				nonFirst = true;
+				queryString = queryString + " AND singleBeds=" + i_msg.rooms[1].singleBeds;
 			}
 			if (i_msg.rooms[0].queenBeds != 0) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "queenBeds=" + i_msg.rooms[1].queenBeds;
-				nonFirst = true;
+				queryString = queryString + " AND queenBeds=" + i_msg.rooms[1].queenBeds;
 			}
 			if (i_msg.rooms[0].kingBeds != 0) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "kingBeds=" + i_msg.rooms[1].kingBeds;
-				nonFirst = true;
+				queryString = queryString + " AND kingBeds=" + i_msg.rooms[1].kingBeds;
 			}
-			
+
 			if (i_msg.bookings != null) {
 				if(i_msg.bookings[0].startDate!=null && i_msg.bookings[0].endDate!=null) {
-					queryString = queryString + " AND roomID NOT IN ( SELECT roomID FROM " 
+					queryString = queryString + " AND roomID NOT IN ( SELECT roomID FROM "
 						+ i_msg.header.nameHotel + "_bookings WHERE " +
 						"(endDate > '" + i_msg.bookings[0].endDate + "' AND startDate < '" + i_msg.bookings[0].endDate + "') OR " +
 						"(endDate > '" + i_msg.bookings[0].startDate + "' AND startDate < '" + i_msg.bookings[0].startDate + "') OR " +
 						"(endDate < '" + i_msg.bookings[0].endDate + "' AND startDate > '" + i_msg.bookings[0].startDate + "'))";
 				}
 			}
-			
+
 			System.out.println(queryString);
-			
+
 			// query the database for all rooms
 			ResultSet rs = dbcon.select(queryString);
 			if (!rs.next()) {
