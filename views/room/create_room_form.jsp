@@ -1,14 +1,14 @@
 <%@ page import="models.database.*" %>
 <%@ page import="models.messages.*" %>
 <%@ page import="java.sql.*" %>
-<%@ include file="header.jsp" %>
-<%@ include file="left_nav.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../left_nav.jsp" %>
 				<div id='content'>
-					<DIV id="title">New Room</DIV> 
+					<DIV id="title">New Room</DIV>
 					<%
 						RoomMessage room = (RoomMessage)request.getAttribute("room");
 						if(room==null) {
-							room = new AccountMessage();
+							room = new RoomMessage();
 							room.roomID = 0;
 							room.roomType = "";
 							room.roomNumber = 0;
@@ -30,10 +30,15 @@
 					%>
 					<form method='post' action=''>
 						<%
-						
-						if(request.getParameter("status")=="room_failed") {
+
+						if(request.getAttribute("status")=="room_failed") {
 							%>
 							<div class='error'><strong>Add room failed:</strong> <%=request.getAttribute("message") %></div>
+							<%
+						}
+						if(request.getAttribute("status")=="validation_failed") {
+							%>
+							<div class='error'><strong>Invalid room. Please fix the errors listed below.</strong><br /> <%=request.getAttribute("message") %></div>
 							<%
 						}
 						if(request.getParameter("status")=="add_success") {
@@ -245,9 +250,9 @@
 						<table>
 							<tr>
 								<th>TV:</th>
-								<td><input type='checkbox' name='tv' value='1' 
+								<td><input type='checkbox' name='tv' value='1'
 										<%
-										if(room.tv == 1) {
+										if(room.tv == true) {
 											%>
 											checked="checked"
 											<%
@@ -259,19 +264,19 @@
 								<th>Internet:</th>
 								<td><input type='checkbox' name='internet' value='1'
 										<%
-										if(room.internet == 1) {
+										if(room.internet == true) {
 											%>
 											checked="checked"
 											<%
 										}
-										%>								
+										%>
 										/></td>
 							</tr>
 							<tr>
 								<th>Restroom on suite:</th>
-								<td><input type='checkbox' name='onsuite' value='1' 
+								<td><input type='checkbox' name='onsuite' value='1'
 										<%
-										if(room.onsuite == 1) {
+										if(room.onsuite == true) {
 											%>
 											checked="checked"
 											<%
@@ -281,9 +286,9 @@
 							</tr>
 							<tr>
 								<th>Phone:</th>
-								<td><input type='checkbox' name='phone' value='1' 
+								<td><input type='checkbox' name='phone' value='1'
 										<%
-										if(room.phone == 1) {
+										if(room.phone == true) {
 											%>
 											checked="checked"
 											<%
@@ -293,9 +298,9 @@
 							</tr>
 							<tr>
 								<th>Kitchen:</th>
-								<td><input type='checkbox' name='kitchen' value='1' 
+								<td><input type='checkbox' name='kitchen' value='1'
 										<%
-										if(room.kitchen == 1) {
+										if(room.kitchen == true) {
 											%>
 											checked="checked"
 											<%
@@ -305,9 +310,9 @@
 							</tr>
 							<tr>
 								<th>Available:</th>
-								<td><input type='checkbox' name='available' value='1' 
+								<td><input type='checkbox' name='available' value='1'
 										<%
-										if(room.available == 1) {
+										if(room.available == true) {
 											%>
 											checked="checked"
 											<%
@@ -319,40 +324,40 @@
 								<th>Cleaned:</th>
 								<td><input type='checkbox' name='cleaned' value='1'
 										<%
-										if(room.cleaned == 1) {
+										if(room.cleaned == true) {
 											%>
 											checked="checked"
 											<%
 										}
-										%>								
+										%>
 										/></td>
 							</tr>
 						</table>
-						
+
 						<h3>Accessibility</h3>
 						<table>
 							<tr>
 								<th>Disability access:</th>
 								<td><input type='checkbox' name='disabilityAccess' value='1'
 										<%
-										if(room.disabilityAccess == 1) {
+										if(room.disabilityAccess == true) {
 											%>
 											checked="checked"
 											<%
 										}
-										%>		
+										%>
 										/></td>
 							</tr>
 							<tr>
 								<th>Elevator access:</th>
-								<td><input type='checkbox' name='elevator' value='1' 
+								<td><input type='checkbox' name='elevator' value='1'
 										<%
-										if(room.elevator == 1) {
+										if(room.elevator == true) {
 											%>
 											checked="checked"
 											<%
 										}
-										%>	
+										%>
 										/></td>
 							</tr>
 						</table>
@@ -360,4 +365,4 @@
 						<input type="submit" value="Add room" />
 					</form>
 				</div>
-<%@ include file="footer.jsp" %>
+<%@ include file="../footer.jsp" %>

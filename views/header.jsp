@@ -9,11 +9,11 @@
 		<script type="text/javascript" src="/ohms/js/jquery.js"></script>
 		<script type="text/javascript" src="/ohms/js/datepicker-jquery.js"></script>
 		<script type="text/javascript" src="/ohms/js/date.js"></script>
-		<script type="text/javascript" charset="utf-8"> 
+		<script type="text/javascript" charset="utf-8">
             $(function() {
 				$('.date-pick').datePicker();
             });
-		</script> 
+		</script>
 	</head>
 	<body>
 		<div id='wrapper'>

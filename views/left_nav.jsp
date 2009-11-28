@@ -24,6 +24,7 @@
 
 							<li><a href='bookings.html?action=all_bookings'>All bookings</a></li>
 							<li><a href='account.html?action=all_accounts'>All accounts</a></li>
+							<li><a href='room.html?action=all_rooms'>All rooms</a></li>
 					</ul>
 							<%
 						}

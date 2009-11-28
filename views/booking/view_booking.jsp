@@ -1,8 +1,8 @@
 <%@ page import="models.database.*" %>
 <%@ page import="models.messages.*" %>
 <%@ page import="java.sql.*" %>
-<%@ include file="header.jsp" %>
-<%@ include file="left_nav.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../left_nav.jsp" %>
 				<div id='content'>
 					<div id='title'>Booking Details</div>
 					<%
@@ -17,7 +17,7 @@
 							<div class='success'><%=request.getAttribute("message") %></div>
 							<%
 						}
-						
+
 						Message data = (Message)request.getAttribute("data");
 					%>
 					<table>
@@ -39,4 +39,4 @@
 						</tr>
 					</table>
 				</div>
-<%@ include file="footer.jsp" %>
+<%@ include file="../footer.jsp" %>
