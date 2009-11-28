@@ -26,7 +26,6 @@ public class ExtraMessage{
 		 * PRECONDITIONS: None
 		 * POSTCONDITIONS: ExtraMessage object's parameters are initialized
 		 */
-		
 		extraID=eID;
 		bookingID=bID;
 		extraName=eName;

@@ -1,3 +1,8 @@
+/*HeaderMessage.java
+ * The class that holds specific message types for transmission across the system classes
+ * Holds only messageOwnerID, authority level and the name of the Hotel
+ */
+
 package models.messages;
 
 public class HeaderMessage {

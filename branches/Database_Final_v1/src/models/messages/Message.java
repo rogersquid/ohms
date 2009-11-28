@@ -34,61 +34,82 @@ public class Message {
 		response=new ResponseMessage();
 	}
 	
-	
-	//REQUIRES:	ENOUGH HEAP SPACE
-	//MODIFIES: ALLOCATES THE CORRESPONDING SPECIFIC MESSAGE ARRAY ENOUGH SPACE TO HOLD SPECIFIED
-	//AMOUNT OF SPECIFIC MESSAGE TYPE
-	//STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
-	//EFFECTS: THE SPECIFIC MESSAGE ARRAY NOW CONTAINS ENOUGH SPACE TO HOLD THE SPECIFIED NUMBER
-	//OF THE SPECIFIC MESSAGE TYPE
-	//Interface and any other class that wishes to use one of the specific message types 
-	//will have to initialize the array with the desired number of message elements to store
 	public void initializeAccounts(int arraysize){
+		//REQUIRES:	ENOUGH HEAP SPACE
+		//MODIFIES: ALLOCATES THE CORRESPONDING SPECIFIC MESSAGE ARRAY ENOUGH SPACE TO HOLD SPECIFIED AMOUNT OF SPECIFIC MESSAGE TYPE STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
+		//EFFECTS: THE SPECIFIC MESSAGE ARRAY NOW CONTAINS ENOUGH SPACE TO HOLD THE SPECIFIED NUMBER OF THE SPECIFIC MESSAGE TYPE
+		//Interface and any other class that wishes to use one of the specific message types 
+		//will have to initialize the array with the desired number of message elements to store
 		accounts=new AccountMessage[arraysize];
 		for(int i=0; i<arraysize; i++){
 			accounts[i]=new AccountMessage();
 		}
 	}
 	public void initializeBookings(int arraysize){
+		//REQUIRES:	ENOUGH HEAP SPACE
+		//MODIFIES: ALLOCATES THE CORRESPONDING SPECIFIC MESSAGE ARRAY ENOUGH SPACE TO HOLD SPECIFIED AMOUNT OF SPECIFIC MESSAGE TYPE STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
+		//EFFECTS: THE SPECIFIC MESSAGE ARRAY NOW CONTAINS ENOUGH SPACE TO HOLD THE SPECIFIED NUMBER OF THE SPECIFIC MESSAGE TYPE
+		//Interface and any other class that wishes to use one of the specific message types 
+		//will have to initialize the array with the desired number of message elements to store
 		bookings=new BookingMessage[arraysize];
 		for(int i=0; i<arraysize; i++){
 			bookings[i]=new BookingMessage();
 		}
 	}
 	public void initializeRooms(int arraysize){
+		//REQUIRES:	ENOUGH HEAP SPACE
+		//MODIFIES: ALLOCATES THE CORRESPONDING SPECIFIC MESSAGE ARRAY ENOUGH SPACE TO HOLD SPECIFIED AMOUNT OF SPECIFIC MESSAGE TYPE STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
+		//EFFECTS: THE SPECIFIC MESSAGE ARRAY NOW CONTAINS ENOUGH SPACE TO HOLD THE SPECIFIED NUMBER OF THE SPECIFIC MESSAGE TYPE
+		//Interface and any other class that wishes to use one of the specific message types 
+		//will have to initialize the array with the desired number of message elements to store
 		rooms=new RoomMessage[arraysize];
 		for(int i=0; i<arraysize; i++){
 			rooms[i]=new RoomMessage();
 		}
 	}
 	public void initializeExtras(int arraysize){
+		//REQUIRES:	ENOUGH HEAP SPACE
+		//MODIFIES: ALLOCATES THE CORRESPONDING SPECIFIC MESSAGE ARRAY ENOUGH SPACE TO HOLD SPECIFIED AMOUNT OF SPECIFIC MESSAGE TYPE STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
+		//EFFECTS: THE SPECIFIC MESSAGE ARRAY NOW CONTAINS ENOUGH SPACE TO HOLD THE SPECIFIED NUMBER OF THE SPECIFIC MESSAGE TYPE
+		//Interface and any other class that wishes to use one of the specific message types 
+		//will have to initialize the array with the desired number of message elements to store
 		extras=new ExtraMessage[arraysize];
 		for(int i=0; i<arraysize; i++){
 			extras[i]=new ExtraMessage();
 		}
 	}
 	public void initializeBills(int arraysize){
+		//REQUIRES:	ENOUGH HEAP SPACE
+		//MODIFIES: ALLOCATES THE CORRESPONDING SPECIFIC MESSAGE ARRAY ENOUGH SPACE TO HOLD SPECIFIED AMOUNT OF SPECIFIC MESSAGE TYPE STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
+		//EFFECTS: THE SPECIFIC MESSAGE ARRAY NOW CONTAINS ENOUGH SPACE TO HOLD THE SPECIFIED NUMBER OF THE SPECIFIC MESSAGE TYPE
+		//Interface and any other class that wishes to use one of the specific message types 
+		//will have to initialize the array with the desired number of message elements to store
 		bills=new BillMessage[arraysize];
 		for(int i=0; i<arraysize; i++){
 			bills[i]=new BillMessage();
 		}
 	}
 	public void initializeReports(int arraysize){
+		//REQUIRES:	ENOUGH HEAP SPACE
+		//MODIFIES: ALLOCATES THE CORRESPONDING SPECIFIC MESSAGE ARRAY ENOUGH SPACE TO HOLD SPECIFIED AMOUNT OF SPECIFIC MESSAGE TYPE STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
+		//EFFECTS: THE SPECIFIC MESSAGE ARRAY NOW CONTAINS ENOUGH SPACE TO HOLD THE SPECIFIED NUMBER OF THE SPECIFIC MESSAGE TYPE
+		//Interface and any other class that wishes to use one of the specific message types 
+		//will have to initialize the array with the desired number of message elements to store
 		reports=new ReportMessage[arraysize];
 		for(int i=0; i<arraysize; i++){
 			reports[i]=new ReportMessage();
 		}
 	}
 	
-	//REQUIRES:	NONE (IF THERE IS NO MESSAGE TO CHECK THEN TRUE IS RETURNED.
-	//MODIFIES: FILLS RESPONSE MESSAGE WITH VALIDATION CHECK; T OR F AND RESPONSE
-	//STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
-	//EFFECTS: NONE
-	//This function validates the parameters in a specific message type.
-	//Which specific message type is used is determined by which of the message type arrays
-	//is not empty. If not empty (i.e. not null), it contains one of the specific message.
-	//Makes heavy use of regular expressions
 	public boolean validate() {
+		//REQUIRES:	NONE (IF THERE IS NO MESSAGE TO CHECK THEN TRUE IS RETURNED.
+		//MODIFIES: FILLS RESPONSE MESSAGE WITH VALIDATION CHECK; T OR F AND RESPONSE
+		//STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
+		//EFFECTS: NONE
+		//This function validates the parameters in a specific message type.
+		//Which specific message type is used is determined by which of the message type arrays
+		//is not empty. If not empty (i.e. not null), it contains one of the specific message.
+		//Makes heavy use of regular expressions
 		if(accounts!=null) {
 			response = accounts[0].validateParams();
 		} else if(rooms!=null) {
