@@ -15,14 +15,12 @@ public class ResponseMessage {
 	public ResponseCode responseCode;
 	public String responseString;
 
-	
-
-	/*
-	 * PRE: NONE
-	 * POST: The responseCode and responseString fields are filled out 
-	 * 
-	 */
 	public void fillResponse(ResponseCode resCode, String resStr){
+		/*
+		 * OVERVIEW: Fills in the response details. Subject to verification if not validated
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: ResponseMessage object's parameters are initialized
+		 */
 		responseCode=resCode;
 		responseString=resStr;
 	}
