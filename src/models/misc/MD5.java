@@ -10,15 +10,12 @@ import java.security.*;
 
 public class MD5 {
 	
-	
-	/*
-	 * PRE: String is not empty. 
-	 * POST: Returns a hash string of the password
-	 * 
-	 * 	
-	 * Gets the non plain text string of the password which is what will be stored in the database 
-	 */
 	public static String hashString(String pwd) {
+		/*
+		 * OVERVIEW: Gets the non plain text string of the password which is what will be stored in the database 
+		 * PRECONDITIONS: String is not empty. 
+		 * POSTCONDITIONS: Returns a hash string of the password
+		 */
 		StringBuffer hex = new StringBuffer();
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
