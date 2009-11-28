@@ -6,6 +6,11 @@ import models.messages.*;
 
 public class Room {
 	public Message addRoom(Message i_msg){
+		/*
+		 * OVERVIEW: Adds a room to the database
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: If addition was successful, the room with the correct parameters will be added to the Database
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -65,6 +70,11 @@ public class Room {
 	}
 
 	public Message editRoom(Message i_msg){
+		/*
+		 * OVERVIEW: Edits an room that is already in the database
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: The specified room will be edited with the given parameters in the preconditions 
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -139,6 +149,11 @@ public class Room {
 	}
 
 	public Message deleteRoom(Message i_msg) {
+		/*
+		 * OVERVIEW: Deletes a room from the database that is identified by the room ID 
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: The specified room will be deleted with the given room ID from preconditions 
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -176,6 +191,11 @@ public class Room {
 	}
 
 	public Message getAllRooms(Message i_msg) {
+		/*
+		 * OVERVIEW: Returns the list of all rooms that this user has authority to view. Returns a Message class with an array RoomMessage objects.
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: Message contains an array of RoomMessage objects that represent the list of rooms viewable by this user
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
@@ -239,6 +259,11 @@ public class Room {
 	}
 
 	public Message getRoom(Message i_msg) {
+		/*
+		 * OVERVIEW: Retrieves a specific room. Used to select a room to view from the list of room returned by getAllRooms function
+		 * PRECONDITIONS: The specified room is selected from the list of rooms returned by getAllRooms. Parameters have been validated.
+		 * POSTCONDITIONS: The specified room is returned, if found; placed in rooms[0] of returned Message
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
@@ -287,6 +312,11 @@ public class Room {
 	}
 
 	public Message getFilteredRooms(Message i_msg) {
+		/*
+		 * OVERVIEW: Returns a list of rooms matching the specified parameters 
+		 * PRECONDITIONS: Desired filtered properties (floor, roomNumber, roomType, price, onsuite, TV, disabilityAccess, elevator, available, phone, internet, kitchen, cleaned, singleBed, queenBed, kingBed) 
+		 * POSTCONDITIONS: Print out all rooms with given properties from preconditions
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms = i_msg.rooms;
