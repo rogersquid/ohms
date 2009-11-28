@@ -27,21 +27,16 @@
 							room.onsuite = false;
 							room.elevator = false;
 						}
-						if(request.getAttribute("status")=="register_failed") {
-							%>
-							<div class='error'><strong>Register failed:</strong> <%=request.getAttribute("message") %></div>
-							<%
-						}
 					%>
 					<form method='post' action=''>
 						<%
 						
-						if(request.getAttribute("status")=="room_failed") {
+						if(request.getParameter("status")=="room_failed") {
 							%>
 							<div class='error'><strong>Add room failed:</strong> <%=request.getAttribute("message") %></div>
 							<%
 						}
-						if(request.getAttribute("status")=="add_success") {
+						if(request.getParameter("status")=="add_success") {
 							%>
 							<div class='success'><strong>Room successfully added.</strong> </div>
 							<%
