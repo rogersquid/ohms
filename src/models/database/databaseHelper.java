@@ -17,30 +17,22 @@ public class databaseHelper {
 
 	private Connection connection;
 
-	
-	/*
-	 * PRE: None
-	 * POST: Returns a databaseHelper object
-	 * 
-	 * The default constructor
-	 */
-	public databaseHelper() throws SQLException, ClassNotFoundException
-  	{
+	public databaseHelper() throws SQLException, ClassNotFoundException {
+		/*
+		 * OVERVIEW: The default constructor
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: Returns a databaseHelper object
+		 */
     	Class.forName(jdbcDriver); //set Java database connectivity driver
     	connection = DriverManager.getConnection(dbURL, username, password);
 	}
-	
-	
-	/*
-	 * PRE: String is not empty and is formatted to mySQL specs
-	 * POST: Returns a ResultSet that contains requested database entries else throws exception
-	 * 
-	 * 	
-	 * The function used to retrieve (get/getAll) entries from the database
-	 */
 
-	public ResultSet select(String query)throws SQLException
-	{
+	public ResultSet select(String query)throws SQLException {
+		/*
+		 * OVERVIEW: The function used to retrieve (get/getAll) entries from the database
+		 * PRECONDITIONS: String is not empty and is formatted to mySQL specifications
+		 * POSTCONDITIONS: Returns a ResultSet that contains requested database entries else throws exception
+		 */
 	    PreparedStatement st  = connection.prepareStatement(query);
 	    return st.executeQuery();
 	}
@@ -52,31 +44,22 @@ public class databaseHelper {
 	    return st.executeUpdate();
 	}
 
-	
-	/*
-	 * PRE: String is not empty and is formatted to mySQL specs. Database connection has been opened
-	 * POST: The database update entry request is performed else throws exception
-	 * 
-	 * 	
-	 * This function is used to edit and delete database entries
-	 */
-	public int update(String statement)throws SQLException
-	{
+	public int update(String statement)throws SQLException {
+		/*
+		 * OVERVIEW: This function is used to edit and delete database entries
+		 * PRECONDITIONS: String is not empty and is formatted to mySQL specifications. Database connection has been opened
+		 * POSTCONDITIONS: The database update entry request is performed else throws exception
+		 */
 		PreparedStatement st  = connection.prepareStatement(statement);
 	    return st.executeUpdate();
 	}
 	
-	
-	
-	/*
-	 * PRE: String is not empty and is formatted to mySQL specs. Database connection has been opened
-	 * POST: The database insert entry request is performed else throws exception
-	 * 
-	 * 	
-	 * This function is used to add entries to the database
-	 */
-	public int insert(String query)throws SQLException
-	{
+	public int insert(String query)throws SQLException {
+		/*
+		 * OVERVIEW: This function is used to add entries to the database
+		 * PRECONDITIONS: String is not empty and is formatted to mySQL specifications. Database connection has been opened
+		 * POSTCONDITIONS: The database insert entry request is performed else throws exception
+		 */
 		PreparedStatement st  = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 	    st.executeUpdate();
 		ResultSet res = st.getGeneratedKeys();
@@ -87,17 +70,12 @@ public class databaseHelper {
 		}
 	}
 	
-	
-	
-	/*
-	 * PRE: Database connection is opened
-	 * POST: The database connection is closed
-	 * 
-	 * 	
-	 * This function is used to close the database connection once opened
-	 */
-	public void close()
-	{
+	public void close() {
+		/*
+		 * OVERVIEW: This function is used to close the database connection once opened
+		 * PRECONDITIONS: Database connection is opened
+		 * POSTCONDITIONS: The database connection is closed
+		 */
 		try
 	    {
 			connection.close();
