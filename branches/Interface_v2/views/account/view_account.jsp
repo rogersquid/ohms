@@ -1,8 +1,8 @@
 <%@ page import="models.database.*" %>
 <%@ page import="models.messages.*" %>
 <%@ page import="java.sql.*" %>
-<%@ include file="header.jsp" %>
-<%@ include file="left_nav.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../left_nav.jsp" %>
 				<div id='content'>
 					<% AccountMessage account = (AccountMessage)request.getAttribute("account"); %>
 					<div id='title'>Account &bull <a href='account.html?action=edit&amp;id=<%=account.accountID %>'><small>Edit</small></a></div>
@@ -52,4 +52,4 @@
 						</tr>
 					</table>
 				</div>
-<%@ include file="footer.jsp" %>
+<%@ include file="../footer.jsp" %>

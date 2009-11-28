@@ -1,10 +1,10 @@
 <%@ page import="models.database.*" %>
 <%@ page import="models.messages.*" %>
 <%@ page import="java.sql.*" %>
-<%@ include file="header.jsp" %>
-<%@ include file="left_nav.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../left_nav.jsp" %>
 				<div id='content'>
-					<DIV id="title">Edit Room</DIV> 
+					<DIV id="title">Edit Room</DIV>
 					<%
 						RoomMessage room = (RoomMessage)request.getAttribute("room");
 						if(room==null) {
@@ -22,7 +22,7 @@
 						<input type='hidden' name='action' value='edit' />
 						<input type='hidden' name='id' value='<%=room.roomID %>' />
 						<%
-						
+
 						if(request.getAttribute("status")=="room_failed") {
 							%>
 							<div class='error'><strong>Edit room failed:</strong> <%=request.getAttribute("message") %></div>
@@ -237,7 +237,7 @@
 						<table>
 							<tr>
 								<th>TV:</th>
-								<td><input type='checkbox' name='tv' value='1' 
+								<td><input type='checkbox' name='tv' value='1'
 										<%
 										if(room.tv == 1) {
 											%>
@@ -256,12 +256,12 @@
 											checked="checked"
 											<%
 										}
-										%>								
+										%>
 										/></td>
 							</tr>
 							<tr>
 								<th>Restroom on suite:</th>
-								<td><input type='checkbox' name='onsuite' value='1' 
+								<td><input type='checkbox' name='onsuite' value='1'
 										<%
 										if(room.onsuite == 1) {
 											%>
@@ -273,7 +273,7 @@
 							</tr>
 							<tr>
 								<th>Phone:</th>
-								<td><input type='checkbox' name='phone' value='1' 
+								<td><input type='checkbox' name='phone' value='1'
 										<%
 										if(room.phone == 1) {
 											%>
@@ -285,7 +285,7 @@
 							</tr>
 							<tr>
 								<th>Kitchen:</th>
-								<td><input type='checkbox' name='kitchen' value='1' 
+								<td><input type='checkbox' name='kitchen' value='1'
 										<%
 										if(room.kitchen == 1) {
 											%>
@@ -297,7 +297,7 @@
 							</tr>
 							<tr>
 								<th>Available:</th>
-								<td><input type='checkbox' name='available' value='1' 
+								<td><input type='checkbox' name='available' value='1'
 										<%
 										if(room.available == 1) {
 											%>
@@ -316,11 +316,11 @@
 											checked="checked"
 											<%
 										}
-										%>								
+										%>
 										/></td>
 							</tr>
 						</table>
-						
+
 						<h3>Accessibility</h3>
 						<table>
 							<tr>
@@ -332,19 +332,19 @@
 											checked="checked"
 											<%
 										}
-										%>		
+										%>
 										/></td>
 							</tr>
 							<tr>
 								<th>Elevator access:</th>
-								<td><input type='checkbox' name='elevator' value='1' 
+								<td><input type='checkbox' name='elevator' value='1'
 										<%
 										if(room.elevator == 1) {
 											%>
 											checked="checked"
 											<%
 										}
-										%>	
+										%>
 										/></td>
 							</tr>
 						</table>
@@ -352,4 +352,4 @@
 						<input type="submit" value="Update room" />
 					</form>
 				</div>
-<%@ include file="footer.jsp" %>
+<%@ include file="../footer.jsp" %>

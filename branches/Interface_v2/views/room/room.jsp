@@ -1,8 +1,8 @@
 <%@ page import="models.database.*" %>
 <%@ page import="models.messages.*" %>
 <%@ page import="java.sql.*" %>
-<%@ include file="header.jsp" %>
-<%@ include file="left_nav.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../left_nav.jsp" %>
 				<div id='content'>
 					<div id='title'>Room</div>
 					<%
@@ -63,4 +63,4 @@
 						</tr>
 					</table>
 				</div>
-<%@ include file="footer.jsp" %>
+<%@ include file="../footer.jsp" %>
