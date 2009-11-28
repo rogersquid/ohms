@@ -5,13 +5,17 @@ import models.messages.ResponseMessage.ResponseCode;
 import java.sql.*;
 
 public class Booking {
+	
 	public Message addBooking(Message i_msg){
-		// COMMENT YOUR CODE
+		/*
+		 * OVERVIEW: Adds a booking to the database
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: If addition was successful, the booking with the correct parameters will be added to the Database
+		 */
 		// All the information is filled in. This puts all the information into the database.
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		// Not the best way to do it but should be a deep Copy - I will investigate
 		replyMessage.bookings=i_msg.bookings;
 		try {
 			// create connection
@@ -53,7 +57,13 @@ public class Booking {
 		}
 		return replyMessage;
 	}
+	
 	public Message editBooking(Message i_msg){
+		/*
+		 * OVERVIEW: Edits an booking that is already in the database
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: The specified booking will be edited with the given parameters in the preconditions 
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -94,7 +104,13 @@ public class Booking {
 				" StartDate: " + i_msg.bookings[0].startDate);
 		return replyMessage;
 	}
+	
 	public Message deleteBooking(Message i_msg){
+		/*
+		 * OVERVIEW: Deletes a booking from the database that is identified by the booking ID 
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: The specified booking will be deleted with the given booking ID from preconditions 
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -130,11 +146,16 @@ public class Booking {
 		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Deleted booking.");
 		return replyMessage;
 	}
+	
 	public Message getBooking(Message i_msg){
+		/*
+		 * OVERVIEW: Retrieves a specific booking. Used to select a booking to view from the list of booking returned by getAllBookings function
+		 * PRECONDITIONS: The specified booking is selected from the list of bookings returned by getAllBookings. Parameters have been validated.
+		 * POSTCONDITIONS: The specified booking is returned, if found; placed in bookings[0] of returned Message
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		// Not the best way to do it but should be a deep Copy - I will investigate
 		replyMessage.initializeBookings(1);
 		replyMessage.initializeAccounts(1);
 		replyMessage.initializeRooms(1);
@@ -185,7 +206,13 @@ public class Booking {
 				" BookingID: " + i_msg.bookings[0].bookingID);
 		return replyMessage;
 	}
+	
 	public Message getAllBooking(Message i_msg){
+		/*
+		 * OVERVIEW: Returns the list of all bookings that this user has authority to view. Returns a Message class with an array BookingMessage objects.
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: Message contains an array of BookingMessage objects that represent the list of bookings viewable by this user
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -244,14 +271,11 @@ public class Booking {
 		return replyMessage;
 	}
 	public Message getFilteredBooking(Message i_msg){
-	/*
-	 * This function is admin and staff only(require their auth levels)
-	 * This function is able to filter
-	 * 		CustomerID
-	 * 		Date
-	 * 		All Rooms available in a given date range
-	 * These functions are exclusive
-	 */
+		/*
+		 * OVERVIEW: Returns a list of bookings matching the specified parameters 
+		 * PRECONDITIONS: Desired filtered properties (OwnerID, Date, Date Range)
+		 * POSTCONDITIONS: Print out all bookings with given properties from preconditions
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -381,6 +405,11 @@ public class Booking {
 		return replyMessage;
 	}
 	public Message checkIn (Message i_msg){
+		/*
+		 * OVERVIEW: Checks in the user when given a specific booking 
+		 * PRECONDITIONS: Booking needs to exist and Booking has not been checked in
+		 * POSTCONDITIONS: Status for booking changed to "Checked in" and a bill is created with the given booking information
+		 */
 		Message output=i_msg;
 		databaseHelper dbcon 	= null;
 		try {
@@ -453,6 +482,11 @@ public class Booking {
 		return output;
 	}
 	public Message checkOut (Message i_msg){
+		/*
+		 * OVERVIEW: Checks out the user given a specific booking
+		 * PRECONDITIONS: Booking exist and is checked in, Staff receives payment from customer
+		 * POSTCONDITIONS: Sets the booking status to "Checked out" and edits the bill status to paid 
+		 */
 		// MUST INCLUDE BILL ID, PAYMENT TYPE, BOOKING ID
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
