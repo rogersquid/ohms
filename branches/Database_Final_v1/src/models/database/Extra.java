@@ -7,6 +7,11 @@ import java.sql.*;
 public class Extra {
 
 	public Message addExtra(Message i_msg){
+		/*
+		 * OVERVIEW: Adds a extra to the database
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: If addition was successful, the extra with the correct parameters will be added to the Database
+		 */
 		// All the information is filled in. This puts all the information into the database.
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -56,7 +61,11 @@ public class Extra {
 	}
 
 	public Message editExtra(Message i_msg){
-
+		/*
+		 * OVERVIEW: Edits an extra that is already in the database
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: The specified extra will be edited with the given parameters in the preconditions 
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.extras=i_msg.extras;
@@ -94,7 +103,11 @@ public class Extra {
 	}
 
 	public Message deleteExtra(Message i_msg) {
-		// No date error checking implemented
+		/*
+		 * OVERVIEW: Deletes a extra from the database that is identified by the extra ID 
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: The specified extra will be deleted with the given extra ID from preconditions 
+		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
 		ResponseMessage response = new ResponseMessage();
 		databaseHelper dbcon 	= null;
@@ -132,6 +145,11 @@ public class Extra {
 	}
 
 	public Message getExtra(Message i_msg) {
+		/*
+		 * OVERVIEW: Retrieves a specific extra. Used to select a extra to view from the list of extra returned by getAllExtras function
+		 * PRECONDITIONS: The specified extra is selected from the list of extras returned by getAllExtras. Parameters have been validated.
+		 * POSTCONDITIONS: The specified extra is returned, if found; placed in extras[0] of returned Message
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.initializeExtras(1);
@@ -176,6 +194,11 @@ public class Extra {
 	}
 	
 	public Message getAllExtras(Message i_msg) {
+		/*
+		 * OVERVIEW: Returns the list of all extras that this user has authority to view. Returns a Message class with an array ExtraMessage objects.
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: Message contains an array of ExtraMessage objects that represent the list of extras viewable by this user
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		
@@ -227,6 +250,11 @@ public class Extra {
 	}
 
 	public Message getFilteredExtra(Message i_msg) {
+		/*
+		 * OVERVIEW: Returns a list of extras matching the specified parameters 
+		 * PRECONDITIONS: Desired filtered properties (extraID, bookingID, extraName, price, date) 
+		 * POSTCONDITIONS: Print out all extras with given properties from preconditions
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.extras=i_msg.extras;
@@ -240,7 +268,7 @@ public class Extra {
 			//first ExtraMessage holds the filter toggles, and the second message hold the filter values
 			boolean nonFirst = false;
 			if (i_msg.extras[0].extraID == 0) {
-				queryString = queryString + "billID=" + i_msg.extras[1].extraID;
+				queryString = queryString + "extraID=" + i_msg.extras[1].extraID;
 				nonFirst = true;
 			}
 			if (i_msg.extras[0].bookingID == 0) {
