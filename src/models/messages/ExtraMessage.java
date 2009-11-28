@@ -5,7 +5,6 @@
  *  
  */
 
-
 package models.messages;
 
 import java.util.regex.Matcher;
@@ -21,14 +20,13 @@ public class ExtraMessage{
 	public java.sql.Date		date;
 	public java.sql.Timestamp	creationTime;
 	
-	
-	/*
-	 * PRE: None
-	 * POST: ExtraMessage object's parameters are initialized
-	 * 
-	 *  Fills in the Extra service details. Subject to verification if not validated
-	 */
 	public void fillAll(int eID, int bID, String eName, float ePrice, java.sql.Date eDate, java.sql.Timestamp cDate ){
+		/*
+		 * OVERVIEW: Fills in the Extra service details. Subject to verification if not validated
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: ExtraMessage object's parameters are initialized
+		 */
+		
 		extraID=eID;
 		bookingID=bID;
 		extraName=eName;
@@ -37,13 +35,12 @@ public class ExtraMessage{
 		creationTime=cDate;		
 	}
 	
-	/*
-	 * PRE: None
-	 * POST: The details of the ExtraMessage are printed out
-	 * 
-	 * Spills out fields of this ExtraMessage
-	 */
 	public void print_All(){
+		/*
+		 * OVERVIEW: Prints out fields of this ExtraMessage
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: The details of the ExtraMessage are printed out
+		 */
 		System.out.println("Extras Message is printing out");
 		System.out.println(extraID);
 		System.out.println(bookingID);
@@ -53,17 +50,13 @@ public class ExtraMessage{
 		System.out.println(creationTime);
 		System.out.println("*******************");
 	}
-	
-	
-	/* 
-	 * PRE: None
-	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
-	 * and the ResponseCode is set accordingly 
-	 * 
-	 * Checks to see if the parameters entered are valid.  
-	 * 
-	 */
+
 	public ResponseMessage validateParams(){
+		/* 
+		 * OVERVIEW: Checks to see if the parameters entered are valid.  
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
+		 */
 		Matcher m;
 		ResponseMessage response = new ResponseMessage();
 		response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, new String(""));
