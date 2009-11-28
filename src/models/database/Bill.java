@@ -266,14 +266,11 @@ public class Bill {
 		}
 		return replyMessage;
 	}
-
-	
-	
 	
 	public Message getFilteredBill(Message i_msg) {
 		/*
 		 * OVERVIEW: Returns a list of Bills matching the specified parameters 
-		 * PRECONDITIONS: Desired filtered properties
+		 * PRECONDITIONS: Desired filtered properties (billID, bookingID, paymentType, status) 
 		 * POSTCONDITIONS: Print out all bills with given properties from preconditions
 		 */
 		databaseHelper dbcon = null;
@@ -286,7 +283,7 @@ public class Bill {
 
 			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE ";
 
-			//first RoomMessage holds the filter toggles, and the second message hold the filter values
+			//first BillMessage holds the filter toggles, and the second message hold the filter values
 			boolean nonFirst = false;
 			if (i_msg.bills[0].billID != 0) {
 				queryString = queryString + "billID=" + i_msg.bills[1].billID;
@@ -308,7 +305,7 @@ public class Bill {
 				nonFirst = true;
 			}
 
-			// query the database for all rooms
+			// query the database for all bills
 			ResultSet rs = dbcon.select(queryString);
 			if (!rs.next()) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;

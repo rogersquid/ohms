@@ -500,7 +500,7 @@ public class Account {
 	public Message getFilteredAccount(Message i_msg){
 		/*
 		 * OVERVIEW: Returns a list of accounts matching the specified parameters 
-		 * PRECONDITIONS: Desired filtered properties
+		 * PRECONDITIONS: Desired filtered properties (accountID, accountType, firstName, lastName, phone, email, address)
 		 * POSTCONDITIONS: Print out all accounts with given properties from preconditions
 		 */
 		databaseHelper dbcon = null;
