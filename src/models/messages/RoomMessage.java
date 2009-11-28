@@ -27,18 +27,15 @@ public class RoomMessage {
 	public boolean			onsuite;
 	public boolean			elevator;
 	
-	
-	
-	/*
-	 * PRE: None
-	 * POST: RoomMessage object's parameters are initialized
-	 * 
-	 *  Fills in the Room details. Subject to verification if not validated
-	 */
 	public void fill_All(int i_room_id, String i_room_type, int i_room_number, 
 			int i_floor, float i_price, boolean i_available, boolean i_clean,
 			boolean i_tv, int i_sB, int i_qB, int i_kB, boolean i_dA, boolean i_phone, 
 			boolean i_internet, boolean i_kitchen, boolean i_onsuite, boolean i_elevator){
+		/*
+		 * OVERVIEW: Fills in the room details. Subject to verification if not validated
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: RoomMessage object's parameters are initialized
+		 */
 		roomID		= i_room_id;
 		roomType	= i_room_type;
 		roomNumber	= i_room_number;
@@ -58,15 +55,12 @@ public class RoomMessage {
 		elevator=i_elevator;
 	}
 	
-	/*
-	 * PRE: None
-	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
-	 * and the ResponseCode is set accordingly 
-	 * 
-	 * Checks to see if the parameters entered are valid.  
-	 * 
-	 */
 	public ResponseMessage validateParams(){
+		/* 
+		 * OVERVIEW: Checks to see if the parameters entered are valid.  
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
+		 */
 		ResponseMessage validity = new ResponseMessage();
 		validity.responseString = "";
 		validity.responseCode = ResponseMessage.ResponseCode.SUCCESS;
