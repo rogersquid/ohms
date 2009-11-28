@@ -22,13 +22,12 @@ public class AccountMessage{
 	public boolean gender;
 	public java.sql.Timestamp creationTime;
 
-	/*
-	 * PRE: None
-	 * POST: The AccountMessage has its account details filled in 
-	 * 
-	 *  Fills in the account details. Subject to verification if not validated
-	 */
 	public boolean fill_All(int i_account_id, String i_account_type, String i_first_name, String i_surname, String i_pw, boolean i_gender, String i_phone, String i_add, String i_mail){
+		/*
+		 * OVERVIEW: Fills in the account details. Subject to verification if not validated
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: The AccountMessage has its account details filled in 
+		 */
 		accountID		= i_account_id;
 		accountType		= i_account_type;
 		firstName		= i_first_name;
@@ -41,13 +40,12 @@ public class AccountMessage{
 		return true;
 	}
 
-	/*
-	 * PRE: None
-	 * POST: The details of the AccountMessage are printed out
-	 * 
-	 * Spills out fields of this AccountMessage
-	 */
 	public void print_Middle(){
+		/*
+		 * OVERVIEW: Prints out fields of this AccountMessage
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: The details of the AccountMessage are printed out
+		 */
 		System.out.println(accountID);
 		System.out.println(accountType);
 		System.out.println(firstName);
@@ -59,15 +57,12 @@ public class AccountMessage{
 		System.out.println(email);
 	}
 
-	/* 
-	 * PRE: None
-	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
-	 * and the ResponseCode is set accordingly 
-	 * 
-	 * Checks to see if the parameters entered are valid.  
-	 * 
-	 */
 	public ResponseMessage validateParams(){
+		/* 
+		 * OVERVIEW: Checks to see if the parameters entered are valid.  
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
+		 */
 		ResponseMessage response = new ResponseMessage();
 		response.responseString = "";
 		Matcher m;
@@ -179,19 +174,15 @@ public class AccountMessage{
 
 		return response;
 	}
-
 	
-	/* 
-	 * PRE: None
-	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
-	 * and the ResponseCode is set accordingly 
-	 * 
-	 * This is similar to the validateParams() but this is tailored for the case of edit accounts  
-	 * 
-	 */
 	public ResponseMessage validateEditParams(){
+		/* 
+		 * OVERVIEW: This is similar to the validateParams() but this is tailored for the case of edit accounts  
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
+		 */
 		ResponseMessage response = new ResponseMessage();
-			response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+		response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 		response.responseString = "";
 		Matcher m;
 		// Verify accountType

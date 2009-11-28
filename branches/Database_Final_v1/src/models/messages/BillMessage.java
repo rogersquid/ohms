@@ -18,28 +18,24 @@ public class BillMessage{
 	public String			paymentType;
 	public boolean			status; // 0 = not paid , 1 = paid
 	
-	
-	/*
-	 * PRE: None
-	 * POST: BillMessage object's parameters are initialized
-	 * 
-	 *  Fills in the Bill details. Subject to verification if not validated
-	 */
 	public void fillAll(int bID, int bookID, String pType, boolean bStatus ){
+		/*
+		 * OVERVIEW: Fills in the Bill details. Subject to verification if not validated
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: BillMessage object's parameters are initialized
+		 */
 		billID=bID;
 		bookingID=bookID;
 		paymentType=pType;
 		status=bStatus;
 	}
 	
-	
-	/*
-	 * PRE: None
-	 * POST: The details of the BillMessage are printed out
-	 * 
-	 * Spills out fields of this BillMessage
-	 */
 	public void print_All(){
+		/*
+		 * OVERVIEW: Prints out fields of this BillMessage
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: The details of the BillMessage are printed out
+		 */
 		System.out.println("Bill_message is printing out");
 		System.out.println(billID);
 		System.out.println(bookingID);
@@ -48,16 +44,12 @@ public class BillMessage{
 		System.out.println("*******************");
 	}	
 	
-	
-	/* 
-	 * PRE: None
-	 * POST: A ResponseMessage is returned that contains a description of the errors in its ResponseString
-	 * and the ResponseCode is set accordingly 
-	 * 
-	 * Checks to see if the parameters entered are valid.  
-	 * 
-	 */
 	public ResponseMessage validateParams(){
+		/* 
+		 * OVERVIEW: Checks to see if the parameters entered are valid.  
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
+		 */
 		Matcher m;
 		ResponseMessage response = new ResponseMessage();
 		
