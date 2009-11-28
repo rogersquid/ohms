@@ -6,6 +6,11 @@ import models.messages.*;
 
 public class Report {
 	public Message statusReport(Message i_msg){
+		/*
+		 * OVERVIEW: Collects statistics on the hotel
+		 * PRECONDITIONS:  None
+		 * POSTCONDITIONS: Returns arrays of statistics
+		 */
 		int 	roomCount= 0;
 		int 	availRoomCount= 0;
 		int 	occupiedRoomsCount= 0;
