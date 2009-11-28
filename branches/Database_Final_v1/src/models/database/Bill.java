@@ -13,18 +13,12 @@ import java.sql.*;
 
 public class Bill {
 
-	
-
-	
-	/*
-	 * PRE: Parameters have been validated
-	 * POST: If addition was successful, Database contains the new bill
-	 * 
-	 * 
-	 * Adds a bill to the database
-	 * 
-	 */
 	public Message addBill(Message i_msg){
+		/*
+		 * OVERVIEW: Adds a bill to the database
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: If addition was successful, the bill with the correct parameters will be added to the Database
+		 */
 		// All the information is filled in. This puts all the information into the database.
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -71,20 +65,12 @@ public class Bill {
 		return replyMessage;
 	}
 
-	
-	
-	
-	
-	/*
-	 * PRE: Parameters have been validated
-	 * POST: Database contains the edited bill
-	 * 
-	 * 
-	 * Edits an account that is already in the database
-	 * 
-	 */
 	public Message editBill(Message i_msg){
-
+		/*
+		 * OVERVIEW: Edits an bill that is already in the database
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: The specified bill will be edited with the given parameters in the preconditions 
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.bills=i_msg.bills;
@@ -122,16 +108,12 @@ public class Bill {
 		return replyMessage;
 	}
 
-	
-	/*
-	 * PRE: Parameters have been validated
-	 * POST: Specified bill is deleted from the database 
-	 * 
-	 * 
-	 * Deletes a bill from the database that is identified by the bill Id or owner ID and date made 
-	 * 
-	 */
 	public Message deleteBill(Message i_msg){
+		/*
+		 * OVERVIEW: Deletes a bill from the database that is identified by the bill ID 
+		 * PRECONDITIONS: Parameters have been validated
+		 * POSTCONDITIONS: The specified bill will be deleted with the given bill ID from preconditions 
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -167,18 +149,12 @@ public class Bill {
 		return replyMessage;
 	}
 
-	
-	/*
-	 * PRE: The specified bill is selected from the list of accounts returned by getAllBills. Parameters
-	 * have been validated.
-	 * POST: The specified bill is returned, if found; placed in bills[0] of returned Message
-	 * 
-	 * 
-	 * Retrieves a specific bill. Used to select a bill to view
-	 * from the list of bill returned by getAllBills function
-	 * 
-	 */
 	public Message getBill(Message i_msg){
+		/*
+		 * OVERVIEW: Retrieves a specific bill. Used to select a bill to view from the list of bill returned by getAllBills function
+		 * PRECONDITIONS: The specified bill is selected from the list of bills returned by getAllBills. Parameters have been validated.
+		 * POSTCONDITIONS: The specified bill is returned, if found; placed in bills[0] of returned Message
+		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -230,22 +206,12 @@ public class Bill {
 		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "View one Bill as Requested.");
 		return replyMessage;
 	}
-
-	
-	
-	
-	
-	
-	/*
-	 * PRE: None
-	 * POST: Message contains an array of BillMessage objects that represent the list of bills
-	 * viewable by this user
-	 * 
-	 * Returns the list of all bills that this user has authority to view. Returns a Message class with an array 
-	 * BillMessage objects.
-	 * 
-	 */
 	public Message getAllBill(Message i_msg) {
+		/*
+		 * OVERVIEW: Returns the list of all bills that this user has authority to view. Returns a Message class with an array BillMessage objects.
+		 * PRECONDITIONS: None
+		 * POSTCONDITIONS: Message contains an array of BillMessage objects that represent the list of bills viewable by this user
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.bills=i_msg.bills;
@@ -303,14 +269,13 @@ public class Bill {
 
 	
 	
-	/*
-	 * PRE: <William could you fill this in?>
-	 * POST: <This too>
-	 * 
-	 * 	
-	 * Returns a filtered list of bills specified by <William could you fill this in?> 
-	 */
+	
 	public Message getFilteredBill(Message i_msg) {
+		/*
+		 * OVERVIEW: Returns a list of Bills matching the specified parameters 
+		 * PRECONDITIONS: Desired filtered properties
+		 * POSTCONDITIONS: Print out all bills with given properties from preconditions
+		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.bills=i_msg.bills;
