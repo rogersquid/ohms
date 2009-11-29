@@ -397,7 +397,7 @@ public class Room {
 						"(endDate < '" + i_msg.bookings[0].endDate + "' AND startDate > '" + i_msg.bookings[0].startDate + "'))";
 				}
 			}
-
+			queryString = queryString + " ORDER BY roomNumber ASC";
 			System.out.println(queryString);
 
 			// query the database for all rooms
