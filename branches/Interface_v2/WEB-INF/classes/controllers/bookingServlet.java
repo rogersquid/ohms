@@ -246,60 +246,71 @@ public class bookingServlet extends HttpServlet {
 			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
 			java.sql.Date startDate = new java.sql.Date(df.parse(request.getParameter("startDate")).getTime());
 			java.sql.Date endDate = new java.sql.Date(df.parse(request.getParameter("endDate")).getTime());
-
-			Message message = new Message(authlevel, userid, hotelname);
-			message.initializeBookings(1);
-			message.initializeRooms(2);
-			message.bookings[0].startDate = startDate;
-			message.bookings[0].endDate = endDate;
-
-
-			// set what to search for first
-			message.rooms[0].singleBeds = Integer.parseInt(request.getParameter("singleBeds"));
-			message.rooms[0].queenBeds = Integer.parseInt(request.getParameter("queenBeds"));
-			message.rooms[0].kingBeds = Integer.parseInt(request.getParameter("kingBeds"));
-			message.rooms[0].tv = (request.getParameter("tv")!=null && request.getParameter("tv").equals("1")) ? true : false;
-			message.rooms[0].available = (request.getParameter("available")!=null && request.getParameter("available").equals("1")) ? true : false;
-			message.rooms[0].cleaned = (request.getParameter("cleaned")!=null && request.getParameter("cleaned").equals("1")) ? true : false;
-			message.rooms[0].disabilityAccess = (request.getParameter("disabilityAccess")!=null && request.getParameter("disabilityAccess").equals("1")) ? true : false;
-			message.rooms[0].phone = (request.getParameter("phone")!=null && request.getParameter("phone").equals("1")) ? true : false;
-			message.rooms[0].internet = (request.getParameter("interneg")!=null && request.getParameter("internet").equals("1")) ? true : false;
-			message.rooms[0].kitchen = (request.getParameter("kitchen")!=null && request.getParameter("kitchen").equals("1")) ? true : false;
-			message.rooms[0].onsuite = (request.getParameter("onsuite")!=null && request.getParameter("onsuite").equals("1")) ? true : false;
-			message.rooms[0].elevator = (request.getParameter("elevator")!=null && request.getParameter("elevator").equals("1")) ? true : false;
-
-
-			// set values to search for
-			message.rooms[1].singleBeds = Integer.parseInt(request.getParameter("singleBeds"));
-			message.rooms[1].queenBeds = Integer.parseInt(request.getParameter("queenBeds"));
-			message.rooms[1].kingBeds = Integer.parseInt(request.getParameter("kingBeds"));
-			message.rooms[1].tv = (request.getParameter("tv")!=null && request.getParameter("tv").equals("1")) ? true : false;
-			message.rooms[1].available = (request.getParameter("available")!=null && request.getParameter("available").equals("1")) ? true : false;
-			message.rooms[1].cleaned = (request.getParameter("cleaned")!=null && request.getParameter("cleaned").equals("1")) ? true : false;
-			message.rooms[1].disabilityAccess = (request.getParameter("disabilityAccess")!=null && request.getParameter("disabilityAccess").equals("1")) ? true : false;
-			message.rooms[1].phone = (request.getParameter("phone")!=null && request.getParameter("phone").equals("1")) ? true : false;
-			message.rooms[1].internet = (request.getParameter("interneg")!=null && request.getParameter("internet").equals("1")) ? true : false;
-			message.rooms[1].kitchen = (request.getParameter("kitchen")!=null && request.getParameter("kitchen").equals("1")) ? true : false;
-			message.rooms[1].onsuite = (request.getParameter("onsuite")!=null && request.getParameter("onsuite").equals("1")) ? true : false;
-			message.rooms[1].elevator = (request.getParameter("elevator")!=null && request.getParameter("elevator").equals("1")) ? true : false;
-
-			//Booking booking = new Booking();
-			//Message reply = booking.getFilteredBooking(message);
-			Room room = new Room();
-			Message reply = room.getFilteredRooms(message);
-
-			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
-				if(reply.rooms==null) {
-					request.setAttribute("status", "search_failed");
-					request.setAttribute("message", "No available rooms found. Please try different dates.");
-					getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request, response);
-				} else {
-					request.setAttribute("data", reply);
-					getServletContext().getRequestDispatcher("/views/room/available_rooms.jsp").include(request, response);		}
+			
+			if(!endDate.after(startDate)) {
+				request.setAttribute("message", "The start date must be before the end date.");
+				request.setAttribute("status", "search_failed");
+				getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request, response);
 			} else {
-				request.setAttribute("message", reply.response.responseString);
-				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+
+				Message message = new Message(authlevel, userid, hotelname);
+				message.initializeBookings(1);
+				message.initializeRooms(2);
+				message.bookings[0].startDate = startDate;
+				message.bookings[0].endDate = endDate;
+
+
+				// set what to search for first
+				message.rooms[0].singleBeds = Integer.parseInt(request.getParameter("singleBeds"));
+				message.rooms[0].queenBeds = Integer.parseInt(request.getParameter("queenBeds"));
+				message.rooms[0].kingBeds = Integer.parseInt(request.getParameter("kingBeds"));
+				message.rooms[0].tv = (request.getParameter("tv")!=null && request.getParameter("tv").equals("1")) ? true : false;
+				message.rooms[0].available = (request.getParameter("available")!=null && request.getParameter("available").equals("1")) ? true : false;
+				message.rooms[0].cleaned = (request.getParameter("cleaned")!=null && request.getParameter("cleaned").equals("1")) ? true : false;
+				message.rooms[0].disabilityAccess = (request.getParameter("disabilityAccess")!=null && request.getParameter("disabilityAccess").equals("1")) ? true : false;
+				message.rooms[0].phone = (request.getParameter("phone")!=null && request.getParameter("phone").equals("1")) ? true : false;
+				message.rooms[0].internet = (request.getParameter("interneg")!=null && request.getParameter("internet").equals("1")) ? true : false;
+				message.rooms[0].kitchen = (request.getParameter("kitchen")!=null && request.getParameter("kitchen").equals("1")) ? true : false;
+				message.rooms[0].onsuite = (request.getParameter("onsuite")!=null && request.getParameter("onsuite").equals("1")) ? true : false;
+				message.rooms[0].elevator = (request.getParameter("elevator")!=null && request.getParameter("elevator").equals("1")) ? true : false;
+
+
+				// set values to search for
+				message.rooms[1].singleBeds = Integer.parseInt(request.getParameter("singleBeds"));
+				message.rooms[1].queenBeds = Integer.parseInt(request.getParameter("queenBeds"));
+				message.rooms[1].kingBeds = Integer.parseInt(request.getParameter("kingBeds"));
+				message.rooms[1].tv = (request.getParameter("tv")!=null && request.getParameter("tv").equals("1")) ? true : false;
+				message.rooms[1].available = (request.getParameter("available")!=null && request.getParameter("available").equals("1")) ? true : false;
+				message.rooms[1].cleaned = (request.getParameter("cleaned")!=null && request.getParameter("cleaned").equals("1")) ? true : false;
+				message.rooms[1].disabilityAccess = (request.getParameter("disabilityAccess")!=null && request.getParameter("disabilityAccess").equals("1")) ? true : false;
+				message.rooms[1].phone = (request.getParameter("phone")!=null && request.getParameter("phone").equals("1")) ? true : false;
+				message.rooms[1].internet = (request.getParameter("interneg")!=null && request.getParameter("internet").equals("1")) ? true : false;
+				message.rooms[1].kitchen = (request.getParameter("kitchen")!=null && request.getParameter("kitchen").equals("1")) ? true : false;
+				message.rooms[1].onsuite = (request.getParameter("onsuite")!=null && request.getParameter("onsuite").equals("1")) ? true : false;
+				message.rooms[1].elevator = (request.getParameter("elevator")!=null && request.getParameter("elevator").equals("1")) ? true : false;
+
+				//Booking booking = new Booking();
+				//Message reply = booking.getFilteredBooking(message);
+				Room room = new Room();
+				Message reply = room.getFilteredRooms(message);
+
+				if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
+					if(reply.rooms==null) {
+						request.setAttribute("status", "search_failed");
+						request.setAttribute("message", "No available rooms found. Please try different dates.");
+						getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request, response);
+					} else {
+						request.setAttribute("data", reply);
+						getServletContext().getRequestDispatcher("/views/room/available_rooms.jsp").include(request, response);		}
+				} else {
+					request.setAttribute("message", reply.response.responseString);
+					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+				}
 			}
+		} catch(ParseException e) {
+			request.setAttribute("status", "search_failed");
+			request.setAttribute("message", "Invalid date formats.");
+			getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request,
 		} catch(Exception e) {
 			request.setAttribute("message", "Exception: "+e.toString());
 			e.printStackTrace();
