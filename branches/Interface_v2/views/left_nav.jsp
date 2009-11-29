@@ -23,8 +23,11 @@
 					<ul>
 
 							<li><a href='bookings.html?action=all_bookings'>All bookings</a></li>
+							<li><a href='bill.html?action=all_bills'>All bills</a></li>
+							<li><a href='extras.html?action=all_extras'>All extras</a></li>
 							<li><a href='account.html?action=all_accounts'>All accounts</a></li>
 							<li><a href='room.html?action=all_rooms'>All rooms</a></li>
+							<li><a href='room.html?action=all_rooms'>Reports</a></li>
 					</ul>
 							<%
 						}
