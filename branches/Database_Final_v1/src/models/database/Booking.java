@@ -10,6 +10,7 @@ public class Booking {
 		/*
 		 * OVERVIEW: Adds a booking to the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Adds booking with given parameters in the bookings table of the database
 		 * POSTCONDITIONS: If addition was successful, the booking with the correct parameters will be added to the Database
 		 */
 		// All the information is filled in. This puts all the information into the database.
@@ -62,6 +63,7 @@ public class Booking {
 		/*
 		 * OVERVIEW: Edits an booking that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Edits the booking details with the given parameters in the bookings table of the database
 		 * POSTCONDITIONS: The specified booking will be edited with the given parameters in the preconditions
 		 */
 		// Creating database handle and create return message
@@ -109,6 +111,7 @@ public class Booking {
 		/*
 		 * OVERVIEW: Deletes a booking from the database that is identified by the booking ID
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Deletes the booking and its information from the booking table of the database
 		 * POSTCONDITIONS: The specified booking will be deleted with the given booking ID from preconditions
 		 */
 		// Creating database handle and create return message
@@ -151,6 +154,7 @@ public class Booking {
 		/*
 		 * OVERVIEW: Retrieves a specific booking. Used to select a booking to view from the list of booking returned by getAllBookings function
 		 * PRECONDITIONS: The specified booking is selected from the list of bookings returned by getAllBookings. Parameters have been validated.
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The specified booking is returned, if found; placed in bookings[0] of returned Message
 		 */
 		// Creating database handle and create return message
@@ -213,6 +217,7 @@ public class Booking {
 		/*
 		 * OVERVIEW: Returns the list of all bookings that this user has authority to view. Returns a Message class with an array BookingMessage objects.
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Message contains an array of BookingMessage objects that represent the list of bookings viewable by this user
 		 */
 		// Creating database handle and create return message
@@ -278,6 +283,7 @@ public class Booking {
 		/*
 		 * OVERVIEW: Returns a list of bookings matching the specified parameters
 		 * PRECONDITIONS: Desired filtered properties (OwnerID, Date, Date Range)
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Print out all bookings with given properties from preconditions
 		 */
 		// Creating database handle and create return message
@@ -415,6 +421,7 @@ public class Booking {
 		/*
 		 * OVERVIEW: Checks in the user when given a specific booking
 		 * PRECONDITIONS: Booking needs to exist and Booking has not been checked in
+		 * MODIFIES: Booking status is set to '1' and creates a bill in the bill table in the database with the detail of the booking
 		 * POSTCONDITIONS: Status for booking changed to "Checked in" and a bill is created with the given booking information
 		 */
 		Message output=i_msg;
@@ -492,6 +499,7 @@ public class Booking {
 		/*
 		 * OVERVIEW: Checks out the user given a specific booking
 		 * PRECONDITIONS: Booking exist and is checked in, Staff receives payment from customer
+		 * MODIFIES: Booking status is changed to '2' and room cleaned is set to '0'
 		 * POSTCONDITIONS: Sets the booking status to "Checked out" and edits the bill status to paid
 		 */
 		// MUST INCLUDE BILL ID, PAYMENT TYPE, BOOKING ID
