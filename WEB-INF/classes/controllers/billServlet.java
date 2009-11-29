@@ -204,15 +204,15 @@ public class billServlet extends HttpServlet {
 		message.initializeBills(1);
 		message.bills[0].billID = billID;
 
-		message.bills[0].bookingID = Integer.getInt(request.getParameter("bookingID"));
+		message.bills[0].bookingID = Integer.parseInt(request.getParameter("bookingID"));
 		message.bills[0].paymentType = request.getParameter("paymentType");
 		message.bills[0].status = (request.getParameter("status").equals("1")) ? true : false;
 		
 		Bill bill = new Bill();
 		if(authlevel >= 3)
 		{
-			ResponseMessage resp = message.validate();
-			if(resp.responseCode == ResponseMessage.ResponseCode.SUCCESS)
+			message.validate();
+			if(message.response.responseCode == ResponseMessage.ResponseCode.SUCCESS)
 			{
 					Message reply = bill.editBill(message);
 
@@ -230,7 +230,7 @@ public class billServlet extends HttpServlet {
 			{
 				request.setAttribute("status", "edit_bill_failed");
 				request.setAttribute("message", resp.responseString);
-				editAccount(request, response);
+				editBill(request, response);
 			}
 		}
 		else
