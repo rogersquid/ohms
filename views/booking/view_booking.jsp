@@ -72,6 +72,9 @@
 							<th>Status: </th>
 							<td><% if(data.bookings[0].status==0) { %>Not checked in<% } else if(data.bookings[0].status==1) { %>Checked in<% } else if(data.bookings[0].status==2) { %>Checked out<% } %></td>
 						</tr>
+						<tr>
+							<th>Bill:</th>
+							<td><a href='bill.html?action=view&amp;id=<%=data.bills[0].billID %>'><%=data.bills[0].billID %></a></td>
 					</table>
 				</div>
 <%@ include file="../footer.jsp" %>
