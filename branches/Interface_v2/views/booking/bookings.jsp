@@ -27,6 +27,7 @@
 							<table class='horizontal'>
 								<tr>
 									<th></th>
+									<th>Booking</th>
 									<th>Customer</th>
 									<th>Room #</th>
 									<th>Start Date</th>
@@ -40,7 +41,8 @@
 								for(int i=0; i < data.bookings.length; i++) {
 								%>
 								<tr>
-									<td><span class='index'><a href='bookings.html?action=view&amp;id=<%=data.bookings[i].bookingID %>'><%=i+1 %></a></span></td>
+									<td><span class='index'><%=i+1 %></span></td>
+									<td><a href='bookings.html?action=view&amp;id=<%=data.bookings[i].bookingID %>'><%=data.bookings[i].bookingID %></a></td>
 									<td><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></td>
 									<td><a href='room.html?action=view&amp;id=<%=data.bookings[i].roomID %>'><%=data.rooms[i].roomNumber %></a></td>
 									<td><%=data.bookings[i].startDate %></td>
