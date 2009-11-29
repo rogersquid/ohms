@@ -19,6 +19,7 @@ public class ResponseMessage {
 		/*
 		 * OVERVIEW: Fills in the response details. Subject to verification if not validated
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: ResponseMessage object's parameters are initialized
 		 */
 		responseCode=resCode;

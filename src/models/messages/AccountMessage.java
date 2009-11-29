@@ -26,6 +26,7 @@ public class AccountMessage{
 		/*
 		 * OVERVIEW: Fills in the account details. Subject to verification if not validated
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The AccountMessage has its account details filled in
 		 */
 		accountID		= i_account_id;
@@ -44,6 +45,7 @@ public class AccountMessage{
 		/*
 		 * OVERVIEW: Prints out fields of this AccountMessage
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The details of the AccountMessage are printed out
 		 */
 		System.out.println(accountID);
@@ -61,6 +63,7 @@ public class AccountMessage{
 		/*
 		 * OVERVIEW: Checks to see if the parameters entered are valid.
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly
 		 */
 		ResponseMessage response = new ResponseMessage();
@@ -180,6 +183,7 @@ public class AccountMessage{
 		/*
 		 * OVERVIEW: This is similar to the validateParams() but this is tailored for the case of edit accounts
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly
 		 */
 		ResponseMessage response = new ResponseMessage();

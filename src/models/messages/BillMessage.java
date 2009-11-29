@@ -23,6 +23,7 @@ public class BillMessage{
 		/*
 		 * OVERVIEW: Fills in the Bill details. Subject to verification if not validated
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: BillMessage object's parameters are initialized
 		 */
 		billID=bID;
@@ -35,6 +36,7 @@ public class BillMessage{
 		/*
 		 * OVERVIEW: Prints out fields of this BillMessage
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The details of the BillMessage are printed out
 		 */
 		System.out.println("Bill_message is printing out");
@@ -49,6 +51,7 @@ public class BillMessage{
 		/* 
 		 * OVERVIEW: Checks to see if the parameters entered are valid.  
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
 		 */
 		Matcher m;
