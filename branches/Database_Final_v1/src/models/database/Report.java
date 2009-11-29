@@ -311,8 +311,9 @@ public class Report {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Empty Results from cleannessPercentageQuery.";
+				replyMessage.initializeStats(0);
 			}
 
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
@@ -346,7 +347,11 @@ public class Report {
 					}
 					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 					replyMessage.response.responseString = "Query succeeded.";
-				} 
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results from uncleanRoomQuery.";
+					replyMessage.tables[0].initializeRooms(0);
+				}
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'generateCleannessReport'.  SQLException was thrown:");
@@ -381,10 +386,10 @@ public class Report {
 		String mostEarningExtraTodayQuery = null;
 		try {
 			java.sql.Date currentDate = new java.sql.Date(df.parse(String.valueOf(now.getDate()) + "/" + 
-					String.valueOf(now.getMonth()) + "/" + String.valueOf(now.getYear() + 1900)).getTime());
+					String.valueOf(now.getMonth() + 1) + "/" + String.valueOf(now.getYear() + 1900)).getTime());
 			java.sql.Date tmrDate = new java.sql.Date(df.parse(String.valueOf(tmr.getDate()) + "/" + 
-					String.valueOf(tmr.getMonth()) + "/" + String.valueOf(tmr.getYear() + 1900)).getTime());
-			
+					String.valueOf(tmr.getMonth() + 1) + "/" + String.valueOf(tmr.getYear() + 1900)).getTime());
+
 			numExtraPerBookingQuery = 
 				"SELECT bookingID, COUNT(*) AS numExtra " +
 				"FROM " + i_msg.header.nameHotel + "_extras " +
@@ -411,8 +416,9 @@ public class Report {
 				"FROM " + i_msg.header.nameHotel + "_extras " +
 				"WHERE price= (" +
 					"SELECT MAX(price) AS maxPrice " +
-					"FROM test_extras " +
-					"WHERE date = '" + currentDate + "')";
+					"FROM " + i_msg.header.nameHotel + "_extras " +
+					"WHERE date = '" + currentDate + "') " +
+					"AND date = '" + currentDate + "'";
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -436,6 +442,7 @@ public class Report {
 				numRow = rs.getRow();
 				rs.beforeFirst();
 				replyMessage.tables[0].initializeExtras(numRow);
+				replyMessage.initializeStats(numRow);
 				i = 0;
 				while (rs.next()) {
 					replyMessage.tables[0].extras[i].bookingID = rs.getInt("bookingID");
@@ -446,111 +453,128 @@ public class Report {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Empty Results from numExtraPerBookingQuery.";
+				replyMessage.tables[0].initializeExtras(0);
+				replyMessage.initializeStats(0);
 			}
 			
-			rs = dbcon.select(todayExtraQuery);
-			if (rs.next()) {
-				rs.last();
-				numRow = rs.getRow();
-				rs.beforeFirst();
-				replyMessage.tables[1].initializeExtras(numRow);
-				i = 0;
-				while (rs.next()) {
-					replyMessage.tables[1].extras[i].extraID = rs.getInt("extraID");
-					replyMessage.tables[1].extras[i].bookingID = rs.getInt("bookingID");
-					replyMessage.tables[1].extras[i].extraName = rs.getString("extraName");
-					replyMessage.tables[1].extras[i].price = rs.getFloat("price");
-					replyMessage.tables[1].extras[i].date = rs.getDate("date");
-					replyMessage.tables[1].extras[i].creationTime = rs.getTimestamp("creationTime");
-					i++;
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(todayExtraQuery);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[1].initializeExtras(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[1].extras[i].extraID = rs.getInt("extraID");
+						replyMessage.tables[1].extras[i].bookingID = rs.getInt("bookingID");
+						replyMessage.tables[1].extras[i].extraName = rs.getString("extraName");
+						replyMessage.tables[1].extras[i].price = rs.getFloat("price");
+						replyMessage.tables[1].extras[i].date = rs.getDate("date");
+						replyMessage.tables[1].extras[i].creationTime = rs.getTimestamp("creationTime");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results from todayExtraQuery.";
+					replyMessage.tables[1].initializeExtras(0);
 				}
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-				replyMessage.response.responseString = "Query succeeded.";
-			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
 			
-			rs = dbcon.select(tmrExtraQuery);
-			if (rs.next()) {
-				rs.last();
-				numRow = rs.getRow();
-				rs.beforeFirst();
-				replyMessage.tables[2].initializeExtras(numRow);
-				i = 0;
-				while (rs.next()) {
-					replyMessage.tables[2].extras[i].extraID = rs.getInt("extraID");
-					replyMessage.tables[2].extras[i].bookingID = rs.getInt("bookingID");
-					replyMessage.tables[2].extras[i].extraName = rs.getString("extraName");
-					replyMessage.tables[2].extras[i].price = rs.getFloat("price");
-					replyMessage.tables[2].extras[i].date = rs.getDate("date");
-					replyMessage.tables[2].extras[i].creationTime = rs.getTimestamp("creationTime");
-					i++;
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(tmrExtraQuery);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[2].initializeExtras(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[2].extras[i].extraID = rs.getInt("extraID");
+						replyMessage.tables[2].extras[i].bookingID = rs.getInt("bookingID");
+						replyMessage.tables[2].extras[i].extraName = rs.getString("extraName");
+						replyMessage.tables[2].extras[i].price = rs.getFloat("price");
+						replyMessage.tables[2].extras[i].date = rs.getDate("date");
+						replyMessage.tables[2].extras[i].creationTime = rs.getTimestamp("creationTime");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results from tmrExtraQuery.";
+					replyMessage.tables[2].initializeExtras(0);
 				}
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-				replyMessage.response.responseString = "Query succeeded.";
-			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
 			
-			rs = dbcon.select(earningPerExtraTypeTodayQuery);
-			if (rs.next()) {
-				rs.last();
-				numRow = rs.getRow();
-				rs.beforeFirst();
-				replyMessage.tables[3].initializeExtras(numRow);
-				i = 0;
-				while (rs.next()) {
-					replyMessage.tables[3].extras[i].extraName = rs.getString("extraName");
-					replyMessage.tables[3].extras[i].price = rs.getFloat("sumPrice");
-					i++;
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(earningPerExtraTypeTodayQuery);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[3].initializeExtras(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[3].extras[i].extraName = rs.getString("extraName");
+						replyMessage.tables[3].extras[i].price = rs.getFloat("sumPrice");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results from earningPerExtraTypeTodayQuery.";
+					replyMessage.tables[3].initializeExtras(0);
 				}
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-				replyMessage.response.responseString = "Query succeeded.";
-			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
 			
-			rs = dbcon.select(earningPerDateQuery);
-			if (rs.next()) {
-				rs.last();
-				numRow = rs.getRow();
-				rs.beforeFirst();
-				replyMessage.tables[4].initializeExtras(numRow);
-				i = 0;
-				while (rs.next()) {
-					replyMessage.tables[4].extras[i].price = rs.getFloat("sumPrice");
-					replyMessage.tables[4].extras[i].date = rs.getDate("date");
-					i++;
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(earningPerDateQuery);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[4].initializeExtras(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[4].extras[i].price = rs.getFloat("sumPrice");
+						replyMessage.tables[4].extras[i].date = rs.getDate("date");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results from earningPerDateQuery.";
+					replyMessage.tables[4].initializeExtras(0);
 				}
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-				replyMessage.response.responseString = "Query succeeded.";
-			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
 			
-			rs = dbcon.select(tmrExtraQuery);
-			if (rs.next()) {
-				rs.last();
-				numRow = rs.getRow();
-				rs.beforeFirst();
-				replyMessage.tables[5].initializeExtras(numRow);
-				i = 0;
-				while (rs.next()) {
-					replyMessage.tables[5].extras[i].extraName = rs.getString("extraName");
-					replyMessage.tables[5].extras[i].price = rs.getFloat("price");
-					i++;
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(mostEarningExtraTodayQuery);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[5].initializeExtras(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[5].extras[i].extraName = rs.getString("extraName");
+						replyMessage.tables[5].extras[i].price = rs.getFloat("price");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results from tmrExtraQuery.";
+					replyMessage.tables[5].initializeExtras(0);
 				}
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-				replyMessage.response.responseString = "Query succeeded.";
-			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'generateExtraReport'.  SQLException was thrown:");
@@ -816,7 +840,7 @@ public class Report {
 				"AND B.status = 1";
 			String numPaymentTypeQuery = 
 				"SELECT Bi.paymentType, COUNT(Bk.bookingID) AS count " +
-				"FROM test_bookings Bk, test_bills Bi " +
+				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi " +
 				"WHERE (Bk.endDate >= '" + currentDate + "' AND Bk.startDate <= '" + currentDate + "' ) " +
 				"AND Bk.bookingID = Bi.bookingID " +
 				"AND Bk.status = 2 " +
@@ -903,7 +927,7 @@ public class Report {
 				"AND B.status = 1";
 			String numPaymentTypeQuery = 
 				"SELECT Bi.paymentType, COUNT(Bk.bookingID) AS count " +
-				"FROM test_bookings Bk, test_bills Bi " +
+				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi " +
 				"WHERE (Bk.endDate >= '" + currentDate + "' AND Bk.startDate <= '" + currentDate + "' ) " +
 				"AND Bk.bookingID = Bi.bookingID " +
 				"AND Bk.status = 2 " +
