@@ -188,12 +188,12 @@ public class Bill {
 				replyMessage.accounts[0].lastName = rs.getString("lastName");
 	        }
 			float totalprice=0;
-			rs=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_extras WHERE bookingID='" + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID WHERE billID='"
+			rs=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_extras WHERE bookingID='" +
 					+ replyMessage.bills[0].bookingID +"'");
 			while (rs.next()) {
 	            totalprice += rs.getInt("price");
 	        }
-			rs=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID='" + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID WHERE billID='"
+			rs=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID='"
 					+ replyMessage.rooms[0].roomID +"'");
 			while (rs.next()) {
 	            totalprice += rs.getInt("price");
@@ -202,12 +202,12 @@ public class Bill {
 		} catch (SQLException e) {
 			System.err.println("Error.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Bill failed.");
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Bill failed." + e.toString());
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Bill failed.");
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "view Bill failed." + e.toString());
 			return replyMessage;
 		}
 		finally {
