@@ -506,6 +506,7 @@ public class Booking {
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		Message rply=new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		// Not the best way to do it but should be a deep Copy - I will investigate
 		//creationTime is not changeable
 		replyMessage.bookings=i_msg.bookings;
@@ -514,6 +515,7 @@ public class Booking {
 			ResultSet rs = dbcon.select("SELECT status FROM "+ i_msg.header.nameHotel + "_bills " +
 					"WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			int mert=0;
+			
 			while (rs.next()) {
 				int ma_status=rs.getInt("status");
 				if(mert!=0){
@@ -527,6 +529,7 @@ public class Booking {
 					return replyMessage;
 				}
 				mert++;
+				rply=getBooking(i_msg);
 			}
 			System.err.print("aaaaaaaaaaaaaaaaaaaaaaaa");
 			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='2'" + 
@@ -538,7 +541,7 @@ public class Booking {
 			}
 			System.err.print("bbbbbbbbbbbbbbbbbbbbbb");
 			returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_rooms SET cleaned='0'" +
-					" WHERE roomID='" + i_msg.bookings[0].roomID +"'");
+					" WHERE roomID='" + rply.bookings[0].roomID +"'");
 			if (returnedRows != 1) {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Room failed." +
 						" BookingID: " + i_msg.bookings[0].bookingID);
