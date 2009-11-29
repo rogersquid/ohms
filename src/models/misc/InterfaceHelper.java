@@ -9,6 +9,7 @@ import models.misc.*;
 public class InterfaceHelper {
 	public static HttpServletRequest initialize(HttpServletRequest request, HttpServletResponse response) {
 		int userid = CookieHelper.getAccountID(request);
+		int validUserID = 0;
 		String md5_password = CookieHelper.getMD5Password(request);
 		int authlevel;
 		String hotelname = "test";
@@ -20,7 +21,7 @@ public class InterfaceHelper {
 			userMessage.initializeAccounts(1);
 			userMessage.accounts[0].accountID = userid;
 			Message userInfo = userAccount.getAccount(userMessage);
-			
+			validUserID = userid;
 			request.setAttribute("logged_in", true);
 			request.setAttribute("userInfo", userInfo.accounts[0]);
 		} else {
@@ -32,7 +33,7 @@ public class InterfaceHelper {
 		String[] parsedURL = urlToParse.split("/");
 		String test = parsedURL[1];
 
-		request.setAttribute("userID", userid);
+		request.setAttribute("userID", validUserID);
 		request.setAttribute("authLevel", authlevel);
 		request.setAttribute("hotelName", hotelname);
 		request.setAttribute("test", test);

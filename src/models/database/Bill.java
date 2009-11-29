@@ -1,9 +1,9 @@
 /*
  * Bill.java
- * 
+ *
  * This class does the bill keeping functions and talks directly to the database. It can add, delete, retrieve, and edit
  * bill(s) information
- * 
+ *
  */
 package models.database;
 
@@ -31,7 +31,7 @@ public class Bill {
 			int returnedRows 	= dbcon.insert("INSERT INTO "
 					+ i_msg.header.nameHotel
 					+ "_bills (bookingID, paymentType, status) "
-					+ "VALUES ('" 
+					+ "VALUES ('"
 					+ i_msg.bills[0].bookingID + "', '"
 					+ "none" + "', '"
 					+ 0 + "')");
@@ -69,7 +69,7 @@ public class Bill {
 		/*
 		 * OVERVIEW: Edits an bill that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
-		 * POSTCONDITIONS: The specified bill will be edited with the given parameters in the preconditions 
+		 * POSTCONDITIONS: The specified bill will be edited with the given parameters in the preconditions
 		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -108,9 +108,9 @@ public class Bill {
 
 	public Message deleteBill(Message i_msg){
 		/*
-		 * OVERVIEW: Deletes a bill from the database that is identified by the bill ID 
+		 * OVERVIEW: Deletes a bill from the database that is identified by the bill ID
 		 * PRECONDITIONS: Parameters have been validated
-		 * POSTCONDITIONS: The specified bill will be deleted with the given bill ID from preconditions 
+		 * POSTCONDITIONS: The specified bill will be deleted with the given bill ID from preconditions
 		 */
 		// Creating database handle and create return message
 		databaseHelper dbcon = null;
@@ -233,12 +233,12 @@ public class Bill {
 			ResultSet rs = dbcon.select("SELECT bills.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_bills AS bills LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID");
 			rs.last();
 			int numRows = rs.getRow();
-			
+
 			replyMessage.initializeBills(numRows);
 			replyMessage.initializeAccounts(numRows);
 			replyMessage.initializeRooms(numRows);
 			rs.beforeFirst();
-			
+
 			if (!rs.next()) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "No extras in database.";
@@ -250,18 +250,18 @@ public class Bill {
 					replyMessage.bills[i].billID = rs.getInt("billID");
 					replyMessage.bills[i].bookingID = rs.getInt("bookingID");
 					replyMessage.bills[i].paymentType = rs.getString("paymentType");
-					replyMessage.bills[i].status = rs.getBoolean("status");		
+					replyMessage.bills[i].status = rs.getBoolean("status");
 					replyMessage.rooms[i].roomID = rs.getInt("roomID");
 					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
 					replyMessage.accounts[i].accountID = rs.getInt("accountID");
 					replyMessage.accounts[i].firstName = rs.getString("firstName");
-					replyMessage.accounts[i].lastName = rs.getString("lastName");		
+					replyMessage.accounts[i].lastName = rs.getString("lastName");
 					ResultSet rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_extras WHERE bookingID='"
 							+ replyMessage.bills[i].bookingID +"'");
 					while (rstwo.next()) {
 			            totalprice += rstwo.getInt("price");
 			        }
-					rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID='" 
+					rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID='"
 							+ replyMessage.rooms[i].roomID +"'");
 					while (rstwo.next()) {
 			            totalprice += rstwo.getInt("price");
@@ -269,7 +269,7 @@ public class Bill {
 					replyMessage.bills[i].totalPrice=totalprice;
 					i++;
 				}
-			
+
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			}
@@ -289,11 +289,11 @@ public class Bill {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message getFilteredBill(Message i_msg) {
 		/*
-		 * OVERVIEW: Returns a list of Bills matching the specified parameters 
-		 * PRECONDITIONS: Desired filtered properties (billID, bookingID, paymentType, status) 
+		 * OVERVIEW: Returns a list of Bills matching the specified parameters
+		 * PRECONDITIONS: Desired filtered properties (billID, bookingID, paymentType, status)
 		 * POSTCONDITIONS: Print out all bills with given properties from preconditions
 		 */
 		databaseHelper dbcon = null;
@@ -303,7 +303,7 @@ public class Bill {
 		try {
 			// create connection
 			dbcon = new databaseHelper();
-			
+
 			String queryString;
 			if(i_msg.accounts!=null && i_msg.accounts[0].accountID>0) {
 				queryString = "SELECT b.* FROM " + i_msg.header.nameHotel + "_bills AS b LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS bk ON b.bookingID=bk.bookingID WHERE bk.bookingOwnerID='"+i_msg.accounts[0].accountID+"'";
@@ -338,6 +338,7 @@ public class Bill {
 			if (!rs.next()) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "No Bills in database.";
+				replyMessage.initializeBills(0);
 			} else {
 				int i = 0;
 				rs.beforeFirst();
