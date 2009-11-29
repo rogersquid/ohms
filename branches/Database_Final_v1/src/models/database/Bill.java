@@ -239,12 +239,11 @@ public class Bill {
 			replyMessage.initializeRooms(numRows);
 			rs.beforeFirst();
 
-			if (!rs.next()) {
+			if (numRows==0) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "No extras in database.";
 			} else {
 				int i = 0;
-				float totalprice=0;
 
 				while (rs.next()) {
 					replyMessage.bills[i].billID = rs.getInt("billID");
@@ -256,6 +255,7 @@ public class Bill {
 					replyMessage.accounts[i].accountID = rs.getInt("accountID");
 					replyMessage.accounts[i].firstName = rs.getString("firstName");
 					replyMessage.accounts[i].lastName = rs.getString("lastName");
+					float totalprice=0;
 					ResultSet rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_extras WHERE bookingID='"
 							+ replyMessage.bills[i].bookingID +"'");
 					while (rstwo.next()) {
@@ -350,11 +350,23 @@ public class Bill {
 
 				i = 0;
 
+				float totalprice=0;
 				while (rs.next()) {
 					replyMessage.bills[i].billID = rs.getInt("billID");
 					replyMessage.bills[i].bookingID = rs.getInt("bookingID");
 					replyMessage.bills[i].paymentType = rs.getString("paymentType");
 					replyMessage.bills[i].status = rs.getBoolean("status");
+					ResultSet rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_extras WHERE bookingID='"
+							+ replyMessage.bills[i].bookingID +"'");
+					while (rstwo.next()) {
+			            totalprice += rstwo.getInt("price");
+			        }
+					rstwo=dbcon.select("SELECT r.price FROM " + i_msg.header.nameHotel + "_rooms AS r INNER JOIN " + i_msg.header.nameHotel + "_bookings AS b ON b.roomID=r.roomID WHERE bookingID='"
+							+ replyMessage.bills[i].bookingID +"'");
+					while (rstwo.next()) {
+			            totalprice += rstwo.getInt("price");
+			        }
+					replyMessage.bills[i].totalPrice=totalprice;
 					i++;
 				}
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
