@@ -6,6 +6,10 @@
 				<div id='content'>
 					<%
 						RoomMessage room = (RoomMessage)request.getAttribute("room");
+					%>
+
+					<div id='title'>Room &bull; <a class='edit' href='room.html?action=edit&amp;id=<%=room.roomID %>'>edit</a></div>
+					<%
 						String status = "";
 						if(request.getParameter("status")!=null) status=request.getParameter("status");
 						if(status.equals("edit_success")) {
@@ -19,8 +23,7 @@
 							<%
 						}
 					%>
-					<div id='title'>Room &bull; <a class='edit' href='room.html?action=edit&amp;id=<%=room.roomID %>'>edit</a></div>
-					<table class='room'>
+					<table class='vertical'>
 						<tr>
 							<th>Room #</th>
 							<td><%=room.roomNumber %></td>

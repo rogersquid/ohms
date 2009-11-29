@@ -16,18 +16,21 @@
 							<%
 						}
 					%>
-					<table class='bill'>
+					<table class='vertical'>
 						<tr>
-							<th></th>
-							<th>paymentType</th>
-							<th>status</th>
-							<th>price</th>
-							<th></th>
+							<th>Booking: </th>
+							<td><a href='bookings.html?action=view&amp;id=<%=bill.bookingID %>'><%=bill.bookingID %></a></td>
 						</tr>
 						<tr>
-							<td><a href='bookings.html?action=view&amp;id=<%=bill.bookingID %>'><%=bill.bookingID %></a></td>
+							<th>Payment type: </th>
 							<td><%=bill.paymentType %></td>
+						</tr>
+						<tr>
+							<th>Status: </th>
 							<td><% if(bill.status){ %>Paid<% } else { %> Not Paid <% } %></td>
+						</tr>
+						<tr>
+							<th>Amount due: </th>
 							<td><%=bill.totalPrice %></td>
 						</tr>
 					</table>

@@ -14,7 +14,7 @@
 
 					%>
 
-					<table class='accounts'>
+					<table class='horizontal'>
 						<tr>
 							<th></th>
 							<th>Name</th>

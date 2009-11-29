@@ -10,6 +10,7 @@
 							%>
 							<li><a href='account.html'>My account</a></li>
 							<li><a href='bookings.html?action=my_bookings'>My bookings</a></li>
+							<li><a href='bill.html?action=my_bills'>My bills</a></li>
 							<li><a href='bookings.html?action=search'>Search available rooms</a></li>
 							<li><a href='login.html?action=logout'>Logout</a></li>
 							<%

@@ -24,7 +24,7 @@
 						if(data.bookings.length>0) {
 
 							%>
-							<table class='bookings'>
+							<table class='horizontal'>
 								<tr>
 									<th></th>
 									<th>Customer</th>
