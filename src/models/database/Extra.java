@@ -10,6 +10,7 @@ public class Extra {
 		/*
 		 * OVERVIEW: Adds a extra to the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Adds extra with given parameters in the extra table of the database
 		 * POSTCONDITIONS: If addition was successful, the extra with the correct parameters will be added to the Database
 		 */
 		// All the information is filled in. This puts all the information into the database.
@@ -64,6 +65,7 @@ public class Extra {
 		/*
 		 * OVERVIEW: Edits an extra that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Edits the extra details with the given parameters in the extras table of the database
 		 * POSTCONDITIONS: The specified extra will be edited with the given parameters in the preconditions 
 		 */
 		databaseHelper dbcon = null;
@@ -106,6 +108,7 @@ public class Extra {
 		/*
 		 * OVERVIEW: Deletes a extra from the database that is identified by the extra ID 
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Deletes the extra and its information from the extra table of the database
 		 * POSTCONDITIONS: The specified extra will be deleted with the given extra ID from preconditions 
 		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -148,6 +151,7 @@ public class Extra {
 		/*
 		 * OVERVIEW: Retrieves a specific extra. Used to select a extra to view from the list of extra returned by getAllExtras function
 		 * PRECONDITIONS: The specified extra is selected from the list of extras returned by getAllExtras. Parameters have been validated.
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The specified extra is returned, if found; placed in extras[0] of returned Message
 		 */
 		databaseHelper dbcon = null;
@@ -197,6 +201,7 @@ public class Extra {
 		/*
 		 * OVERVIEW: Returns the list of all extras that this user has authority to view. Returns a Message class with an array ExtraMessage objects.
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Message contains an array of ExtraMessage objects that represent the list of extras viewable by this user
 		 */
 		databaseHelper dbcon = null;
@@ -253,6 +258,7 @@ public class Extra {
 		/*
 		 * OVERVIEW: Returns a list of extras matching the specified parameters 
 		 * PRECONDITIONS: Desired filtered properties (extraID, bookingID, extraName, price, date) 
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Print out all extras with given properties from preconditions
 		 */
 		databaseHelper dbcon = null;
