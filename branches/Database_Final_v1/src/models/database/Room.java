@@ -379,20 +379,20 @@ public class Room {
 				queryString = queryString + " AND cleaned=" + ((i_msg.rooms[1].cleaned)?1:0);
 			}
 			if (i_msg.rooms[0].singleBeds != 0) {
-				queryString = queryString + " AND singleBeds=" + i_msg.rooms[1].singleBeds;
+				queryString = queryString + " AND singleBeds>=" + i_msg.rooms[1].singleBeds;
 			}
 			if (i_msg.rooms[0].queenBeds != 0) {
-				queryString = queryString + " AND queenBeds=" + i_msg.rooms[1].queenBeds;
+				queryString = queryString + " AND queenBeds>=" + i_msg.rooms[1].queenBeds;
 			}
 			if (i_msg.rooms[0].kingBeds != 0) {
-				queryString = queryString + " AND kingBeds=" + i_msg.rooms[1].kingBeds;
+				queryString = queryString + " AND kingBeds>=" + i_msg.rooms[1].kingBeds;
 			}
 
 			if (i_msg.bookings != null) {
 				if(i_msg.bookings[0].startDate!=null && i_msg.bookings[0].endDate!=null) {
 					queryString = queryString + " AND roomID NOT IN ( SELECT roomID FROM "
 						+ i_msg.header.nameHotel + "_bookings WHERE " +
-						"(endDate > '" + i_msg.bookings[0].endDate + "' AND startDate < '" + i_msg.bookings[0].endDate + "') OR " +
+						"(endDate >= '" + i_msg.bookings[0].endDate + "' AND startDate <= '" + i_msg.bookings[0].endDate + "') OR " +
 						"(endDate > '" + i_msg.bookings[0].startDate + "' AND startDate < '" + i_msg.bookings[0].startDate + "') OR " +
 						"(endDate < '" + i_msg.bookings[0].endDate + "' AND startDate > '" + i_msg.bookings[0].startDate + "'))";
 				}
@@ -404,6 +404,7 @@ public class Room {
 			ResultSet rs = dbcon.select(queryString);
 			if (!rs.next()) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.initializeRooms(0);
 				replyMessage.response.responseString = "No Rooms in database.";
 			} else {
 				int i = 0;
