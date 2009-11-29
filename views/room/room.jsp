@@ -13,6 +13,11 @@
 							<div class='success'><strong>Room updated.</strong></div>
 							<%
 						}
+						if(status.equals("add_success")) {
+							%>
+							<div class='success'><strong>Room added.</strong></div>
+							<%
+						}
 					%>
 					<div id='title'>Room &bull; <a class='edit' href='room.html?action=edit&amp;id=<%=room.roomID %>'>edit</a></div>
 					<table class='room'>
