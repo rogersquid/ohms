@@ -4,16 +4,17 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../left_nav.jsp" %>
 				<div id='content'>
-					<div id='title'>Room</div>
 					<%
 						RoomMessage room = (RoomMessage)request.getAttribute("room");
-
+						String status = "";
+						if(request.getParameter("status")!=null) status=request.getParameter("status");
 						if(status.equals("edit_success")) {
 							%>
 							<div class='success'><strong>Room updated.</strong></div>
 							<%
 						}
 					%>
+					<div id='title'>Room &bull; <a class='edit' href='room.html?action=edit&amp;id=<%=room.roomID %>'>edit</a></div>
 					<table class='room'>
 						<tr>
 							<th>Room #</th>
