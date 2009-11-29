@@ -16,7 +16,7 @@
 							<%
 						}
 					%>
-					<table class='bills'>
+					<table class='bill'>
 						<tr>
 							<th></th>
 							<th>paymentType</th>
@@ -24,18 +24,12 @@
 							<th>price</th>
 							<th></th>
 						</tr>
-
-						<%
-						BillMessage bill = (BillMessage)request.getAttribute("bill");
-
-						// Print the values into the table
-							%>
-							<tr>
-								<td><a href='bookings.html?action=view&amp;id=<%=bill.bookingID %>'><%=bill.bookingID %></a></td>
-								<td><%=bill.paymentType %></td>
-								<td><% if(bill.status){ %>Paid<% } else { %> Not Paid <% } %></td>
-								<td><%=bill.totalPrice %></td>
-							</tr>
+						<tr>
+							<td><a href='bookings.html?action=view&amp;id=<%=bill.bookingID %>'><%=bill.bookingID %></a></td>
+							<td><%=bill.paymentType %></td>
+							<td><% if(bill.status){ %>Paid<% } else { %> Not Paid <% } %></td>
+							<td><%=bill.totalPrice %></td>
+						</tr>
 					</table>
 				</div>
 <%@ include file="../footer.jsp" %>
