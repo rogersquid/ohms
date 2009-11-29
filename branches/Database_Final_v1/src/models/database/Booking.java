@@ -228,8 +228,10 @@ public class Booking {
 				return replyMessage;
 			}
 			else if (numberofrows==0){
-				replyMessage.response.fillResponse(ResponseCode.SUCCESS, "There is no booking." +
-						" OwnerID: " + i_msg.bookings[0].ownerID);
+				replyMessage.response.fillResponse(ResponseCode.SUCCESS, "There is no booking.");
+				replyMessage.initializeBookings(numberofrows);
+				replyMessage.initializeRooms(numberofrows);
+				replyMessage.initializeAccounts(numberofrows);
 				return replyMessage;
 			}else{
 				replyMessage.initializeBookings(numberofrows);
