@@ -21,6 +21,7 @@ public class databaseHelper {
 		/*
 		 * OVERVIEW: The default constructor
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Returns a databaseHelper object
 		 */
     	Class.forName(jdbcDriver); //set Java database connectivity driver
@@ -31,6 +32,7 @@ public class databaseHelper {
 		/*
 		 * OVERVIEW: The function used to retrieve (get/getAll) entries from the database
 		 * PRECONDITIONS: String is not empty and is formatted to mySQL specifications
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Returns a ResultSet that contains requested database entries else throws exception
 		 */
 	    PreparedStatement st  = connection.prepareStatement(query);
@@ -48,6 +50,7 @@ public class databaseHelper {
 		/*
 		 * OVERVIEW: This function is used to edit and delete database entries
 		 * PRECONDITIONS: String is not empty and is formatted to mySQL specifications. Database connection has been opened
+		 * MODIFIES: Updates the database with given information in the string statement
 		 * POSTCONDITIONS: The database update entry request is performed else throws exception
 		 */
 		PreparedStatement st  = connection.prepareStatement(statement);
@@ -58,6 +61,7 @@ public class databaseHelper {
 		/*
 		 * OVERVIEW: This function is used to add entries to the database
 		 * PRECONDITIONS: String is not empty and is formatted to mySQL specifications. Database connection has been opened
+		 * MODIFIES: Inserts the given information to the database
 		 * POSTCONDITIONS: The database insert entry request is performed else throws exception
 		 */
 		PreparedStatement st  = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -74,6 +78,7 @@ public class databaseHelper {
 		/*
 		 * OVERVIEW: This function is used to close the database connection once opened
 		 * PRECONDITIONS: Database connection is opened
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The database connection is closed
 		 */
 		try
