@@ -36,7 +36,7 @@
 								<td><span class='index'><%=i+1 %></span></td>
 								<td><a href="bill.html?action=view&amp;id=<%=data.bills[i].billID%>"><%=data.bills[i].billID %></td>
 								<td><a href='account.html?action=view&amp;id=<%=data.accounts[i].accountID %>'><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></a></td>
-								<td><a href='bill.html?action=view&amp;id=<%=data.bills[i].bookingID %>'><%=data.bills[i].bookingID %></a></td>
+								<td><a href='bookings.html?action=view&amp;id=<%=data.bills[i].bookingID %>'><%=data.bills[i].bookingID %></a></td>
 								<td><%=data.bills[i].paymentType %></td>
 								<td><% if(data.bills[i].status){ %>Paid<% } else { %> Not Paid <% } %></td>
 								<td><%=data.bills[i].totalPrice %></td>
