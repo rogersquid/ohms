@@ -501,13 +501,17 @@ public class Booking {
 		replyMessage.bookings=i_msg.bookings;
 		try {
 			dbcon = new databaseHelper();
-			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='1'" +
+			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='2'" + 
 						" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			if (returnedRows != 1) {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the updated is not = 1" +
 						" BookingID: " + i_msg.bookings[0].bookingID);
 				System.err.println(returnedRows);
 				return replyMessage;
+			} else {
+				i_msg = getBooking(i_msg);
+				returnedRows  = dbcon.update("UPDATE " + i_msg.header.nameHotel + "_rooms SET cleaned='1' " +
+					"WHERE roomID='" + i_msg.bookings[0].roomID + "'");
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
