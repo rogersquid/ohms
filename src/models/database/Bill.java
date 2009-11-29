@@ -220,7 +220,7 @@ public class Bill {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all rooms
-			ResultSet rs = dbcon.select("SELECT bills.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_bills AS bills LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID");
+			ResultSet rs = dbcon.select("SELECT bills.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_bills AS bills INNER JOIN " + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID");
 			rs.last();
 			int numRows = rs.getRow();
 			
@@ -280,29 +280,34 @@ public class Bill {
 		try {
 			// create connection
 			dbcon = new databaseHelper();
+			
+			String queryString;
+			if(i_msg.accounts!=null && i_msg.accounts[0].accountID>0) {
+				queryString = "SELECT b.* FROM " + i_msg.header.nameHotel + "_bills AS b LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS bk ON b.bookingID=bk.bookingID WHERE bk.bookingOwnerID='"+i_msg.account[0].accountID+"'";
+			} else {
+				queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE ";
 
-			String queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE ";
-
-			//first BillMessage holds the filter toggles, and the second message hold the filter values
-			boolean nonFirst = false;
-			if (i_msg.bills[0].billID != 0) {
-				queryString = queryString + "billID=" + i_msg.bills[1].billID;
-				nonFirst = true;
-			}
-			if (i_msg.bills[0].bookingID != 0) {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "bookingID=" + i_msg.bills[1].bookingID;
-				nonFirst = true;
-			}
-			if (i_msg.bills[0].paymentType=="CHECK") {
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "paymentType='" + i_msg.bills[1].paymentType + "'";
-				nonFirst = true;
-			}
-			if (i_msg.bills[0].status){
-				if (nonFirst) queryString = queryString + " AND ";
-				queryString = queryString + "status=" + i_msg.bills[1].status;
-				nonFirst = true;
+				//first BillMessage holds the filter toggles, and the second message hold the filter values
+				boolean nonFirst = false;
+				if (i_msg.bills[0].billID != 0) {
+					queryString = queryString + "billID=" + i_msg.bills[1].billID;
+					nonFirst = true;
+				}
+				if (i_msg.bills[0].bookingID != 0) {
+					if (nonFirst) queryString = queryString + " AND ";
+					queryString = queryString + "bookingID=" + i_msg.bills[1].bookingID;
+					nonFirst = true;
+				}
+				if (i_msg.bills[0].paymentType=="CHECK") {
+					if (nonFirst) queryString = queryString + " AND ";
+					queryString = queryString + "paymentType='" + i_msg.bills[1].paymentType + "'";
+					nonFirst = true;
+				}
+				if (i_msg.bills[0].status){
+					if (nonFirst) queryString = queryString + " AND ";
+					queryString = queryString + "status=" + i_msg.bills[1].status;
+					nonFirst = true;
+				}
 			}
 
 			// query the database for all bills
