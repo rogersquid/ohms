@@ -511,7 +511,7 @@ public class Booking {
 		replyMessage.bookings=i_msg.bookings;
 		try {
 			dbcon = new databaseHelper();
-			ResultSet rs = dbcon.select("SELECT status "+ i_msg.header.nameHotel + "_bills " +
+			ResultSet rs = dbcon.select("SELECT status FROM "+ i_msg.header.nameHotel + "_bills " +
 					"WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			int mert=0;
 			while (rs.next()) {
