@@ -7,6 +7,12 @@
 					<div id='title'>Room</div>
 					<%
 						RoomMessage room = (RoomMessage)request.getAttribute("room");
+
+						if(status.equals("edit_success")) {
+							%>
+							<div class='success'><strong>Room updated.</strong></div>
+							<%
+						}
 					%>
 					<table class='room'>
 						<tr>
