@@ -2,41 +2,30 @@ package models.messages;
 
 public class ReportMessage {
 	
-	public int 				availRoomCount;
-	public int 				availUnoccuRoomsCount;
-	public int 				occupiedRoomsCount;
-	public String 			htmlString;
-	public String[]			Graph;
-	public int[][]			roomArray;
+	public HeaderMessage header;
+	public Message[] tables;
+	public float[] stats;
+	public String[] graphs;
 	
-	public void fill_All(int i_availRoomCount, int i_availUnoccuRoomsCount, 
-			int i_occupiedRoomsCount, String i_htmlString){
-		/*
-		 * OVERVIEW: Fills in the report details. Subject to verification if not validated
-		 * PRECONDITIONS: None
-		 * POSTCONDITIONS: The ReportMessage has its report details filled in 
-		 */
-		availRoomCount = i_availRoomCount;
-		availUnoccuRoomsCount = i_availUnoccuRoomsCount;
-		occupiedRoomsCount = i_occupiedRoomsCount;
-		htmlString = i_htmlString;
+	public ReportMessage (int i_authlevel, int i_mOID, String i_hotelname, int numberoftables, int numberofstats, int numberofstrings){
+		header= new HeaderMessage(i_authlevel, i_mOID, i_hotelname);
+		tables= new Message[numberoftables];
+		for (int i=0; i< numberoftables; i++){
+			tables[0]= new Message(i_authlevel, i_mOID, i_hotelname);
+		}
+		stats= new float[numberofstats];
+
+		graphs= new String[numberoftables];
+
 	}
 	
-	public void initializeRoomARray(int arraysize){
-		/*
-		 * OVERVIEW: Initialize array size
-		 * PRECONDITIONS: arraysize is valid and not null
-		 * POSTCONDITIONS: Creates an array with given inputs 
-		 */
-		roomArray= new int[arraysize][4];
-	}
-	
-	public ResponseMessage validateParam(Message i_msg){
+	/*public ResponseMessage validateParam(Message i_msg){
 		/* 
 		 * OVERVIEW: Checks to see if the parameters entered are valid.  
 		 * PRECONDITIONS: None
 		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
 		 */
+		/*
 		ResponseMessage validity = new ResponseMessage();
 
 		
@@ -49,5 +38,6 @@ public class ReportMessage {
 			validity.responseString = "Input cannot be blank/null";
 		}
 		return validity;
-	}
+		return i_msg;
+	}*/
 }

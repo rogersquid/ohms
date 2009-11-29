@@ -20,7 +20,6 @@ public class Message {
 	public BillMessage[] bills;
 	public ExtraMessage[] extras;
 	public ResponseMessage response;
-	public ReportMessage[] reports;
 
 	//The only constructor
 	//Authorization level of user and hotel name are stored in the message header
@@ -87,17 +86,6 @@ public class Message {
 		bills=new BillMessage[arraysize];
 		for(int i=0; i<arraysize; i++){
 			bills[i]=new BillMessage();
-		}
-	}
-	public void initializeReports(int arraysize){
-		//REQUIRES:	ENOUGH HEAP SPACE
-		//MODIFIES: ALLOCATES THE CORRESPONDING SPECIFIC MESSAGE ARRAY ENOUGH SPACE TO HOLD SPECIFIED AMOUNT OF SPECIFIC MESSAGE TYPE STRING IS FILLED WITH DESCRIPTION OF INVALID PARAMETERS
-		//EFFECTS: THE SPECIFIC MESSAGE ARRAY NOW CONTAINS ENOUGH SPACE TO HOLD THE SPECIFIED NUMBER OF THE SPECIFIC MESSAGE TYPE
-		//Interface and any other class that wishes to use one of the specific message types 
-		//will have to initialize the array with the desired number of message elements to store
-		reports=new ReportMessage[arraysize];
-		for(int i=0; i<arraysize; i++){
-			reports[i]=new ReportMessage();
 		}
 	}
 	
