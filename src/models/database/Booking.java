@@ -504,7 +504,7 @@ public class Booking {
 			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='2'" + 
 						" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			if (returnedRows != 1) {
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the updated is not = 1" +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the number of updated is not = 1. INCONSISTENCY" +
 						" BookingID: " + i_msg.bookings[0].bookingID);
 				System.err.println(returnedRows);
 				return replyMessage;
@@ -516,7 +516,7 @@ public class Booking {
 			returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_rooms SET cleaned='0'" +
 					" WHERE roomID='" + i_msg.bookings[0].roomID +"'");
 			if (returnedRows != 1) {
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the updated is not = 1" +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Room failed." +
 						" BookingID: " + i_msg.bookings[0].bookingID);
 				System.err.println(returnedRows);
 				return replyMessage;
@@ -524,7 +524,7 @@ public class Booking {
 			returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bills SET status='1'" +
 					" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			if (returnedRows != 1) {
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the updated is not = 1" +
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Bill failed." +
 						" BookingID: " + i_msg.bookings[0].bookingID);
 				System.err.println(returnedRows);
 				return replyMessage;
