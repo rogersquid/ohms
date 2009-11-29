@@ -24,6 +24,7 @@ public class ExtraMessage{
 		/*
 		 * OVERVIEW: Fills in the Extra service details. Subject to verification if not validated
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: ExtraMessage object's parameters are initialized
 		 */
 		extraID=eID;
@@ -38,6 +39,7 @@ public class ExtraMessage{
 		/*
 		 * OVERVIEW: Prints out fields of this ExtraMessage
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The details of the ExtraMessage are printed out
 		 */
 		System.out.println("Extras Message is printing out");
@@ -54,6 +56,7 @@ public class ExtraMessage{
 		/* 
 		 * OVERVIEW: Checks to see if the parameters entered are valid.  
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
 		 */
 		Matcher m;

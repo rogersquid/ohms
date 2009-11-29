@@ -22,6 +22,7 @@ public class BookingMessage{
 		/*
 		 * OVERVIEW: Fills in the Booking details. Subject to verification if not validated
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: BookingMessage object's parameters are initialized
 		 */
 		bookingID=bID;
@@ -37,6 +38,7 @@ public class BookingMessage{
 		/*
 		 * OVERVIEW: Prints out fields of this BookingMessage
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The details of the BookingMessage are printed out
 		 */
 		System.out.println("Booking_message is printing out");

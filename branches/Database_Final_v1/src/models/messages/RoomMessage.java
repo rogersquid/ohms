@@ -34,6 +34,7 @@ public class RoomMessage {
 		/*
 		 * OVERVIEW: Fills in the room details. Subject to verification if not validated
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: RoomMessage object's parameters are initialized
 		 */
 		roomID		= i_room_id;
@@ -59,6 +60,7 @@ public class RoomMessage {
 		/*
 		 * OVERVIEW: Checks to see if the parameters entered are valid.
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly
 		 */
 		ResponseMessage validity = new ResponseMessage();
