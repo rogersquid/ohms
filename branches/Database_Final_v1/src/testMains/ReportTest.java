@@ -53,14 +53,6 @@ public class ReportTest {
 			}
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
 		if(i_num==1){
 			System.out.println("Test ID 2");
 			System.out.println("Description: Success Generate Extra Report");
@@ -135,6 +127,60 @@ public class ReportTest {
 		}
 		
 		
+		
+		
+		
+		
+		if(i_num==2){
+			System.out.println("Test ID 3");
+			System.out.println("Description: Success Generate Room Status Report");
+			
+			//create message
+			ReportMessage h_msg = new ReportMessage(0, 0, "test");
+			//fill room info:
+			Report report = new Report();
+			h_msg = report.generateRoomStatusReport(h_msg);
+			
+			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
+				System.out.println("Passed Test ID 3");
+				System.out.println("Input: ");
+				System.out.println("Output: ");
+				
+				System.out.println("curently Available Rooms:");
+				for (int i = 0; i < h_msg.tables[0].rooms.length; i ++) {
+					test_printRoom(h_msg.tables[0].rooms[i]);
+				}
+				System.out.println("\r\r\r");
+				
+
+				System.out.println("Unavailable Rooms:");
+				for (int i = 0; i < h_msg.tables[1].rooms.length; i ++) {
+					test_printRoom(h_msg.tables[1].rooms[i]);
+				}
+				System.out.println("\r\r\r");
+				
+				
+				System.out.println("Available Occupied Rooms:");
+				for (int i = 0; i < h_msg.tables[2].rooms.length; i ++) {
+					test_printRoom(h_msg.tables[2].rooms[i]);
+				}
+				System.out.println("\r\r\r");
+				
+				
+				System.out.println("Available Unoccupied Rooms:");
+				for (int i = 0; i < h_msg.tables[3].rooms.length; i ++) {
+					test_printRoom(h_msg.tables[3].rooms[i]);
+				}
+				System.out.println("\r\r\r");
+			}
+			else{
+				System.out.println("Failed Test ID 3");
+				System.out.println("Expected Output:");
+				System.out.println("Expected Change:");
+				System.out.println("Error Message: " + h_msg.response.responseString);
+				System.out.println("\r");
+			}
+		}
 		
 	}
 	
