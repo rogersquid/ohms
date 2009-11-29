@@ -32,7 +32,7 @@
 						for(int i=0; i < data.bills.length; i++) {
 							%>
 							<tr>
-								<td><span class='index'><%=i+1 %></span></td>
+								<td><span class='index'><a href="bill.html?action=view&amp;id=<%=data.bills[i].billID%>"><%=i+1 %></a></span></td>
 								<td><a href='account.html?action=view&amp;id=<%=data.accounts[i].accountID %>'><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></a></td>
 								<td><a href='account.html?action=view&amp;id=<%=data.bills[i].bookingID %>'>
 								<td><%=data.bills[i].paymentType %></td>
