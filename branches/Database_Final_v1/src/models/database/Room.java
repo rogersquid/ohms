@@ -9,6 +9,7 @@ public class Room {
 		/*
 		 * OVERVIEW: Adds a room to the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Adds room with given parameters in the rooms table of the database
 		 * POSTCONDITIONS: If addition was successful, the room with the correct parameters will be added to the Database
 		 */
 		// Creating database handle and create return message
@@ -73,6 +74,7 @@ public class Room {
 		/*
 		 * OVERVIEW: Edits an room that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Edits the room details with the given parameters in the rooms table of the database
 		 * POSTCONDITIONS: The specified room will be edited with the given parameters in the preconditions
 		 */
 		// Creating database handle and create return message
@@ -152,6 +154,7 @@ public class Room {
 		/*
 		 * OVERVIEW: Deletes a room from the database that is identified by the room ID
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Deletes the room and its information from the rooms table of the database
 		 * POSTCONDITIONS: The specified room will be deleted with the given room ID from preconditions
 		 */
 		// Creating database handle and create return message
@@ -194,6 +197,7 @@ public class Room {
 		/*
 		 * OVERVIEW: Returns the list of all rooms that this user has authority to view. Returns a Message class with an array RoomMessage objects.
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Message contains an array of RoomMessage objects that represent the list of rooms viewable by this user
 		 */
 		databaseHelper dbcon = null;
@@ -263,6 +267,7 @@ public class Room {
 		/*
 		 * OVERVIEW: Retrieves a specific room. Used to select a room to view from the list of room returned by getAllRooms function
 		 * PRECONDITIONS: The specified room is selected from the list of rooms returned by getAllRooms. Parameters have been validated.
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The specified room is returned, if found; placed in rooms[0] of returned Message
 		 */
 		databaseHelper dbcon = null;
@@ -325,6 +330,7 @@ public class Room {
 		/*
 		 * OVERVIEW: Returns a list of rooms matching the specified parameters
 		 * PRECONDITIONS: Desired filtered properties (floor, roomNumber, roomType, price, onsuite, TV, disabilityAccess, elevator, available, phone, internet, kitchen, cleaned, singleBed, queenBed, kingBed)
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Print out all rooms with given properties from preconditions
 		 */
 		databaseHelper dbcon = null;
