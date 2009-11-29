@@ -16,7 +16,7 @@
 									%>
 									&bull; <a href='bookings.html?action=checkin&amp;id=<%=data.bookings[0].bookingID %>'>check in</a>
 									<%
-								} else {
+								} else if(data.bookings[0].status==1) {
 									%>
 									&bull; <a href='bookings.html?action=checkout&amp;id=<%=data.bookings[0].bookingID %>'>check out</a>
 									<%
@@ -53,24 +53,24 @@
 					%>
 					<table class='vertical'>
 						<tr>
-							<td>Customer: </td>
+							<th>Customer: </th>
 							<td><a href='account.html?action=view&amp;id=<%=data.bookings[0].ownerID %>'><%=data.accounts[0].firstName %> <%=data.accounts[0].lastName %></a></td>
 						</tr>
 						<tr>
-							<td>Room #: </td>
+							<th>Room #: </th>
 							<td><a href='rooms.html?action=view&amp;id=<%=data.rooms[0].roomID %>'><%=data.rooms[0].roomNumber %></a></td>
 						</tr>
 						<tr>
-							<td>Start date: </td>
+							<th>Start date: </th>
 							<td><%=data.bookings[0].startDate %></td>
 						</tr>
 						<tr>
-							<td>End date: </td>
+							<th>End date: </th>
 							<td><%=data.bookings[0].endDate %></td>
 						</tr>
 						<tr>
-							<td>Status: </td>
-							<td><% if(data.bookings[0].status==1) { %>Checked in<% } else { %>Not checked in<% } %></td>
+							<th>Status: </th>
+							<td><% if(data.bookings[0].status==0) { %>Not checked in<% } else if(data.bookings[0].status==1) { %>Checked in<% } else if() { %>Checked out<% } %></td>
 						</tr>
 					</table>
 				</div>
