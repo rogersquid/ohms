@@ -17,6 +17,7 @@ public class BillMessage{
 	public int 				bookingID;
 	public String			paymentType;
 	public boolean			status; // 0 = not paid , 1 = paid
+	public float 			totalPrice;
 	
 	public void fillAll(int bID, int bookID, String pType, boolean bStatus ){
 		/*
@@ -70,4 +71,5 @@ public class BillMessage{
 		
 		return response;
 	}
+	
 }

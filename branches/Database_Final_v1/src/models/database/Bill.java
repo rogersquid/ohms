@@ -187,6 +187,18 @@ public class Bill {
 				replyMessage.accounts[0].firstName = rs.getString("firstName");
 				replyMessage.accounts[0].lastName = rs.getString("lastName");
 	        }
+			float totalprice=0;
+			rs=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_extras WHERE bookingID='" + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID WHERE billID='"
+					+ replyMessage.bills[0].bookingID +"'");
+			while (rs.next()) {
+	            totalprice += rs.getInt("price");
+	        }
+			rs=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID='" + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID WHERE billID='"
+					+ replyMessage.rooms[0].roomID +"'");
+			while (rs.next()) {
+	            totalprice += rs.getInt("price");
+	        }
+			replyMessage.bills[0].totalPrice=totalprice;
 		} catch (SQLException e) {
 			System.err.println("Error.  SQLException was thrown:");
 			e.printStackTrace(System.err);
@@ -234,6 +246,7 @@ public class Bill {
 				replyMessage.response.responseString = "No extras in database.";
 			} else {
 				int i = 0;
+				float totalprice=0;
 
 				while (rs.next()) {
 					replyMessage.bills[i].billID = rs.getInt("billID");
@@ -244,9 +257,21 @@ public class Bill {
 					replyMessage.rooms[i].roomNumber = rs.getInt("roomNumber");
 					replyMessage.accounts[i].accountID = rs.getInt("accountID");
 					replyMessage.accounts[i].firstName = rs.getString("firstName");
-					replyMessage.accounts[i].lastName = rs.getString("lastName");			
+					replyMessage.accounts[i].lastName = rs.getString("lastName");		
+					ResultSet rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_extras WHERE bookingID='" + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID WHERE billID='"
+							+ replyMessage.bills[i].bookingID +"'");
+					while (rstwo.next()) {
+			            totalprice += rstwo.getInt("price");
+			        }
+					rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID='" + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID WHERE billID='"
+							+ replyMessage.rooms[i].roomID +"'");
+					while (rstwo.next()) {
+			            totalprice += rstwo.getInt("price");
+			        }
+					replyMessage.bills[i].totalPrice=totalprice;
 					i++;
 				}
+			
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			}
@@ -283,7 +308,7 @@ public class Bill {
 			
 			String queryString;
 			if(i_msg.accounts!=null && i_msg.accounts[0].accountID>0) {
-				queryString = "SELECT b.* FROM " + i_msg.header.nameHotel + "_bills AS b LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS bk ON b.bookingID=bk.bookingID WHERE bk.bookingOwnerID='"+i_msg.account[0].accountID+"'";
+				queryString = "SELECT b.* FROM " + i_msg.header.nameHotel + "_bills AS b LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS bk ON b.bookingID=bk.bookingID WHERE bk.bookingOwnerID='"+i_msg.accounts[0].accountID+"'";
 			} else {
 				queryString = "SELECT * FROM " + i_msg.header.nameHotel + "_bills WHERE ";
 
