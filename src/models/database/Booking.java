@@ -528,18 +528,15 @@ public class Booking {
 				}
 				mert++;
 			}
-			
+			System.err.print("aaaaaaaaaaaaaaaaaaaaaaaa");
 			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='2'" + 
 						" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			if (returnedRows != 1) {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the number of updated is not = 1. INCONSISTENCY" +
 						" BookingID: " + i_msg.bookings[0].bookingID);
 				return replyMessage;
-			} else {
-				i_msg = getBooking(i_msg);
-				returnedRows  = dbcon.update("UPDATE " + i_msg.header.nameHotel + "_rooms SET cleaned='1' " +
-					"WHERE roomID='" + i_msg.bookings[0].roomID + "'");
 			}
+			System.err.print("bbbbbbbbbbbbbbbbbbbbbb");
 			returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_rooms SET cleaned='0'" +
 					" WHERE roomID='" + i_msg.bookings[0].roomID +"'");
 			if (returnedRows != 1) {
@@ -552,12 +549,12 @@ public class Booking {
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed.");
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "Checkout Booking failed." +e.toString());
 			return replyMessage;
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error in 'Add_Account'.  ClassNotFoundException was thrown:");
 			e.printStackTrace(System.err);
-			replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed.");
+			replyMessage.response.fillResponse(ResponseCode.FAIL, "checkout Booking failed."+e.toString());
 			return replyMessage;
 		}
 		finally {
