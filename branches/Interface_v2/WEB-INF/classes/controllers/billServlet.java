@@ -9,7 +9,7 @@ import models.messages.*;
 import models.misc.*;
 
 public class billServlet extends HttpServlet {
-	
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
@@ -41,8 +41,10 @@ public class billServlet extends HttpServlet {
 			allBills(request, response);
 		} else if(action!=null && action.equals("delete")) {
 			deleteBill(request, response);
+		} else if(action!=null && action.equals("my_bills")) {
+			myBills(request, response);
 		} else {
-			viewCurrentBill(request, response);
+			myBills(request, response);
 		}
 	}
 
@@ -128,26 +130,28 @@ public class billServlet extends HttpServlet {
 		}
 	}
 
-	public void viewCurrentBill(HttpServletRequest request, HttpServletResponse response)
+	public void myBills(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
 		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 
-		int billID = userid;
+		int accountID = userid;
 		Message message = new Message(authlevel, userid, hotelname);
-		message.initializeBills(1);
-		message.bills[0].billID = billID;
-		
-		Bill bill = new Bill();
-		Message reply = bill.getBill(message);
+		message.initializeBills(2);
+		message.initializeAccounts(2);
+		message.accounts[0].accountID = accountID;
+		message.accounts[1].accountID = accountID;
 
-		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bills.length > 0) {
+		Bill bill = new Bill();
+		Message reply = bill.getFilteredBill(message);
+
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bills != null) {
 			// MURAT
 			if(authlevel >= 3 || reply.bills[0].billID==userid) {
-				request.setAttribute("bill", reply.bills[0]);
-				getServletContext().getRequestDispatcher("/views/bill/view_bill.jsp").include(request, response);
+				request.setAttribute("data", reply);
+				getServletContext().getRequestDispatcher("/views/bill/my_bills.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to view this bill.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -206,7 +210,7 @@ public class billServlet extends HttpServlet {
 		//message.bills[0].bookingID = Integer.parseInt(request.getParameter("bookingID"));
 		message.bills[0].paymentType = request.getParameter("paymentType");
 		message.bills[0].status = (request.getParameter("status").equals("1")) ? true : false;
-		
+
 		Bill bill = new Bill();
 		if(authlevel >= 3)
 		{
@@ -228,7 +232,7 @@ public class billServlet extends HttpServlet {
 			else
 			{
 				request.setAttribute("status", "edit_bill_failed");
-				request.setAttribute("message", resp.responseString);
+				request.setAttribute("message", message.response.responseString);
 				editBill(request, response);
 			}
 		}

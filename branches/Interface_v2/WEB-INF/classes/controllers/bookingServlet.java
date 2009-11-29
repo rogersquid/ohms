@@ -28,6 +28,10 @@ public class bookingServlet extends HttpServlet {
 			myBookings(request, response);
 		} else if(action.equals("view")) {
 			viewBooking(request, response);
+		} else if(action.equals("checkin")) {
+			checkIn(request, response);
+		} else if(action.equals("checkout")) {
+			checkOut(request, response);
 		} else if(action.equals("delete")) {
 			deleteBooking(request, response);
 		} else if(action.equals("search")) {
@@ -68,6 +72,71 @@ public class bookingServlet extends HttpServlet {
 			}
 		} else {
 			request.setAttribute("message", reply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+
+	public void checkIn(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+
+		int bookingID = Integer.parseInt(request.getParameter("id"));
+		Message message = new Message(authlevel, userid, hotelname);
+		message.initializeBookings(1);
+		message.bookings[0].bookingID = bookingID;
+		Booking booking = new Booking();
+		Message bookingReply = booking.getBooking(message);
+
+		if(bookingReply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && bookingReply.bookings.length > 0) {
+			if(authlevel >= 3 || bookingReply.bookings[0].ownerID==userid) {
+				Message checkInReply = booking.checkIn(message);
+				if(checkInReply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
+					response.sendRedirect(response.encodeRedirectURL("bookings.html?action=view&id="+bookingID+"&status=checkin"));
+				} else {
+					request.setAttribute("message", "Check in falied: "+checkInReply.response.responseString);
+					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+				}
+			} else {
+				request.setAttribute("message", "You are not authorized to check in.");
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
+		} else {
+			request.setAttribute("message", bookingReply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+	public void checkOut(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+
+		int bookingID = Integer.parseInt(request.getParameter("id"));
+		Message message = new Message(authlevel, userid, hotelname);
+		message.initializeBookings(1);
+		message.bookings[0].bookingID = bookingID;
+		Booking booking = new Booking();
+		Message bookingReply = booking.getBooking(message);
+
+		if(bookingReply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && bookingReply.bookings.length > 0) {
+			if(authlevel >= 3 || bookingReply.bookings[0].ownerID==userid) {
+				Message checkInReply = booking.checkOut(message);
+				if(checkInReply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
+					response.sendRedirect(response.encodeRedirectURL("bookings.html?action=view&id="+bookingID+"&status=checkin"));
+				} else {
+					request.setAttribute("message", "Check in falied: "+checkInReply.response.responseString);
+					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+				}
+			} else {
+				request.setAttribute("message", "You are not authorized to check in.");
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
+		} else {
+			request.setAttribute("message", bookingReply.response.responseString);
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}
