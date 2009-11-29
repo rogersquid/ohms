@@ -33,7 +33,11 @@
 									<th>Start Date</th>
 									<th>End Date</th>
 									<th>Status</th>
-									<th></th>
+									<% if(data.bookings[i].status==0) {
+										%>
+										<th>Delete</th>
+										<%
+									} %>
 								</tr>
 
 								<%
@@ -57,7 +61,11 @@
 										}
 									%>
 									<td><%=status %></td>
-									<td><a href='bookings.html?action=delete&amp;id=<%=data.bookings[i].bookingID %>' title='Delete booking' class='delete'>[ X ]</a></td>
+									<% if(data.bookings[i].status==0) {
+										%>
+										<td><a href='bookings.html?action=delete&amp;id=<%=data.bookings[i].bookingID %>' title='Delete booking' class='delete'>[ X ]</a></td>
+										<%
+									} %>
 								</tr>
 								<%
 							} %>
