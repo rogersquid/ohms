@@ -39,7 +39,7 @@
 								<td><a href='account.html?action=view&amp;id=<%=data.bills[i].bookingID %>'>
 								<td><%=data.bills[i].paymentType %></td>
 								<td><% if(data.bills[i].status){ %>Paid<% } else { %> Not Paid <% } %></td>
-								<td><%=data.bills[i].price %></td>
+								<td><%=data.bills[i].totalPrice %></td>
 							</tr>
 							<%
 						}
