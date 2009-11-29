@@ -206,7 +206,7 @@ public class Bill {
 		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "View one Bill as Requested.");
 		return replyMessage;
 	}
-	public Message getAllBill(Message i_msg) {
+	public Message getAllBills(Message i_msg) {
 		/*
 		 * OVERVIEW: Returns the list of all bills that this user has authority to view. Returns a Message class with an array BillMessage objects.
 		 * PRECONDITIONS: None
