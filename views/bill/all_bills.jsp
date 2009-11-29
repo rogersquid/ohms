@@ -4,7 +4,7 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../left_nav.jsp" %>
 				<div id='content'>
-					<div id='title'>Bills Accounts</div>
+					<div id='title'>All Bills</div>
 					<%
 						if(request.getAttribute("status")=="delete_success") {
 							%>
@@ -14,13 +14,13 @@
 
 					%>
 
-					<table class='accounts'>
+					<table class='bills'>
 						<tr>
 							<th></th>
-							<th>Name</th>
-							<th>E-mail</th>
-							<th>Type</th>
-							<th>Phone</th>
+							<th>Customer</th>
+							<th></th>
+							<th>paymentType</th>
+							<th>status</th>
 							<th></th>
 						</tr>
 
@@ -28,15 +28,14 @@
 						Message data = (Message)request.getAttribute("data");
 
 						// Print the values into the table
-						for(int i=0; i < data.accounts.length; i++) {
+						for(int i=0; i < data.bills.length; i++) {
 							%>
 							<tr>
 								<td><span class='index'><%=i+1 %></span></td>
 								<td><a href='account.html?action=view&amp;id=<%=data.accounts[i].accountID %>'><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></a></td>
-								<td><%=data.accounts[i].email %></td>
-								<td><%=data.accounts[i].accountType %></td>
-								<td><%=data.accounts[i].phone %></td>
-								<td><a href='account.html?action=delete&amp;id=<%=data.accounts[i].accountID %>' title='Delete account' class='delete'>[ X ]</a></td>
+								<td><a href='account.html?action=view&amp;id=<%=data.bills[i].bookingID %>'>
+								<td><%=data.bills[i].paymentType %></td>
+								<td><% if(data.bills[i].status){ %>Paid<% } else { %> Not Paid <% } %></td>
 							</tr>
 							<%
 						}
