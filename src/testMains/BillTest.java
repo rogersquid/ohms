@@ -199,7 +199,7 @@ public class BillTest {
 			//fill Bill info:
 			h_msg.bills[0].fillAll(1, 3, "Cash", false);
 			Bill Bill = new Bill();
-			h_msg = Bill.getAllBill(h_msg);
+			h_msg = Bill.getAllBills(h_msg);
 			h_msg.response = h_msg.bills[0].validateParams();
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 1");
