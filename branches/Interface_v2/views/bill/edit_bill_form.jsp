@@ -32,7 +32,7 @@
 							</tr>
 							<tr>
 								<td>Payment type: </td>
-								<td><%=bill.paymentType %></td>
+								<td><input type='text' name='paymentType' value='<%=bill.paymentType %>' /></td>
 							</tr>
 							<tr>
 								<td>Status: </td>
