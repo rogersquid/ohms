@@ -310,7 +310,7 @@ public class bookingServlet extends HttpServlet {
 		} catch(ParseException e) {
 			request.setAttribute("status", "search_failed");
 			request.setAttribute("message", "Invalid date formats.");
-			getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request,
+			getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request, response);
 		} catch(Exception e) {
 			request.setAttribute("message", "Exception: "+e.toString());
 			e.printStackTrace();
