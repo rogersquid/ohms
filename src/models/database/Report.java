@@ -666,119 +666,129 @@ public class Report {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Empty Results.";
+				replyMessage.tables[0].initializeRooms(0);
 			}
 			
-			rs = dbcon.select(unavailRoomsQuery);
-			if (rs.next()) {
-				rs.last();
-				numRow = rs.getRow();
-				rs.beforeFirst();
-				replyMessage.tables[1].initializeRooms(numRow);
-				i = 0;
-				while (rs.next()) {
-					replyMessage.tables[1].rooms[i].roomID = rs.getInt("roomID");
-					replyMessage.tables[1].rooms[i].roomNumber = rs.getInt("roomNumber");
-					replyMessage.tables[1].rooms[i].floor = rs.getInt("floor");
-					replyMessage.tables[1].rooms[i].roomType = rs.getString("roomType");
-					replyMessage.tables[1].rooms[i].price = rs.getFloat("price");
-					replyMessage.tables[1].rooms[i].onsuite = rs.getBoolean("onsuite");
-					replyMessage.tables[1].rooms[i].tv = rs.getBoolean("tv");
-					replyMessage.tables[1].rooms[i].disabilityAccess = rs.getBoolean("disabilityAccess");
-					replyMessage.tables[1].rooms[i].elevator = rs.getBoolean("elevator");
-					replyMessage.tables[1].rooms[i].available = rs.getBoolean("available");
-					replyMessage.tables[1].rooms[i].phone = rs.getBoolean("phone");
-					replyMessage.tables[1].rooms[i].internet = rs.getBoolean("internet");
-					replyMessage.tables[1].rooms[i].kitchen = rs.getBoolean("kitchen");
-					replyMessage.tables[1].rooms[i].cleaned = rs.getBoolean("cleaned");
-					replyMessage.tables[1].rooms[i].singleBeds = rs.getInt("singleBeds");
-					replyMessage.tables[1].rooms[i].queenBeds = rs.getInt("queenBeds");
-					replyMessage.tables[1].rooms[i].kingBeds = rs.getInt("kingBeds");
-					i++;
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(unavailRoomsQuery);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[1].initializeRooms(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[1].rooms[i].roomID = rs.getInt("roomID");
+						replyMessage.tables[1].rooms[i].roomNumber = rs.getInt("roomNumber");
+						replyMessage.tables[1].rooms[i].floor = rs.getInt("floor");
+						replyMessage.tables[1].rooms[i].roomType = rs.getString("roomType");
+						replyMessage.tables[1].rooms[i].price = rs.getFloat("price");
+						replyMessage.tables[1].rooms[i].onsuite = rs.getBoolean("onsuite");
+						replyMessage.tables[1].rooms[i].tv = rs.getBoolean("tv");
+						replyMessage.tables[1].rooms[i].disabilityAccess = rs.getBoolean("disabilityAccess");
+						replyMessage.tables[1].rooms[i].elevator = rs.getBoolean("elevator");
+						replyMessage.tables[1].rooms[i].available = rs.getBoolean("available");
+						replyMessage.tables[1].rooms[i].phone = rs.getBoolean("phone");
+						replyMessage.tables[1].rooms[i].internet = rs.getBoolean("internet");
+						replyMessage.tables[1].rooms[i].kitchen = rs.getBoolean("kitchen");
+						replyMessage.tables[1].rooms[i].cleaned = rs.getBoolean("cleaned");
+						replyMessage.tables[1].rooms[i].singleBeds = rs.getInt("singleBeds");
+						replyMessage.tables[1].rooms[i].queenBeds = rs.getInt("queenBeds");
+						replyMessage.tables[1].rooms[i].kingBeds = rs.getInt("kingBeds");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results.";
+					replyMessage.tables[1].initializeRooms(0);
 				}
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-				replyMessage.response.responseString = "Query succeeded.";
-			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
 			
-			rs = dbcon.select(curOccAvailRoomsQuery);
-			if (rs.next()) {
-				rs.last();
-				numRow = rs.getRow();
-				rs.beforeFirst();
-				replyMessage.tables[2].initializeRooms(numRow);
-				replyMessage.tables[2].initializeBookings(numRow);
-				i = 0;
-				while (rs.next()) {
-					replyMessage.tables[2].rooms[i].roomID = rs.getInt("room2ID");
-					replyMessage.tables[2].rooms[i].roomNumber = rs.getInt("roomNumber");
-					replyMessage.tables[2].rooms[i].floor = rs.getInt("floor");
-					replyMessage.tables[2].rooms[i].roomType = rs.getString("roomType");
-					replyMessage.tables[2].rooms[i].price = rs.getFloat("price");
-					replyMessage.tables[2].rooms[i].onsuite = rs.getBoolean("onsuite");
-					replyMessage.tables[2].rooms[i].tv = rs.getBoolean("tv");
-					replyMessage.tables[2].rooms[i].disabilityAccess = rs.getBoolean("disabilityAccess");
-					replyMessage.tables[2].rooms[i].elevator = rs.getBoolean("elevator");
-					replyMessage.tables[2].rooms[i].available = rs.getBoolean("available");
-					replyMessage.tables[2].rooms[i].phone = rs.getBoolean("phone");
-					replyMessage.tables[2].rooms[i].internet = rs.getBoolean("internet");
-					replyMessage.tables[2].rooms[i].kitchen = rs.getBoolean("kitchen");
-					replyMessage.tables[2].rooms[i].cleaned = rs.getBoolean("cleaned");
-					replyMessage.tables[2].rooms[i].singleBeds = rs.getInt("singleBeds");
-					replyMessage.tables[2].rooms[i].queenBeds = rs.getInt("queenBeds");
-					replyMessage.tables[2].rooms[i].kingBeds = rs.getInt("kingBeds");
-					
-					replyMessage.tables[2].bookings[i].bookingID=rs.getInt("bookingID");
-					replyMessage.tables[2].bookings[i].ownerID= rs.getInt("bookingOwnerID");
-					replyMessage.tables[2].bookings[i].creationDate= new java.sql.Timestamp(rs.getDate("creationTime").getTime());
-					replyMessage.tables[2].bookings[i].startDate= rs.getDate("startDate");
-					replyMessage.tables[2].bookings[i].endDate= rs.getDate("endDate");
-					replyMessage.tables[2].bookings[i].roomID= rs.getInt("bookRoomID");
-					replyMessage.tables[2].bookings[i].status = rs.getInt("status");
-					i++;
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(curOccAvailRoomsQuery);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[2].initializeRooms(numRow);
+					replyMessage.tables[2].initializeBookings(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[2].rooms[i].roomID = rs.getInt("room2ID");
+						replyMessage.tables[2].rooms[i].roomNumber = rs.getInt("roomNumber");
+						replyMessage.tables[2].rooms[i].floor = rs.getInt("floor");
+						replyMessage.tables[2].rooms[i].roomType = rs.getString("roomType");
+						replyMessage.tables[2].rooms[i].price = rs.getFloat("price");
+						replyMessage.tables[2].rooms[i].onsuite = rs.getBoolean("onsuite");
+						replyMessage.tables[2].rooms[i].tv = rs.getBoolean("tv");
+						replyMessage.tables[2].rooms[i].disabilityAccess = rs.getBoolean("disabilityAccess");
+						replyMessage.tables[2].rooms[i].elevator = rs.getBoolean("elevator");
+						replyMessage.tables[2].rooms[i].available = rs.getBoolean("available");
+						replyMessage.tables[2].rooms[i].phone = rs.getBoolean("phone");
+						replyMessage.tables[2].rooms[i].internet = rs.getBoolean("internet");
+						replyMessage.tables[2].rooms[i].kitchen = rs.getBoolean("kitchen");
+						replyMessage.tables[2].rooms[i].cleaned = rs.getBoolean("cleaned");
+						replyMessage.tables[2].rooms[i].singleBeds = rs.getInt("singleBeds");
+						replyMessage.tables[2].rooms[i].queenBeds = rs.getInt("queenBeds");
+						replyMessage.tables[2].rooms[i].kingBeds = rs.getInt("kingBeds");
+						
+						replyMessage.tables[2].bookings[i].bookingID=rs.getInt("bookingID");
+						replyMessage.tables[2].bookings[i].ownerID= rs.getInt("bookingOwnerID");
+						replyMessage.tables[2].bookings[i].creationDate= new java.sql.Timestamp(rs.getDate("creationTime").getTime());
+						replyMessage.tables[2].bookings[i].startDate= rs.getDate("startDate");
+						replyMessage.tables[2].bookings[i].endDate= rs.getDate("endDate");
+						replyMessage.tables[2].bookings[i].roomID= rs.getInt("bookRoomID");
+						replyMessage.tables[2].bookings[i].status = rs.getInt("status");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results.";
+					replyMessage.tables[2].initializeRooms(0);
 				}
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-				replyMessage.response.responseString = "Query succeeded.";
-			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
 			
-			rs = dbcon.select(curUnoccAvailRoomsQuery);
-			if (rs.next()) {
-				rs.last();
-				numRow = rs.getRow();
-				rs.beforeFirst();
-				replyMessage.tables[3].initializeRooms(numRow);
-				i = 0;
-				while (rs.next()) {
-					replyMessage.tables[3].rooms[i].roomID = rs.getInt("roomID");
-					replyMessage.tables[3].rooms[i].roomNumber = rs.getInt("roomNumber");
-					replyMessage.tables[3].rooms[i].floor = rs.getInt("floor");
-					replyMessage.tables[3].rooms[i].roomType = rs.getString("roomType");
-					replyMessage.tables[3].rooms[i].price = rs.getFloat("price");
-					replyMessage.tables[3].rooms[i].onsuite = rs.getBoolean("onsuite");
-					replyMessage.tables[3].rooms[i].tv = rs.getBoolean("tv");
-					replyMessage.tables[3].rooms[i].disabilityAccess = rs.getBoolean("disabilityAccess");
-					replyMessage.tables[3].rooms[i].elevator = rs.getBoolean("elevator");
-					replyMessage.tables[3].rooms[i].available = rs.getBoolean("available");
-					replyMessage.tables[3].rooms[i].phone = rs.getBoolean("phone");
-					replyMessage.tables[3].rooms[i].internet = rs.getBoolean("internet");
-					replyMessage.tables[3].rooms[i].kitchen = rs.getBoolean("kitchen");
-					replyMessage.tables[3].rooms[i].cleaned = rs.getBoolean("cleaned");
-					replyMessage.tables[3].rooms[i].singleBeds = rs.getInt("singleBeds");
-					replyMessage.tables[3].rooms[i].queenBeds = rs.getInt("queenBeds");
-					replyMessage.tables[3].rooms[i].kingBeds = rs.getInt("kingBeds");
-					i++;
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(curUnoccAvailRoomsQuery);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[3].initializeRooms(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[3].rooms[i].roomID = rs.getInt("roomID");
+						replyMessage.tables[3].rooms[i].roomNumber = rs.getInt("roomNumber");
+						replyMessage.tables[3].rooms[i].floor = rs.getInt("floor");
+						replyMessage.tables[3].rooms[i].roomType = rs.getString("roomType");
+						replyMessage.tables[3].rooms[i].price = rs.getFloat("price");
+						replyMessage.tables[3].rooms[i].onsuite = rs.getBoolean("onsuite");
+						replyMessage.tables[3].rooms[i].tv = rs.getBoolean("tv");
+						replyMessage.tables[3].rooms[i].disabilityAccess = rs.getBoolean("disabilityAccess");
+						replyMessage.tables[3].rooms[i].elevator = rs.getBoolean("elevator");
+						replyMessage.tables[3].rooms[i].available = rs.getBoolean("available");
+						replyMessage.tables[3].rooms[i].phone = rs.getBoolean("phone");
+						replyMessage.tables[3].rooms[i].internet = rs.getBoolean("internet");
+						replyMessage.tables[3].rooms[i].kitchen = rs.getBoolean("kitchen");
+						replyMessage.tables[3].rooms[i].cleaned = rs.getBoolean("cleaned");
+						replyMessage.tables[3].rooms[i].singleBeds = rs.getInt("singleBeds");
+						replyMessage.tables[3].rooms[i].queenBeds = rs.getInt("queenBeds");
+						replyMessage.tables[3].rooms[i].kingBeds = rs.getInt("kingBeds");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results.";
+					replyMessage.tables[3].initializeRooms(0);
 				}
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-				replyMessage.response.responseString = "Query succeeded.";
-			} else {
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'generateRoomStatusReport'.  SQLException was thrown:");
