@@ -88,7 +88,7 @@ public class billServlet extends HttpServlet {
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bills != null) {
 			if(authlevel >= 3) {
 				request.setAttribute("data", reply);
-				getServletContext().getRequestDispatcher("/views/account/all_bills.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/bill/all_bills.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to view bills.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -111,13 +111,13 @@ public class billServlet extends HttpServlet {
 		message.initializeBills(1);
 		message.bills[0].billID = billID;
 		Bill bill = new Bill();
-		Message reply = account.deleteBill(message);
+		Message reply = bill.deleteBill(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 			if(authlevel > 3) {
 				request.setAttribute("status", "delete_success");
-				request.setAttribute("message", "Account successfully deleted.");
-				allAccounts(request, response);
+				request.setAttribute("message", "Bill successfully deleted.");
+				allBills(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to delete this bill.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -141,11 +141,11 @@ public class billServlet extends HttpServlet {
 		message.bills[0].billID = billID;
 		
 		Bill bill = new Bill();
-		Message reply = account.getBill(message);
+		Message reply = bill.getBill(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bills.length > 0) {
 			// MURAT
-			if(authlevel >= 3 || reply.accounts[0].accountID==userid) {
+			if(authlevel >= 3 || reply.bills[0].billID==userid) {
 				request.setAttribute("bill", reply.bills[0]);
 				getServletContext().getRequestDispatcher("/views/account/view_bill.jsp").include(request, response);
 			} else {
