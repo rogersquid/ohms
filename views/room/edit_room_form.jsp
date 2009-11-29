@@ -12,11 +12,6 @@
 							<div class='error'><strong>Edit Room failed:</strong> No room data</div>
 							<%
 						}
-						if(request.getAttribute("status")=="register_failed") {
-							%>
-							<div class='error'><strong>Register failed:</strong> <%=request.getAttribute("message") %></div>
-							<%
-						}
 					%>
 					<form method='post' action=''>
 						<input type='hidden' name='action' value='edit' />
