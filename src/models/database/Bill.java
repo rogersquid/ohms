@@ -258,12 +258,12 @@ public class Bill {
 					replyMessage.accounts[i].accountID = rs.getInt("accountID");
 					replyMessage.accounts[i].firstName = rs.getString("firstName");
 					replyMessage.accounts[i].lastName = rs.getString("lastName");		
-					ResultSet rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_extras WHERE bookingID='" + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID WHERE billID='"
+					ResultSet rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_extras WHERE bookingID='"
 							+ replyMessage.bills[i].bookingID +"'");
 					while (rstwo.next()) {
 			            totalprice += rstwo.getInt("price");
 			        }
-					rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID='" + i_msg.header.nameHotel + "_bookings AS bookings ON bills.bookingID=bookings.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON bookings.roomID=r.roomID LEFT JOIN accounts AS a ON bookings.bookingOwnerID=a.accountID WHERE billID='"
+					rstwo=dbcon.select("SELECT price FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID='" 
 							+ replyMessage.rooms[i].roomID +"'");
 					while (rstwo.next()) {
 			            totalprice += rstwo.getInt("price");
