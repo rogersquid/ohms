@@ -69,7 +69,7 @@
 
     <servlet-mapping>
         <servlet-name>roomServlet</servlet-name>
-        <url-pattern>/rooms.html</url-pattern>
+        <url-pattern>/room.html</url-pattern>
     </servlet-mapping>
 
 	<servlet-mapping>
