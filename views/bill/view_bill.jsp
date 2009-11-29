@@ -5,7 +5,7 @@
 <%@ include file="../left_nav.jsp" %>
 				<div id='content'>
 					<% BillMessage bill = (BillMessage)request.getAttribute("bill"); %>
-					<div id='title'>Bill &bull <a href='bill.html?action=edit&amp;id=<%=account.accountID %>'><small>Edit</small></a></div>
+					<div id='title'>Bill &bull <a href='bill.html?action=edit&amp;id=<%=bill.billID %>'><small>Edit</small></a></div>
 					<%
 						String status = "";
 						if(request.getParameter("status")!=null) { status = request.getParameter("status"); }
@@ -18,8 +18,6 @@
 					%>
 					<table class='bills'>
 						<tr>
-							<th></th>
-							<th>Customer</th>
 							<th></th>
 							<th>paymentType</th>
 							<th>status</th>
@@ -35,8 +33,7 @@
 							%>
 							<tr>
 								<td><span class='index'><%=i+1 %></span></td>
-								<td><a href='account.html?action=view&amp;id=<%=data.accounts[i].accountID %>'><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></a></td>
-								<td><a href='account.html?action=view&amp;id=<%=data.bills[i].bookingID %>'>
+								<td><a href='bookings.html?action=view&amp;id=<%=data.bills[i].bookingID %>'><%=data.bills[i].bookingID %></a></td>
 								<td><%=data.bills[i].paymentType %></td>
 								<td><% if(data.bills[i].status){ %>Paid<% } else { %> Not Paid <% } %></td>
 								<td><%=data.bills[i].totalPrice %></td>
