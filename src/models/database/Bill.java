@@ -17,6 +17,7 @@ public class Bill {
 		/*
 		 * OVERVIEW: Adds a bill to the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Adds bill with given parameters in the bills table of the database
 		 * POSTCONDITIONS: If addition was successful, the bill with the correct parameters will be added to the Database
 		 */
 		// All the information is filled in. This puts all the information into the database.
@@ -69,6 +70,7 @@ public class Bill {
 		/*
 		 * OVERVIEW: Edits an bill that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Edits the bill details with the given parameters in the bills table of the database
 		 * POSTCONDITIONS: The specified bill will be edited with the given parameters in the preconditions
 		 */
 		databaseHelper dbcon = null;
@@ -110,6 +112,7 @@ public class Bill {
 		/*
 		 * OVERVIEW: Deletes a bill from the database that is identified by the bill ID
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Deletes the bill and its information from the bill table of the database
 		 * POSTCONDITIONS: The specified bill will be deleted with the given bill ID from preconditions
 		 */
 		// Creating database handle and create return message
@@ -151,6 +154,7 @@ public class Bill {
 		/*
 		 * OVERVIEW: Retrieves a specific bill. Used to select a bill to view from the list of bill returned by getAllBills function
 		 * PRECONDITIONS: The specified bill is selected from the list of bills returned by getAllBills. Parameters have been validated.
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The specified bill is returned, if found; placed in bills[0] of returned Message
 		 */
 		// Creating database handle and create return message
@@ -220,6 +224,7 @@ public class Bill {
 		/*
 		 * OVERVIEW: Returns the list of all bills that this user has authority to view. Returns a Message class with an array BillMessage objects.
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Message contains an array of BillMessage objects that represent the list of bills viewable by this user
 		 */
 		databaseHelper dbcon = null;
@@ -294,6 +299,7 @@ public class Bill {
 		/*
 		 * OVERVIEW: Returns a list of Bills matching the specified parameters
 		 * PRECONDITIONS: Desired filtered properties (billID, bookingID, paymentType, status)
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Print out all bills with given properties from preconditions
 		 */
 		databaseHelper dbcon = null;
