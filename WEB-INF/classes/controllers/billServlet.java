@@ -114,7 +114,7 @@ public class billServlet extends HttpServlet {
 		Message reply = bill.deleteBill(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
-			if(authlevel > 3) {
+			if(authlevel >= 3) {
 				request.setAttribute("status", "delete_success");
 				request.setAttribute("message", "Bill successfully deleted.");
 				allBills(request, response);
@@ -170,10 +170,9 @@ public class billServlet extends HttpServlet {
 		message.initializeBills(1);
 		message.bills[0].billID = billID;
 		Bill bill = new Bill();
-		// MURAT
-		if(authlevel >= 3 || message.accounts[0].accountID==userid)
+		if(authlevel >= 3)
 		{
-			Message reply = account.getBill(message);
+			Message reply = bill.getBill(message);
 
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bills.length > 0)
 			{
@@ -205,17 +204,14 @@ public class billServlet extends HttpServlet {
 		message.initializeBills(1);
 		message.bills[0].billID = billID;
 
-		// *********************************** MURAT
-		//if(authlevel > 3) message.accounts[0].accountType = request.getParameter("accountType");
-		message.bills[0].bookingID = request.getParameter("bookingID");
+		message.bills[0].bookingID = Integer.getInt(request.getParameter("bookingID"));
 		message.bills[0].paymentType = request.getParameter("paymentType");
-		message.bills[0].status = request.getParameter("status");
+		message.bills[0].status = (request.getParameter("status").equals("1")) ? true : false;
 		
 		Bill bill = new Bill();
-		// *********************************** MURAT
-		if(authlevel >= 3 || message.accounts[0].accountID==userid)
+		if(authlevel >= 3)
 		{
-			//ResponseMessage resp = message.bills[0].validateEditParams();
+			ResponseMessage resp = message.validate();
 			if(resp.responseCode == ResponseMessage.ResponseCode.SUCCESS)
 			{
 					Message reply = bill.editBill(message);
