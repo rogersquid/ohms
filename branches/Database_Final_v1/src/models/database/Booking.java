@@ -159,6 +159,7 @@ public class Booking {
 		replyMessage.initializeBookings(1);
 		replyMessage.initializeAccounts(1);
 		replyMessage.initializeRooms(1);
+		replyMessage.initializeBills(1);
 		try {
 			dbcon 				= new databaseHelper();
 			// booking id
@@ -171,7 +172,7 @@ public class Booking {
 						" bookingID: " + i_msg.bookings[0].bookingID);
 				return replyMessage;
 			}
-			rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE bookingID='"
+			rs=dbcon.select("SELECT b.*, r.roomNumber, a.firstName, a.lastName, bill.billID FROM " + i_msg.header.nameHotel + "_bookings AS b LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID LEFT JOIN " + i_msg.header.nameHotel + "_bills AS bill ON b.bookingID=bill.bookingID WHERE b.bookingID='"
 					+ i_msg.bookings[0].bookingID +"'");
 			while (rs.next()) {
 				replyMessage.bookings[0].bookingID=rs.getInt("bookingID");
@@ -184,6 +185,7 @@ public class Booking {
 				replyMessage.rooms[0].roomNumber = rs.getInt("roomNumber");
 				replyMessage.accounts[0].firstName = rs.getString("firstName");
 				replyMessage.accounts[0].lastName = rs.getString("lastName");
+				replyMessage.bills[0].billID = rs.getInt("billID");
 	        }
 		} catch (SQLException e) {
 			System.err.println("Error in 'get_booking'.  SQLException was thrown:");
@@ -501,12 +503,29 @@ public class Booking {
 		replyMessage.bookings=i_msg.bookings;
 		try {
 			dbcon = new databaseHelper();
+			ResultSet rs = dbcon.select("SELECT status "+ i_msg.header.nameHotel + "_bills " +
+					"WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
+			int mert=0;
+			while (rs.next()) {
+				int ma_status=rs.getInt("status");
+				if(mert!=0){
+					replyMessage.response.fillResponse(ResponseCode.FAIL, "INCONSISTENCY in bills. More than one bill for one booking" +
+							" BookingID: " + i_msg.bookings[0].bookingID);
+					return replyMessage;
+				}
+				if(ma_status==0){
+					replyMessage.response.fillResponse(ResponseCode.FAIL, "Checkout failed, because bill is not PAID" +
+							" BookingID: " + i_msg.bookings[0].bookingID);
+					return replyMessage;
+				}
+				mert++;
+			}
+			
 			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='2'" + 
 						" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			if (returnedRows != 1) {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the number of updated is not = 1. INCONSISTENCY" +
 						" BookingID: " + i_msg.bookings[0].bookingID);
-				System.err.println(returnedRows);
 				return replyMessage;
 			} else {
 				i_msg = getBooking(i_msg);
@@ -521,14 +540,7 @@ public class Booking {
 				System.err.println(returnedRows);
 				return replyMessage;
 			}
-			returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bills SET status='1'" +
-					" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
-			if (returnedRows != 1) {
-				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Bill failed." +
-						" BookingID: " + i_msg.bookings[0].bookingID);
-				System.err.println(returnedRows);
-				return replyMessage;
-			}
+
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
