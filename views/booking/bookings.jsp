@@ -24,7 +24,7 @@
 						if(data.bookings.length>0) {
 
 							%>
-							<table class='bookings'>
+							<table class='horizontal'>
 								<tr>
 									<th></th>
 									<th>Customer</th>
@@ -62,7 +62,7 @@
 							</table>
 							<%
 						} else { %>
-							<div class='info'>You have no bookings.</div>
+							<div class='info'>There are no bookings.</div>
 							<%
 						} %>
 				</div>

@@ -21,7 +21,7 @@
 							<%
 						}
 					%>
-					<table class='account'>
+					<table class='vertical'>
 						<tr>
 							<th>E-mail</th>
 							<td><%=account.email %></td>

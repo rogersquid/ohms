@@ -14,36 +14,46 @@
 
 					%>
 
-					<table class='bills'>
-						<tr>
-							<th></th>
-							<th>BillID</th>
-							<th>Customer</th>
-							<th>BookingID</th>
-							<th>PaymentType</th>
-							<th>Status</th>
-							<th>Price</th>
-							<th></th>
-						</tr>
-
-						<%
-						Message data = (Message)request.getAttribute("data");
-
-						// Print the values into the table
-						for(int i=0; i < data.bills.length; i++) {
-							%>
-							<tr>
-								<td><span class='index'><%=i+1 %></span></td>
-								<td><a href="bill.html?action=view&amp;id=<%=data.bills[i].billID%>"><%=data.bills[i].billID %></td>
-								<td><a href='account.html?action=view&amp;id=<%=data.accounts[i].accountID %>'><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></a></td>
-								<td><a href='bookings.html?action=view&amp;id=<%=data.bills[i].bookingID %>'><%=data.bills[i].bookingID %></a></td>
-								<td><%=data.bills[i].paymentType %></td>
-								<td><% if(data.bills[i].status){ %>Paid<% } else { %> Not Paid <% } %></td>
-								<td><%=data.bills[i].totalPrice %></td>
-							</tr>
-							<%
-						}
+					<%
+					Message data = (Message)request.getAttribute("data");
+					if(data.bills.length > 0) {
 						%>
-					</table>
+						<table class='horizontal'>
+							<tr>
+								<th></th>
+								<th>Bill</th>
+								<th>Customer</th>
+								<th>Booking</th>
+								<th>Payment Type</th>
+								<th>Status</th>
+								<th>Amount due</th>
+								<th></th>
+							</tr>
+
+							<%
+
+
+							// Print the values into the table
+							for(int i=0; i < data.bills.length; i++) {
+								%>
+								<tr>
+									<td><span class='index'><%=i+1 %></span></td>
+									<td><a href="bill.html?action=view&amp;id=<%=data.bills[i].billID %>"><%=data.bills[i].billID %></td>
+									<td><a href='account.html?action=view&amp;id=<%=data.accounts[i].accountID %>'><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></a></td>
+									<td><a href='bookings.html?action=view&amp;id=<%=data.bills[i].bookingID %>'><%=data.bills[i].bookingID %></a></td>
+									<td><%=data.bills[i].paymentType %></td>
+									<td><% if(data.bills[i].status){ %>Paid<% } else { %> Not Paid <% } %></td>
+									<td>$<%=data.bills[i].totalPrice %></td>
+								</tr>
+								<%
+							}
+							%>
+						</table>
+						<%
+					} else {
+						%>
+						<div class='info'>You have no bills.</div>
+						<%
+					} %>
 				</div>
 <%@ include file="../footer.jsp" %>

@@ -16,7 +16,7 @@
 						Message data = (Message)request.getAttribute("data");
 						if(data.rooms.length>0) {
 							%>
-							<table class='rooms'>
+							<table class='horizontal'>
 								<tr>
 									<th>Room #</th>
 									<th>Floor</th>
