@@ -234,7 +234,7 @@
 								<th>TV:</th>
 								<td><input type='checkbox' name='tv' value='1'
 										<%
-										if(room.tv == 1) {
+										if(room.tv == true) {
 											%>
 											checked="checked"
 											<%
@@ -246,7 +246,7 @@
 								<th>Internet:</th>
 								<td><input type='checkbox' name='internet' value='1'
 										<%
-										if(room.internet == 1) {
+										if(room.internet == true) {
 											%>
 											checked="checked"
 											<%
@@ -258,7 +258,7 @@
 								<th>Restroom on suite:</th>
 								<td><input type='checkbox' name='onsuite' value='1'
 										<%
-										if(room.onsuite == 1) {
+										if(room.onsuite == true) {
 											%>
 											checked="checked"
 											<%
@@ -270,7 +270,7 @@
 								<th>Phone:</th>
 								<td><input type='checkbox' name='phone' value='1'
 										<%
-										if(room.phone == 1) {
+										if(room.phone == true) {
 											%>
 											checked="checked"
 											<%
@@ -282,7 +282,7 @@
 								<th>Kitchen:</th>
 								<td><input type='checkbox' name='kitchen' value='1'
 										<%
-										if(room.kitchen == 1) {
+										if(room.kitchen == true) {
 											%>
 											checked="checked"
 											<%
@@ -294,7 +294,7 @@
 								<th>Available:</th>
 								<td><input type='checkbox' name='available' value='1'
 										<%
-										if(room.available == 1) {
+										if(room.available == true) {
 											%>
 											checked="checked"
 											<%
@@ -306,7 +306,7 @@
 								<th>Cleaned:</th>
 								<td><input type='checkbox' name='cleaned' value='1'
 										<%
-										if(room.cleaned == 1) {
+										if(room.cleaned == true) {
 											%>
 											checked="checked"
 											<%
@@ -322,7 +322,7 @@
 								<th>Disability access:</th>
 								<td><input type='checkbox' name='disabilityAccess' value='1'
 										<%
-										if(room.disabilityAccess == 1) {
+										if(room.disabilityAccess == true) {
 											%>
 											checked="checked"
 											<%
@@ -334,7 +334,7 @@
 								<th>Elevator access:</th>
 								<td><input type='checkbox' name='elevator' value='1'
 										<%
-										if(room.elevator == 1) {
+										if(room.elevator == true) {
 											%>
 											checked="checked"
 											<%
