@@ -513,6 +513,22 @@ public class Booking {
 				returnedRows  = dbcon.update("UPDATE " + i_msg.header.nameHotel + "_rooms SET cleaned='1' " +
 					"WHERE roomID='" + i_msg.bookings[0].roomID + "'");
 			}
+			returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_rooms SET cleaned='0'" +
+					" WHERE roomID='" + i_msg.bookings[0].roomID +"'");
+			if (returnedRows != 1) {
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the updated is not = 1" +
+						" BookingID: " + i_msg.bookings[0].bookingID);
+				System.err.println(returnedRows);
+				return replyMessage;
+			}
+			returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bills SET status='1'" +
+					" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
+			if (returnedRows != 1) {
+				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the updated is not = 1" +
+						" BookingID: " + i_msg.bookings[0].bookingID);
+				System.err.println(returnedRows);
+				return replyMessage;
+			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'Add_Account'.  SQLException was thrown:");
 			e.printStackTrace(System.err);
@@ -529,9 +545,8 @@ public class Booking {
 				dbcon.close();
 			}
 		}
-		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Edited one Booking as Requested.");
-		Bill mybill=new Bill();
-		mybill.editBill(i_msg);
+		replyMessage.response.fillResponse(ResponseCode.SUCCESS, "YOU ARE NOW CHECCKED OUT" +
+				" BookingID: " + i_msg.bookings[0].bookingID);
 		return replyMessage;
 	}
 }
