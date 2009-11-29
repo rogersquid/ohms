@@ -203,8 +203,7 @@ public class billServlet extends HttpServlet {
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeBills(1);
 		message.bills[0].billID = billID;
-
-		message.bills[0].bookingID = Integer.parseInt(request.getParameter("bookingID"));
+		//message.bills[0].bookingID = Integer.parseInt(request.getParameter("bookingID"));
 		message.bills[0].paymentType = request.getParameter("paymentType");
 		message.bills[0].status = (request.getParameter("status").equals("1")) ? true : false;
 		
