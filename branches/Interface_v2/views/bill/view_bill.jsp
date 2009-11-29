@@ -26,21 +26,16 @@
 						</tr>
 
 						<%
-						Message data = (Message)request.getAttribute("data");
+						BillMessage bill = (BillMessage)request.getAttribute("bill");
 
 						// Print the values into the table
-						for(int i=0; i < data.bills.length; i++) {
 							%>
 							<tr>
-								<td><span class='index'><%=i+1 %></span></td>
-								<td><a href='bookings.html?action=view&amp;id=<%=data.bills[i].bookingID %>'><%=data.bills[i].bookingID %></a></td>
-								<td><%=data.bills[i].paymentType %></td>
-								<td><% if(data.bills[i].status){ %>Paid<% } else { %> Not Paid <% } %></td>
-								<td><%=data.bills[i].totalPrice %></td>
+								<td><a href='bookings.html?action=view&amp;id=<%=bill.bookingID %>'><%=bill.bookingID %></a></td>
+								<td><%=bill.paymentType %></td>
+								<td><% if(bill.status){ %>Paid<% } else { %> Not Paid <% } %></td>
+								<td><%=bill.totalPrice %></td>
 							</tr>
-							<%
-						}
-						%>
 					</table>
 				</div>
 <%@ include file="../footer.jsp" %>
