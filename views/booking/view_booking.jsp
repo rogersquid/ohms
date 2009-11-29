@@ -70,7 +70,7 @@
 						</tr>
 						<tr>
 							<th>Status: </th>
-							<td><% if(data.bookings[0].status==0) { %>Not checked in<% } else if(data.bookings[0].status==1) { %>Checked in<% } else if() { %>Checked out<% } %></td>
+							<td><% if(data.bookings[0].status==0) { %>Not checked in<% } else if(data.bookings[0].status==1) { %>Checked in<% } else if(data.bookings[0].status==2) { %>Checked out<% } %></td>
 						</tr>
 					</table>
 				</div>
