@@ -22,6 +22,7 @@ public class Account {
 		/*
 		 * OVERVIEW: Returns the list of all accounts that this user has authority to view. Returns a Message class with an array AccountMessage objects.
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Message contains an array of AccountMessage objects that represent the list of accounts viewable by this user
 		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -86,6 +87,7 @@ public class Account {
 		/*
 		 * OVERVIEW: Adds a account to the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Adds account with given parameters in the accounts table of the database
 		 * POSTCONDITIONS: If addition was successful, the account with the correct parameters will be added to the Database
 		 */
 		// No date error checking implemented
@@ -179,6 +181,7 @@ public class Account {
 		/*
 		 * OVERVIEW: Edits an account that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Edits the account details with the given parameters in the account table of the database
 		 * POSTCONDITIONS: The specified account will be edited with the given parameters in the preconditions
 		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -284,6 +287,7 @@ public class Account {
 		/*
 		 * OVERVIEW: Deletes a account from the database that is identified by the account ID
 		 * PRECONDITIONS: Parameters have been validated
+		 * MODIFIES: Deletes the account and its information from the account table of the database
 		 * POSTCONDITIONS: The specified account will be deleted with the given account ID from preconditions
 		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -326,6 +330,7 @@ public class Account {
 		/*
 		 * OVERVIEW: Retrieves a specific account. Used to select a account to view from the list of account returned by getAllAccounts function
 		 * PRECONDITIONS: The specified account is selected from the list of accounts returned by getAllAccounts. Parameters have been validated.
+		 * MODIFIES: None
 		 * POSTCONDITIONS: The specified account is returned, if found; placed in accounts[0] of returned Message
 		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -392,6 +397,7 @@ public class Account {
 		/*
 		 * OVERVIEW: Logs in the specified user
 		 * PRECONDITIONS: Message contains correct email and password
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Returns login account information
 		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
@@ -465,6 +471,7 @@ public class Account {
 		/*
 		 * OVERVIEW: Gets the authorization level of the user
 		 * PRECONDITIONS: None
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Integer indicating authorization level of the user is returned
 		 */
 		databaseHelper dbcon = null;
@@ -505,6 +512,7 @@ public class Account {
 		/*
 		 * OVERVIEW: Returns a list of accounts matching the specified parameters
 		 * PRECONDITIONS: Desired filtered properties (accountID, accountType, firstName, lastName, phone, email, address)
+		 * MODIFIES: None
 		 * POSTCONDITIONS: Print out all accounts with given properties from preconditions
 		 */
 		databaseHelper dbcon = null;
