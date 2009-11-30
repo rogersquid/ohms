@@ -24,7 +24,7 @@
 						}
 					%>
 					<div class="room_image">
-						<img src="<%=room.roomType %>.png" />
+						<img src="images/uploads/<%=room.roomType %>.png" />
 					</div>
 					<table class='vertical'>
 						<tr>
