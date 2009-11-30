@@ -111,6 +111,9 @@ public class Room {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
 				replyMessage.response.responseString = "Update failed.";
 			}
+			finally {
+				if (dbcon != null) dbcon.close();
+			}
 			replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 			replyMessage.response.responseString = "Room Cleannes has been set to "+ i_msg.rooms[0].cleaned;
 			return replyMessage;
