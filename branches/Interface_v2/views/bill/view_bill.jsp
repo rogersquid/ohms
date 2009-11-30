@@ -31,7 +31,7 @@
 						</tr>
 						<tr>
 							<th>Amount due: </th>
-							<td><%=bill.totalPrice %></td>
+							<td>$<%=bill.totalPrice %></td>
 						</tr>
 					</table>
 				</div>
