@@ -9,11 +9,16 @@
 					<%
 						String status = "";
 						if(request.getParameter("status")!=null) { status = request.getParameter("status"); }
-
+						else if(requst.getAttribute("status" != null) { status = (String)request.getAttribute("status"; }
 						
 						if(status.equals("edit_success")) {
 							%>
 							<div class='success'><strong>Extra updated.</strong></div>
+							<%
+						}
+						if(status.equals("edit_failed")) {
+							%>
+							<div class='error'><strong>Extra update failed.</strong> <%=request.getAttribute("message") %></div>
 							<%
 						}
 					%>
