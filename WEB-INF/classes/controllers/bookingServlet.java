@@ -96,7 +96,7 @@ public class bookingServlet extends HttpServlet {
 				if(checkInReply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 					response.sendRedirect(response.encodeRedirectURL("bookings.html?action=view&id="+bookingID+"&status=checkin"));
 				} else {
-					request.setAttribute("message", "Check in falied: "+checkInReply.response.responseString);
+					request.setAttribute("message", "Check in failed: "+checkInReply.response.responseString);
 					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 				}
 			} else {
@@ -128,7 +128,7 @@ public class bookingServlet extends HttpServlet {
 				if(checkInReply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 					response.sendRedirect(response.encodeRedirectURL("bookings.html?action=view&id="+bookingID+"&status=checkin"));
 				} else {
-					request.setAttribute("message", "Check in falied: "+checkInReply.response.responseString);
+					request.setAttribute("message", "Check out failed: "+checkInReply.response.responseString);
 					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 				}
 			} else {
@@ -153,19 +153,20 @@ public class bookingServlet extends HttpServlet {
 		message.initializeBookings(1);
 		message.bookings[0].bookingID = bookingID;
 		Booking booking = new Booking();
-		Message reply = booking.deleteBooking(message);
 
-		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
-			if(authlevel >= 3 || reply.bookings[0].ownerID==userid) {
+		
+		if(authlevel >= 3 || (message.bookings[0].ownerID==userid)) 
+			Message reply = booking.deleteBooking(message);
+			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 				request.setAttribute("status", "booking_success");
 				request.setAttribute("message", "Booking successfully deleted.");
 				myBookings(request, response);
 			} else {
-				request.setAttribute("message", "You are not authorized to delete this booking.");
+				request.setAttribute("message", reply.response.responseString);
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 			}
 		} else {
-			request.setAttribute("message", reply.response.responseString);
+			request.setAttribute("message", "You are not authorized to delete this booking.");
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}
