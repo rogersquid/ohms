@@ -32,7 +32,7 @@ public class extrasServlet extends HttpServlet {
 		} else if(action!=null && action.equals("delete")) {
 			deleteExtras(request, response);
 		} else {
-			viewCurrentExtras(request, response);
+			//viewCurrentExtras(request, response);
 		}
 	}
 
@@ -43,15 +43,15 @@ public class extrasServlet extends HttpServlet {
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 
-		int extrasID = Integer.parseInt(request.getParameter("id"));
+		int extraID = Integer.parseInt(request.getParameter("id"));
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeExtras(1);
-		message.extras[0].extrasID = extrasID;
-		Extras extras = new Extras();
+		message.extras[0].extraID = extraID;
+		Extras extras = new Extra();
 		Message reply = extras.getExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras.length > 0) {
-			if(authlevel >= 3 || reply.extras[0].extrasID==userid) {
+			if(authlevel >= 3 || reply.extras[0].extraID==userid) {
 				request.setAttribute("extras", reply.extras[0]);
 				getServletContext().getRequestDispatcher("/views/extras/view_extra.jsp").include(request, response);
 			} else {
@@ -72,7 +72,7 @@ public class extrasServlet extends HttpServlet {
 		String hotelname = (String)request.getAttribute("hotelName");
 
 		Message message = new Message(authlevel, userid, hotelname);
-		Extras extras = new Extras();
+		Extras extras = new Extra();
 		Message reply = extras.getAllExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
@@ -97,11 +97,9 @@ public class extrasServlet extends HttpServlet {
 		String hotelname = (String)request.getAttribute("hotelName");
 
 		Message message = new Message(authlevel, userid, hotelname);
-		Extras extras = new Extras();
-		AccountMessage amsg = new AccountMessage();
-		amsg.accountID = request.getParameter("accountID");
-		message.initalizeAccount(1);
-		message.accounts = amsg;
+		Extras extras = new Extra();
+		message.initalizeAccounts(1);
+		message.accounts[0].accountID = Integer.parseInt(request.getParameter("accountID"));
 		Message reply = extras.getAccountExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
@@ -126,11 +124,9 @@ public class extrasServlet extends HttpServlet {
 		String hotelname = (String)request.getAttribute("hotelName");
 
 		Message message = new Message(authlevel, userid, hotelname);
-		Extras extras = new Extras();
-		ExtraMessage emsg = new ExtraMessage();
-		emsg.bookingID = request.getParameter("bookingID");
+		Extras extras = new Extra();
 		message.initalizeExtras(1);
-		message.extras = emsg;
+		message.extras[0].extraID = Integer.parseInt(request.getParameter("bookingID"));
 		Message reply = extras.getBookingExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
@@ -154,11 +150,11 @@ public class extrasServlet extends HttpServlet {
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 
-		int extrasID = Integer.parseInt(request.getParameter("id"));
+		int extraID = Integer.parseInt(request.getParameter("id"));
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeExtras(1);
-		message.extras[0].extrasID = extraID;
-		Extras extras = new Extras();
+		message.extras[0].extraID = extraID;
+		Extras extras = new Extra();
 		Message reply = extras.deleteExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
@@ -183,12 +179,12 @@ public class extrasServlet extends HttpServlet {
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 
-		int extrasID = Integer.parseInt(request.getParameter("id"));
+		int extraID = Integer.parseInt(request.getParameter("id"));
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeExtras(1);
-		message.extras[0].extrasID = extrasID;
-		Extras extras = new Extras();
-		if(authlevel >= 3 || message.extras[0].extrasID==userid)
+		message.extras[0].extraID = extraID;
+		Extras extras = new Extra();
+		if(authlevel >= 3 || message.extras[0].extraID==userid)
 		{
 			Message reply = extras.getExtras(message);
 
@@ -217,46 +213,57 @@ public class extrasServlet extends HttpServlet {
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 
-		int extrasID = Integer.parseInt(request.getParameter("id"));
-		Message message = new Message(authlevel, userid, hotelname);
-		message.initializeExtras(1);
-		message.extras[0].extrasID = extrasID;
+		try {
+			int extraID = Integer.parseInt(request.getParameter("id"));
+			Message message = new Message(authlevel, userid, hotelname);
+			message.initializeExtras(1);
+			message.extras[0].extraID = extraID;
 
-		if(authlevel > 3) message.extras[0].price = request.getParameter("price");
-		// needs work
-		message.extras[0].extraName = request.getParameter("extraName");
-		message.extras[0].aate = request.getParameter("date");
-		message.extras[0].creationTime = request.getParameter("creationTime");
-		message.extras[0].bookingID = request.getParameter("bookingID");
+			if(authlevel > 3) message.extras[0].price = request.getParameter("price");
+			// needs work
+			message.extras[0].extraName = request.getParameter("extraName");
+			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
+			java.sql.Date date = new java.sql.Date(df.parse(request.getParameter("date")).getTime());
+			message.extras[0].date = date;
+			message.extras[0].bookingID = Integer.parseInt(request.getParameter("bookingID"));
 
-		Extras extars = new Extras();
-		if(authlevel >= 3 || message.extras[0].extrasID==userid)
-		{
-			ResponseMessage resp = message.extras[0].validateEditParams();
-			if(resp.responseCode == ResponseMessage.ResponseCode.SUCCESS)
+			Extras extars = new Extra();
+			if(authlevel >= 3 || message.extras[0].extraID==userid)
 			{
-					Message reply = extras.editExtras(message);
+				ResponseMessage resp = message.extras[0].validateEditParams();
+				if(resp.responseCode == ResponseMessage.ResponseCode.SUCCESS)
+				{
+						Message reply = extras.editExtras(message);
 
-					if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS)
-					{
-						response.sendRedirect(response.encodeRedirectURL("extras.html?action=view&id="+extrasID+"&status=edit_success"));
-					}
-					else
-					{
-						request.setAttribute("message", reply.response.responseString);
-						getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-					}
+						if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS)
+						{
+							response.sendRedirect(response.encodeRedirectURL("extras.html?action=view&id="+extraID+"&status=edit_success"));
+						}
+						else
+						{
+							request.setAttribute("message", reply.response.responseString);
+							getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+						}
+				}
+				else
+				{
+					request.setAttribute("status", "edit_extras_failed");
+					request.setAttribute("message", resp.responseString);
+					editExtras(request, response);
+				}
 			}
 			else
 			{
-				request.setAttribute("status", "edit_extras_failed");
-				request.setAttribute("message", resp.responseString);
-				editExtras(request, response);
+				request.setAttribute("message", "You are not authorized to edit this extras.");
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 			}
-		}
-		else
-		{
-			request.setAttribute("message", "You are not authorized to edit this extras.");
+		} catch(ParseException e) {
+			request.setAttribute("status", "edit_failed");
+			request.setAttribute("message", "Invalid date formats.");
+			editExtra(request, response);
+		} catch(Exception e) {
+			request.setAttribute("message", "Exception: "+e.toString());
+			e.printStackTrace();
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}
