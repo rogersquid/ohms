@@ -155,7 +155,7 @@ public class bookingServlet extends HttpServlet {
 		Booking booking = new Booking();
 
 		
-		if(authlevel >= 3 || (message.bookings[0].ownerID==userid)) 
+		if(authlevel >= 3 || (message.bookings[0].ownerID==userid)) {
 			Message reply = booking.deleteBooking(message);
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 				request.setAttribute("status", "booking_success");
