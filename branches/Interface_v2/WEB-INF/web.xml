@@ -30,21 +30,36 @@
     </servlet>
 
 	<servlet>
+      <servlet-name>homeServlet</servlet-name>
+      <servlet-class>controllers.homeServlet</servlet-class>
+    </servlet>
+    <servlet>
       <servlet-name>roomServlet</servlet-name>
       <servlet-class>controllers.roomServlet</servlet-class>
     </servlet>
 
-	<servlet>
-		<servlet-name>bookingServlet</servlet-name>
-		<servlet-class>controllers.bookingServlet</servlet-class>
+    <servlet>
+      <servlet-name>bookingServlet</servlet-name>
+      <servlet-class>controllers.bookingServlet</servlet-class>
     </servlet>
-	<servlet>
-		<servlet-name>accountServlet</servlet-name>
-		<servlet-class>controllers.accountServlet</servlet-class>
+    <servlet>
+      <servlet-name>accountServlet</servlet-name>
+      <servlet-class>controllers.accountServlet</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>billServlet</servlet-name>
+      <servlet-class>controllers.billServlet</servlet-class>
     </servlet>
 
-
+    <servlet>
+      <servlet-name>reportServlet</servlet-name>
+      <servlet-class>controllers.reportServlet</servlet-class>
+    </servlet>
 	<!-- servlet URL mapping -->
+    <servlet-mapping>
+        <servlet-name>homeServlet</servlet-name>
+        <url-pattern>/home.html</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>exampleServlet</servlet-name>
         <url-pattern>/example.html</url-pattern>
@@ -70,6 +85,16 @@
     <servlet-mapping>
         <servlet-name>roomServlet</servlet-name>
         <url-pattern>/room.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>billServlet</servlet-name>
+        <url-pattern>/bill.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>reportServlet</servlet-name>
+        <url-pattern>/report.html</url-pattern>
     </servlet-mapping>
 
 	<servlet-mapping>
