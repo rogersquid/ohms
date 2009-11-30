@@ -25,6 +25,10 @@ public class extrasServlet extends HttpServlet {
 			editExtras(request, response);
 		} else if(action!=null && action.equals("all_extras")) {
 			allExtras(request, response);
+		} else if(action!=null && action.equals("booking_extras")) {
+			bookingExtras(request, response);
+		} else if(action!=null && action.equals("account_extras")) {
+			accountExtras(request, response);
 		} else if(action!=null && action.equals("delete")) {
 			deleteExtras(request, response);
 		} else {
@@ -74,7 +78,7 @@ public class extrasServlet extends HttpServlet {
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
 			if(authlevel >= 3) {
 				request.setAttribute("data", reply);
-				getServletContext().getRequestDispatcher("/views/extras/all_extras.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/extras/view_extra_table.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to view extras.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -85,6 +89,64 @@ public class extrasServlet extends HttpServlet {
 		}
 	}
 
+	public void accountExtras(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+
+		Message message = new Message(authlevel, userid, hotelname);
+		Extras extras = new Extras();
+		AccountMessage amsg = new AccountMessage();
+		amsg.accountID = request.getParameter("accountID");
+		message.initalizeAccount(1);
+		message.accounts = amsg;
+		Message reply = extras.getAccountExtras(message);
+
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
+			if(authlevel >= 3 || message.accounts[0].accountID==userid) {
+				request.setAttribute("data", reply);
+				getServletContext().getRequestDispatcher("/views/extras/view_extra_table.jsp").include(request, response);
+			} else {
+				request.setAttribute("message", "You are not authorized to view extras.");
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
+		} else {
+			request.setAttribute("message", reply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+	
+	public void bookingExtras(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+
+		Message message = new Message(authlevel, userid, hotelname);
+		Extras extras = new Extras();
+		ExtraMessage emsg = new ExtraMessage();
+		emsg.bookingID = request.getParameter("bookingID");
+		message.initalizeExtras(1);
+		message.extras = emsg;
+		Message reply = extras.getBookingExtras(message);
+
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
+			if(authlevel >= 3) {
+				request.setAttribute("data", reply);
+				getServletContext().getRequestDispatcher("/views/extras/view_extra_table.jsp").include(request, response);
+			} else {
+				request.setAttribute("message", "You are not authorized to view extras.");
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
+		} else {
+			request.setAttribute("message", reply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+	
 	public void deleteExtras(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
