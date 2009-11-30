@@ -20,12 +20,12 @@ public class reportServlet extends HttpServlet {
 		
 		ReportMessage message = new ReportMessage(authlevel, userid, hotelname);
 		
-		ReportMessage cleannesReport = generateCleannessReport(ReportMessage i_msg);
+		ReportMessage cleannessReport = generateCleannessReport(ReportMessage i_msg);
 		ReportMessage extraReport = generateExtraReport(ReportMessage i_msg);
 		ReportMessage roomStatusReport = generateRoomStatusReport(ReportMessage i_msg);
 		ReportMessage roomAnalysisReport = generateStatisticalRoomAnalysisReport(ReportMessage i_msg);
 		
-		request.setAttribute("cleannesReport", cleannesReport);
+		request.setAttribute("cleannessReport", cleannessReport);
 		request.setAttribute("extraReport", extraReport);
 		request.setAttribute("roomStatusReport", roomStatusReport);
 		request.setAttribute("roomAnalysisReport", roomAnalysisReport);
