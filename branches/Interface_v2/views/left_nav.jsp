@@ -28,7 +28,7 @@
 							<li><a href='extras.html?action=all_extras'>All extras</a></li>
 							<li><a href='account.html?action=all_accounts'>All accounts</a></li>
 							<li><a href='room.html?action=all_rooms'>All rooms</a></li>
-							<li><a href='room.html?action=all_rooms'>Reports</a></li>
+							<li><a href='report.html'>Reports</a></li>
 					</ul>
 							<%
 						}
