@@ -12,7 +12,7 @@
 
 						if(status.equals("edit_success")) {
 							%>
-							<div class='success'><strong>Account updated.</strong></div>
+							<div class='success'><strong>Bill updated.</strong></div>
 							<%
 						}
 					%>
