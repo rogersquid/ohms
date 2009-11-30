@@ -182,6 +182,62 @@ public class ReportTest {
 			}
 		}
 		
+		
+
+		if(i_num==3){
+			System.out.println("Test ID 4");
+			System.out.println("Description: Success Generate Statisical Analysis Room Report");
+			
+			//create message
+			ReportMessage h_msg = new ReportMessage(0, 0, "test");
+			//fill room info:
+			Report report = new Report();
+			h_msg = report.generateStatisticalRoomAnalysisReport(h_msg);
+			
+			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
+				System.out.println("Passed Test ID 4");
+				System.out.println("Input: ");
+				System.out.println("Output: ");
+				
+				System.out.println("Room Occupancy:");
+				for (int i = 0; i < h_msg.tables[0].rooms.length; i ++) {
+					System.out.println("Room Number: " + h_msg.tables[0].rooms[i].roomNumber);
+					System.out.println("Occupancy Duration:  " + h_msg.stats[i]);
+				}
+				System.out.println("\r\r\r");
+				
+
+				System.out.println("Room Type Occupancy:");
+				for (int i = 0; i < h_msg.tables[1].rooms.length; i ++) {
+					System.out.println("Room Type: " + h_msg.tables[1].rooms[i].roomType);
+					System.out.println("Occupancy Duration: " + h_msg.graphs[i]);
+				}
+				System.out.println("\r\r\r");
+				
+				
+				System.out.println("Most Occupied Room:");
+				for (int i = 0; i < h_msg.tables[2].rooms.length; i ++) {
+					System.out.println("Room Number: " + h_msg.tables[2].rooms[i].roomNumber);
+					System.out.println("Occupied for " + h_msg.values[0] + " days");
+				}
+				System.out.println("\r\r\r");
+				
+				
+				System.out.println("Most Booked, Occupied Room:");
+				for (int i = 0; i < h_msg.tables[3].rooms.length; i ++) {
+					System.out.println("Room Number: " + h_msg.tables[3].rooms[i].roomNumber);
+					System.out.println("Occupied " + h_msg.values[1] + " times");
+				}
+				System.out.println("\r\r\r");
+			}
+			else{
+				System.out.println("Failed Test ID 3");
+				System.out.println("Expected Output:");
+				System.out.println("Expected Change:");
+				System.out.println("Error Message: " + h_msg.response.responseString);
+				System.out.println("\r");
+			}
+		}
 	}
 	
 	
