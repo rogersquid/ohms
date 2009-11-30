@@ -5,7 +5,8 @@ public class ReportMessage {
 	public HeaderMessage header;
 	public Message[] tables;
 	public float[] stats;
-	public String[] graphs;
+	public float[] graphs;
+	public float[] values;
 	public ResponseMessage response;
 	
 	public ReportMessage (int i_authlevel, int i_mOID, String i_hotelname){
@@ -13,6 +14,7 @@ public class ReportMessage {
 		tables= null;
 		stats= null;
 		graphs= null;
+		values = null;
 		response=new ResponseMessage();
 	}
 	
@@ -31,9 +33,16 @@ public class ReportMessage {
 	}
 	
 	public void initializeGraph(int arraysize){
-		graphs = new String[arraysize];
+		graphs = new float[arraysize];
 		for (int i = 0; i < arraysize; i++) {
-			graphs[i] = null;
+			graphs[i] = 0;
+		}
+	}
+	
+	public void initializeValue(int arraysize){
+		values = new float[arraysize];
+		for (int i = 0; i < arraysize; i++) {
+			values[i] = 0;
 		}
 	}
 }
