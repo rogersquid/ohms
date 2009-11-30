@@ -357,7 +357,7 @@ public class Extra {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all extras
-			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE a.accountID =" + i_msg.accounts[0].accountID + ")");
+			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE a.accountID="+ i_msg.accounts[0].accountID);
 			
 			rs.last();
 			int numRows = rs.getRow();
@@ -370,7 +370,7 @@ public class Extra {
 				replyMessage.response.responseString = "No extras in database.";
 			} else {
 				int i = 0;
-
+				rs.beforeFirst();
 				while (rs.next()) {
 					replyMessage.extras[i].extraID = rs.getInt("extraID");
 					replyMessage.extras[i].bookingID = rs.getInt("bookingID");
@@ -400,7 +400,7 @@ public class Extra {
 		return replyMessage;
 	}
 
-	public Message getBookingExtra(Message i_msg) {
+	public Message getBookingExtras(Message i_msg) {
 		/*
 		 * OVERVIEW: Returns the list of all extras that this user has authority to view. Returns a Message class with an array ExtraMessage objects.
 		 * PRECONDITIONS: None
@@ -414,7 +414,7 @@ public class Extra {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all extras
-			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE b.bookingID =" + i_msg.bookings[0].bookingID + ")");
+			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE b.bookingID =" + i_msg.bookings[0].bookingID);
 			
 			rs.last();
 			int numRows = rs.getRow();
@@ -427,7 +427,7 @@ public class Extra {
 				replyMessage.response.responseString = "No extras in database.";
 			} else {
 				int i = 0;
-
+				rs.beforeFirst();
 				while (rs.next()) {
 					replyMessage.extras[i].extraID = rs.getInt("extraID");
 					replyMessage.extras[i].bookingID = rs.getInt("bookingID");
