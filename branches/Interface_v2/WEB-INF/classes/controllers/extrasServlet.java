@@ -47,7 +47,7 @@ public class extrasServlet extends HttpServlet {
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeExtras(1);
 		message.extras[0].extraID = extraID;
-		Extras extras = new Extra();
+		Extra extras = new Extra();
 		Message reply = extras.getExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras.length > 0) {
@@ -72,7 +72,7 @@ public class extrasServlet extends HttpServlet {
 		String hotelname = (String)request.getAttribute("hotelName");
 
 		Message message = new Message(authlevel, userid, hotelname);
-		Extras extras = new Extra();
+		Extra extras = new Extra();
 		Message reply = extras.getAllExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
@@ -97,8 +97,8 @@ public class extrasServlet extends HttpServlet {
 		String hotelname = (String)request.getAttribute("hotelName");
 
 		Message message = new Message(authlevel, userid, hotelname);
-		Extras extras = new Extra();
-		message.initalizeAccounts(1);
+		Extra extras = new Extra();
+		message.initializeAccounts(1);
 		message.accounts[0].accountID = Integer.parseInt(request.getParameter("accountID"));
 		Message reply = extras.getAccountExtras(message);
 
@@ -124,8 +124,8 @@ public class extrasServlet extends HttpServlet {
 		String hotelname = (String)request.getAttribute("hotelName");
 
 		Message message = new Message(authlevel, userid, hotelname);
-		Extras extras = new Extra();
-		message.initalizeExtras(1);
+		Extra extras = new Extra();
+		message.initializeExtras(1);
 		message.extras[0].extraID = Integer.parseInt(request.getParameter("bookingID"));
 		Message reply = extras.getBookingExtras(message);
 
@@ -154,13 +154,13 @@ public class extrasServlet extends HttpServlet {
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeExtras(1);
 		message.extras[0].extraID = extraID;
-		Extras extras = new Extra();
+		Extra extras = new Extra();
 		Message reply = extras.deleteExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 			if(authlevel > 3) {
 				request.setAttribute("status", "delete_success");
-				request.setAttribute("message", "Extras successfully deleted.");
+				request.setAttribute("message", "Extra successfully deleted.");
 				allExtras(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to delete this booking.");
@@ -183,7 +183,7 @@ public class extrasServlet extends HttpServlet {
 		Message message = new Message(authlevel, userid, hotelname);
 		message.initializeExtras(1);
 		message.extras[0].extraID = extraID;
-		Extras extras = new Extra();
+		Extra extras = new Extra();
 		if(authlevel >= 3 || message.extras[0].extraID==userid)
 		{
 			Message reply = extras.getExtras(message);
@@ -219,7 +219,7 @@ public class extrasServlet extends HttpServlet {
 			message.initializeExtras(1);
 			message.extras[0].extraID = extraID;
 
-			if(authlevel > 3) message.extras[0].price = request.getParameter("price");
+			if(authlevel > 3) message.extras[0].price = Float.parseFloat(request.getParameter("price"));
 			// needs work
 			message.extras[0].extraName = request.getParameter("extraName");
 			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
@@ -227,7 +227,7 @@ public class extrasServlet extends HttpServlet {
 			message.extras[0].date = date;
 			message.extras[0].bookingID = Integer.parseInt(request.getParameter("bookingID"));
 
-			Extras extars = new Extra();
+			Extra extras	 = new Extra();
 			if(authlevel >= 3 || message.extras[0].extraID==userid)
 			{
 				ResponseMessage resp = message.extras[0].validateEditParams();
