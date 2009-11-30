@@ -953,9 +953,9 @@ public class Report {
 					"AND B.status > 0 " +
 					"GROUP BY B.roomID) AS temp";
 			mostOccupiedRoom2 = 
-				"SELECT R.roomNumber AS roomNum, temp.duration AS roomDuration " +
+				"SELECT temp.roomNum AS tempNum, temp.duration AS roomDuration " +
 				"FROM (" +
-					"SELECT R.roomNumber, To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration, R.roomNumber " + 
+					"SELECT R.roomNumber AS roomNum, To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration " + 
 					"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
 					"WHERE B.roomID = R.roomID " +
 					"AND B.status > 0 " +
@@ -970,9 +970,9 @@ public class Report {
 					"AND B.status > 0 " +
 					"GROUP BY R.roomID) AS temp";
 			mostBookedRoom2 = 
-				"SELECT R.roomNumber AS roomNum, temp.bookingCount AS bookCount " +
+				"SELECT temp.roomNum AS tempNum, temp.bookingCount AS bookCount " +
 				"FROM (" +
-					"SELECT R.roomNumber, COUNT(B.bookingID) AS bookingCount " +
+					"SELECT R.roomNumber AS roomNum, COUNT(B.bookingID) AS bookingCount " +
 					"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
 					"WHERE B.roomID = R.roomID " +
 					"AND B.status > 0 " +
@@ -1004,7 +1004,7 @@ public class Report {
 				i = 0;
 				while (rs.next()) {
 					replyMessage.tables[0].rooms[i].roomNumber = rs.getInt("roomNumber");
-					replyMessage.stats[i] = (float)rs.getInt("roomDuration");
+					replyMessage.stats[i] = (float)rs.getInt("duration");
 					i++;
 				}
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
@@ -1027,7 +1027,7 @@ public class Report {
 					i = 0;
 					while (rs.next()) {
 						replyMessage.tables[1].rooms[i].roomType = rs.getString("roomType");
-						replyMessage.graphs[i] = (float)rs.getInt("roomDuration");
+						replyMessage.graphs[i] = (float)rs.getInt("duration");
 						i++;
 					}
 					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
@@ -1042,9 +1042,10 @@ public class Report {
 			
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(mostOccupiedRoom1);
+				rs.next();
 				int maxDuration = rs.getInt("maxDuration");
 				mostOccupiedRoom2 = mostOccupiedRoom2 + maxDuration;
-				dbcon.select(mostOccupiedRoom2);
+				rs = dbcon.select(mostOccupiedRoom2);
 				if (rs.next()) {
 					rs.last();
 					numRow = rs.getRow();
@@ -1052,7 +1053,7 @@ public class Report {
 					replyMessage.tables[2].initializeRooms(numRow);
 					i = 0;
 					while (rs.next()) {
-						replyMessage.tables[2].rooms[i].roomNumber = rs.getInt("roomNum");
+						replyMessage.tables[2].rooms[i].roomNumber = rs.getInt("tempNum");
 						replyMessage.values[0] = rs.getInt("roomDuration");
 						i++;
 					}
@@ -1067,9 +1068,10 @@ public class Report {
 			
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(mostBookedRoom1);
+				rs.next();
 				int maxBooking = rs.getInt("maxCount");
 				mostBookedRoom2 = mostBookedRoom2 + maxBooking;
-				dbcon.select(mostBookedRoom2);
+				rs = dbcon.select(mostBookedRoom2);
 				if (rs.next()) {
 					rs.last();
 					numRow = rs.getRow();
@@ -1077,7 +1079,7 @@ public class Report {
 					replyMessage.tables[3].initializeRooms(numRow);
 					i = 0;
 					while (rs.next()) {
-						replyMessage.tables[3].rooms[i].roomNumber = rs.getInt("roomNum");
+						replyMessage.tables[3].rooms[i].roomNumber = rs.getInt("tempNum");
 						replyMessage.values[1] = rs.getInt("bookCount");
 						i++;
 					}
