@@ -596,7 +596,7 @@ public class RoomTest {
 			 
 			//fill room info:
 			//test_fillRoom(h_msg, t_set, 999);
-			test_fillRoom(h_msg, t_set, 101);
+			test_fillRoom(h_msg, t_set, 999999);
 			Room room = new Room();
 			h_msg = room.getRoom(h_msg);
 			
@@ -730,7 +730,7 @@ public class RoomTest {
 			h_msg.rooms[1].kingBeds = 0;
 			
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParams();
+
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.getFilteredRooms(h_msg);
 			} 
@@ -801,7 +801,6 @@ public class RoomTest {
 			h_msg.rooms[1].kingBeds = 0;
 			
 			Room room = new Room();
-			h_msg.response = h_msg.rooms[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
 				h_msg = room.getFilteredRooms(h_msg);
 			} 

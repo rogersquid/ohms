@@ -373,6 +373,14 @@ public class Report {
 	}
 	
 	public ReportMessage generateExtraReport(ReportMessage i_msg){
+		// tables[0].extras[i] 	- holds bookingID
+		// 		stats[i] 		- holds number of Extras order (linked to tables[0].extras
+		// tables[1].extras[i] 	- Today's Extra
+		// tables[2].extras[i]	- Tomorrow's Extra
+		// tables[3].extras[i]	- extraName holds extra type, price holds amount earned for that type of extra today
+		// tables[4].extras[i]	- date holds each unique date, price holds armount earned from extra that day 
+		// tables[5].extras[i]	- extraName holds most extra type that earned the most, price holds how much earned
+		
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
 		calendar.add(Calendar.DAY_OF_YEAR, 1);
@@ -598,6 +606,11 @@ public class Report {
 	
 	
 	public ReportMessage generateRoomStatusReport(ReportMessage i_msg){
+		// tables[0].rooms[i]	- holds today's available rooms
+		// tables[1].rooms[i]	- holds today's unavailable rooms
+		// tables[2].rooms[i]	- holds today's occupied available rooms
+		// tables[3].rooms[i]	- holds today's unoccupied available rooms
+		
 		String curAvailRoomsQuery = 
 			"SELECT * " +
 			"FROM " + i_msg.header.nameHotel + "_rooms " +
@@ -809,7 +822,7 @@ public class Report {
 		return replyMessage;
 	}
 	
-	
+	/*
 	public ReportMessage generateExpenseReport(ReportMessage i_msg){
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
@@ -854,6 +867,7 @@ public class Report {
 				"WHERE (Bk.endDate >= '" + currentDate + "' AND Bk.startDate <= '" + currentDate + "' ) " +
 				"AND Bk.bookingID = Bi.bookingID " +
 				"AND Bk.status = 2 " +
+				"AND Bi.status = 1" +
 				"GROUP BY Bi.paymentType";
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -892,64 +906,82 @@ public class Report {
 		}
 		return replyMessage;
 	}
-	
-	
-	
+	*/
 	
 	
 	public ReportMessage generateStatisticalRoomAnalysisReport(ReportMessage i_msg){
+		// tables[0].rooms[i]	- roomNumber holds all roomNumber that has been occupied
+		//		stats[i]		- holds how may days each roomNumber has been occupied (link to roomNumber above)
+		// tables[1].rooms[i]	- roomType holds all roomTypes that has been occupied
+		//		graphs[i]		- holds how many days each roomType has been occupied (link to roomType above)
+		// tables[2].rooms[i]	- roomNumber holds which rooms has been occupied for the most days
+		//		values[0]		- holds how many days the most occupied room has been occupied
+		// tables[3].rooms[i]	- roomNumber holds which rooms has been booked the most times
+		//		values[1]		- holds how many times the most booked room has been booked
+		
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
 		DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
-		String todayIncomePerRoom = null; 
-		String todayExtraQuery = null;
-		String tmrExtraQuery = null;
-		String earningPerExtraTypeTodayQuery = null; 
+		String roomOccupancyQuery = null; 
+		String roomTypeOccupancyQuery = null;
+		String mostOccupiedRoom1 = null;
+		String mostOccupiedRoom2 = null;
+		String mostBookedRoom1 = null;
+		String mostBookedRoom2 = null; 
 		try {
 			java.sql.Date currentDate = new java.sql.Date(df.parse(String.valueOf(now.getDate()) + "/" + 
 					String.valueOf(now.getMonth()) + "/" + String.valueOf(now.getYear() + 1900)).getTime());
 
-			todayIncomePerRoom = 
-				"SELECT R.roomID, SUM(E.price) AS sumExtra, R.price AS roomPrice " +
-				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi, " 
-					+ i_msg.header.nameHotel + "_extras E, " + i_msg.header.nameHotel + "_rooms R " +
-				"WHERE (Bk.endDate = '" + currentDate + "') " +
-				"AND Bk.status = 2 " +
-				"AND Bk.bookingID = Bi.bookingID " +
-				"AND Bk.bookingID = E.bookingID " +
-				"AND Bk.roomID = R.roomID " +
-				"GROUP BY R.roomID";
-			String todayTotalIncome = 
-				"SELECT R.roomID, SUM(E.price) AS sumExtra, R.price AS roomPrice " +
-				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi, " 
-					+ i_msg.header.nameHotel + "_extras E, " + i_msg.header.nameHotel + "_rooms R " +
-				"WHERE (Bk.endDate = '" + currentDate + "') " +
-				"AND Bk.status = 2 " +
-				"AND Bk.bookingID = Bi.bookingID " +
-				"AND Bk.bookingID = E.bookingID " +
-				"AND Bk.roomID = R.roomID ";
-			String curOccAvailRoomsQuery = 
-				"SELECT *, R.roomID AS room2ID, B.roomID AS bookRoomID " +
-				"FROM " + i_msg.header.nameHotel + "_rooms R, " + i_msg.header.nameHotel + "_bookings B	" +
-				"WHERE R.available = 1 " +
-				"AND B.startDate < NOW() AND B.endDate > NOW() " +
-				"AND R.roomID = B.roomID " +
-				"AND B.status = 1";
-			String numPaymentTypeQuery = 
-				"SELECT Bi.paymentType, COUNT(Bk.bookingID) AS count " +
-				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi " +
-				"WHERE (Bk.endDate >= '" + currentDate + "' AND Bk.startDate <= '" + currentDate + "' ) " +
-				"AND Bk.bookingID = Bi.bookingID " +
-				"AND Bk.status = 2 " +
-				"GROUP BY Bi.paymentType";
+			roomOccupancyQuery = 
+				"SELECT R.roomNumber, To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration " +
+				"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
+				"WHERE B.roomID = R.roomID " +
+				"AND B.status > 0 " +
+				"GROUP BY B.roomID";
+			roomTypeOccupancyQuery = 
+				"SELECT R.roomType, SUM(To_days( B.endDate ) - TO_DAYS( B.startDate ) + 1) AS duration " +
+				"FROM " + i_msg.header.nameHotel + "_rooms R, " + i_msg.header.nameHotel + "_bookings B " +
+				"WHERE B.roomID = R.roomID " +
+				"AND B.status > 0 " +
+				"GROUP BY R.roomType";
+			mostOccupiedRoom1 = 
+				"SELECT MAX(temp.duration) AS maxDuration " +
+				"FROM (" +
+					"SELECT To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration " + 
+					"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
+					"WHERE B.roomID = R.roomID " +
+					"AND B.status > 0 " +
+					"GROUP BY B.roomID) AS temp";
+			mostOccupiedRoom2 = 
+				"SELECT R.roomNumber AS roomNum, temp.duration AS roomDuration " +
+				"FROM (" +
+					"SELECT R.roomNumber, To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration, R.roomNumber " + 
+					"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
+					"WHERE B.roomID = R.roomID " +
+					"AND B.status > 0 " +
+					"GROUP BY B.roomID) AS temp " +
+				"WHERE temp.duration = ";
+			mostBookedRoom1 = 
+				"SELECT MAX(temp.bookingCount) AS maxCount " +
+				"FROM (" +
+					"SELECT COUNT(B.bookingID) AS bookingCount " +
+					"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
+					"WHERE B.roomID = R.roomID " +
+					"AND B.status > 0 " +
+					"GROUP BY R.roomID) AS temp";
+			mostBookedRoom2 = 
+				"SELECT R.roomNumber AS roomNum, temp.bookingCount AS bookCount " +
+				"FROM (" +
+					"SELECT R.roomNumber, COUNT(B.bookingID) AS bookingCount " +
+					"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
+					"WHERE B.roomID = R.roomID " +
+					"AND B.status > 0 " +
+					"GROUP BY R.roomID) AS temp " +
+				"WHERE temp.bookingCount = ";
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-
-		
-		
-
 
 		databaseHelper dbcon = null;
 		ReportMessage replyMessage = new ReportMessage(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -957,10 +989,106 @@ public class Report {
 			// create connection
 			dbcon = new databaseHelper();
 			replyMessage.initializeTables(4);
+			replyMessage.initializeValue(2);
 			int numRow;
 			int i;
+			ResultSet rs;
 			
-
+			rs = dbcon.select(roomOccupancyQuery);
+			if (rs.next()) {
+				rs.last();
+				numRow = rs.getRow();
+				rs.beforeFirst();
+				replyMessage.tables[0].initializeRooms(numRow);
+				replyMessage.initializeStats(numRow);
+				i = 0;
+				while (rs.next()) {
+					replyMessage.tables[0].rooms[i].roomNumber = rs.getInt("roomNumber");
+					replyMessage.stats[i] = (float)rs.getInt("roomDuration");
+					i++;
+				}
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Query succeeded.";
+			} else {
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Empty Results.";
+				replyMessage.initializeStats(0);
+				replyMessage.tables[0].initializeRooms(0);
+			}
+			
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(roomTypeOccupancyQuery);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[1].initializeRooms(numRow);
+					replyMessage.initializeGraph(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[1].rooms[i].roomType = rs.getString("roomType");
+						replyMessage.graphs[i] = (float)rs.getInt("roomDuration");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results.";
+					replyMessage.initializeGraph(0);
+					replyMessage.tables[1].initializeRooms(0);
+				}
+			}
+			
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(mostOccupiedRoom1);
+				int maxDuration = rs.getInt("maxDuration");
+				mostOccupiedRoom2 = mostOccupiedRoom2 + maxDuration;
+				dbcon.select(mostOccupiedRoom2);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[2].initializeRooms(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[2].rooms[i].roomNumber = rs.getInt("roomNum");
+						replyMessage.values[0] = rs.getInt("roomDuration");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results.";
+					replyMessage.tables[0].initializeRooms(0);
+				}
+			}
+			
+			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
+				rs = dbcon.select(mostBookedRoom1);
+				int maxBooking = rs.getInt("maxCount");
+				mostBookedRoom2 = mostBookedRoom2 + maxBooking;
+				dbcon.select(mostBookedRoom2);
+				if (rs.next()) {
+					rs.last();
+					numRow = rs.getRow();
+					rs.beforeFirst();
+					replyMessage.tables[3].initializeRooms(numRow);
+					i = 0;
+					while (rs.next()) {
+						replyMessage.tables[3].rooms[i].roomNumber = rs.getInt("roomNum");
+						replyMessage.values[1] = rs.getInt("bookCount");
+						i++;
+					}
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Query succeeded.";
+				} else {
+					replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+					replyMessage.response.responseString = "Empty Results.";
+					replyMessage.tables[1].initializeRooms(0);
+				}
+			}
 		} catch (SQLException e) {
 			System.err.println("Error in 'generateRoomStatusReport'.  SQLException was thrown:");
 			e.printStackTrace(System.err);

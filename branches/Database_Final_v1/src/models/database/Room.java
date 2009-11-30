@@ -165,9 +165,6 @@ public class Room {
 		try {
 			// create connection
 			dbcon = new databaseHelper();
-			// query the database for
-			ResultSet rs = dbcon.select("SELECT * FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
-			rs.next();
 			int deleteStatus = dbcon.modify("DELETE FROM " + i_msg.header.nameHotel + "_rooms WHERE roomNumber = " + i_msg.rooms[0].roomNumber);
 			if (deleteStatus == 1) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
