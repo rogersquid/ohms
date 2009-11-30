@@ -69,7 +69,7 @@ public class ExtraMessage{
 			response.responseCode = ResponseMessage.ResponseCode.FAIL;			
 		}
 		else{
-			Pattern validExtraName = Pattern.compile("(^[A-Za-z]+$)");	
+			Pattern validExtraName = Pattern.compile("(^[A-Za-z]+$)");	//need to add space character
 			m = validExtraName.matcher(extraName);
 			if (!m.matches()){
 				response.responseCode = ResponseMessage.ResponseCode.FAIL;
