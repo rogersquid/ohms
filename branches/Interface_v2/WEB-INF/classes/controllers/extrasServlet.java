@@ -231,8 +231,8 @@ public class extrasServlet extends HttpServlet {
 			Extra extras	 = new Extra();
 			if(authlevel >= 3 || message.extras[0].extraID==userid)
 			{
-				ResponseMessage resp = message.validate();
-				if(resp.responseCode == ResponseMessage.ResponseCode.SUCCESS)
+				message.validate();
+				if(message.response.responseCode == ResponseMessage.ResponseCode.SUCCESS)
 				{
 						Message reply = extras.editExtra(message);
 
@@ -249,7 +249,7 @@ public class extrasServlet extends HttpServlet {
 				else
 				{
 					request.setAttribute("status", "edit_extras_failed");
-					request.setAttribute("message", resp.responseString);
+					request.setAttribute("message", message.response.responseString);
 					editExtras(request, response);
 				}
 			}
