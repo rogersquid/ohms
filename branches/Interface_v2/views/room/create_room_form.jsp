@@ -60,26 +60,7 @@
 							<tr>
 								<th>Room type:</th>
 								<td>
-									<select name='roomType'>
-										<option value='standard'
-										<%
-										if(room.roomType.compareToIgnoreCase("standard") == 0) {
-											%>
-											selected="selected"
-											<%
-										}
-										%>
-									>Standard</option>
-										<option value='suite'
-										<%
-										if(room.roomType.compareToIgnoreCase("suite") == 0) {
-											%>
-											selected="selected"
-											<%
-										}
-										%>
-										>Suite</option>
-									</select>
+									<input type='text' name='roomType' value='<%=room.roomType %>' />
 								</td>
 							</tr>
 							<tr>
