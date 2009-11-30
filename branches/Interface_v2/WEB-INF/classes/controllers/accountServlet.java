@@ -97,19 +97,19 @@ public class accountServlet extends HttpServlet {
 		message.initializeAccounts(1);
 		message.accounts[0].accountID = accountID;
 		Account account = new Account();
-		Message reply = account.deleteAccount(message);
 
-		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
-			if(authlevel > 3) {
+		if(authlevel > 3) {
+			Message reply = account.deleteAccount(message);
+			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 				request.setAttribute("status", "delete_success");
 				request.setAttribute("message", "Account successfully deleted.");
 				allAccounts(request, response);
 			} else {
-				request.setAttribute("message", "You are not authorized to delete this booking.");
+				request.setAttribute("message", reply.response.responseString);
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 			}
 		} else {
-			request.setAttribute("message", reply.response.responseString);
+			request.setAttribute("message", "You are not authorized to delete this booking.");
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}

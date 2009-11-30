@@ -18,7 +18,7 @@ public class reportServlet extends HttpServlet {
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 
-		getServletContext().getRequestDispatcher("/views/register_form.jsp").include(request, response);
+		getServletContext().getRequestDispatcher("/views/report/test.jsp").include(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
