@@ -342,4 +342,120 @@ public class Extra {
 		}
 		return replyMessage;
 	}
+	
+	public Message getAccountExtras(Message i_msg) {
+		/*
+		 * OVERVIEW: Returns the list of all extras that this user has authority to view. Returns a Message class with an array ExtraMessage objects.
+		 * PRECONDITIONS: None
+		 * MODIFIES: None
+		 * POSTCONDITIONS: Message contains an array of ExtraMessage objects that represent the list of extras viewable by this user
+		 */
+		databaseHelper dbcon = null;
+		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		
+		try {
+			// create connection
+			dbcon = new databaseHelper();
+			// query the database for all extras
+			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE a.accountID =" + i_msg.accounts[0].accountID + ")");
+			
+			rs.last();
+			int numRows = rs.getRow();
+			
+			replyMessage.initializeExtras(numRows);
+			rs.beforeFirst();
+			
+			if (!rs.next()) {
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "No extras in database.";
+			} else {
+				int i = 0;
+
+				while (rs.next()) {
+					replyMessage.extras[i].extraID = rs.getInt("extraID");
+					replyMessage.extras[i].bookingID = rs.getInt("bookingID");
+					replyMessage.extras[i].extraName = rs.getString("extraName");
+					replyMessage.extras[i].price = rs.getFloat("price");
+					replyMessage.extras[i].date = rs.getDate("date");
+					replyMessage.extras[i].creationTime = rs.getTimestamp("creationTime");
+					i++;
+				}
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Query succeeded.";
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'getAllRoom'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'getAllRoom'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
+		}
+		finally {
+			if (dbcon != null) dbcon.close();
+		}
+		return replyMessage;
+	}
+
+	public Message getBookingExtra(Message i_msg) {
+		/*
+		 * OVERVIEW: Returns the list of all extras that this user has authority to view. Returns a Message class with an array ExtraMessage objects.
+		 * PRECONDITIONS: None
+		 * MODIFIES: None
+		 * POSTCONDITIONS: Message contains an array of ExtraMessage objects that represent the list of extras viewable by this user
+		 */
+		databaseHelper dbcon = null;
+		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		
+		try {
+			// create connection
+			dbcon = new databaseHelper();
+			// query the database for all extras
+			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE b.bookingID =" + i_msg.bookings[0].bookingID + ")");
+			
+			rs.last();
+			int numRows = rs.getRow();
+			
+			replyMessage.initializeExtras(numRows);
+			rs.beforeFirst();
+			
+			if (!rs.next()) {
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "No extras in database.";
+			} else {
+				int i = 0;
+
+				while (rs.next()) {
+					replyMessage.extras[i].extraID = rs.getInt("extraID");
+					replyMessage.extras[i].bookingID = rs.getInt("bookingID");
+					replyMessage.extras[i].extraName = rs.getString("extraName");
+					replyMessage.extras[i].price = rs.getFloat("price");
+					replyMessage.extras[i].date = rs.getDate("date");
+					replyMessage.extras[i].creationTime = rs.getTimestamp("creationTime");
+					i++;
+				}
+				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
+				replyMessage.response.responseString = "Query succeeded.";
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in 'getAllRoom'.  SQLException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error in 'getAllRoom'.  ClassNotFoundException was thrown:");
+			e.printStackTrace(System.err);
+			replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
+			replyMessage.response.responseString = "Query failed.";
+		}
+		finally {
+			if (dbcon != null) dbcon.close();
+		}
+		return replyMessage;
+	}
+
+	
 }
