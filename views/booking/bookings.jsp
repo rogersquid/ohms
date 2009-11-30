@@ -33,11 +33,7 @@
 									<th>Start Date</th>
 									<th>End Date</th>
 									<th>Status</th>
-									<% if(data.bookings[i].status==0) {
-										%>
-										<th>Delete</th>
-										<%
-									} %>
+									<th></th>
 								</tr>
 
 								<%
@@ -61,7 +57,7 @@
 										}
 									%>
 									<td><%=status %></td>
-									<% if(data.bookings[i].status==0) {
+									<% if(((Integer)request.getAttribute("authLevel")).intValue() >=3 || data.bookings[i].status==0) {
 										%>
 										<td><a href='bookings.html?action=delete&amp;id=<%=data.bookings[i].bookingID %>' title='Delete booking' class='delete'>[ X ]</a></td>
 										<%

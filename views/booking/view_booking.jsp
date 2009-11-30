@@ -58,7 +58,7 @@
 						</tr>
 						<tr>
 							<th>Room #: </th>
-							<td><a href='rooms.html?action=view&amp;id=<%=data.rooms[0].roomID %>'><%=data.rooms[0].roomNumber %></a></td>
+							<td><a href='room.html?action=view&amp;id=<%=data.bookings[0].roomID %>'><%=data.rooms[0].roomNumber %></a></td>
 						</tr>
 						<tr>
 							<th>Start date: </th>
@@ -74,7 +74,10 @@
 						</tr>
 						<tr>
 							<th>Bill:</th>
-							<td><a href='bill.html?action=view&amp;id=<%=data.bills[0].billID %>'><%=data.bills[0].billID %></a></td>
+							<td>
+								<% if(data.bookings[0].status>0) { %> <a href='bill.html?action=view&amp;id=<%=data.bills[0].billID %>'><%=data.bills[0].billID %></a> <% } else { %> No bill yet. <% } %>
+							</td>
+						</tr>
 						</tr>
 					</table>
 				</div>
