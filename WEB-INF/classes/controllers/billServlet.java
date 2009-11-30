@@ -148,14 +148,8 @@ public class billServlet extends HttpServlet {
 		Message reply = bill.getFilteredBill(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bills != null) {
-			// MURAT
-			if(authlevel >= 3 || reply.bills[0].billID==userid) {
-				request.setAttribute("data", reply);
-				getServletContext().getRequestDispatcher("/views/bill/my_bills.jsp").include(request, response);
-			} else {
-				request.setAttribute("message", "You are not authorized to view this bill.");
-				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-			}
+			request.setAttribute("data", reply);
+			getServletContext().getRequestDispatcher("/views/bill/my_bills.jsp").include(request, response);
 		} else {
 			request.setAttribute("message", reply.response.responseString);
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
