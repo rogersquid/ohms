@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.*;
 import java.util.*;
+import java.text.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import models.database.*;
@@ -48,7 +49,7 @@ public class extrasServlet extends HttpServlet {
 		message.initializeExtras(1);
 		message.extras[0].extraID = extraID;
 		Extra extras = new Extra();
-		Message reply = extras.getExtras(message);
+		Message reply = extras.getExtra(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras.length > 0) {
 			if(authlevel >= 3 || reply.extras[0].extraID==userid) {
@@ -155,7 +156,7 @@ public class extrasServlet extends HttpServlet {
 		message.initializeExtras(1);
 		message.extras[0].extraID = extraID;
 		Extra extras = new Extra();
-		Message reply = extras.deleteExtras(message);
+		Message reply = extras.deleteExtra(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 			if(authlevel > 3) {
@@ -186,7 +187,7 @@ public class extrasServlet extends HttpServlet {
 		Extra extras = new Extra();
 		if(authlevel >= 3 || message.extras[0].extraID==userid)
 		{
-			Message reply = extras.getExtras(message);
+			Message reply = extras.getExtra(message);
 
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras.length > 0)
 			{
@@ -230,10 +231,10 @@ public class extrasServlet extends HttpServlet {
 			Extra extras	 = new Extra();
 			if(authlevel >= 3 || message.extras[0].extraID==userid)
 			{
-				ResponseMessage resp = message.extras[0].validateEditParams();
+				ResponseMessage resp = message.validate();
 				if(resp.responseCode == ResponseMessage.ResponseCode.SUCCESS)
 				{
-						Message reply = extras.editExtras(message);
+						Message reply = extras.editExtra(message);
 
 						if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS)
 						{
@@ -260,7 +261,7 @@ public class extrasServlet extends HttpServlet {
 		} catch(ParseException e) {
 			request.setAttribute("status", "edit_failed");
 			request.setAttribute("message", "Invalid date formats.");
-			editExtra(request, response);
+			editExtras(request, response);
 		} catch(Exception e) {
 			request.setAttribute("message", "Exception: "+e.toString());
 			e.printStackTrace();
