@@ -19,10 +19,10 @@
 								<th>Start date: </th>
 								<td><%=request.getParameter("startDate") %> <input type="hidden" name="startDate" value="<%=request.getParameter("startDate") %>"></td>
 							</tr>
-							<TR>
+							<tr>
 								<th>End date: </th>
 								<TD><%=request.getParameter("endDate") %> <INPUT type="hidden" name="endDate" value="<%=request.getParameter("endDate") %>"></TD>
-							</TR>
+							</tr>
 						</table>
 						<INPUT type="submit" value="Submit booking">
 					</form>

@@ -75,6 +75,7 @@
 						<tr>
 							<th>Bill:</th>
 							<td><a href='bill.html?action=view&amp;id=<%=data.bills[0].billID %>'><%=data.bills[0].billID %></a></td>
+						</tr>
 					</table>
 				</div>
 <%@ include file="../footer.jsp" %>
