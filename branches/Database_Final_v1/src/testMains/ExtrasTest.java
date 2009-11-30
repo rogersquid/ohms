@@ -17,7 +17,7 @@ public class ExtrasTest {
 		//test_deleteExtra(0);
 		//test_viewExtra(0);
 		//test_viewAllExtra(0);
-		test_viewAllExtra(2);
+		test_viewAllExtra(6);
 		System.out.println("Finish Test Extras \r");
 	}
 
@@ -349,21 +349,25 @@ public class ExtrasTest {
 			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
 			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
 			System.out.println("Test ID 1");
-			System.out.println("Description: Success View All Extra");
-			System.out.println("   Test case depends on success addition of Extra 101");
+			System.out.println("Description: Success View All Extra with Account ID");
 			
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeExtras(1);
 			h_msg.initializeAccounts(1);
-			h_msg.initializeBookings(1);
 			h_msg.extras[0] = new ExtraMessage();
 			//fill Extra info:
-			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationTime);
-			h_msg.accounts[0].accountID = 295;
+			h_msg.extras[0].extraID=1;
+			h_msg.extras[0].bookingID=1;
+			h_msg.extras[0].extraName="asdf";
+			h_msg.extras[0].price=1;
+			h_msg.extras[0].date=date;
+			h_msg.extras[0].creationTime=creationTime;
+			//h_msg.extras[0].fillAll(1, 2, "none", 1000, date, creationTime);
+			h_msg.accounts[0].accountID = 199;
+			h_msg.response = h_msg.extras[0].validateParams();
 			Extra Extra = new Extra();
 			h_msg = Extra.getAccountExtras(h_msg);
-			h_msg.response = h_msg.extras[0].validateParams();
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 6");
 				System.out.println("Input: " + h_msg.extras[0].extraID);
@@ -383,24 +387,22 @@ public class ExtrasTest {
 			}
 		}
 
-		if(i_num==5){
+		if(i_num==6){
 			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
 			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
 			System.out.println("Test ID 1");
-			System.out.println("Description: Success View All Extra");
-			System.out.println("   Test case depends on success addition of Extra 101");
+			System.out.println("Description: Success View All Extra with given booking ID");
 			
 			//create message
 			Message h_msg= new Message(0, 0, "test");
 			h_msg.initializeExtras(1);
-			h_msg.initializeAccounts(1);
 			h_msg.initializeBookings(1);
 			h_msg.extras[0] = new ExtraMessage();
 			//fill Extra info:
 			h_msg.extras[0].fillAll(1, 2, "Beer", 1000, date, creationTime);
-			h_msg.bookings[0].bookingID = 375;
+			h_msg.bookings[0].bookingID = 382;
 			Extra Extra = new Extra();
-			h_msg = Extra.getAccountExtras(h_msg);
+			h_msg = Extra.getBookingExtras(h_msg);
 			h_msg.response = h_msg.extras[0].validateParams();
 			if(h_msg.response.responseCode == ResponseMessage.ResponseCode.SUCCESS){
 				System.out.println("Passed Test ID 7");
