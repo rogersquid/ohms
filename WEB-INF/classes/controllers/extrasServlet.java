@@ -195,7 +195,7 @@ public class extrasServlet extends HttpServlet {
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras.length > 0)
 			{
 				request.setAttribute("extras", reply.extras[0]);
-				getServletContext().getRequestDispatcher("/views/extras/edit_extra_form.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/extras/edit_extra.jsp").include(request, response);
 			}
 			else
 			{
