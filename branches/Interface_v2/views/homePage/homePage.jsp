@@ -7,7 +7,19 @@
 					<h2> WELCOME TO OHMS DEMONSTRATION WEB PAGE </h2>
 					<h4> OHMS is an online hotel management system </h4>
 					<h4> Here is our Test Hotel Layout </h4>
-					<a href='/ohms/?floor=1'>Floor 1</a><a href='/ohms/?floor=2'>Floor 2</a><a href='/ohms/?floor=3'>Floor 3</a>
+					
+					<table cellpadding=2 cellspacing=2>
+						<tr>
+    						<td>Outer View</td>
+    						<td>NA: Picture is not yet taken</td>
+    						<td></td>
+  						</tr>
+  						<tr>
+    						<td><a href='/ohms/?floor=1'>Floor 1</a></td>
+    						<td><a href='/ohms/?floor=2'>Floor 2</a></td>
+    						<td><a href='/ohms/?floor=3'>Floor 3</a></td>
+  						</tr>
+  					</table>
 					<%
 						String floor = "";
 						if(request.getParameter("floor")!=null) floor = request.getParameter("floor");
