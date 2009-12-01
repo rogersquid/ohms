@@ -7,6 +7,7 @@
 
 
 package models.messages;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,14 +59,14 @@ public class BillMessage{
 		ResponseMessage response = new ResponseMessage();
 		
 		response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, new String(""));
-		if (paymentType==null || paymentType.length() == 0){
+		if (paymentType==null || removeSpaces(paymentType).length() == 0){
 	
 			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 			response.responseString = response.responseString + "Payment Type description cannot be empty\n";
 		}
 		else{
 			Pattern validPaymentType = Pattern.compile("(^[A-Za-z]+$)");	
-			m = validPaymentType.matcher(paymentType);
+			m = validPaymentType.matcher(removeSpaces(paymentType));
 			if (!m.matches()){
 				response.responseCode = ResponseMessage.ResponseCode.FAIL;
 				response.responseString = response.responseString + "Payment type must be letters only.\n";
@@ -74,5 +75,11 @@ public class BillMessage{
 		
 		return response;
 	}
-	
+
+	public String removeSpaces(String s) {
+		  StringTokenizer st = new StringTokenizer(s," ",false);
+		  String t="";
+		  while (st.hasMoreElements()) t += st.nextElement();
+		  return t;
+		}
 }
