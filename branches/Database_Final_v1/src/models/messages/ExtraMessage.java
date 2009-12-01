@@ -7,6 +7,7 @@
 
 package models.messages;
 
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,7 +63,7 @@ public class ExtraMessage{
 		Matcher m;
 		ResponseMessage response = new ResponseMessage();
 		response.fillResponse(ResponseMessage.ResponseCode.SUCCESS, new String(""));
-		if (extraName.length() == 0)
+		if (removeSpaces(extraName).length() == 0)
 		{
 			response.responseString = response.responseString + ("Extra services name must not be empty\n");
 			//CHANGE RESPONSE CODE
@@ -70,7 +71,7 @@ public class ExtraMessage{
 		}
 		else{
 			Pattern validExtraName = Pattern.compile("(^[A-Za-z]+$)");	//need to add space character
-			m = validExtraName.matcher(extraName);
+			m = validExtraName.matcher(removeSpaces(extraName));
 			if (!m.matches()){
 				response.responseCode = ResponseMessage.ResponseCode.FAIL;
 				response.responseString = response.responseString + "Extra service name must not contain numbers";
@@ -84,5 +85,13 @@ public class ExtraMessage{
 		}
 		return response;
 	}
+	
+	
+	public String removeSpaces(String s) {
+		  StringTokenizer st = new StringTokenizer(s," ",false);
+		  String t="";
+		  while (st.hasMoreElements()) t += st.nextElement();
+		  return t;
+		}
 
 }
