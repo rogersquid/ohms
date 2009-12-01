@@ -32,7 +32,10 @@ public class extrasServlet extends HttpServlet {
 			accountExtras(request, response);
 		} else if(action!=null && action.equals("delete")) {
 			deleteExtras(request, response);
-		} else {
+		} else if(action!=null && action.equals("add")){
+			getServletContext().getRequestDispatcher("/views/add_extra.jsp").include(request, response);
+		}	
+		else{
 			//viewCurrentExtras(request, response);
 		}
 	}
@@ -259,9 +262,69 @@ public class extrasServlet extends HttpServlet {
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 			}
 		} catch(ParseException e) {
-			request.setAttribute("status", "edit_failed");
+			request.setAttribute("status", "edit_extras_failed");
 			request.setAttribute("message", "Invalid date formats.");
 			editExtras(request, response);
+		} catch(Exception e) {
+			request.setAttribute("message", "Exception: "+e.toString());
+			e.printStackTrace();
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+	
+	public void addExtras(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+
+		try {
+			Message message = new Message(authlevel, userid, hotelname);
+			message.initializeExtras(1);
+
+			if(authlevel > 3) message.extras[0].price = request.getParameter("price");
+			// needs work
+			message.extras[0].extraName = request.getParameter("extraName");
+			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
+			java.sql.Date date = new java.sql.Date(df.parse(request.getParameter("date")).getTime());
+			message.extras[0].date = date;
+			message.extras[0].bookingID = Integer.parseInt(request.getParameter("bookingID"));
+
+			Extras extras = new Extra();
+			if(authlevel >= 3 || message.extras[0].extraID==userid)
+			{
+				if(message.validate())
+				{
+						Message reply = extras.addExtras(message);
+
+						if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS)
+						{
+							String extraID = reply.extras[0].extraID;
+							response.sendRedirect(response.encodeRedirectURL("extras.html?action=view&id="+extraID+"&status=edit_success"));
+						}
+						else
+						{
+							request.setAttribute("message", reply.response.responseString);
+							getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+						}
+				}
+				else
+				{
+					request.setAttribute("status", "add_extras_failed");
+					request.setAttribute("message", resp.responseString);
+					editExtras(request, response);
+				}
+			}
+			else
+			{
+				request.setAttribute("message", "You are not authorized to add this extras.");
+				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+			}
+		} catch(ParseException e) {
+			request.setAttribute("status", "add_failed");
+			request.setAttribute("message", "Invalid date formats.");
+			editExtra(request, response);
 		} catch(Exception e) {
 			request.setAttribute("message", "Exception: "+e.toString());
 			e.printStackTrace();
@@ -281,6 +344,10 @@ public class extrasServlet extends HttpServlet {
 		if(action!=null && action.equals("edit"))
 		{
 			doEditExtras(request, response);
+		}
+		if(action!=null && action.equals("add"))
+		{
+			addExtra(request, response);
 		}
 	}
 
