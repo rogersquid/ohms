@@ -12,12 +12,12 @@ public class ExtrasTest {
 	public static void main(String [ ] args){
 		System.out.println("Start Test Extras \r");
 		System.out.println("\r");
-		//test_addExtra(0);
+		test_addExtra(0);
 		//test_editExtra(0);
 		//test_deleteExtra(0);
 		//test_viewExtra(0);
 		//test_viewAllExtra(0);
-		test_viewAllExtra(6);
+		//test_viewAllExtra(6);
 		System.out.println("Finish Test Extras \r");
 	}
 
@@ -38,7 +38,7 @@ public class ExtrasTest {
 			java.sql.Date date=new java.sql.Date(new java.util.Date().getTime());
 			java.sql.Timestamp creationTime=new java.sql.Timestamp(new java.util.Date().getTime());
 			h_msg.extras[0].bookingID = 10;
-			h_msg.extras[0].extraName = "MorningPaper";
+			h_msg.extras[0].extraName = "Morning Paper";
 			h_msg.extras[0].price = (float)0;
 			h_msg.extras[0].date = date;
 			h_msg.extras[0].creationTime = creationTime; 
