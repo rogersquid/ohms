@@ -9,11 +9,11 @@ public class BillTest {
 		System.out.println("Start Test Bills \r");
 		System.out.println("\r");
 		//test_addBill(0);
-		//test_editBill(0);
+		test_editBill(0);
 		//test_deleteBill(0);
 		//test_viewBill(0);
 		//test_viewAllBill(0);
-		test_viewAllBill(3);
+		//test_viewAllBill(3);
 		System.out.println("Finish Test Bills \r");
 	}
 
@@ -33,7 +33,7 @@ public class BillTest {
 			//fill Bill info:
 			h_msg.bills[0].billID = 1;
 			h_msg.bills[0].bookingID = 88;
-			h_msg.bills[0].paymentType = "none";
+			h_msg.bills[0].paymentType = "CreditCardVisa";
 			h_msg.bills[0].status = true;
 			h_msg.response = h_msg.bills[0].validateParams();
 			if (h_msg.response.responseCode != ResponseMessage.ResponseCode.FAIL) {
@@ -67,9 +67,9 @@ public class BillTest {
 			h_msg.initializeBills(1);
 			h_msg.bills[0] = new BillMessage();
 			//fill Bill info:
-			h_msg.bills[0].billID = 8;
+			h_msg.bills[0].billID = 234;
 			h_msg.bills[0].bookingID = 88;
-			h_msg.bills[0].paymentType = "CreditCard";
+			h_msg.bills[0].paymentType = "Credit Card Master Card";
 			h_msg.bills[0].status = true;
 			
 			Bill Bill = new Bill();
