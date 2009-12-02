@@ -6,6 +6,7 @@
 				<div id='content'>
 					<DIV id="title">Search Rooms</DIV>
 					<form method='post' action=''>
+						<input type='hidden' name='action' value='search' />
 						<%
 
 						if(request.getAttribute("status")=="search_failed") {
@@ -14,15 +15,11 @@
 							<%
 						}
 						%>
-						<h3>Pick dates</h3>
+						<h3>Room tpye</h3>
 						<table>
 							<tr>
-								<th>Start date: </th>
-								<td><input type="text" name="startDate" class="date-pick"></td>
-							</tr>
-							<TR>
-								<th>End date: </th>
-								<TD><INPUT type="text" name="endDate" class="date-pick"></TD>
+								<th>Room type: </th>
+								<td><input type='text' name='roomType' value='' /></td>
 							</TR>
 						</table>
 						<h3>Select beds</h3>
