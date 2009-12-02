@@ -71,7 +71,7 @@
 							</table>
 							<%
 						} else { %>
-							<div class='info'>There are no available rooms your request.</div>
+							<div class='info'>There are no available rooms for your request.</div>
 							<%
 						} %>
 					</form>
