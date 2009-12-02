@@ -85,7 +85,7 @@
 					<a href='extras.html?action=booking_extras&amp;id=<%=data.bookings[0].bookingID %>'>View extras for this booking</a>
 					<br />
 					<%
-						if(authlevel >= 3) {
+						if(authlevel >= 3 && data.bookings[0].status<2) {
 							%>
 							<a href='extras.html?action=add&amp;bookingID=<%=data.bookings[0].bookingID %>'>Add extra for this booking</a>
 							<%
