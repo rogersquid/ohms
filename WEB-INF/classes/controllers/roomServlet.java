@@ -29,6 +29,8 @@ public class roomServlet extends HttpServlet {
 			editRoom(request, response);
 		} else if(action.equals("view")) {
 			viewRoom(request, response);
+		} else if(action.equals("clean")) {
+			cleanRoom(request, response);
 		} else if(action.equals("delete")) {
 			//deleteRoom(request, response);
 		} else if(action.equals("search")) {
@@ -78,6 +80,35 @@ public class roomServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/views/room/room.jsp").include(request, response);
 		} else {
 			request.setAttribute("message", reply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+
+	public void cleanRoom(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+
+		int roomID = Integer.parseInt(request.getParameter("id"));
+		Message message = new Message(authlevel, userid, hotelname);
+		message.initializeRooms(1);
+		message.rooms[0].roomID = roomID;
+		Room room = new Room();
+
+		Message roomReply = room.getRoom(message);
+
+		if(roomReply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && roomReply.rooms.length > 0) {
+			message.rooms[0].cleaned=true;
+			Message reply = room.editRoom(message);
+			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
+				response.sendRedirect(response.encodeRedirectURL("room.html?action=view&id="+roomID+"&status=cleaned"));
+			} else {
+				response.sendRedirect(response.encodeRedirectURL("room.html?action=view&id="+roomID+"&status=clean_failed"));
+			}
+		} else {
+			request.setAttribute("message", roomReply.response.responseString);
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}

@@ -4,10 +4,14 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../left_nav.jsp" %>
 				<div id='content'>
-					<h2> WELCOME TO OHMS DEMONSTRATION WEB PAGE </h2>
-					<h4> OHMS is an online hotel management system </h4>
-					<h4> Here is our Test Hotel Layout </h4>
-					
+					<div id='title'>OHMS Demonstration</div>
+					<h3> OHMS is an online hotel management system </h3>
+					<br />
+					<a href='#' onclick='javascript:$("#layout").toggle();'>[+] Expand</a> to see test hotel layout.
+					<div class="hotel_image" id='layout' style='display: none;'>
+						<img src="images/uploads/Floors.png" />
+					</div>
+					<!--
 					<table cellpadding=2 cellspacing=2>
 						<tr>
     						<td>Outer View</td>
@@ -15,9 +19,9 @@
     						<td></td>
   						</tr>
   						<tr>
-    						<td><a href='/ohms/?floor=1'>Floor 1</a></td>
-    						<td><a href='/ohms/?floor=2'>Floor 2</a></td>
-    						<td><a href='/ohms/?floor=3'>Floor 3</a></td>
+    						<td><a href='/ohms/home.html?floor=1'>Floor 1</a></td>
+    						<td><a href='/ohms/home.html?floor=2'>Floor 2</a></td>
+    						<td><a href='/ohms/home.html?floor=3'>Floor 3</a></td>
   						</tr>
   					</table>
 					<%
@@ -30,5 +34,6 @@
 								<img src="images/uploads/Floor<%=floor %>.png" />
 							</div>
 						<% } %>
+					-->
 				</div>
 <%@ include file="../footer.jsp" %>

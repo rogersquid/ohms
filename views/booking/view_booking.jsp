@@ -39,12 +39,12 @@
 							<%
 						}
 
-						if(request.getParameter("status")=="checkin") {
+						if(request.getParameter("status") != null && request.getParameter("status").equals("checkin")) {
 							%>
 							<div class='success'>You have checked in.</div>
 							<%
 						}
-						if(request.getParameter("status")=="checkout") {
+						if(request.getParameter("status") != null && request.getParameter("status").equals("checkout")) {
 							%>
 							<div class='success'>You have checked out.</div>
 							<%
@@ -80,5 +80,16 @@
 						</tr>
 						</tr>
 					</table>
+					<br />
+
+					<a href='extras.html?action=booking_extras&amp;id=<%=data.bookings[0].bookingID %>'>View extras for this booking</a>
+					<br />
+					<%
+						if(authlevel >= 3) {
+							%>
+							<a href='extras.html?action=add&amp;bookingID=<%=data.bookings[0].bookingID %>'>Add extra for this booking</a>
+							<%
+						}
+					%>
 				</div>
 <%@ include file="../footer.jsp" %>

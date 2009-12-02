@@ -4,7 +4,7 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../left_nav.jsp" %>
 				<div id='content'>
-					<div id='title'>All Bookings</div>
+					<div id='title'>Bookings for Account ID: <a href='account.html?action=view&amp;id=<%=request.getParameter("id") %>'><%=request.getParameter("id") %></a></div>
 					<%
 						if(request.getAttribute("status")=="booking_failed") {
 							%>
@@ -28,7 +28,6 @@
 								<tr>
 									<th></th>
 									<th>Booking</th>
-									<th>Customer</th>
 									<th>Room #</th>
 									<th>Start Date</th>
 									<th>End Date</th>
@@ -43,7 +42,6 @@
 								<tr>
 									<td><span class='index'><%=i+1 %></span></td>
 									<td><a href='bookings.html?action=view&amp;id=<%=data.bookings[i].bookingID %>'><%=data.bookings[i].bookingID %></a></td>
-									<td><a href='account.html?action=view&amp;id=<%=data.bookings[i].ownerID %>'><%=data.accounts[i].firstName %> <%=data.accounts[i].lastName %></a></td>
 									<td><a href='room.html?action=view&amp;id=<%=data.bookings[i].roomID %>'><%=data.rooms[i].roomNumber %></a></td>
 									<td><%=data.bookings[i].startDate %></td>
 									<td><%=data.bookings[i].endDate %></td>
@@ -57,18 +55,14 @@
 										}
 									%>
 									<td><%=status %></td>
-									<% if(((Integer)request.getAttribute("authLevel")).intValue() >=3 || data.bookings[i].status==0) {
-										%>
-										<td><a href='bookings.html?action=delete&amp;id=<%=data.bookings[i].bookingID %>' title='Delete booking' class='delete'>[ X ]</a></td>
-										<%
-									} %>
+									<td><a href='bookings.html?action=delete&amp;id=<%=data.bookings[i].bookingID %>' title='Delete booking' class='delete'>[ X ]</a></td>
 								</tr>
 								<%
 							} %>
 							</table>
 							<%
 						} else { %>
-							<div class='info'>There are no bookings.</div>
+							<div class='info'>You have no bookings.</div>
 							<%
 						} %>
 				</div>

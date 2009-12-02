@@ -55,6 +55,10 @@
       <servlet-name>reportServlet</servlet-name>
       <servlet-class>controllers.reportServlet</servlet-class>
     </servlet>
+    <servlet>
+      <servlet-name>extrasServlet</servlet-name>
+      <servlet-class>controllers.extrasServlet</servlet-class>
+    </servlet>
 	<!-- servlet URL mapping -->
     <servlet-mapping>
         <servlet-name>homeServlet</servlet-name>
@@ -96,6 +100,12 @@
         <servlet-name>reportServlet</servlet-name>
         <url-pattern>/report.html</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>extrasServlet</servlet-name>
+        <url-pattern>/extras.html</url-pattern>
+    </servlet-mapping>
+
 
 	<servlet-mapping>
 		<servlet-name>bookingServlet</servlet-name>

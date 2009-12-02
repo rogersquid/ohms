@@ -7,6 +7,10 @@ input[type=text], input[type=password], textarea { border-style: inset; padding:
 .error {background: #fdd; padding: 5px; margin: 5px; color: #a00; }
 .success {background: #dfd; padding: 5px; margin: 5px; color: #090; }
 .info {background: #ddf; padding: 5px; margin: 5px; color: #00a; }
+.yes {color: #090; }
+.no {color: #0a0; }
+
+div.room_image {float: right; }
 
 #wrapper { background: #fff url(/ohms/images/bg.png) repeat-y; padding: 0 20px; width: 954px; margin: 0 auto; text-align: left; }
 #header { text-align: center; padding: 10px; }
@@ -37,10 +41,12 @@ input[type=text], input[type=password], textarea { border-style: inset; padding:
 .rooms ol li { display: list-item; position: relative; margin: 20px 0; background: #eee; padding: 5px; }
 .rooms ol li span { padding: 5px; color: #333; font: 13px Arial, Helvetica, Geneva, sans-serif; }
 
-table.bookings, table.rooms, table.accounts { width: 100%; }
-table.bookings td, table.rooms td, table.account td, table.room td, table.room th, table.account th, table.accounts td { border: 1px solid #ccc; padding: 3px 5px;  }
+table.horizontal { width: 100%; }
+table.vertical th, table.vertical td, table.horizontal td { border: 1px solid #ccc; padding: 3px 5px;  }
 
 h3 { margin: 15px 0 5px 0; color: #666; font: 1.2em "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; }
 
 .index { color: #aaa; }
 .delete { color: #a00; }
+
+div.report { background: #F7FFFC; padding: 10px; border: 3px solid #D8E9E1; }
