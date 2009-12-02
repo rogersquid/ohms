@@ -1,8 +1,8 @@
 /*
  * ExtraMessage.java
- * Objects of this class are instantiated to pass Extra service specific information from Interface through 
+ * Objects of this class are instantiated to pass Extra service specific information from Interface through
  * to Database and everywhere in between. Is always harbored in a Message.java object
- *  
+ *
  */
 
 package models.messages;
@@ -20,7 +20,7 @@ public class ExtraMessage{
 	public float				price;
 	public java.sql.Date		date;
 	public java.sql.Timestamp	creationTime;
-	
+
 	public void fillAll(int eID, int bID, String eName, float ePrice, java.sql.Date eDate, java.sql.Timestamp cDate ){
 		/*
 		 * OVERVIEW: Fills in the Extra service details. Subject to verification if not validated
@@ -33,9 +33,9 @@ public class ExtraMessage{
 		extraName=eName;
 		price=ePrice;
 		date=eDate;
-		creationTime=cDate;		
+		creationTime=cDate;
 	}
-	
+
 	public void print_All(){
 		/*
 		 * OVERVIEW: Prints out fields of this ExtraMessage
@@ -54,11 +54,11 @@ public class ExtraMessage{
 	}
 
 	public ResponseMessage validateParams(){
-		/* 
-		 * OVERVIEW: Checks to see if the parameters entered are valid.  
+		/*
+		 * OVERVIEW: Checks to see if the parameters entered are valid.
 		 * PRECONDITIONS: None
 		 * MODIFIES: None
-		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly 
+		 * POSTCONDITIONS: A ResponseMessage is returned that contains a description of the errors in its ResponseString and the ResponseCode is set accordingly
 		 */
 		Matcher m;
 		ResponseMessage response = new ResponseMessage();
@@ -67,10 +67,10 @@ public class ExtraMessage{
 		{
 			response.responseString = response.responseString + ("Extra services name must not be empty\n");
 			//CHANGE RESPONSE CODE
-			response.responseCode = ResponseMessage.ResponseCode.FAIL;			
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
 		}
 		else{
-			Pattern validExtraName = Pattern.compile("(^[A-Za-z]+$)");	//need to add space character
+			Pattern validExtraName = Pattern.compile("(^[\\-\\.:0-9A-Za-z\\s\\(\\)]+$)");	//need to add space character
 			m = validExtraName.matcher(removeSpaces(extraName));
 			if (!m.matches()){
 				response.responseCode = ResponseMessage.ResponseCode.FAIL;
@@ -80,13 +80,13 @@ public class ExtraMessage{
 		if (price < 0){
 			response.responseString = response.responseString + ("Extra services price cannot be less than 0\n");
 			//CHANGE RESPONSE CODE
-			response.responseCode = ResponseMessage.ResponseCode.FAIL;			
-			
+			response.responseCode = ResponseMessage.ResponseCode.FAIL;
+
 		}
 		return response;
 	}
-	
-	
+
+
 	public String removeSpaces(String s) {
 		  StringTokenizer st = new StringTokenizer(s," ",false);
 		  String t="";
