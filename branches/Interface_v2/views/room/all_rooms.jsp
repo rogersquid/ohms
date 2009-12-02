@@ -33,7 +33,7 @@
 									<th>Price</th>
 									<th>Available</th>
 									<th>Cleaned</th>
-									<th></th>
+									<%-- <th></th> --%>
 								</tr>
 
 								<%
@@ -47,7 +47,7 @@
 									<td><%=data.rooms[i].price %></td>
 									<td><%=data.rooms[i].available %></td>
 									<td><%=data.rooms[i].cleaned %></td>
-									<td><a href='room.html?action=delete&amp;id=<%=data.rooms[i].roomID %>' title='Delete room' class='delete'>[ X ]</a></td>
+									<%-- <td><a href='room.html?action=delete&amp;id=<%=data.rooms[i].roomID %>' title='Delete room' class='delete'>[ X ]</a></td> --%>
 								</tr>
 								<%
 							} %>
