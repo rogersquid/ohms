@@ -1,7 +1,7 @@
 				<div id='left-nav'>
 					<ul>
-						<li><a href='bookings.html?action=search'>Search rooms</a></li>
-						<li><a href='room.html?action=search'>Search available rooms</a></li>
+						<li><a href='room.html?action=search'>Search rooms</a></li>
+						<li><a href='bookings.html?action=search'>Search available rooms</a></li>
 					<%
 						if(((Boolean)request.getAttribute("logged_in")).booleanValue()==false) {
 							%>
