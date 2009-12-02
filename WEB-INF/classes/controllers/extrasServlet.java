@@ -231,7 +231,7 @@ public class extrasServlet extends HttpServlet {
 			message.initializeExtras(1);
 			message.extras[0].extraID = extraID;
 
-			if(authlevel > 3) message.extras[0].price = Float.parseFloat(request.getParameter("price"));
+			message.extras[0].price = Float.parseFloat(request.getParameter("price"));
 			// needs work
 			message.extras[0].extraName = request.getParameter("extraName");
 			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
@@ -291,7 +291,7 @@ public class extrasServlet extends HttpServlet {
 			Message message = new Message(authlevel, userid, hotelname);
 			message.initializeExtras(1);
 
-			if(authlevel > 3) message.extras[0].price = Float.parseFloat(request.getParameter("price"));
+			message.extras[0].price = Float.parseFloat(request.getParameter("price"));
 			// needs work
 			message.extras[0].extraName = request.getParameter("extraName");
 			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
