@@ -82,42 +82,7 @@ public class Room {
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.rooms=i_msg.rooms;
 		int updateStatus;
-		
-		if (i_msg.header.authLevel==2){
-			try{
-				dbcon = new databaseHelper();
-				ResultSet rs=dbcon.select("SELECT COUNT(*) FROM " + i_msg.header.nameHotel + "_rooms WHERE roomID = '" + i_msg.rooms[0].roomID+"'");
-				int i=0;
-				while(rs.next())i++;
-				if (i!=0){
-					replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-					replyMessage.response.responseString = "Number of rooms with the given ID !=1";
-					return replyMessage;
-				}
-				int numberofrows=dbcon.update("UPDATE " + i_msg.header.nameHotel + "_rooms SET cleaned='"+i_msg.rooms[0].cleaned +"' WHERE roomID = '" + i_msg.rooms[0].roomID+"'");
-				if(numberofrows!=1){
-					replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-					replyMessage.response.responseString = "Number of rooms updated !=1";
-					return replyMessage;
-				}
-			}catch (SQLException e) {
-				System.err.println("Error in 'editRoom'.  SQLException was thrown:");
-				e.printStackTrace(System.err);
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Update failed.";
-			} catch (ClassNotFoundException e) {
-				System.err.println("Error in 'editRoom'.  ClassNotFoundException was thrown:");
-				e.printStackTrace(System.err);
-				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
-				replyMessage.response.responseString = "Update failed.";
-			}
-			finally {
-				if (dbcon != null) dbcon.close();
-			}
-			replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
-			replyMessage.response.responseString = "Room Cleannes has been set to "+ i_msg.rooms[0].cleaned;
-			return replyMessage;
-		}
+
 		try {
 			// create connection
 			dbcon = new databaseHelper();
