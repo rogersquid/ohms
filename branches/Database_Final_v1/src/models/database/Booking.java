@@ -448,7 +448,7 @@ public class Booking {
 					java.sql.Date now = new java.sql.Date(today.getTime());
 					java.sql.Date bookedTime = rs.getDate("startDate");
 					if (rs.getInt("status") == 1) {
-						output.response.fillResponse(ResponseCode.FAIL, "Checkin Failed: Booking has been checked in already");
+						output.response.fillResponse(ResponseCode.FAIL, "Booking has been checked in already");
 						return output;
 						/*
 		            } else if (bookedTime.getYear() == now.getYear() &&
@@ -474,7 +474,7 @@ public class Booking {
 			            	output.response.fillResponse(ResponseCode.FAIL, "Check-in request failed during update");
 			            }
 		            } else {
-		            	output.response.fillResponse(ResponseCode.FAIL, "Checkin Failed: Checkin Time does not match");
+		            	output.response.fillResponse(ResponseCode.FAIL, "You can only check in if the booking has started.");
 						return output;
 		            }
 		        }
@@ -515,24 +515,23 @@ public class Booking {
 			ResultSet rs = dbcon.select("SELECT status FROM "+ i_msg.header.nameHotel + "_bills " +
 					"WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			int mert=0;
-			
+
 			while (rs.next()) {
 				int ma_status=rs.getInt("status");
 				if(mert!=0){
-					replyMessage.response.fillResponse(ResponseCode.FAIL, "INCONSISTENCY in bills. More than one bill for one booking" +
+					replyMessage.response.fillResponse(ResponseCode.FAIL, "Inconsistency in bills. More than one bill for one booking" +
 							" BookingID: " + i_msg.bookings[0].bookingID);
 					return replyMessage;
 				}
 				if(ma_status==0){
-					replyMessage.response.fillResponse(ResponseCode.FAIL, "Checkout failed, because bill is not PAID" +
-							" BookingID: " + i_msg.bookings[0].bookingID);
+					replyMessage.response.fillResponse(ResponseCode.FAIL, "The bill for this booking has not been paid yet.");
 					return replyMessage;
 				}
 				mert++;
 				rply=getBooking(i_msg);
 			}
 			System.err.print("aaaaaaaaaaaaaaaaaaaaaaaa");
-			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='2'" + 
+			int returnedRows = dbcon.update("UPDATE "+ i_msg.header.nameHotel + "_bookings SET status='2'" +
 						" WHERE bookingID='" + i_msg.bookings[0].bookingID +"'");
 			if (returnedRows != 1) {
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Editting Booking failed. Because the number of updated is not = 1. INCONSISTENCY" +
