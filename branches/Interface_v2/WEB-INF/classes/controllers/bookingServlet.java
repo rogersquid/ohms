@@ -37,7 +37,7 @@ public class bookingServlet extends HttpServlet {
 		} else if(action.equals("delete")) {
 			deleteBooking(request, response);
 		} else if(action.equals("search")) {
-			getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request, response);
+			getServletContext().getRequestDispatcher("/views/booking/search_rooms.jsp").include(request, response);
 		} else { // defaults
 			if(authlevel < 3) {
 				// my bookings
@@ -275,7 +275,7 @@ public class bookingServlet extends HttpServlet {
 			if(!endDate.after(startDate)) {
 				request.setAttribute("message", "The start date must be before the end date.");
 				request.setAttribute("status", "search_failed");
-				getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request, response);
+				getServletContext().getRequestDispatcher("/views/booking/search_rooms.jsp").include(request, response);
 			} else {
 
 				Message message = new Message(authlevel, userid, hotelname);
@@ -323,7 +323,7 @@ public class bookingServlet extends HttpServlet {
 					if(reply.rooms==null) {
 						request.setAttribute("status", "search_failed");
 						request.setAttribute("message", "No available rooms found. Please try different dates.");
-						getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request, response);
+						getServletContext().getRequestDispatcher("/views/booking/search_rooms.jsp").include(request, response);
 					} else {
 						request.setAttribute("data", reply);
 						getServletContext().getRequestDispatcher("/views/room/available_rooms.jsp").include(request, response);		}
@@ -335,7 +335,7 @@ public class bookingServlet extends HttpServlet {
 		} catch(ParseException e) {
 			request.setAttribute("status", "search_failed");
 			request.setAttribute("message", "Invalid date formats.");
-			getServletContext().getRequestDispatcher("/views/room/search_rooms.jsp").include(request, response);
+			getServletContext().getRequestDispatcher("/views/booking/search_rooms.jsp").include(request, response);
 		} catch(Exception e) {
 			request.setAttribute("message", "Exception: "+e.toString());
 			e.printStackTrace();
