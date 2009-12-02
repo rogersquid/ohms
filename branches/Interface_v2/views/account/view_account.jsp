@@ -51,5 +51,9 @@
 							<td><% if(account.gender){ %>Male<% } else { %> Female <% } %></td>
 						</tr>
 					</table>
+
+					<a href='bookings.html?action=account_bookings&amp;id=<%=account.accountID %>'>View bookings for this account</a>
+					<br />
+					<a href='extras.html?action=account_extras&amp;id=<%=account.accountID %>'>View extras for this account</a>
 				</div>
 <%@ include file="../footer.jsp" %>

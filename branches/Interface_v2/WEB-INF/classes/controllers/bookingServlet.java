@@ -26,6 +26,8 @@ public class bookingServlet extends HttpServlet {
 			allBookings(request, response);
 		} else if(action.equals("my_bookings")) {
 			myBookings(request, response);
+		} else if(action.equals("account_bookings")) {
+			accountBookings(request, response);
 		} else if(action.equals("view")) {
 			viewBooking(request, response);
 		} else if(action.equals("checkin")) {
@@ -154,7 +156,7 @@ public class bookingServlet extends HttpServlet {
 		message.bookings[0].bookingID = bookingID;
 		Booking booking = new Booking();
 
-		
+
 		if(authlevel >= 3 || (message.bookings[0].ownerID==userid)) {
 			Message reply = booking.deleteBooking(message);
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
@@ -218,6 +220,28 @@ public class bookingServlet extends HttpServlet {
 		}
 	}
 
+	public void accountBookings(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
+		int userid = ((Integer)request.getAttribute("userID")).intValue();
+		String hotelname = (String)request.getAttribute("hotelName");
+
+		Message message = new Message(authlevel, userid, hotelname);
+		message.initializeBookings(1);
+		message.bookings[0].ownerID = Integer.parseInt(request.getParameter("id"));
+		Booking booking = new Booking();
+		Message reply = booking.getFilteredBooking(message);
+
+		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.bookings!=null) {
+			request.setAttribute("data", reply);
+			getServletContext().getRequestDispatcher("/views/booking/account_bookings.jsp").include(request, response);
+		} else {
+			request.setAttribute("message", reply.response.responseString);
+			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+		}
+	}
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
@@ -247,7 +271,7 @@ public class bookingServlet extends HttpServlet {
 			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
 			java.sql.Date startDate = new java.sql.Date(df.parse(request.getParameter("startDate")).getTime());
 			java.sql.Date endDate = new java.sql.Date(df.parse(request.getParameter("endDate")).getTime());
-			
+
 			if(!endDate.after(startDate)) {
 				request.setAttribute("message", "The start date must be before the end date.");
 				request.setAttribute("status", "search_failed");

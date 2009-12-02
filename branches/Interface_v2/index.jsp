@@ -1,4 +1,4 @@
 <%
-	String redirectURL = "/ohms/login.html";
+	String redirectURL = "/ohms/home.html";
 	response.sendRedirect(redirectURL);
 %>

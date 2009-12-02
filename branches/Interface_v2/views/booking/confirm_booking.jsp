@@ -24,7 +24,17 @@
 								<TD><%=request.getParameter("endDate") %> <INPUT type="hidden" name="endDate" value="<%=request.getParameter("endDate") %>"></TD>
 							</tr>
 						</table>
-						<INPUT type="submit" value="Submit booking">
+						<%
+							if(((Boolean)request.getAttribute("logged_in")).booleanValue()==true) {
+								%>
+								<INPUT type="submit" value="Submit booking">
+								<%
+							} else {
+								%>
+								Please <a href='register.html'>register</a> and <a href='login.html'>log in</a> in order to make bookings.
+								<%
+							}
+						%>
 					</form>
 				</div>
 <%@ include file="../footer.jsp" %>

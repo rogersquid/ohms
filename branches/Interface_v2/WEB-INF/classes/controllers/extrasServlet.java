@@ -33,8 +33,8 @@ public class extrasServlet extends HttpServlet {
 		} else if(action!=null && action.equals("delete")) {
 			deleteExtras(request, response);
 		} else if(action!=null && action.equals("add")){
-			getServletContext().getRequestDispatcher("/views/add_extra.jsp").include(request, response);
-		}	
+			addExtra(request, response);
+		}
 		else{
 			//viewCurrentExtras(request, response);
 		}
@@ -55,8 +55,8 @@ public class extrasServlet extends HttpServlet {
 		Message reply = extras.getExtra(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras.length > 0) {
-			if(authlevel >= 3 || reply.extras[0].extraID==userid) {
-				request.setAttribute("extras", reply.extras[0]);
+			if(authlevel >= 3 || reply.accounts[0].accountID==userid) {
+				request.setAttribute("extra", reply.extras[0]);
 				getServletContext().getRequestDispatcher("/views/extras/view_extra.jsp").include(request, response);
 			} else {
 				request.setAttribute("message", "You are not authorized to view this extra.");
@@ -103,7 +103,7 @@ public class extrasServlet extends HttpServlet {
 		Message message = new Message(authlevel, userid, hotelname);
 		Extra extras = new Extra();
 		message.initializeAccounts(1);
-		message.accounts[0].accountID = Integer.parseInt(request.getParameter("accountID"));
+		message.accounts[0].accountID = Integer.parseInt(request.getParameter("id"));
 		Message reply = extras.getAccountExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
@@ -119,7 +119,7 @@ public class extrasServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}
-	
+
 	public void bookingExtras(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
@@ -127,14 +127,21 @@ public class extrasServlet extends HttpServlet {
 		int userid = ((Integer)request.getAttribute("userID")).intValue();
 		String hotelname = (String)request.getAttribute("hotelName");
 
+		Message bookingMessage = new Message(authlevel, userid, hotelname);
+		Booking booking = new Booking();
+		bookingMessage.initializeBookings(1);
+		bookingMessage.bookings[0].bookingID = Integer.parseInt(request.getParameter("id"));
+		Message bookingReply = booking.getBooking(bookingMessage);
+
+
 		Message message = new Message(authlevel, userid, hotelname);
 		Extra extras = new Extra();
 		message.initializeExtras(1);
-		message.extras[0].extraID = Integer.parseInt(request.getParameter("bookingID"));
+		message.extras[0].bookingID = Integer.parseInt(request.getParameter("id"));
 		Message reply = extras.getBookingExtras(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras != null) {
-			if(authlevel >= 3) {
+			if(authlevel >= 3 || bookingReply.bookings[0].ownerID==userid) {
 				request.setAttribute("data", reply);
 				getServletContext().getRequestDispatcher("/views/extras/view_extra_table.jsp").include(request, response);
 			} else {
@@ -146,7 +153,7 @@ public class extrasServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}
-	
+
 	public void deleteExtras(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
@@ -159,13 +166,14 @@ public class extrasServlet extends HttpServlet {
 		message.initializeExtras(1);
 		message.extras[0].extraID = extraID;
 		Extra extras = new Extra();
+		Message bookingDetails = extras.getExtra(message);
 		Message reply = extras.deleteExtra(message);
 
 		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 			if(authlevel > 3) {
 				request.setAttribute("status", "delete_success");
 				request.setAttribute("message", "Extra successfully deleted.");
-				allExtras(request, response);
+				response.sendRedirect(response.encodeRedirectURL("extras.html?action=booking_extras&id="+bookingDetails.extras[0].bookingID+"&status=delete"));
 			} else {
 				request.setAttribute("message", "You are not authorized to delete this booking.");
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
@@ -194,7 +202,7 @@ public class extrasServlet extends HttpServlet {
 
 			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS && reply.extras.length > 0)
 			{
-				request.setAttribute("extras", reply.extras[0]);
+				request.setAttribute("extra", reply.extras[0]);
 				getServletContext().getRequestDispatcher("/views/extras/edit_extra.jsp").include(request, response);
 			}
 			else
@@ -271,8 +279,8 @@ public class extrasServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}
-	
-	public void addExtras(HttpServletRequest request, HttpServletResponse response)
+
+	public void doAddExtra(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException
 	{
 		int authlevel = ((Integer)request.getAttribute("authLevel")).intValue();
@@ -283,7 +291,7 @@ public class extrasServlet extends HttpServlet {
 			Message message = new Message(authlevel, userid, hotelname);
 			message.initializeExtras(1);
 
-			if(authlevel > 3) message.extras[0].price = request.getParameter("price");
+			if(authlevel > 3) message.extras[0].price = Float.parseFloat(request.getParameter("price"));
 			// needs work
 			message.extras[0].extraName = request.getParameter("extraName");
 			DateFormat df 	= new SimpleDateFormat("dd/MM/yyyy");
@@ -291,29 +299,31 @@ public class extrasServlet extends HttpServlet {
 			message.extras[0].date = date;
 			message.extras[0].bookingID = Integer.parseInt(request.getParameter("bookingID"));
 
-			Extras extras = new Extra();
+			Extra extras = new Extra();
 			if(authlevel >= 3 || message.extras[0].extraID==userid)
 			{
-				if(message.validate())
+				message.validate();
+				if(message.response.responseCode == ResponseMessage.ResponseCode.SUCCESS)
 				{
-						Message reply = extras.addExtras(message);
+					Message reply = extras.addExtra(message);
 
-						if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS)
-						{
-							String extraID = reply.extras[0].extraID;
-							response.sendRedirect(response.encodeRedirectURL("extras.html?action=view&id="+extraID+"&status=edit_success"));
-						}
-						else
-						{
-							request.setAttribute("message", reply.response.responseString);
-							getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
-						}
+					if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS)
+					{
+						int extraID = reply.extras[0].extraID;
+						response.sendRedirect(response.encodeRedirectURL("extras.html?action=view&id="+extraID+"&status=edit_success"));
+					}
+					else
+					{
+						request.setAttribute("message", reply.response.responseString);
+						getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
+					}
 				}
 				else
 				{
-					request.setAttribute("status", "add_extras_failed");
-					request.setAttribute("message", resp.responseString);
-					editExtras(request, response);
+					request.setAttribute("status", "add_failed");
+					request.setAttribute("extra", message.extras[0]);
+					request.setAttribute("message", message.response.responseString);
+					addExtra(request, response);
 				}
 			}
 			else
@@ -324,12 +334,19 @@ public class extrasServlet extends HttpServlet {
 		} catch(ParseException e) {
 			request.setAttribute("status", "add_failed");
 			request.setAttribute("message", "Invalid date formats.");
-			editExtra(request, response);
+			addExtra(request, response);
 		} catch(Exception e) {
+			request.setAttribute("status", "add_failed");
 			request.setAttribute("message", "Exception: "+e.toString());
 			e.printStackTrace();
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
+	}
+
+	public void addExtra(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException
+	{
+		getServletContext().getRequestDispatcher("/views/extras/add_extra.jsp").include(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -347,7 +364,7 @@ public class extrasServlet extends HttpServlet {
 		}
 		if(action!=null && action.equals("add"))
 		{
-			addExtra(request, response);
+			doAddExtra(request, response);
 		}
 	}
 

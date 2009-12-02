@@ -22,6 +22,16 @@
 							<div class='success'><strong>Room added.</strong></div>
 							<%
 						}
+						if(status.equals("cleaned")) {
+							%>
+							<div class='success'><strong>Room cleaned.</strong></div>
+							<%
+						}
+						if(status.equals("clean_failed")) {
+							%>
+							<div class='error'><strong>Room clean failed.</strong></div>
+							<%
+						}
 					%>
 					<div class="room_image">
 						<img src="images/uploads/<%=room.roomType %>.png" />
@@ -78,6 +88,14 @@
 						<tr>
 							<th>Disability access</th>
 							<td><%=room.disabilityAccess %></td>
+						</tr>
+						<tr>
+							<th>Cleaned</th>
+							<td><%=room.cleaned %></td>
+						</tr>
+						<tr>
+							<th>Available</th>
+							<td><%=room.available %></td>
 						</tr>
 					</table>
 				</div>
