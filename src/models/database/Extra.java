@@ -22,18 +22,18 @@ public class Extra {
 			// create connection
 			dbcon = new databaseHelper();
 			// insert the Extra in to appropriate hotel
-			int returnedRows 	= dbcon.insert("INSERT INTO " + i_msg.header.nameHotel + "_extras (bookingID, extraName, price, date, creationTime) "
-					+ "VALUES ('" 
+			int returnedRows 	= dbcon.insert("INSERT INTO " + i_msg.header.nameHotel + "_extras (bookingID, extraName, price, date) "
+					+ "VALUES ('"
 					+ i_msg.extras[0].bookingID + "', '"
 					+ i_msg.extras[0].extraName + "', '"
 					+ i_msg.extras[0].price +"', '"
-					+ i_msg.extras[0].date + "', '"
-					+ i_msg.extras[0].creationTime + "')");
+					+ i_msg.extras[0].date + "')");
 			// check the number of rows changed to see whether response is as expected
 			if (returnedRows > 0) {
 				System.out.println("Success");
+				replyMessage.extras[0].extraID = returnedRows;
 				replyMessage.response.fillResponse(ResponseCode.SUCCESS, "Added one Extra as Requested." +
-						" extraID: " + i_msg.header.messageOwnerID);
+						" extraID: " + returnedRows);
 			} else {
 				System.out.println("Failure");
 				replyMessage.response.fillResponse(ResponseCode.FAIL, "Adding Extra failed." +
@@ -66,7 +66,7 @@ public class Extra {
 		 * OVERVIEW: Edits an extra that is already in the database
 		 * PRECONDITIONS: Parameters have been validated
 		 * MODIFIES: Edits the extra details with the given parameters in the extras table of the database
-		 * POSTCONDITIONS: The specified extra will be edited with the given parameters in the preconditions 
+		 * POSTCONDITIONS: The specified extra will be edited with the given parameters in the preconditions
 		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -77,7 +77,8 @@ public class Extra {
 			rs.next();
 			int returnedRows = dbcon.modify("UPDATE "+ i_msg.header.nameHotel +"_extras SET extraName='"
 					+ i_msg.extras[0].extraName + "', price='"
-					+ i_msg.extras[0].price + "' "
+					+ i_msg.extras[0].price + "', date='"
+					+ i_msg.extras[0].date + "' "
 					+ "WHERE extraID='" + i_msg.extras[0].extraID
 					+ "'");
 			if (returnedRows != 1) {
@@ -106,10 +107,10 @@ public class Extra {
 
 	public Message deleteExtra(Message i_msg) {
 		/*
-		 * OVERVIEW: Deletes a extra from the database that is identified by the extra ID 
+		 * OVERVIEW: Deletes a extra from the database that is identified by the extra ID
 		 * PRECONDITIONS: Parameters have been validated
 		 * MODIFIES: Deletes the extra and its information from the extra table of the database
-		 * POSTCONDITIONS: The specified extra will be deleted with the given extra ID from preconditions 
+		 * POSTCONDITIONS: The specified extra will be deleted with the given extra ID from preconditions
 		 */
 		Message reply = new Message(i_msg.header.authLevel, i_msg.header.messageOwnerID, i_msg.header.nameHotel);
 		ResponseMessage response = new ResponseMessage();
@@ -196,7 +197,7 @@ public class Extra {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message getAllExtras(Message i_msg) {
 		/*
 		 * OVERVIEW: Returns the list of all extras that this user has authority to view. Returns a Message class with an array ExtraMessage objects.
@@ -206,20 +207,20 @@ public class Extra {
 		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		
+
 		try {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all extras
 			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID");
-			
+
 			rs.last();
 			int numRows = rs.getRow();
-			
+
 			replyMessage.initializeExtras(numRows);
 			rs.beforeFirst();
-			
-			if (!rs.next()) {
+
+			if (numRows==0) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "No extras in database.";
 			} else {
@@ -256,8 +257,8 @@ public class Extra {
 
 	public Message getFilteredExtra(Message i_msg) {
 		/*
-		 * OVERVIEW: Returns a list of extras matching the specified parameters 
-		 * PRECONDITIONS: Desired filtered properties (extraID, bookingID, extraName, price, date) 
+		 * OVERVIEW: Returns a list of extras matching the specified parameters
+		 * PRECONDITIONS: Desired filtered properties (extraID, bookingID, extraName, price, date)
 		 * MODIFIES: None
 		 * POSTCONDITIONS: Print out all extras with given properties from preconditions
 		 */
@@ -342,7 +343,7 @@ public class Extra {
 		}
 		return replyMessage;
 	}
-	
+
 	public Message getAccountExtras(Message i_msg) {
 		/*
 		 * OVERVIEW: Returns the list of all extras that this user has authority to view. Returns a Message class with an array ExtraMessage objects.
@@ -352,19 +353,19 @@ public class Extra {
 		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		
+
 		try {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all extras
 			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE a.accountID="+ i_msg.accounts[0].accountID);
-			
+
 			rs.last();
 			int numRows = rs.getRow();
-			
+
 			replyMessage.initializeExtras(numRows);
 			rs.beforeFirst();
-			
+
 			if (!rs.next()) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "No extras in database.";
@@ -409,19 +410,19 @@ public class Extra {
 		 */
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		
+
 		try {
 			// create connection
 			dbcon = new databaseHelper();
 			// query the database for all extras
-			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE b.bookingID =" + i_msg.bookings[0].bookingID);
-			
+			ResultSet rs = dbcon.select("SELECT e.*, r.roomID, r.roomNumber, a.firstName, a.lastName, a.accountID FROM " + i_msg.header.nameHotel + "_extras AS e LEFT JOIN " + i_msg.header.nameHotel + "_bookings AS b ON e.bookingID=b.bookingID LEFT JOIN " + i_msg.header.nameHotel + "_rooms AS r ON b.roomID=r.roomID LEFT JOIN accounts AS a ON b.bookingOwnerID=a.accountID WHERE b.bookingID =" + i_msg.extras[0].bookingID);
+
 			rs.last();
 			int numRows = rs.getRow();
-			
+
 			replyMessage.initializeExtras(numRows);
 			rs.beforeFirst();
-			
+
 			if (!rs.next()) {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "No extras in database.";
@@ -457,5 +458,5 @@ public class Extra {
 		return replyMessage;
 	}
 
-	
+
 }

@@ -11,7 +11,7 @@ import models.messages.*;
 import models.messages.ResponseMessage.ResponseCode;
 
 public class Report {
-	
+
 	/*
 	public Message statusReport(Message i_msg){
 		int 	roomCount= 0;
@@ -21,12 +21,12 @@ public class Report {
 		String 	htmlString = null;
 		int[][]	tempOccRoom;
 		int[][]	tempUnoccRoom;
-		
-		String availRoomCountQuery = 
+
+		String availRoomCountQuery =
 			"SELECT COUNT(*) AS availRoomCount " +
 			"FROM " + i_msg.header.nameHotel + "_rooms " +
 			"WHERE available=1";
-		String occupiedRoomsCountQuery = 
+		String occupiedRoomsCountQuery =
 			"SELECT COUNT(R.roomID) AS occupiedRoomsCount " +
 			"FROM " + i_msg.header.nameHotel + "_rooms R, " + i_msg.header.nameHotel + "_bookings B " +
 			"WHERE R.roomID = B.roomID " +
@@ -34,7 +34,7 @@ public class Report {
 			"AND B.startDate < NOW( ) " +
 			"AND B.endDate > NOW( ) " +
 			"AND R.available =1 ";
-		String availUnoccuRoomsCountQuery = 
+		String availUnoccuRoomsCountQuery =
 			"SELECT COUNT(*) AS availUnoccuRoomsCount " +
 			"FROM " + i_msg.header.nameHotel + "_rooms R2 " +
 			"WHERE R2.available = 1 AND " +
@@ -45,11 +45,11 @@ public class Report {
 			"B.startDate < NOW() AND " +
 			"B.endDate > NOW() AND " +
 			"R.available=1)";
-		
+
 		databaseHelper dbcon = null;
 		Message replyMessage= new Message(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 		replyMessage.reports=i_msg.reports;
-		
+
 		try {
 			// create connection
 			dbcon = new databaseHelper();
@@ -61,43 +61,43 @@ public class Report {
 				rs.beforeFirst();
 				while (rs.next()) {
 					replyMessage.reports[0].availRoomCount = rs.getInt("availRoomCount");
-				} 
+				}
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			} else {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
 				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
-			
+
 			queryString = occupiedRoomsCountQuery;
 			rs = dbcon.select(queryString);
 			if (rs.next()) {
 				rs.beforeFirst();
 				while (rs.next()) {
 					replyMessage.reports[0].occupiedRoomsCount = rs.getInt("occupiedRoomsCount");
-				} 
+				}
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			} else {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
 				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
-			
+
 			queryString = availUnoccuRoomsCountQuery;
 			rs = dbcon.select(queryString);
 			if (rs.next()) {
 				rs.beforeFirst();
 				while (rs.next()) {
 					replyMessage.reports[0].availUnoccuRoomsCount = rs.getInt("availUnoccuRoomsCount");
-				} 
+				}
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			} else {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.FAIL;
 				replyMessage.response.responseString = "Query failed in one of the queries.";
 			}
-			
-			String occupiedRoomsQuery = 
+
+			String occupiedRoomsQuery =
 				"SELECT R.roomID, R.roomNumber, R.floor " +
 				"FROM " + i_msg.header.nameHotel + "_rooms R, " + i_msg.header.nameHotel + "_bookings B " +
 				"WHERE R.roomID = B.roomID " +
@@ -106,7 +106,7 @@ public class Report {
 				"AND B.endDate > NOW( ) " +
 				"AND R.available =1 " +
 				"ORDER BY R.floor";
-			String availUnoccuRoomsQuery = 
+			String availUnoccuRoomsQuery =
 				"SELECT R2.roomID, R2.roomNumber, R2.floor " +
 				"FROM " + i_msg.header.nameHotel + "_rooms R2 " +
 				"WHERE R2.available = 1 AND " +
@@ -138,13 +138,13 @@ public class Report {
 			}
 			replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 			replyMessage.response.responseString = "Query succeeded.";
-			
-			
+
+
 			int j;
 			//tempOccRoom
 			queryString = occupiedRoomsQuery;
 			rs = dbcon.select(queryString);
-			
+
 			j = 0;
 			rs.beforeFirst();
 			while (rs.next()) {
@@ -161,14 +161,14 @@ public class Report {
 			}
 			replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 			replyMessage.response.responseString = "Query succeeded.";
-			
-			
+
+
 			replyMessage.reports[0].initializeRoomARray(i+j);
 			int max = i + j;
 			i = 0;
 			j = 0;
 			for (int m = 0; m < max; m++) {
-				
+
 				if (i != tempUnoccRoom.length && j != tempOccRoom.length && tempUnoccRoom[i][2] < tempOccRoom[j][2] ) {
 					replyMessage.reports[0].roomArray[m][0] = tempUnoccRoom[i][0];
 					replyMessage.reports[0].roomArray[m][1] = tempUnoccRoom[i][1];
@@ -218,19 +218,19 @@ public class Report {
 		finally {
 			if (dbcon != null) dbcon.close();
 		}
-		
+
 		return replyMessage;
 	}
 	*/
-	
-	
+
+
 	/* Rooms that have been reserved but not checked in yet
 	SELECT *
 	FROM test_bookings
 	WHERE (startDate < NOW() AND endDate > NOW())
 	AND status=0
 	*/
-	
+
 	/* Income for today from all rooms checking out today
 	SELECT R.roomNumber, R.price AS roomPrice, Bi.paymentType, Bi.status AS paidStatus, Bk.status AS checkedInStatus, E.extraName, E.price AS extraPrice
 	FROM test_bookings Bk, test_bills Bi, test_extras E, test_rooms R
@@ -241,7 +241,7 @@ public class Report {
 	AND Bk.roomID = R.roomID
 	ORDER BY R.roomID
 	 */
-	
+
 	/* Income for today from all rooms checking in today
 	SELECT R.roomNumber, R.price AS roomPrice, Bi.paymentType, Bi.status AS paidStatus, Bk.status AS checkedInStatus, E.extraName, E.price AS extraPrice
 	FROM test_bookings Bk, test_bills Bi, test_extras E, test_rooms R
@@ -252,7 +252,7 @@ public class Report {
 	AND Bk.roomID = R.roomID
 	ORDER BY R.roomID
 	 */
-	
+
 	/* Find all rooms that did not order extra
 	SELECT *
 	FROM test_bookings Book
@@ -265,7 +265,7 @@ public class Report {
 	GROUP BY Bk.bookingID)
 	AND status = 1
 	*/
-	
+
 	/* How many guests used what type of payment (previous guests too??)
 	SELECT Bi.paymentType, COUNT(Bk.bookingID) AS count
 	FROM test_bookings Bk, test_bills Bi
@@ -274,23 +274,23 @@ public class Report {
 	AND Bk.status = 1
 	GROUP BY Bi.paymentType
 	*/
-	
+
 	public ReportMessage generateCleannessReport(ReportMessage i_msg){
 		// stats[0] - Uncleanness percentage
 		// stats[1] - Cleanness percentage
 		// tables.rooms[0] - call getFilteredRooms() to get uncleaned rooms
-		String cleannessPercentageQuery = 
+		String cleannessPercentageQuery =
 			"SELECT COUNT(*) AS cleannessCount " +
 			"FROM " + i_msg.header.nameHotel + "_rooms " +
 			"GROUP BY cleaned";
-		String uncleanRoomQuery = 
+		String uncleanRoomQuery =
 			"SELECT * " +
 			"FROM "+ i_msg.header.nameHotel + "_rooms " +
-			"WHERE cleaned =0";
-		
+			"WHERE cleaned =0 ORDER BY roomNumber ASC";
+
 		databaseHelper dbcon = null;
 		ReportMessage replyMessage = new ReportMessage(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
-		
+
 		try {
 			// create connection
 			dbcon = new databaseHelper();
@@ -307,13 +307,14 @@ public class Report {
 				replyMessage.initializeStats(2);
 				replyMessage.stats[0] = numUncleaned / maxRoom;
 				replyMessage.stats[1] = numCleaned / maxRoom;
-				
+
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			} else {
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Empty Results from cleannessPercentageQuery.";
 				replyMessage.initializeStats(0);
+				replyMessage.initializeTables(1);
 			}
 
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
@@ -371,55 +372,55 @@ public class Report {
 		}
 		return replyMessage;
 	}
-	
+
 	public ReportMessage generateExtraReport(ReportMessage i_msg){
 		// tables[0].extras[i] 	- holds bookingID
 		// 		stats[i] 		- holds number of Extras order (linked to tables[0].extras
 		// tables[1].extras[i] 	- Today's Extra
 		// tables[2].extras[i]	- Tomorrow's Extra
 		// tables[3].extras[i]	- extraName holds extra type, price holds amount earned for that type of extra today
-		// tables[4].extras[i]	- date holds each unique date, price holds armount earned from extra that day 
+		// tables[4].extras[i]	- date holds each unique date, price holds armount earned from extra that day
 		// tables[5].extras[i]	- extraName holds most extra type that earned the most, price holds how much earned
-		
+
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
 		calendar.add(Calendar.DAY_OF_YEAR, 1);
 		Date tmr = calendar.getTime();
 		DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
-		String numExtraPerBookingQuery = null; 
+		String numExtraPerBookingQuery = null;
 		String todayExtraQuery = null;
 		String tmrExtraQuery = null;
-		String earningPerExtraTypeTodayQuery = null; 
+		String earningPerExtraTypeTodayQuery = null;
 		String earningPerDateQuery = null;
 		String mostEarningExtraTodayQuery = null;
 		try {
-			java.sql.Date currentDate = new java.sql.Date(df.parse(String.valueOf(now.getDate()) + "/" + 
+			java.sql.Date currentDate = new java.sql.Date(df.parse(String.valueOf(now.getDate()) + "/" +
 					String.valueOf(now.getMonth() + 1) + "/" + String.valueOf(now.getYear() + 1900)).getTime());
-			java.sql.Date tmrDate = new java.sql.Date(df.parse(String.valueOf(tmr.getDate()) + "/" + 
+			java.sql.Date tmrDate = new java.sql.Date(df.parse(String.valueOf(tmr.getDate()) + "/" +
 					String.valueOf(tmr.getMonth() + 1) + "/" + String.valueOf(tmr.getYear() + 1900)).getTime());
 
-			numExtraPerBookingQuery = 
+			numExtraPerBookingQuery =
 				"SELECT bookingID, COUNT(*) AS numExtra " +
 				"FROM " + i_msg.header.nameHotel + "_extras " +
 				"GROUP BY bookingID";
-			todayExtraQuery = 
+			todayExtraQuery =
 				"SELECT * " +
 				"FROM " + i_msg.header.nameHotel + "_extras " +
 				"WHERE date = '" + currentDate + "'";
-			tmrExtraQuery = 
+			tmrExtraQuery =
 				"SELECT * " +
 				"FROM " + i_msg.header.nameHotel + "_extras " +
 				"WHERE date = '" + tmrDate + "'";
-			earningPerExtraTypeTodayQuery = 
-				"SELECT extraName, ROUND(SUM(price), 2) AS sumPrice " + 
+			earningPerExtraTypeTodayQuery =
+				"SELECT extraName, ROUND(SUM(price), 2) AS sumPrice " +
 				"FROM " + i_msg.header.nameHotel + "_extras " +
 				"WHERE date = '" + currentDate + "' " +
 				"GROUP BY extraName";
-			earningPerDateQuery = 
+			earningPerDateQuery =
 				"SELECT date, ROUND(SUM(price), 2) AS sumPrice " +
 				"FROM " + i_msg.header.nameHotel + "_extras " +
 				"GROUP BY date";
-			mostEarningExtraTodayQuery = 
+			mostEarningExtraTodayQuery =
 				"SELECT extraName, price " +
 				"FROM " + i_msg.header.nameHotel + "_extras " +
 				"WHERE price= (" +
@@ -430,10 +431,10 @@ public class Report {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 
-		
-		
+
+
 		databaseHelper dbcon = null;
 		ReportMessage replyMessage = new ReportMessage(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
 
@@ -443,7 +444,7 @@ public class Report {
 			replyMessage.initializeTables(6);
 			int numRow;
 			int i;
-			
+
 			ResultSet rs = dbcon.select(numExtraPerBookingQuery);
 			if (rs.next()) {
 				rs.last();
@@ -457,7 +458,7 @@ public class Report {
 					replyMessage.stats[i] = (float)rs.getInt("numExtra");
 					i++;
 				}
-				
+
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			} else {
@@ -466,7 +467,7 @@ public class Report {
 				replyMessage.tables[0].initializeExtras(0);
 				replyMessage.initializeStats(0);
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(todayExtraQuery);
 				if (rs.next()) {
@@ -492,7 +493,7 @@ public class Report {
 					replyMessage.tables[1].initializeExtras(0);
 				}
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(tmrExtraQuery);
 				if (rs.next()) {
@@ -518,7 +519,7 @@ public class Report {
 					replyMessage.tables[2].initializeExtras(0);
 				}
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(earningPerExtraTypeTodayQuery);
 				if (rs.next()) {
@@ -540,7 +541,7 @@ public class Report {
 					replyMessage.tables[3].initializeExtras(0);
 				}
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(earningPerDateQuery);
 				if (rs.next()) {
@@ -562,7 +563,7 @@ public class Report {
 					replyMessage.tables[4].initializeExtras(0);
 				}
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(mostEarningExtraTodayQuery);
 				if (rs.next()) {
@@ -602,52 +603,52 @@ public class Report {
 		}
 		return replyMessage;
 	}
-	
-	
-	
+
+
+
 	public ReportMessage generateRoomStatusReport(ReportMessage i_msg){
 		// tables[0].rooms[i]	- holds today's available rooms
 		// tables[1].rooms[i]	- holds today's unavailable rooms
 		// tables[2].rooms[i]	- holds today's occupied available rooms
 		// tables[3].rooms[i]	- holds today's unoccupied available rooms
-		
-		String curAvailRoomsQuery = 
+
+		String curAvailRoomsQuery =
 			"SELECT * " +
 			"FROM " + i_msg.header.nameHotel + "_rooms " +
-			"WHERE available = 1"; 
-		String unavailRoomsQuery = 
+			"WHERE available = 1 ORDER BY roomNumber ASC";
+		String unavailRoomsQuery =
 			"SELECT * " +
 			"FROM " + i_msg.header.nameHotel + "_rooms " +
-			"WHERE available = 0";
-		String curOccAvailRoomsQuery = 
+			"WHERE available = 0 ORDER BY roomNumber ASC";
+		String curOccAvailRoomsQuery =
 			"SELECT *, R.roomID AS room2ID, B.roomID AS bookRoomID " +
 			"FROM " + i_msg.header.nameHotel + "_rooms R, " + i_msg.header.nameHotel + "_bookings B	" +
 			"WHERE R.available = 1 " +
 			"AND B.startDate < NOW() AND B.endDate > NOW() " +
 			"AND R.roomID = B.roomID " +
-			"AND B.status = 1";
-		String curUnoccAvailRoomsQuery = 
+			"AND B.status = 1 ORDER BY roomNumber ASC";
+		String curUnoccAvailRoomsQuery =
 			"SELECT * " +
-			"FROM " + i_msg.header.nameHotel + "_rooms R2 " + 
-			"WHERE R2.available = 1 AND " + 
+			"FROM " + i_msg.header.nameHotel + "_rooms R2 " +
+			"WHERE R2.available = 1 AND " +
 			"R2.roomID NOT IN ( " +
 				"SELECT R.roomID " +
-				"FROM " + i_msg.header.nameHotel + "_rooms R, " + i_msg.header.nameHotel + "_bookings B " + 
-				"WHERE R.roomID = B.roomID AND " + 
-				"B.status=1 AND " + 
-				"B.startDate < NOW() AND " + 
-				"B.endDate > NOW() AND " + 
-				"R.available=1)";
+				"FROM " + i_msg.header.nameHotel + "_rooms R, " + i_msg.header.nameHotel + "_bookings B " +
+				"WHERE R.roomID = B.roomID AND " +
+				"B.status=1 AND " +
+				"B.startDate < NOW() AND " +
+				"B.endDate > NOW() AND " +
+				"R.available=1) ORDER BY roomNumber ASC";
 
 		databaseHelper dbcon = null;
 		ReportMessage replyMessage = new ReportMessage(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
+		replyMessage.initializeTables(4);
 		try {
 			// create connection
 			dbcon = new databaseHelper();
-			replyMessage.initializeTables(4);
 			int numRow;
 			int i;
-			
+
 			ResultSet rs = dbcon.select(curAvailRoomsQuery);
 			if (rs.next()) {
 				rs.last();
@@ -675,7 +676,7 @@ public class Report {
 					replyMessage.tables[0].rooms[i].kingBeds = rs.getInt("kingBeds");
 					i++;
 				}
-				
+
 				replyMessage.response.responseCode = ResponseMessage.ResponseCode.SUCCESS;
 				replyMessage.response.responseString = "Query succeeded.";
 			} else {
@@ -683,7 +684,7 @@ public class Report {
 				replyMessage.response.responseString = "Empty Results.";
 				replyMessage.tables[0].initializeRooms(0);
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(unavailRoomsQuery);
 				if (rs.next()) {
@@ -720,7 +721,7 @@ public class Report {
 					replyMessage.tables[1].initializeRooms(0);
 				}
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(curOccAvailRoomsQuery);
 				if (rs.next()) {
@@ -748,7 +749,7 @@ public class Report {
 						replyMessage.tables[2].rooms[i].singleBeds = rs.getInt("singleBeds");
 						replyMessage.tables[2].rooms[i].queenBeds = rs.getInt("queenBeds");
 						replyMessage.tables[2].rooms[i].kingBeds = rs.getInt("kingBeds");
-						
+
 						replyMessage.tables[2].bookings[i].bookingID=rs.getInt("bookingID");
 						replyMessage.tables[2].bookings[i].ownerID= rs.getInt("bookingOwnerID");
 						replyMessage.tables[2].bookings[i].creationDate= new java.sql.Timestamp(rs.getDate("creationTime").getTime());
@@ -766,7 +767,7 @@ public class Report {
 					replyMessage.tables[2].initializeRooms(0);
 				}
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(curUnoccAvailRoomsQuery);
 				if (rs.next()) {
@@ -821,23 +822,23 @@ public class Report {
 		}
 		return replyMessage;
 	}
-	
+
 	/*
 	public ReportMessage generateExpenseReport(ReportMessage i_msg){
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
 		DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
-		String todayIncomePerRoom = null; 
+		String todayIncomePerRoom = null;
 		String todayExtraQuery = null;
 		String tmrExtraQuery = null;
-		String earningPerExtraTypeTodayQuery = null; 
+		String earningPerExtraTypeTodayQuery = null;
 		try {
-			java.sql.Date currentDate = new java.sql.Date(df.parse(String.valueOf(now.getDate()) + "/" + 
+			java.sql.Date currentDate = new java.sql.Date(df.parse(String.valueOf(now.getDate()) + "/" +
 					String.valueOf(now.getMonth()) + "/" + String.valueOf(now.getYear() + 1900)).getTime());
 
-			todayIncomePerRoom = 
+			todayIncomePerRoom =
 				"SELECT R.roomID, SUM(E.price) AS sumExtra, R.price AS roomPrice " +
-				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi, " 
+				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi, "
 					+ i_msg.header.nameHotel + "_extras E, " + i_msg.header.nameHotel + "_rooms R " +
 				"WHERE (Bk.endDate = '" + currentDate + "') " +
 				"AND Bk.status = 2 " +
@@ -845,23 +846,23 @@ public class Report {
 				"AND Bk.bookingID = E.bookingID " +
 				"AND Bk.roomID = R.roomID " +
 				"GROUP BY R.roomID";
-			String todayTotalIncome = 
+			String todayTotalIncome =
 				"SELECT R.roomID, SUM(E.price) AS sumExtra, R.price AS roomPrice " +
-				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi, " 
+				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi, "
 					+ i_msg.header.nameHotel + "_extras E, " + i_msg.header.nameHotel + "_rooms R " +
 				"WHERE (Bk.endDate = '" + currentDate + "') " +
 				"AND Bk.status = 2 " +
 				"AND Bk.bookingID = Bi.bookingID " +
 				"AND Bk.bookingID = E.bookingID " +
 				"AND Bk.roomID = R.roomID ";
-			String curOccAvailRoomsQuery = 
+			String curOccAvailRoomsQuery =
 				"SELECT *, R.roomID AS room2ID, B.roomID AS bookRoomID " +
 				"FROM " + i_msg.header.nameHotel + "_rooms R, " + i_msg.header.nameHotel + "_bookings B	" +
 				"WHERE R.available = 1 " +
 				"AND B.startDate < NOW() AND B.endDate > NOW() " +
 				"AND R.roomID = B.roomID " +
 				"AND B.status = 1";
-			String numPaymentTypeQuery = 
+			String numPaymentTypeQuery =
 				"SELECT Bi.paymentType, COUNT(Bk.bookingID) AS count " +
 				"FROM " + i_msg.header.nameHotel + "_bookings Bk, " + i_msg.header.nameHotel + "_bills Bi " +
 				"WHERE (Bk.endDate >= '" + currentDate + "' AND Bk.startDate <= '" + currentDate + "' ) " +
@@ -872,10 +873,10 @@ public class Report {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 
-		
-		
+
+
 
 
 		databaseHelper dbcon = null;
@@ -886,7 +887,7 @@ public class Report {
 			replyMessage.initializeTables(4);
 			int numRow;
 			int i;
-			
+
 
 		} catch (SQLException e) {
 			System.err.println("Error in 'generateRoomStatusReport'.  SQLException was thrown:");
@@ -907,8 +908,8 @@ public class Report {
 		return replyMessage;
 	}
 	*/
-	
-	
+
+
 	public ReportMessage generateStatisticalRoomAnalysisReport(ReportMessage i_msg){
 		// tables[0].rooms[i]	- roomNumber holds all roomNumber that has been occupied
 		//		stats[i]		- holds how may days each roomNumber has been occupied (link to roomNumber above)
@@ -918,50 +919,50 @@ public class Report {
 		//		values[0]		- holds how many days the most occupied room has been occupied
 		// tables[3].rooms[i]	- roomNumber holds which rooms has been booked the most times
 		//		values[1]		- holds how many times the most booked room has been booked
-		
+
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
 		DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
-		String roomOccupancyQuery = null; 
+		String roomOccupancyQuery = null;
 		String roomTypeOccupancyQuery = null;
 		String mostOccupiedRoom1 = null;
 		String mostOccupiedRoom2 = null;
 		String mostBookedRoom1 = null;
-		String mostBookedRoom2 = null; 
+		String mostBookedRoom2 = null;
 		try {
-			java.sql.Date currentDate = new java.sql.Date(df.parse(String.valueOf(now.getDate()) + "/" + 
+			java.sql.Date currentDate = new java.sql.Date(df.parse(String.valueOf(now.getDate()) + "/" +
 					String.valueOf(now.getMonth()) + "/" + String.valueOf(now.getYear() + 1900)).getTime());
 
-			roomOccupancyQuery = 
+			roomOccupancyQuery =
 				"SELECT R.roomNumber, To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration " +
 				"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
 				"WHERE B.roomID = R.roomID " +
 				"AND B.status > 0 " +
 				"GROUP BY B.roomID";
-			roomTypeOccupancyQuery = 
+			roomTypeOccupancyQuery =
 				"SELECT R.roomType, SUM(To_days( B.endDate ) - TO_DAYS( B.startDate ) + 1) AS duration " +
 				"FROM " + i_msg.header.nameHotel + "_rooms R, " + i_msg.header.nameHotel + "_bookings B " +
 				"WHERE B.roomID = R.roomID " +
 				"AND B.status > 0 " +
 				"GROUP BY R.roomType";
-			mostOccupiedRoom1 = 
+			mostOccupiedRoom1 =
 				"SELECT MAX(temp.duration) AS maxDuration " +
 				"FROM (" +
-					"SELECT To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration " + 
+					"SELECT To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration " +
 					"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
 					"WHERE B.roomID = R.roomID " +
 					"AND B.status > 0 " +
 					"GROUP BY B.roomID) AS temp";
-			mostOccupiedRoom2 = 
-				"SELECT temp.roomNum AS tempNum, temp.duration AS roomDuration " +
+			mostOccupiedRoom2 =
+				"SELECT temp.roomNum AS tempNum, temp.roomID AS tempID, temp.duration AS roomDuration " +
 				"FROM (" +
-					"SELECT R.roomNumber AS roomNum, To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration " + 
+					"SELECT R.roomNumber AS roomNum, R.roomID AS roomID, To_days( endDate ) - TO_DAYS( startDate ) + 1 AS duration " +
 					"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
 					"WHERE B.roomID = R.roomID " +
 					"AND B.status > 0 " +
 					"GROUP BY B.roomID) AS temp " +
 				"WHERE temp.duration = ";
-			mostBookedRoom1 = 
+			mostBookedRoom1 =
 				"SELECT MAX(temp.bookingCount) AS maxCount " +
 				"FROM (" +
 					"SELECT COUNT(B.bookingID) AS bookingCount " +
@@ -969,10 +970,10 @@ public class Report {
 					"WHERE B.roomID = R.roomID " +
 					"AND B.status > 0 " +
 					"GROUP BY R.roomID) AS temp";
-			mostBookedRoom2 = 
-				"SELECT temp.roomNum AS tempNum, temp.bookingCount AS bookCount " +
+			mostBookedRoom2 =
+				"SELECT temp.roomNum AS tempNum, temp.roomID AS tempID, temp.bookingCount AS bookCount " +
 				"FROM (" +
-					"SELECT R.roomNumber AS roomNum, COUNT(B.bookingID) AS bookingCount " +
+					"SELECT R.roomNumber AS roomNum, R.roomID AS roomID, COUNT(B.bookingID) AS bookingCount " +
 					"FROM " + i_msg.header.nameHotel + "_bookings B, " + i_msg.header.nameHotel + "_rooms R " +
 					"WHERE B.roomID = R.roomID " +
 					"AND B.status > 0 " +
@@ -981,7 +982,7 @@ public class Report {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 
 		databaseHelper dbcon = null;
 		ReportMessage replyMessage = new ReportMessage(i_msg.header.messageOwnerID, i_msg.header.authLevel, i_msg.header.nameHotel);
@@ -993,7 +994,7 @@ public class Report {
 			int numRow;
 			int i;
 			ResultSet rs;
-			
+
 			rs = dbcon.select(roomOccupancyQuery);
 			if (rs.next()) {
 				rs.last();
@@ -1015,7 +1016,7 @@ public class Report {
 				replyMessage.initializeStats(0);
 				replyMessage.tables[0].initializeRooms(0);
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(roomTypeOccupancyQuery);
 				if (rs.next()) {
@@ -1039,7 +1040,7 @@ public class Report {
 					replyMessage.tables[1].initializeRooms(0);
 				}
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(mostOccupiedRoom1);
 				rs.next();
@@ -1054,6 +1055,7 @@ public class Report {
 					i = 0;
 					while (rs.next()) {
 						replyMessage.tables[2].rooms[i].roomNumber = rs.getInt("tempNum");
+						replyMessage.tables[2].rooms[i].roomID = rs.getInt("tempID");
 						replyMessage.values[0] = rs.getInt("roomDuration");
 						i++;
 					}
@@ -1065,7 +1067,7 @@ public class Report {
 					replyMessage.tables[0].initializeRooms(0);
 				}
 			}
-			
+
 			if (replyMessage.response.responseCode == ResponseMessage.ResponseCode.SUCCESS) {
 				rs = dbcon.select(mostBookedRoom1);
 				rs.next();
@@ -1080,6 +1082,7 @@ public class Report {
 					i = 0;
 					while (rs.next()) {
 						replyMessage.tables[3].rooms[i].roomNumber = rs.getInt("tempNum");
+						replyMessage.tables[3].rooms[i].roomID = rs.getInt("tempID");
 						replyMessage.values[1] = rs.getInt("bookCount");
 						i++;
 					}
