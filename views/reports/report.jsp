@@ -39,11 +39,11 @@
 						<table class='vertical'>
 							<tr>
 								<th>Rooms that are clean: </th>
-								<td><%=cleannessReport.stats[0]*100 %>%</td>
+								<td><%=cleannessReport.stats[1]*100 %>%</td>
 							</tr>
 							<tr>
 								<th>Rooms that are unclean: </th>
-								<td><%=cleannessReport.stats[1]*100 %>%</td>
+								<td><%=cleannessReport.stats[0]*100 %>%</td>
 							</tr>
 						</table>
 
