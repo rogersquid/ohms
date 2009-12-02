@@ -101,6 +101,9 @@
 							// tables[3].rooms[i]	- roomNumber holds which rooms has been booked the most times
 							//		values[1]		- holds how many times the most booked room has been booked
 							-->
+							<h3>By Type</h3>
+							<br />
+							<br />
 							<div id="room-type-graph" style="width:600px;height:200px"></div>
 							<script id="source" language="javascript" type="text/javascript">
 								$(function () {
@@ -138,6 +141,47 @@
 									);
 								});
 							</script>
+							<h3>By Room Number</h3>
+							<br />
+							<br />
+							<div id="room-number-graph" style="width:600px;height:200px"></div>
+							<script id="source" language="javascript" type="text/javascript">
+								$(function () {
+
+									var d1 = [
+										<%
+											for(int i=0; i<roomAnalysisReport.stats.length; i++) {
+												%>
+												[<%=i %>, <%=roomAnalysisReport.stats[i] %>],
+												<%
+											}
+										%>
+									];
+
+									$.plot($("#room-number-graph"), [
+										{
+											data: d1,
+											bars: { show: true }
+										}
+									],
+										{
+											xaxis: {
+												ticks: [
+													<%
+														for(int i=0; i<roomAnalysisReport.stats.length; i++) {
+															%>
+															[<%=(i+0.5) %>, "<%=roomAnalysisReport.tables[0].rooms[i].roomNumber %>"],
+															<%
+														}
+													%>
+												]
+											},
+											yaxis: { min: 0 },
+										}
+									);
+								});
+							</script>
+
 							<table class='vertical'>
 								<tr>
 									<th>Most occupied room: </th>
@@ -309,7 +353,7 @@
 											<%
 										} %>
 										</table>
-										<br /><br />
+										<br /><h3>Earnings per type of extra</h3><br />
 										<div id="extras-graph" style="width:600px;height:200px"></div>
 										<script id="source" language="javascript" type="text/javascript">
 											$(function () {

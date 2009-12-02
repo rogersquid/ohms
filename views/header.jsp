@@ -36,8 +36,19 @@
 			<div id='main-nav'>
 				<ul>
 					<li><a href='home.html'>Home</a></li>
-					<li><a href='login.html'>Login</a></li>
-					<li><a href='bookings.html?action=search'>Rooms</a></li>
+					<li><a href='room.html?action=search'>Rooms</a></li>
+					<li><a href='bookings.html?action=search'>Bookings</a></li>
+					<%
+						if(((Boolean)request.getAttribute("logged_in")).booleanValue()==true) {
+							%>
+							<li><a href='login.html?action=logout'>Logout</a></li>
+							<%
+						} else {
+							%>
+							<li><a href='login.html'>Login</a></li>
+							<%
+						}
+					%>
 				</ul>
 			</div>
 			<div id='content-wrapper'>

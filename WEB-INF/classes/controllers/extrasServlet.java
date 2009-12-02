@@ -167,19 +167,20 @@ public class extrasServlet extends HttpServlet {
 		message.extras[0].extraID = extraID;
 		Extra extras = new Extra();
 		Message bookingDetails = extras.getExtra(message);
-		Message reply = extras.deleteExtra(message);
 
-		if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
-			if(authlevel > 3) {
+
+		if(authlevel >= 3 || (bookingDetails.extras[0].price == 0 && bookingDetails.accounts[0].accountID==userid)) {
+			Message reply = extras.deleteExtra(message);
+			if(reply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
 				request.setAttribute("status", "delete_success");
 				request.setAttribute("message", "Extra successfully deleted.");
 				response.sendRedirect(response.encodeRedirectURL("extras.html?action=booking_extras&id="+bookingDetails.extras[0].bookingID+"&status=delete"));
 			} else {
-				request.setAttribute("message", "You are not authorized to delete this booking.");
+				request.setAttribute("message", reply.response.responseString);
 				getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 			}
 		} else {
-			request.setAttribute("message", reply.response.responseString);
+			request.setAttribute("message", "You are not authorized to delete this booking.");
 			getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);
 		}
 	}

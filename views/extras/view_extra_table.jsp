@@ -59,7 +59,7 @@
 									<td>$<%=data.extras[i].price %></td>
 									<td><%=data.extras[i].date %></td>
 									<td><%
-									if(((Integer)request.getAttribute("authLevel")).intValue() > 3 || data.extras[i].price == 0) {
+									if(((Integer)request.getAttribute("authLevel")).intValue() >= 3 || data.extras[i].price == 0) {
 										%>
 										<a href='extras.html?action=delete&amp;id=<%=data.extras[i].extraID %>' title='Delete extra' class='delete'>[ X ]</a>
 										<%

@@ -128,7 +128,7 @@ public class bookingServlet extends HttpServlet {
 			if(authlevel >= 3 || bookingReply.bookings[0].ownerID==userid) {
 				Message checkInReply = booking.checkOut(message);
 				if(checkInReply.response.responseCode==ResponseMessage.ResponseCode.SUCCESS) {
-					response.sendRedirect(response.encodeRedirectURL("bookings.html?action=view&id="+bookingID+"&status=checkin"));
+					response.sendRedirect(response.encodeRedirectURL("bookings.html?action=view&id="+bookingID+"&status=checkout"));
 				} else {
 					request.setAttribute("message", "Check out failed: "+checkInReply.response.responseString);
 					getServletContext().getRequestDispatcher("/views/error.jsp").include(request, response);

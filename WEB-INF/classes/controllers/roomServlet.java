@@ -171,7 +171,7 @@ public class roomServlet extends HttpServlet {
 
 			// set values to search for
 			message.rooms[1].singleBeds = Integer.parseInt(request.getParameter("singleBeds"));
-			message.rooms[0].roomType = request.getParameter("roomType");
+			message.rooms[1].roomType = request.getParameter("roomType");
 			message.rooms[1].queenBeds = Integer.parseInt(request.getParameter("queenBeds"));
 			message.rooms[1].kingBeds = Integer.parseInt(request.getParameter("kingBeds"));
 			message.rooms[1].tv = (request.getParameter("tv")!=null && request.getParameter("tv").equals("1")) ? true : false;
